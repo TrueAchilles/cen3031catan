@@ -7,12 +7,7 @@ http://www.cise.ufl.edu/~asalkeld/board.jpg
 
 *Settlements*
 
-    4 _____ 5
-     /     \
-    /       \
-  3 \       /0
-     \_____/
-     2     1
+http://www.cise.ufl.edu/~asalkeld/settlements.jpg
 
 
 *Roads*
