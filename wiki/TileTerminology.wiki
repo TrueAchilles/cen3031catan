@@ -12,12 +12,7 @@ http://www.cise.ufl.edu/~asalkeld/images/settlements.jpg
 
 *Roads*
 
-      __4__
-   3 /     \ 5
-    /       \
-    \       /
-   2 \_____/ 0
-        1
+http://www.cise.ufl.edu/~asalkeld/images/roads.jpg
 
 
 *Adjacents*
