@@ -36,7 +36,7 @@ public class Player implements SettlersConstants{
         resources[type]+=quantity;
     }
     
-    public boolean subRecurso(int type, int quantity){
+    public boolean subResource(int type, int quantity){
         if (resources[type]<quantity)
             return false;
         resources[type]-=quantity;

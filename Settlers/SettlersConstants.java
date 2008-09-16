@@ -47,7 +47,7 @@ public interface SettlersConstants {
     public static final byte PRODUCTION_ORDER[]={18,17,15,10,5,2,0,1,3,8,13,16,14,12,7,4,6,11,9};
     
     //Colores
-    public static final Color COLORS[]={Color.white,Color.lightGray,Color.orange,Color.yellow,Color.green,Color.darkGray};
+    public static final Color COLORS[]={Color.white,Color.decode("#884E16"),Color.red,Color.yellow,Color.green,Color.darkGray};
     public static final Color PLAYER_COLORS[]={Color.red,Color.darkGray,Color.cyan,Color.gray,Color.pink};
     
     //Actions
