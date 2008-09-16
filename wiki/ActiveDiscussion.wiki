@@ -1,3 +1,3 @@
 #summary A page for discussion of active project work.
 
-_Al_: Just so everyone knows what's up, I'm about 80% done translating the code. Just have one file left, most of which is Java library jibber-jabber that doesn't require any work on my part. I should have it uploaded by tonight (9/16.)
+_Al_: Fully translated and uploaded. I'm not familiar with SVNs, so if someone who is wants to shift the files around, be my guest.
