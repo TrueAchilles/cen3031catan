@@ -12,7 +12,7 @@ public class SettlersController implements SettlersConstants {
     int[][] graphic=new int[16][16];
     int[] house=new int[16];
     SettlersGui gui=null;
-    ArrayList players=new ArrayList();
+    ArrayList<Player> players=new ArrayList<Player>();
     Random dice;
     byte action=-1;
     byte actualPlayer=0;
@@ -42,7 +42,7 @@ public class SettlersController implements SettlersConstants {
     }
     
     private void initialize(){
-        ArrayList v=new ArrayList();
+        ArrayList<Byte> v=new ArrayList<Byte>();
         for (int i=0;i<4;i++){
             v.add(new Byte(TERRAINS[WOOD]));
             v.add(new Byte(TERRAINS[WHEAT]));
@@ -158,7 +158,7 @@ public class SettlersController implements SettlersConstants {
     
     
     ///////////////////////// LONGEST ROAD ///////////////////////
-    private boolean travel(ArrayList road, int start, int end){
+    private boolean travel(ArrayList<Integer> road, int start, int end){
         for (int i=0;i<road.size()-1;i++){
             int c0=((Integer)road.get(i)).intValue();
             int c1=((Integer)road.get(i+1)).intValue();
@@ -170,10 +170,10 @@ public class SettlersController implements SettlersConstants {
         
     }
     
-    private ArrayList longestRoad(ArrayList road, int start, byte val){
+    private ArrayList<Integer> longestRoad(ArrayList<Integer> road, int start, byte val){
         //Finds the road with the largest "val" that can be followed from "start" along "road"
         int i=0;
-        ArrayList roadSol=(ArrayList)road.clone();
+        ArrayList<Integer> roadSol=(ArrayList<Integer>)road.clone();
         int maxLength=road.size();
         
         for (i=0;i<graphic.length;i++){
@@ -184,9 +184,9 @@ public class SettlersController implements SettlersConstants {
             && ((house[start]==val)||(house[start]==0) || maxLength==1) //nor is there a house, or is it part of the same road, nor did we begin at this node
             ){
                 road.add(new Integer(i));
-                ArrayList road2=longestRoad(road,i,val);
+                ArrayList<Integer> road2=longestRoad(road,i,val);
                 if (road2.size()>=maxLength){ //New longest road
-                    roadSol=(ArrayList)road2.clone();
+                    roadSol=(ArrayList<Integer>)road2.clone();
                     maxLength=road2.size();
                 }
                 road.remove(road.size()-1); //Remove it to keep testing
@@ -219,7 +219,8 @@ public class SettlersController implements SettlersConstants {
             house[i]=0;
         }
         
-                /*house[0]=3;
+                /*
+                house[0]=3;
                 house[9]=3;
                  
                  

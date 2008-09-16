@@ -52,7 +52,7 @@ public interface SettlersConstants {
     
     /* The order of the colors is desert, woods, brick, wheat, sheep, ore */
     public static final Color COLORS[]={COLOR_KHAKI,COLOR_DARKGREEN,COLOR_FIREBRICK,COLOR_GOLD,COLOR_LAWNGREEN,Color.darkGray};
-    public static final Color PLAYER_COLORS[]={Color.red,Color.darkGray,Color.cyan,Color.gray,Color.pink};
+    public static final Color PLAYER_COLORS[]={Color.red,Color.blue,Color.green,java.awt.Color.magenta};
     
     //Actions
     public static final byte ACTION_ADD_SETTLEMENT=0;
