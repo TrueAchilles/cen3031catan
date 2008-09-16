@@ -1,9 +1,3 @@
-/*
- * SettlersConstants.java
- *
- * Created on 4 de enero de 2003, 13:24
- */
-
 package Settlers;
 
 /**
@@ -46,8 +40,18 @@ public interface SettlersConstants {
     public static final byte PRODUCTION[]={5,2,6,3,8,10,9,12,11,4,8,10,9,4,5,6,3,11};
     public static final byte PRODUCTION_ORDER[]={18,17,15,10,5,2,0,1,3,8,13,16,14,12,7,4,6,11,9};
     
-    //Colores
-    public static final Color COLORS[]={Color.white,Color.decode("#884E16"),Color.red,Color.yellow,Color.green,Color.darkGray};
+    //Colors
+    //First, some custom colors
+    public static final Color COLOR_BEIGE = Color.decode("#F5F5DC"); //Desert
+    public static final Color COLOR_KHAKI = Color.decode("#F0E68C"); //Desert
+    public static final Color COLOR_FIREBRICK = Color.decode("#B22222"); //Brick
+    public static final Color COLOR_SADDLEBROWN = Color.decode("#8B4513"); //Forest
+    public static final Color COLOR_GOLD = Color.decode("#FFD700"); //Wheat
+    public static final Color COLOR_DARKGREEN = Color.decode("#006400"); //Forest
+    public static final Color COLOR_LAWNGREEN = Color.decode("#7CFC00"); //Sheep
+    
+    /* The order of the colors is desert, woods, brick, wheat, sheep, ore */
+    public static final Color COLORS[]={COLOR_KHAKI,COLOR_DARKGREEN,COLOR_FIREBRICK,COLOR_GOLD,COLOR_LAWNGREEN,Color.darkGray};
     public static final Color PLAYER_COLORS[]={Color.red,Color.darkGray,Color.cyan,Color.gray,Color.pink};
     
     //Actions
