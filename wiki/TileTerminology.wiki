@@ -2,12 +2,12 @@
 
 *Tiles*
 
-http://www.cise.ufl.edu/~asalkeld/board.jpg
+http://www.cise.ufl.edu/~asalkeld/images/board.jpg
  
 
 *Settlements*
 
-http://www.cise.ufl.edu/~asalkeld/settlements.jpg
+http://www.cise.ufl.edu/~asalkeld/images/settlements.jpg
 
 
 *Roads*
@@ -22,4 +22,4 @@ http://www.cise.ufl.edu/~asalkeld/settlements.jpg
 
 *Adjacents*
 
-http://www.cise.ufl.edu/~asalkeld/adjacents.jpg
+http://www.cise.ufl.edu/~asalkeld/images/adjacents.jpg
