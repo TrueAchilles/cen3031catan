@@ -1,3 +1,3 @@
 #summary A page for discussion of active project work.
 
-_Al_: Fully translated and uploaded. I'm not familiar with SVNs, so if someone who is wants to shift the files around, be my guest.
+_Al_: Fully translated and uploaded. I'm not familiar with SVNs, so if someone who _is_ wants to shift the files around, be my guest.
