@@ -2,9 +2,11 @@ package Settlers;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
-import java.applet.Applet;
+/*Applet is not used at the moment
+import java.applet.Applet; */
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;
+
 class Board extends JPanel implements MouseListener, MouseMotionListener, SettlersConstants{
     private final static int RADIUS=46;
     private byte action=-1;
@@ -42,86 +44,21 @@ class Board extends JPanel implements MouseListener, MouseMotionListener, Settle
     
     public void mousePressed(MouseEvent e){
         calculateTile(e.getX(),e.getY());
-/*
-                x = e.getX();
-                y = e.getY();
- 
-                if(startpt.contains(x, y)){
-                        rect = startpt;
-                        point = start;
-                        x = startpt.x - e.getX();
-                        y = startpt.y - e.getY();
-                        updateLocation(e);
-                }
-                else if(endpt.contains(x, y)){
-                        rect = endpt;
-                        point = end;
-                        x = endpt.x - e.getX();
-                        y = endpt.y - e.getY();
-                        updateLocation(e);
-                }
-                else if(ctrl.contains(x, y)){
-                        rect = ctrl;
-                        point = control;
-                        x = ctrl.x - e.getX();
-                        y = ctrl.y - e.getY();
-                        updateLocation(e);
-                }
-                else {
-                        pressOut = true;
-                }
- */
     }
     
-    public void mouseDragged(MouseEvent e){
-            /*
-                if(!pressOut) {
-                        updateLocation(e);
-                }
-             */
-    }
+    public void mouseDragged(MouseEvent e){}
     
-    public void mouseReleased(MouseEvent e){
-            /*
-             
-               if(startpt.contains(e.getX(), e.getY())){
-                        rect = startpt;
-                        point = start;
-                        updateLocation(e);
-                }
-                else if(endpt.contains(e.getX(), e.getY())){
-                        rect = endpt;
-                        point = end;
-                        updateLocation(e);
-                }
-                else if(ctrl.contains(e.getX(), e.getY())){
-                        rect = ctrl;
-                        point = control;
-                        updateLocation(e);
-                }
-                else {
-                        pressOut = false;
-                }
-             */
-    }
+    public void mouseReleased(MouseEvent e){}
     
     public void mouseMoved(MouseEvent e){}
     
     public void mouseClicked(MouseEvent e){}
-    public void mouseExited(MouseEvent e){}
-    public void mouseEntered(MouseEvent e){}
     
-    public void updateLocation(MouseEvent e){
-/*
-                rect.setLocation((x + e.getX())-4, (y + e.getY())-4);
-                point.setLocation(x + e.getX(), y + e.getY());
- 
-                checkPoint();
- 
-                quad.setCurve(start, control, end);
-                repaint();
- */
-    }
+    public void mouseExited(MouseEvent e){}
+   
+    public void mouseEntered(MouseEvent e){}
+   
+    public void updateLocation(MouseEvent e){}
     
     public void paintComponent(Graphics g){
         super.paintComponent(g);
@@ -151,6 +88,7 @@ class Board extends JPanel implements MouseListener, MouseMotionListener, Settle
         // Clears the rectangle that was previously drawn.
         big.setColor(Color.blue);                
         big.fill(area);        
+        
         // Draws and fills the newly positioned rectangle to the buffer.
         big.setStroke(new BasicStroke(0.5f));
         for (int i=0;i<19;i++){
