@@ -6,12 +6,10 @@ The original internal structure of the board had critical flaws. The board close
 
 
 = Board layout =
-The physical board consists of a bunch of interconnected sexagons.
+The physical board, shown at the left, consists of a bunch of interconnected hexagons. If we straighten out those hexagons but maintain all of the intersections then we get the graph on the right side. 
 
-[http://www.cise.ufl.edu/~pmeyer/catanwithsexagons.png]
+[http://www.cise.ufl.edu/~pmeyer/equals.png]
 
-From this layout we can straighten out every slanted edge line to get a new board that makes a lot more sense from a programmers point of view.
-[http://www.cise.ufl.edu/~pmeyer/catangraph.png]
 
 From this new board we notice several things
  *
