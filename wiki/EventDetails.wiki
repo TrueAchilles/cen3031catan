@@ -7,7 +7,7 @@ How to send and receive events:
 {{{
     import settlers.events.*;
 }}}
-    Next, your class must implement EventListener :
+    Next, your class must implement EventListener:
 {{{
     class myClass implements EventListener
     {
