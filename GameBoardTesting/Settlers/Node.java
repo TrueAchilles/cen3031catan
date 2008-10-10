@@ -115,7 +115,7 @@ public class Node
 	{
 		if (onBoard == 0)
 			return false;
-		if (topNode.hasSettlement() || bottomNode.hasSettlement() || sideNode.hasSettlement() )
+		if ( hasSettlement || topNode.hasSettlement() || bottomNode.hasSettlement() || sideNode.hasSettlement() )
 			return false;
 		return true;
 	}
