@@ -32,8 +32,10 @@ public class Node
 	//need 3 variables here to hold the tiles that are adjacent to this node
 	
 	//constructor which initializes all values to null
-	public Node()
+	public Node(int x, int y)
 	{
+		xIndex = x;
+		yIndex = y;
 		topRoad = null;
 		sideRoad = null;
 		bottomRoad = null;
@@ -44,8 +46,11 @@ public class Node
 	}
 	
 	//constructor that receives the coordinates of this node
-	public Node(int tempI, int tempJ, int x, int y)
+	public void updateNode(int tempI, int tempJ, int x, int y, Node top, Node bottom, Node side)
 	{
+		topNode = top;
+		bottomNode = bottom;
+		sideNode = side;
 		xIndex = tempI;
 		yIndex = tempJ;
 		xCord = x;
@@ -99,7 +104,20 @@ public class Node
 	
 	public void buildSettlement()
 	{
+		if (onBoard == 0)
+			return;
+		if (topNode.hasSettlement() || bottomNode.hasSettlement() || sideNode.hasSettlement() )
+			return;
 		hasSettlement = true;
+	}
+	
+	public boolean canBuildSettlement()
+	{
+		if (onBoard == 0)
+			return false;
+		if (topNode.hasSettlement() || bottomNode.hasSettlement() || sideNode.hasSettlement() )
+			return false;
+		return true;
 	}
 	
 	
