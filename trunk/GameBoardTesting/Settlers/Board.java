@@ -177,38 +177,7 @@ class Board extends JPanel implements MouseListener, MouseMotionListener, Settle
         g2.drawImage(bi, 0, 0, this);        
         
     }
-    
-    private GeneralPath createHexagon(int x, int y){
-  /*
-         *    (RADIUS/2,-incY)  ____(RADIUS*1.5,-incY)
-         *                   /     \
-         *                  /       \
-         *            (0,0) \       /(RADIUS*2,0)
-         *                   \_____/
-         *      (RADIUS/2,incY)      (RADIUS*1.5,incY)
-         *
-         */
-
-        
-        GeneralPath hexagon = new  GeneralPath(GeneralPath.WIND_EVEN_ODD,  0);
-     
-        return hexagon;
-    }
-    
-    private Ellipse2D createNumber(int x, int y){
-        return (new Ellipse2D.Double(x,y,(RADIUS/2),(RADIUS/2)));        
-    }
-    
-    private void drawHexagon(GeneralPath hexagon,Color c){
-              
-    }
-    private void drawNumber(Ellipse2D number, int value){
-        
-    }
-     
-    
-    private void drawAction(){
-    }
+ 
     
     public void initialize(Tile[] _tiles){
 		
@@ -216,31 +185,14 @@ class Board extends JPanel implements MouseListener, MouseMotionListener, Settle
         numbers=new Ellipse2D[19];
     }
     
-    private void drawSettlements(GeneralPath hexagon, Tile c){
 
-        
-        
-    }
-    
-    private void drawSettlement(int x, int y,byte settlement){        
-       
-    }
-    
-    
-    private void drawRoads(GeneralPath hexagon, Tile c){
-
-        
-        
-    }
-    
-    private void drawRoad(int x0, int y0,int x1, int y1, byte road){   
-       
-    }
-    
 	
 	private void onClick(int x, int y){
-	if (action == ACTION_ADD_SETTLEMENT && tempSettlement[0] != -1)
+	if (action == ACTION_ADD_SETTLEMENT && tempSettlement[0] != -1) {
 		vertex[tempSettlement[0]][tempSettlement[1]].buildSettlement();
+		tempSettlement[0] = tempSettlement[1] = -1;
+	}
+	repaint();
 	
 	}
     private void calculateTile(int x, int y){
@@ -260,35 +212,49 @@ class Board extends JPanel implements MouseListener, MouseMotionListener, Settle
 			}
 		}
 		tempRoad[0] = tempRoad[1] = tempRoad[2] = tempRoad[3] = -1;
+		
 		if (action == ACTION_ADD_ROAD)
+		{
+			int temp = 1000;
+			int temp2 = (int)Math.sqrt( Math.pow(vertex[x1][y1+1].getXcord() - x,2 ) + Math.pow(vertex[x1][y1+1].getYcord() - y,2 ) );
+			if ( vertex[x1][y1].hasSettlement() || vertex[x1][y1+1].hasSettlement() )
 			{
-			int temp2, temp = (int)Math.sqrt( Math.pow(vertex[x1][y1+1].getXcord() - x,2 ) + Math.pow(vertex[x1][y1+1].getYcord() - y,2 ) );
-			tempRoad[0] = vertex[x1][y1].getXcord();
-			tempRoad[1] = vertex[x1][y1].getYcord();
-			tempRoad[2] = vertex[x1][y1+1].getXcord();
-			tempRoad[3] = vertex[x1][y1+1].getYcord();
-			if (temp > (temp2 = (int)Math.sqrt( Math.pow(vertex[x1+1][y1].getXcord() - x,2 ) + Math.pow(vertex[x1+1][y1].getYcord() - y,2 ) ) ))
+				temp=temp2;
+				tempRoad[0] = vertex[x1][y1].getXcord();
+				tempRoad[1] = vertex[x1][y1].getYcord();
+				tempRoad[2] = vertex[x1][y1+1].getXcord();
+				tempRoad[3] = vertex[x1][y1+1].getYcord();
+				
+			}
+			else if ( temp > (temp2 = (int)Math.sqrt( Math.pow(vertex[x1+1][y1].getXcord() - x,2 ) + Math.pow(vertex[x1+1][y1].getYcord() - y,2 ) ) ) && ( vertex[x1][y1].hasSettlement() || vertex[x1+1][y1].hasSettlement() ) )
 			{
 				temp = temp2;
+				tempRoad[0] = vertex[x1][y1].getXcord();
+				tempRoad[1] = vertex[x1][y1].getYcord();
 				tempRoad[2] = vertex[x1+1][y1].getXcord();
 				tempRoad[3] = vertex[x1+1][y1].getYcord();
+				
 			}
-			else if (temp > (temp2 = (int)Math.sqrt( Math.pow(vertex[x1+1][y1+1].getXcord() - x ,2) + Math.pow(vertex[x1+1][y1+1].getYcord() - y,2 ) ) ))
+			else if (temp > (temp2 = (int)Math.sqrt( Math.pow(vertex[x1+1][y1+1].getXcord() - x ,2) + Math.pow(vertex[x1+1][y1+1].getYcord() - y,2 ) ) ) && ( vertex[x1+1][y1+1].hasSettlement() || vertex[x1][y1+1].hasSettlement() ))
 			{
 				temp = temp2;
-				tempRoad[2] = vertex[x1+1][y1+1].getXcord();
-				tempRoad[3] = vertex[x1+1][y1+1].getYcord();
+				tempRoad[0] = vertex[x1+1][y1+1].getXcord();
+				tempRoad[1] = vertex[x1+1][y1+1].getYcord();
 				tempRoad[2] = vertex[x1][y1+1].getXcord();
 				tempRoad[3] = vertex[x1][y1+1].getYcord();
 			}
-			else if (temp > (temp2 = (int)Math.sqrt( Math.pow(vertex[x1+1][y1+1].getXcord() - x ,2) + Math.pow(vertex[x1+1][y1+1].getYcord() - y ,2) ) ))
+			else if (temp > (temp2 = (int)Math.sqrt( Math.pow(vertex[x1+1][y1+1].getXcord() - x ,2) + Math.pow(vertex[x1+1][y1+1].getYcord() - y ,2) ) ) && ( vertex[x1+1][y1+1].hasSettlement() || vertex[x1+1][y1].hasSettlement() ))
 			{
 				temp = temp2;
-				tempRoad[2] = vertex[x1+1][y1+1].getXcord();
-				tempRoad[3] = vertex[x1+1][y1+1].getYcord();
+				tempRoad[0] = vertex[x1+1][y1+1].getXcord();
+				tempRoad[1] = vertex[x1+1][y1+1].getYcord();
 				tempRoad[2] = vertex[x1+1][y1].getXcord();
 				tempRoad[3] = vertex[x1+1][y1].getYcord();
 			}
+			else {
+				tempRoad[0] = tempRoad[1] = tempRoad[2] = tempRoad[3] = -1;
+			}
+			
 		}
 		repaint();
 
@@ -296,7 +262,7 @@ class Board extends JPanel implements MouseListener, MouseMotionListener, Settle
     
     
     public void setAction(byte action){ 
-		tempRoad[0] = tempRoad[1] = tempRoad[2] = tempRoad[3] = 0;
+		tempRoad[0] = tempRoad[1] = tempRoad[2] = tempRoad[3] = -1;
 		this.action= action;
 		repaint();
     }
