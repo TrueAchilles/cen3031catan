@@ -17,7 +17,6 @@ public class SettlersController implements SettlersConstants {
     int[][] graphic=new int[16][16];
     int[] house=new int[16];
     SettlersGUI gui=null;
-    ArrayList<Player> players=new ArrayList<Player>();
     Random dice;
     byte action=-1;
     byte actualPlayer=0;
@@ -257,9 +256,8 @@ public class SettlersController implements SettlersConstants {
                  */
     }
     
-    public void addPlayer(String name){
-        Player j=new Player(name, Color.red);
-        players.add(j);
+    public void addPlayer(Player _newPlayer){
+        Player j= _newPlayer;
     }
     
     private int rollDie(){                
@@ -318,11 +316,6 @@ public class SettlersController implements SettlersConstants {
 	public boolean getStarted()
 	{
 		return game_in_progress;
-	}
-	
-	public ArrayList getPlayers()
-	{
-		return players;
 	}
     
 }

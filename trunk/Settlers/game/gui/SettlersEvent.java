@@ -1,11 +1,24 @@
 package settlers.game.gui;
 
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import settlers.game.GameState;
 import settlers.game.SettlersController;
+import settlers.game.elements.Player;
+import settlers.game.events.Event;
+import settlers.game.events.EventListener;
+import settlers.game.events.EventManager;
+import settlers.game.events.PlayerEvent;
+
+import javax.swing.JColorChooser;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 
 
-public class SettlersEvent {
+public class SettlersEvent implements EventListener, ActionListener {
 	
 	SettlersGUI gui;
 	
@@ -16,6 +29,8 @@ public class SettlersEvent {
 	
 	public SettlersEvent(SettlersGUI _gui)
 	{
+		EventManager.registerEvent("PLAYER_TURN_END", this);
+		EventManager.registerEvent("PLAYER_TURN_START", this);
 		gui = _gui;
 		init();
 	}
@@ -31,13 +46,17 @@ public class SettlersEvent {
 	{
 		if(sc.getStarted() == false)
 		{
-			if(sc.getPlayers().size() > 1)
+			if(GameState.players.size() > 1)
 			{
 				bottomPanel.getButtonPanel().startNewGame();
 				bottomPanel.getTabbedPanel().startNewGame();
 				sc.gameStarted();
 				this.bottomPanel.getButtonPanel().setEvent(this);
 				mainBoard.getGameBoard().initialize(sc.getTiles());
+				
+				PlayerEvent e = new PlayerEvent("GAME_START", GameState.players.getFirst()); // this event is registered by logic to begin players' turns
+				GameState.setCurPlayer(GameState.players.getFirst());
+				EventManager.callEvent(e);				
 			}
 			else
 				JOptionPane.showMessageDialog(gui, "There aren't enought players...add some!"); 
@@ -71,11 +90,14 @@ public class SettlersEvent {
 				//Then we haven't made a game board yet...do so
 				mainBoard.makePlayerPanel();
 			}
-			if(sc.getPlayers().size() < 4)
+			if(GameState.players.size() < 4)
 			{
-				String name = JOptionPane.showInputDialog("Please enter the name of Player " + (sc.getPlayers().size() + 1) + ".");
-				sc.addPlayer(name);
-				mainBoard.getPlayerPanel().addPlayer(name);
+				String name = JOptionPane.showInputDialog("Please enter the name of Player " + (GameState.players.size() + 1) + ".");
+				Color color = JColorChooser.showDialog(gui,"Choose Background Color",Color.black);
+				Player newPlayer = new Player(name, color);
+				GameState.players.add(newPlayer);
+				sc.addPlayer(newPlayer);
+				mainBoard.getPlayerPanel().addPlayer(newPlayer);
 			}
 			else
 			{
@@ -93,29 +115,56 @@ public class SettlersEvent {
 		if(i == 0)
 		{
 			//Then the button was Opening's Next
+			PlayerEvent e = new PlayerEvent("PLAYER_INITTURN_END", GameState.getCurPlayer());
+			EventManager.callEvent(e);
 			
 		}
 		else if (i == 1)
 		{
 			//Then it was Roll's Next
 			card.show(bottomPanel.getButtonPanel(), "TRADE");
-			mainBoard.getStatusBar().setText("TRADE PHASE");
+			mainBoard.getStatusBar().setText(GameState.getCurPlayer().getName() + ": TRADE PHASE");
 		}
 		else if (i == 2)
 		{
 			//Then it was Trade's Next
 			card.show(bottomPanel.getButtonPanel(), "BUILD");
-			mainBoard.getStatusBar().setText("BUILD PHASE");
+			mainBoard.getStatusBar().setText(GameState.getCurPlayer().getName() + ": BUILD PHASE");
 		}
 		else if (i == 3)
 		{
 			//Then it was Build's Next
-			card.show(bottomPanel.getButtonPanel(), "ROLL");
-			mainBoard.getStatusBar().setText("ROLL PHASE");
+			PlayerEvent e = new PlayerEvent("PLAYER_TURN_END", GameState.getCurPlayer());
+			EventManager.callEvent(e);
 		}
 		else if(i == 4)
 		{
 			//The Build's Dev Card
 		}
+	}
+
+	@Override
+	public void eventCalled(Event e) {
+		// TODO Auto-generated method stub
+		if(e.getEvent() == "PLAYER_TURN_END")
+		{
+			if(GameState.getCurPlayer().getID() == GameState.players.size())
+				GameState.setCurPlayer(GameState.players.get(0));
+			else
+				GameState.setCurPlayer(GameState.players.get(GameState.getCurPlayer().getID()));
+			PlayerEvent n = new PlayerEvent("PLAYER_TURN_START", GameState.getCurPlayer());
+			EventManager.callEvent(n);
+		}
+		if(e.getEvent() == "PLAYER_TURN_START")
+		{
+			bottomPanel.getButtonPanel().startNewTurn();
+			mainBoard.getStatusBar().setText(GameState.getCurPlayer().getName() + ": ROLL PHASE");
+		}
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 }

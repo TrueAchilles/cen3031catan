@@ -2,19 +2,18 @@ package settlers.game.gui;
 import java.awt.BorderLayout;
 
 import java.awt.CardLayout;
+import java.awt.FlowLayout;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 
-import javax.swing.WindowConstants;
-import javax.swing.border.BevelBorder;
 import javax.swing.border.LineBorder;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+
+import settlers.game.events.Event;
 
 
 /**
@@ -29,7 +28,7 @@ import javax.swing.SwingConstants;
 * THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
 * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
 */
-public class ButtonPanel extends javax.swing.JPanel implements ActionListener {
+public class ButtonPanel extends javax.swing.JPanel implements ActionListener, settlers.game.events.EventListener {
 	private JPanel openingButtonPanel;
 	private JLabel jLabel1;
 	private JLabel roll_label;
@@ -49,9 +48,6 @@ public class ButtonPanel extends javax.swing.JPanel implements ActionListener {
 	private JButton trade_next;
 	private JButton jButton2;
 	private JButton trade_bank;
-	private JButton opening_road;
-	private JButton opening_next;
-	private JButton opening_settlement;
 	private JLabel openingLabel;
 	private JPanel buildButtonPanel;
 	private JPanel tradeButtonPanel;
@@ -60,7 +56,7 @@ public class ButtonPanel extends javax.swing.JPanel implements ActionListener {
 	private BottomPanel parent;
 	private SettlersEvent event_manager;
 	
-	private CardLayout thisLayout;
+	public static CardLayout thisLayout;
 	/**
 	* Auto-generated main method to display this 
 	* JPanel inside a new JFrame.
@@ -108,7 +104,7 @@ public class ButtonPanel extends javax.swing.JPanel implements ActionListener {
 			}
 			{
 				openingButtonPanel = new JPanel();
-				AnchorLayout openingPanelLayout = new AnchorLayout();
+				FlowLayout openingPanelLayout = new FlowLayout();
 				this.add(openingButtonPanel, "OPENING");
 				openingButtonPanel.setLayout(openingPanelLayout);
 				openingButtonPanel.setPreferredSize(new java.awt.Dimension(350, 150));
@@ -116,38 +112,13 @@ public class ButtonPanel extends javax.swing.JPanel implements ActionListener {
 				openingButtonPanel.setBackground(new java.awt.Color(255,255,255));
 				{
 					openingLabel = new JLabel();
-					openingButtonPanel.add(openingLabel, new AnchorConstraint(436, 295, 543, 0, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_ABS));
-					openingLabel.setText("OPENING");
-					openingLabel.setPreferredSize(new java.awt.Dimension(103, 16));
+					openingButtonPanel.add(openingLabel);
+					openingButtonPanel.add(openingLabel);
+					openingLabel.setText("OPENING TURN");
+					openingLabel.setPreferredSize(new java.awt.Dimension(139, 143));
 					openingLabel.setHorizontalAlignment(SwingConstants.CENTER);
 					openingLabel.setHorizontalTextPosition(SwingConstants.CENTER);
-				}
-				{
-					opening_settlement = new JButton();
-					openingButtonPanel.add(opening_settlement, new AnchorConstraint(310, 532, 610, 295, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
-					opening_settlement.setText("SETTLEMENT");
-					opening_settlement.setPreferredSize(new java.awt.Dimension(83, 45));
-					opening_settlement.setToolTipText("Build a settlement");
-					opening_settlement.setFont(new java.awt.Font("Segoe UI",0,10));
-					opening_settlement.setEnabled(false);
-				}
-				{
-					opening_road = new JButton();
-					openingButtonPanel.add(opening_road, new AnchorConstraint(310, 755, 610, 532, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
-					opening_road.setText("ROAD");
-					opening_road.setPreferredSize(new java.awt.Dimension(78, 45));
-					opening_road.setToolTipText("Build a road");
-					opening_road.setFont(new java.awt.Font("Segoe UI",0,10));
-					opening_road.setEnabled(false);
-				}
-				{
-					opening_next = new JButton();
-					openingButtonPanel.add(opening_next, new AnchorConstraint(310, 0, 610, 755, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_ABS, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
-					opening_next.setText("NEXT");
-					opening_next.setPreferredSize(new java.awt.Dimension(86, 45));
-					opening_next.setToolTipText("End your turn");
-					opening_next.setFont(new java.awt.Font("Segoe UI",0,10));
-					opening_next.addActionListener(this);
+					openingLabel.setFont(new java.awt.Font("Tahoma",0,16));
 				}
 			}
 			{
@@ -321,7 +292,7 @@ public class ButtonPanel extends javax.swing.JPanel implements ActionListener {
 
 	public void startNewGame()
 	{
-		thisLayout.show(this, "ROLL");
+		thisLayout.show(this, "OPENING");
 	}
 	
 	public void setEvent(SettlersEvent _event)
@@ -329,13 +300,14 @@ public class ButtonPanel extends javax.swing.JPanel implements ActionListener {
 		event_manager = _event;
 	}
 	
+	public void startNewTurn()
+	{
+		thisLayout.show(this, "ROLL");
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent evt) {
 		// TODO Auto-generated method stub
-		if(evt.getSource() == opening_next)
-		{
-			event_manager.buttonEvent(0, thisLayout);
-		}
 		if(evt.getSource() == roll_next)
 		{
 			event_manager.buttonEvent(1, thisLayout);
@@ -360,6 +332,13 @@ public class ButtonPanel extends javax.swing.JPanel implements ActionListener {
 		{
 			parent.getGUI().getController().buttonRoad();
 		}
+	}
+
+	@Override
+	public void eventCalled(Event e) {
+		// TODO Auto-generated method stub
+		if(e.getEvent() == "PLAYER_TURN_START");
+			thisLayout.show(this, "ROLL");
 	}
 
 }

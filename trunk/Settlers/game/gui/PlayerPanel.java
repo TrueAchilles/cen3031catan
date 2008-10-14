@@ -1,5 +1,6 @@
 package settlers.game.gui;
 
+import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.WindowConstants;
@@ -8,6 +9,9 @@ import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingConstants;
+
+import settlers.game.GameState;
+import settlers.game.elements.Player;
 
 public class PlayerPanel extends javax.swing.JPanel {
 	private PlayerIcon player1;
@@ -81,7 +85,7 @@ public class PlayerPanel extends javax.swing.JPanel {
 				playerLabel1.setVisible(false);
 			}
 			{
-				player4 = new PlayerIcon();
+				player4 = new PlayerIcon(Color.yellow);
 				this.add(player4, new AnchorConstraint(886, 976, 0, 53, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_NONE, AnchorConstraint.ANCHOR_ABS, AnchorConstraint.ANCHOR_NONE));
 				player4.setBackground(new java.awt.Color(255,255,0));
 				player4.setVisible(false);
@@ -101,7 +105,7 @@ public class PlayerPanel extends javax.swing.JPanel {
 				}
 			}
 			{
-				player3 = new PlayerIcon();
+				player3 = new PlayerIcon(Color.green);
 				this.add(player3, new AnchorConstraint(606, 976, 734, 53, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_NONE, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_NONE));
 				player3.setBackground(new java.awt.Color(255,128,0));
 				player3.setVisible(false);
@@ -121,7 +125,7 @@ public class PlayerPanel extends javax.swing.JPanel {
 				}
 			}
 			{
-				player2 = new PlayerIcon();
+				player2 = new PlayerIcon(Color.blue);
 				this.add(player2, new AnchorConstraint(326, 976, 440, 53, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_NONE, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_NONE));
 				player2.setBackground(new java.awt.Color(0,0,160));
 				player2.setVisible(false);
@@ -141,7 +145,7 @@ public class PlayerPanel extends javax.swing.JPanel {
 				}
 			}
 			{
-				player1 = new PlayerIcon();
+				player1 = new PlayerIcon(Color.red);
 				this.add(player1, new AnchorConstraint(20, 976, 153, 53, AnchorConstraint.ANCHOR_ABS, AnchorConstraint.ANCHOR_NONE, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_NONE));
 				player1.setBackground(new java.awt.Color(255,0,0));
 				player1.setVisible(false);
@@ -181,30 +185,34 @@ public class PlayerPanel extends javax.swing.JPanel {
 		});
 	}
 
-	public void addPlayer(String name) {
+	public void addPlayer(Player newPlayer) {
 		// TODO Auto-generated method stub
 		if(player1.isVisible() == false)
 		{
-			playerLabel1.setText(name);
+			playerLabel1.setText(newPlayer.getName());
 			playerLabel1.setVisible(true);
+			player1.setColor(GameState.players.get(0).getColor());
 			player1.setVisible(true);
 		}
 		else if(player2.isVisible() == false)
 		{
-			playerLabel2.setText(name);
+			playerLabel2.setText(newPlayer.getName());
 			playerLabel2.setVisible(true);
+			player2.setColor(GameState.players.get(1).getColor());
 			player2.setVisible(true);
 		}
 		else if(player3.isVisible() == false)
 		{
-			playerLabel3.setText(name);
+			playerLabel3.setText(newPlayer.getName());
 			playerLabel3.setVisible(true);
+			player3.setColor(GameState.players.get(2).getColor());
 			player3.setVisible(true);
 		}
 		else
 		{
-			playerLabel4.setText(name);
+			playerLabel4.setText(newPlayer.getName());
 			playerLabel4.setVisible(true);
+			player4.setColor(GameState.players.get(3).getColor());
 			player4.setVisible(true);
 		}
 	}

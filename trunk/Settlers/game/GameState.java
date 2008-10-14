@@ -6,6 +6,7 @@ package settlers.game;
 import java.util.*;
 
 import settlers.game.elements.*;
+import settlers.game.events.EventManager;
 import settlers.game.events.PlayerEvent;
 import settlers.game.gui.*;
 import settlers.game.logic.Logic;
@@ -14,6 +15,7 @@ public class GameState
 {
     // holds all the players
     public static LinkedList<Player> players;
+    private static Player curPlayer;
     
     // called to initialize the game when it is first started
 	public static void initialize()
@@ -23,8 +25,15 @@ public class GameState
         
 		// code for handling init of game goes here (making game board, setting up players, etc)
 		players = new LinkedList<Player>();
-        
-		//PlayerEvent e = new PlayerEvent("GAME_START", players.getFirst()); // this event is registered by logic to begin players' turns
-		//EventManager.callEvent(e);
+	}
+	
+	public static void setCurPlayer(Player _curPlayer)
+	{
+		curPlayer = _curPlayer;
+	}
+	
+	public static Player getCurPlayer()
+	{
+		return curPlayer;
 	}
 }

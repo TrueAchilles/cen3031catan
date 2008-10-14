@@ -32,9 +32,9 @@ public class SplashScreen extends Thread
 		double background = board.getBackground().getRGB();
 		double stepValue = (double)255/150;
 		double red = 0,green = 0, blue = 0xff;
-		while(step < 150)
-		{
-	    	try {
+    	try {
+			while(step < 150)
+			{
 				sleep(30);
 				red += stepValue;
 				green += stepValue/2.0;
@@ -46,10 +46,12 @@ public class SplashScreen extends Thread
 					img.setIcon(new ImageIcon(getClass().getResource("/settlers/game/gui/Settlers.jpg")));
 				}
 				step++;
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
+			this.join();
+		} 
+    	catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
