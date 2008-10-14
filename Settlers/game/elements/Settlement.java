@@ -1,33 +1,36 @@
 package settlers.game.elements;
 
+import settlers.game.GameState;
+
 public class Settlement
 {
 	//defines the x and y locations of the nodes
-	int xCord;
-	int yCord;
+	private int xCord;
+	private int yCord;
 	
 	//not really sure what these do
-	int xIndex,yIndex;
+	private int xIndex,yIndex;
 	
-	int onBoard;
+	private int onBoard;
 	
-	int player;
+	Player player;
 	
 	//define roads that are connected to this node
-	Road topRoad;
-	Road sideRoad;
-	Road bottomRoad;
+	private Road topRoad;
+	private Road sideRoad;
+	private Road bottomRoad;
 	
 	//define nodes that are connected to this node by the appropriate roads
-	Settlement topNode;
-	Settlement sideNode;
-	Settlement bottomNode;
+	private Settlement topNode;
+	private Settlement sideNode;
+	private Settlement bottomNode;
 	
 	//defines whether this Node has a city
 	boolean hasCity;
 	
 	//defines whether this node has a settlement
 	boolean hasSettlement;
+	private Player owner = null;
 	
 	//need 3 variables here to hold the tiles that are adjacent to this node
 	
@@ -109,6 +112,7 @@ public class Settlement
 		if (topNode.hasSettlement() || bottomNode.hasSettlement() || sideNode.hasSettlement() )
 			return;
 		hasSettlement = true;
+		owner = GameState.getCurPlayer();
 	}
 	
 	public boolean canBuildSettlement()
@@ -122,23 +126,16 @@ public class Settlement
 	
 	
 	//builds a road extending upward from the node
-	public void buildRoadUp()
+	public void buildRoad( Settlement toSet)
 	{
-		topRoad.build();
+		if ( toSet.getYcord() > yCord )
+			topRoad.build(this, toSet);
+		else if (toSet.getYcord() == yCord )
+			sideRoad.build(this, toSet);
+		else
+			bottomRoad.build(this, toSet);
 	}
-	
-	//builds a road extending sideways from the node
-	public void buildRoadSide()
-	{
-		sideRoad.build();
-	}
-	
-	//builds a road extending downward from the node
-	public void buildRoadDown()
-	{
-		bottomRoad.build();
-	}
-	
+
 	//returns the node to the top of this node
 	public Settlement getTopNode()
 	{
@@ -176,8 +173,39 @@ public class Settlement
 	}
 	
 	//does  something
-	public boolean settlementBreadth(int distance)
+	public int roadBreadth()
 	{
-		return false;
+		return 0;
+	}
+	
+	
+	public void initializeRoad()
+	{
+		
+			
+			if (topNode != null)
+			{
+				topRoad = new Road(this, topNode, owner);
+				topNode.bottomRoad = topRoad;
+			}
+			if (bottomNode != null)
+			{
+				bottomRoad = new Road(this, bottomNode, owner);
+				bottomNode.topRoad = bottomRoad;
+			}
+			if (sideNode != null)
+			{
+				sideRoad = new Road(this, sideNode, owner);
+				sideNode.sideRoad = sideRoad;
+			}
+			
+			
+			
+		
+	}
+	
+	public Player getOwner()
+	{
+		return owner;
 	}
 }

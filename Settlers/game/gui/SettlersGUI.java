@@ -236,7 +236,7 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener {
     }
     
     public void initialize(Tile[] tiles){
-        this.mainBoard.getGameBoard().hideBox(hideRollBox.isSelected());
+        this.mainBoard.getGameBoard().hideBox(false);
     }
     
     public SettlersController getController(){

@@ -10,10 +10,10 @@ import javax.swing.SwingConstants;
 
 public class MainBoard extends javax.swing.JPanel {
 	
-	private JLabel statusBar;
-	private SettlersGUI parent;
-	private GameBoard gameBoard;
-	private PlayerPanel playerPanel;
+	private static JLabel statusBar;
+	private static SettlersGUI parent;
+	private static GameBoard gameBoard;
+	private static PlayerPanel playerPanel;
 	
 	private boolean playerPanel_created = false;
 
@@ -67,7 +67,7 @@ public class MainBoard extends javax.swing.JPanel {
 		return playerPanel;
 	}
 	
-	public JLabel getStatusBar()
+	public static JLabel getStatusBar()
 	{
 		return statusBar;
 	}

@@ -1,6 +1,8 @@
 package settlers.game.gui;
 
 import settlers.game.elements.*;
+import settlers.game.events.EventManager;
+import settlers.game.events.SettlementEvent;
 import settlers.game.logic.*;
 import settlers.game.*;
 
@@ -37,8 +39,8 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener, Se
     byte[] colors;
     Tile[] tiles=null;
 	
-	int[] tempRoad = {-1,-1,-1,-1};
-	int[] tempSettlement = { -1, -1 };
+	Settlement[] tempRoad = new Settlement[2];
+	Settlement tempSettlement;
     
     public GameBoard(MainBoard _parent){        
 
@@ -65,25 +67,34 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener, Se
     
     private void initVertex()
     {
+		// Initializes blank settlement nodes (to cross link nodes, ie: topNode, bottomNode, sideNode. Which helps gives us clean code at a constant big O.
 		int ax=0, ay=0;
 		for (ax =0; ax < vertex.length; ax++)
 			for (ay =0; ay <vertex[ax].length; ay++)
-				vertex[ax][ay] = new Settlement(ax, ay);				// Initializes the node objects.
-				
+				vertex[ax][ay] = new Settlement(ax, ay);				
 		
 		
-		/*The rest of the initialization is the HARD CODED MAP */
+		
+		
+		/*The initialization os the HARD CODED MAP */
 		/* This can be CHANGED fairly easily, but  quite obviously the map has to be hard coded or stored somewhere.*/
-		for(ax = 1; ax < 8; ax++) {
-			for (ay = 1; ay < 13; ay++) {
+		for(ax = 1; ax < vertex.length-1; ax++) {
+			for (ay = 1; ay < vertex.length-1; ay++) {
 				if (ax%2==0 ^ ay%2 == 0)
 					vertex[ax][ay].updateNode(ax, ay, ax*(universalEdgeLength+(universalStepLength/2)), ay * universalStepLength, vertex[ax][ay+1], vertex[ax][ay-1], vertex[ax-1][ay]);		
 				else
 					vertex[ax][ay].updateNode(ax, ay, ax*(universalEdgeLength+(universalStepLength/2))+(universalStepLength/2), ay * universalStepLength, vertex[ax][ay+1], vertex[ax][ay-1], vertex[ax+1][ay]);
-				if (ax == 0 || ay == 0 || ay == 12 || ax == 7)
+				if (ax == 0 || ay == 0 || ay >= 12 || ax >= 7)
 					vertex[ax][ay].setOnBoard(0);
 			}
 		}
+		
+		// Initialization of the blank ROADS.
+		for (ax =0; ax < vertex.length; ax++)
+			for (ay =0; ay <vertex[ax].length; ay++)
+				if (ax%2==0 ^ ay%2 == 0)
+					vertex[ax][ay].initializeRoad();
+					
 		//This function sets tiles that are in the sea to disappear from sight.
 		vertex[1][1].setOnBoard(0);
 		vertex[2][1].setOnBoard(0);
@@ -167,38 +178,61 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener, Se
 		
 		int ax, ay;
 		big.setPaint(Color.black);
-		for(ax = 1; ax < 7; ax++) {
-			for (ay = 1; ay < 12; ay++) {
+		for(ax = 1; ax < vertex.length-1; ax++) { //7
+			for (ay = 1; ay < vertex.length-1; ay++) { //12
 				Settlement currentNode = vertex[ax][ay];
 				Settlement southNode = vertex[ax][ay-1];
 				Settlement westNode = null;
 				big.setPaint(Color.black );
 				if (( ax%2 == 0 ^ ay%2 == 0 ) && (westNode = vertex[ax-1][ay]).getOnBoard() == 1 && currentNode.getOnBoard() == 1) {
 					//drawHexagon
+					if (currentNode.getSideRoad().hasRoad())
+					{
+						big.setStroke(new BasicStroke(5f));
+						if(currentNode.hasSettlement())
+							big.setPaint(currentNode.getOwner().getColor());
+						else
+							big.setPaint(currentNode.getSideNode().getOwner().getColor());
+					}
 					big.drawLine(currentNode.getXcord(), currentNode.getYcord(), westNode.getXcord(), westNode.getYcord() );
+					
 				}
+				big.setStroke(new BasicStroke(.7f));
+				big.setPaint(Color.black);
+
 				if (southNode.getOnBoard() == 1 && currentNode.getOnBoard() == 1) {
+					if (currentNode.getBottomRoad().hasRoad())
+					{
+						big.setStroke(new BasicStroke(5f));
+						if(currentNode.hasSettlement()) 
+							big.setPaint(currentNode.getOwner().getColor());
+						else
+							big.setPaint(currentNode.getBottomNode().getOwner().getColor());
+					}
 					big.drawLine(currentNode.getXcord(), currentNode.getYcord(), southNode.getXcord(), southNode.getYcord() );
 				}
 				
+				big.setStroke(new BasicStroke(.7f));
+				big.setPaint(Color.black);
+				
 				if (currentNode.hasSettlement()) {
-					big.setPaint(Color.green);
+					big.setPaint(currentNode.getOwner().getColor());
 					big.fillOval(currentNode.getXcord()-7,currentNode.getYcord()-7,14,14);
 				}
 				
 				
 			}
 		}
-		if (tempRoad[0] != -1) {
+		if (tempRoad[0] != null) {
 			big.setPaint(Color.yellow );
 			big.setStroke(new BasicStroke(5f));
-			big.drawLine( tempRoad[0], tempRoad[1], tempRoad[2], tempRoad[3] );
+			big.drawLine( tempRoad[0].getXcord(), tempRoad[0].getYcord(), tempRoad[1].getXcord(), tempRoad[1].getYcord() );
 		}		
         
-		if (tempSettlement[0] != -1) {
+		if (tempSettlement != null) {
 			big.setPaint(Color.yellow);
 			big.setStroke(new BasicStroke(5f));
-			big.drawOval( vertex[tempSettlement[0]][tempSettlement[1]].getXcord()-10, vertex[tempSettlement[0]][tempSettlement[1]].getYcord()-10, 20, 20 );
+			big.drawOval( tempSettlement.getXcord()-10, tempSettlement.getYcord()-10, 20, 20 );
 		}		
 		
         // Draws the buffered image to the screen.
@@ -219,13 +253,23 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener, Se
 
 	
 	private void onClick(int x, int y){
-	if (action == ACTION_ADD_SETTLEMENT && tempSettlement[0] != -1) {
-		vertex[tempSettlement[0]][tempSettlement[1]].buildSettlement();
-		tempSettlement[0] = tempSettlement[1] = -1;
+	if (action == ACTION_ADD_SETTLEMENT && tempSettlement != null) {
+		SettlementEvent se = new SettlementEvent("PLAYER_INIT_ATTEMPT_SETTLEMENT", tempSettlement);
+		EventManager.callEvent(se);
+		//tempSettlement.buildSettlement();
+		tempSettlement = null;
+	}
+	if (action == ACTION_ADD_ROAD && tempRoad[0] != null)
+	{
+		//tempRoad[0].buildRoad(tempRoad[1]);
+		SettlementEvent se = new SettlementEvent("PLAYER_INIT_ATTEMPT_ROAD", tempRoad[0], tempRoad[1]);
+		EventManager.callEvent(se);
+		tempRoad[0] = null;
 	}
 	repaint();
 	
 	}
+	
     private void calculateTile(int x, int y){
         
 		int y1 = (int)Math.round((double)(y-100) / universalStepLength );
@@ -237,68 +281,64 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener, Se
 		
 		Settlement curNode = vertex[x1][y1];
 
-		tempSettlement[0] = tempSettlement[1] = -1;
+		tempSettlement = null;
 		if (action == ACTION_ADD_SETTLEMENT){
 			if (x > curNode.getXcord() - universalEdgeLength/2 && x < curNode.getXcord() + universalEdgeLength/2 && y > curNode.getYcord() - universalEdgeLength/2 && y < curNode.getYcord() + universalEdgeLength/2)
 				if (curNode.canBuildSettlement()) {
-					tempSettlement[0] = x1;
-					tempSettlement[1] = y1;
+					tempSettlement = vertex[x1][y1];
 				}
 		}
-		tempRoad[0] = tempRoad[1] = tempRoad[2] = tempRoad[3] = -1;
+		tempRoad[0] = null;
 		
 		if(action == ACTION_ADD_ROAD)
 		{
 			int distTop = 1000, distBottom = 1000, distSide = 1000;
-			
-			if(x1 != 0 && y1 != 0 && (curNode.hasSettlement()))
+			try
 			{
-				if(curNode.getTopNode().getOnBoard() != 0)
+				if(x1 != 0 && y1 != 0 && (curNode.hasSettlement() || curNode.getTopRoad().hasRoad() || curNode.getSideRoad().hasRoad() || curNode.getBottomRoad().hasRoad()))
 				{
-					distTop = (int)Math.sqrt( Math.pow(curNode.getTopNode().getXcord() - x,2 ) + Math.pow(curNode.getTopNode().getYcord() - y,2 ) );
-				}
-				
-				if(curNode.getBottomNode().getOnBoard() != 0)
-				{
-					distBottom = (int)Math.sqrt( Math.pow(curNode.getBottomNode().getXcord() - x,2 ) + Math.pow(curNode.getBottomNode().getYcord() - y,2 ) );
-				}
-				
-				if(curNode.getSideNode().getOnBoard() != 0)
-				{
-					distSide = (int)Math.sqrt( Math.pow(curNode.getSideNode().getXcord() - x,2 ) + Math.pow(curNode.getSideNode().getYcord() - y,2 ) );
-				}
-				
-				if(distTop < distBottom && distTop < distSide)
-				{
-					tempRoad[0] = curNode.getXcord();
-					tempRoad[1] = curNode.getYcord();
-					tempRoad[2] = curNode.getTopNode().getXcord();
-					tempRoad[3] = curNode.getTopNode().getYcord();				
-				}
-				
-				else if(distBottom < distTop && distBottom < distSide)
-				{
-					tempRoad[0] = curNode.getXcord();
-					tempRoad[1] = curNode.getYcord();
-					tempRoad[2] = curNode.getBottomNode().getXcord();
-					tempRoad[3] = curNode.getBottomNode().getYcord();				
-				}
-				
-				else if(distSide < distBottom && distSide < distTop)
-				{
-					tempRoad[0] = curNode.getXcord();
-					tempRoad[1] = curNode.getYcord();
-					tempRoad[2] = curNode.getSideNode().getXcord();
-					tempRoad[3] = curNode.getSideNode().getYcord();				
-				}			
-			}	
+					if(curNode.getTopNode().getOnBoard() != 0)
+					{
+						distTop = (int)Math.sqrt( Math.pow(curNode.getTopNode().getXcord() - x,2 ) + Math.pow(curNode.getTopNode().getYcord() - y,2 ) );
+					}
+					
+					if(curNode.getBottomNode().getOnBoard() != 0)
+					{
+						distBottom = (int)Math.sqrt( Math.pow(curNode.getBottomNode().getXcord() - x,2 ) + Math.pow(curNode.getBottomNode().getYcord() - y,2 ) );
+					}
+					
+					if(curNode.getSideNode().getOnBoard() != 0)
+					{
+						distSide = (int)Math.sqrt( Math.pow(curNode.getSideNode().getXcord() - x,2 ) + Math.pow(curNode.getSideNode().getYcord() - y,2 ) );
+					}
+					
+					if(distTop < distBottom && distTop < distSide)
+					{
+						tempRoad[0] = curNode;
+						tempRoad[1] = curNode.getTopNode();			
+					}
+					
+					else if(distBottom < distTop && distBottom < distSide)
+					{
+						tempRoad[0] = curNode;
+						tempRoad[1] = curNode.getBottomNode();			
+					}
+					
+					else if(distSide < distBottom && distSide < distTop)
+					{
+						tempRoad[0] = curNode;
+						tempRoad[1] = curNode.getSideNode();			
+					}			
+				}	
+			}
+			catch(NullPointerException e) {}
 		}
 		repaint();
     }
     
     
     public void setAction(byte _action){ 
-		tempRoad[0] = tempRoad[1] = tempRoad[2] = tempRoad[3] = -1;
+		tempRoad[0] = null;
 		this.action= _action;
 		repaint();
     }
