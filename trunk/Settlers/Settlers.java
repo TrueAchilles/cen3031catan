@@ -1,27 +1,11 @@
-/*
- * Settlers.java
- *
- * Created on 4 de enero de 2003, 15:49
- */
+// this class simply serves as the gateway to the rest of the game
+package settlers;
 
-package Settlers;
 
-public class Settlers {
-
-    /** Creates new Settlers */
-    public Settlers() {
+class Settlers
+{
+    public static void main(String[] args)
+    {
+        settlers.game.GameState.initialize();
     }
-
-    /**
-    * @param args the command line arguments
-    */
-    public static void main (String args[]) {
-        SettlersController sc=new SettlersController();
-        SettlersGui gui = new SettlersGui(sc);
-        sc.setGui(gui);
-        gui.initialize(sc.getTiles());
-        
-    }
-    
-    
 }
