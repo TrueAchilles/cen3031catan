@@ -10,6 +10,7 @@ public class Player
 	private Color playerColor;
 	private int id = 0;
 	String name = null;
+	private int ore, wood, sheep, brick, wheat;
 	
 	public Player(String _name, Color _color)
 	{
@@ -32,4 +33,30 @@ public class Player
     {
         return id;
     }
+	
+	public int getWood()
+	{
+		return wood;
+	}
+	
+	public int getOre()
+	{
+		return ore;
+	}
+	
+	public int getBrick()
+	{
+		return brick;
+	}
+	
+	public int getSheep()
+	{
+		return sheep;
+	}
+	
+	public int getWheat()
+	{
+		return wheat;
+	}
+	
 }
