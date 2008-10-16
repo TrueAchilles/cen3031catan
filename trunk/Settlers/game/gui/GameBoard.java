@@ -26,18 +26,12 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener, Se
     SpringLayout thisLayout;
     JLabel img;
 	
-    int incX=RADIUS*3;
-    int incY=(int)Math.sqrt((3d/4d)*(RADIUS*RADIUS));
-        
+	Resource[] resource = new Resource[12];
+	
     BufferedImage bi;
     Graphics2D big;
     Rectangle area;
     boolean firstTime = true;
-    boolean pressOut = false;
-    GeneralPath[] hexagons;
-    Ellipse2D[] numbers;
-    byte[] colors;
-    Tile[] tiles=null;
 	
 	Settlement[] tempRoad = new Settlement[2];
 	Settlement tempSettlement;
@@ -65,7 +59,7 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener, Se
         this.setBackground(Color.blue);		
     }
     
-    private void initVertex()
+    private void initializeBoard()
     {
 		// Initializes blank settlement nodes (to cross link nodes, ie: topNode, bottomNode, sideNode. Which helps gives us clean code at a constant big O.
 		int ax=0, ay=0;
@@ -93,7 +87,15 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener, Se
 		for (ax =0; ax < vertex.length; ax++)
 			for (ay =0; ay <vertex[ax].length; ay++)
 				if (ax%2==0 ^ ay%2 == 0)
+				{
 					vertex[ax][ay].initializeRoad();
+				}
+				if ( (  ax%2 == 0 ^ ay%2 == 1  ) && ax < vertex.length-1 && ay < vertex[ax].length-2 && vertex[ax][ay].getOnBoard() ==1 && vertex[ax+1][ay+2].getOnBoard() == 1 )
+				{
+					resource[(ax*ay)%12] = new Resource((ax*ay)%12, vertex[ax][ay], vertex[ax][ay+1], vertex[ax][ay+2], vertex[ax+1][ay+2], vertex[ax+1][ay+1], vertex[ax+1][ay]);
+					
+				}
+		
 					
 		//This function sets tiles that are in the sea to disappear from sight.
 		vertex[1][1].setOnBoard(0);
@@ -113,10 +115,7 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener, Se
 		vertex[6][11].setOnBoard(0);
 
     }
-    
-    public void setTiles(Tile[] _tiles){
-        tiles=_tiles;
-    }
+
     
     
     public void mousePressed(MouseEvent e){
@@ -142,32 +141,13 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener, Se
     
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        if (hexagons!=null){
+        if (vertex[0][0]!=null){
             update(g);
         }
     }
     
     public void update(Graphics g){
         
-        Graphics2D g2 = (Graphics2D)g;
-        Dimension dim = getSize();
-        int w = dim.width;
-        int h = dim.height;
-        
-        if(firstTime){
-            bi = (BufferedImage)createImage(w, h);            
-            big = bi.createGraphics();
-            big.setColor(Color.black);
-            big.setStroke(new BasicStroke(0.1f));
-            big.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            area = new Rectangle(dim);
-            
-            firstTime = false;
-        }
-        
-		
-	
-		
         // Clears the rectangle that was previously drawn.
         big.setColor(Color.blue);                
         big.fill(area);        
@@ -220,6 +200,10 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener, Se
 					big.fillOval(currentNode.getXcord()-7,currentNode.getYcord()-7,14,14);
 				}
 				
+				if ( (  ax%2 == 0 ^ ay%2 == 1  ) && ax < vertex.length-1 && ay < vertex[ax].length-2 && vertex[ax][ay].getOnBoard() ==1 && vertex[ax+1][ay+2].getOnBoard() == 1)
+				{
+					big.drawImage( Toolkit.getDefaultToolkit().getImage( this.getClass().getResource("/Settlers/game/images/settlement.jpg") ) , currentNode.getXcord(), currentNode.getYcord(), null);
+				}
 				
 			}
 		}
@@ -236,37 +220,47 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener, Se
 		}		
 		
         // Draws the buffered image to the screen.
-        g2.drawImage(bi, 0, 0, this);        
+        g.drawImage(bi, 0, 0, this);        
         
     }
  
     
     public void initialize(Tile[] _tiles){
     	this.remove(img);
-    	initVertex();
+		Dimension dim = getSize();
+        int w = dim.width;
+        int h = dim.height;
+        
+      
+            bi = (BufferedImage)createImage(w, h);            
+            big = bi.createGraphics();
+            big.setColor(Color.black);
+            big.setStroke(new BasicStroke(0.1f));
+            big.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            area = new Rectangle(dim);
+			
+    	initializeBoard();
     	rollBox.setVisible(true);
-        hexagons=new GeneralPath[19];
-        numbers=new Ellipse2D[19];
         repaint();
     }
     
 
 	
 	private void onClick(int x, int y){
-	if (action == ACTION_ADD_SETTLEMENT && tempSettlement != null) {
-		SettlementEvent se = new SettlementEvent("PLAYER_INIT_ATTEMPT_SETTLEMENT", tempSettlement);
-		EventManager.callEvent(se);
-		//tempSettlement.buildSettlement();
-		tempSettlement = null;
-	}
-	if (action == ACTION_ADD_ROAD && tempRoad[0] != null)
-	{
-		//tempRoad[0].buildRoad(tempRoad[1]);
-		SettlementEvent se = new SettlementEvent("PLAYER_INIT_ATTEMPT_ROAD", tempRoad[0], tempRoad[1]);
-		EventManager.callEvent(se);
-		tempRoad[0] = null;
-	}
-	repaint();
+		if (action == ACTION_ADD_SETTLEMENT && tempSettlement != null) {
+			SettlementEvent se = new SettlementEvent("PLAYER_INIT_ATTEMPT_SETTLEMENT", tempSettlement);
+			EventManager.callEvent(se);
+			//tempSettlement.buildSettlement();
+			tempSettlement = null;
+		}
+		if (action == ACTION_ADD_ROAD && tempRoad[0] != null)
+		{
+			//tempRoad[0].buildRoad(tempRoad[1]);
+			SettlementEvent se = new SettlementEvent("PLAYER_INIT_ATTEMPT_ROAD", tempRoad[0], tempRoad[1]);
+			EventManager.callEvent(se);
+			tempRoad[0] = null;
+		}
+		repaint();
 	
 	}
 	
@@ -291,13 +285,13 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener, Se
 		tempRoad[0] = null;
 		
 		if(action == ACTION_ADD_ROAD)
-		{
+		{	// NEEDS TO BE REWRITTEN
 			int distTop = 1000, distBottom = 1000, distSide = 1000;
 			try
 			{
-				if(x1 != 0 && y1 != 0 && (curNode.hasSettlement() || curNode.getTopRoad().hasRoad() || curNode.getSideRoad().hasRoad() || curNode.getBottomRoad().hasRoad()))
+				if(x1 != 0 && y1 != 0 && ( ( curNode.hasSettlement() && curNode.getOwner().getID() == GameState.getCurPlayer().getID()) || ( curNode.getTopRoad().hasRoad() && curNode.getTopRoad().getOwner().getID() == GameState.getCurPlayer().getID() ) || curNode.getSideRoad().hasRoad() || curNode.getBottomRoad().hasRoad()))
 				{
-					if(curNode.getTopNode().getOnBoard() != 0)
+					if(curNode.getTopNode().getOnBoard() != 0 )
 					{
 						distTop = (int)Math.sqrt( Math.pow(curNode.getTopNode().getXcord() - x,2 ) + Math.pow(curNode.getTopNode().getYcord() - y,2 ) );
 					}
@@ -312,19 +306,19 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener, Se
 						distSide = (int)Math.sqrt( Math.pow(curNode.getSideNode().getXcord() - x,2 ) + Math.pow(curNode.getSideNode().getYcord() - y,2 ) );
 					}
 					
-					if(distTop < distBottom && distTop < distSide)
+					if(distTop < distBottom && distTop < distSide && !curNode.getTopRoad().hasRoad())
 					{
 						tempRoad[0] = curNode;
 						tempRoad[1] = curNode.getTopNode();			
 					}
 					
-					else if(distBottom < distTop && distBottom < distSide)
+					else if(distBottom < distTop && distBottom < distSide  && !curNode.getBottomRoad().hasRoad())
 					{
 						tempRoad[0] = curNode;
 						tempRoad[1] = curNode.getBottomNode();			
 					}
 					
-					else if(distSide < distBottom && distSide < distTop)
+					else if(distSide < distBottom && distSide < distTop && !curNode.getSideRoad().hasRoad())
 					{
 						tempRoad[0] = curNode;
 						tempRoad[1] = curNode.getSideNode();			
