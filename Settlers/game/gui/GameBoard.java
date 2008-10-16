@@ -36,6 +36,9 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener, Se
 	Settlement[] tempRoad = new Settlement[2];
 	Settlement tempSettlement;
     
+	/*
+	  *
+	  */
     public GameBoard(MainBoard _parent){        
 
         addMouseMotionListener(this);
@@ -59,6 +62,12 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener, Se
         this.setBackground(Color.blue);		
     }
     
+	/*
+	  *
+	  *@param
+	  *@returns
+	  *@throws
+	  */
     private void initializeBoard()
     {
 		// Initializes blank settlement nodes (to cross link nodes, ie: topNode, bottomNode, sideNode. Which helps gives us clean code at a constant big O.
