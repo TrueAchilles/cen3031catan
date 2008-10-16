@@ -35,7 +35,7 @@ public class Road
 	public void build(Settlement set1, Settlement set2)
 	{
 
-		
+		owner = settlers.game.GameState.getCurPlayer();
 		hasRoad = true;
 		
 	}
