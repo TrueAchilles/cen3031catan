@@ -23,6 +23,7 @@ public class TabbedPanel extends javax.swing.JPanel {
 	private JScrollPane sp1;
 	private JPanel cardPanel;
 	private JTextArea rollText;
+   private JTextArea resourcesText;
 	private JTextArea gameText;
 	private JTextArea credits;
 	
@@ -47,28 +48,36 @@ public class TabbedPanel extends javax.swing.JPanel {
 					gameText.setEditable(false);
 					sp1 = new javax.swing.JScrollPane(gameText);
 					tabbedPanel.addTab("GameText", null, sp1, null);
-					sp1.setPreferredSize(new java.awt.Dimension(365, 145));
+					sp1.setPreferredSize(new java.awt.Dimension(378, 140));
 					tabbedPanel.setEnabledAt(0, false);
 				}
+            {
+               resourcesText = new JTextArea();
+               tabbedPanel.addTab("Resources", null, resourcesText, null);
+               resourcesText.setText("This is some text");
+               resourcesText.setPreferredSize(new java.awt.Dimension(378,140));
+               resourcesText.setEditable(false);
+               tabbedPanel.setEnabledAt(1,false);
+            }
 				{
 					rollText = new JTextArea();
 					tabbedPanel.addTab("Roll History", null, rollText, null);
 					rollText.setText("Roll History");
 					rollText.setPreferredSize(new java.awt.Dimension(378, 140));
 					rollText.setEditable(false);
-					tabbedPanel.setEnabledAt(1, false);
+					tabbedPanel.setEnabledAt(2, false);
 				}
 				{
 					errorText = new JTextArea();
 					tabbedPanel.addTab("Errors", null, errorText, null);
 					errorText.setText("Errors");
 					errorText.setEditable(false);
-					tabbedPanel.setEnabledAt(2, false);
+					tabbedPanel.setEnabledAt(3, false);
 				}
 				{
 					cardPanel = new JPanel();
 					tabbedPanel.addTab("Your Cards", null, cardPanel, null);
-					tabbedPanel.setEnabledAt(3, false);
+					tabbedPanel.setEnabledAt(4, false);
 				}
 				{
 					credits = new JTextArea();
@@ -78,7 +87,7 @@ public class TabbedPanel extends javax.swing.JPanel {
 					credits.setEditable(false);
 					makeCredits();
 				}
-				tabbedPanel.setSelectedIndex(4);
+				tabbedPanel.setSelectedIndex(5);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -114,6 +123,7 @@ public class TabbedPanel extends javax.swing.JPanel {
 		credits.append("\tScott Savino\n");
 		credits.append("\tNick Dunlap\n");
 	}
+   
 
 	public void startNewGame()
 	{
@@ -124,9 +134,10 @@ public class TabbedPanel extends javax.swing.JPanel {
 		tabbedPanel.setEnabledAt(1, true);
 		tabbedPanel.setEnabledAt(2, true);
 		tabbedPanel.setEnabledAt(3, true);
-		tabbedPanel.setEnabledAt(4, false);
+		tabbedPanel.setEnabledAt(4, true);
+		tabbedPanel.setEnabledAt(5, false);
 		tabbedPanel.setSelectedIndex(0);
-		tabbedPanel.remove(4);
+		tabbedPanel.remove(5);
 	}
 
 	public JTextArea getGameText() {
