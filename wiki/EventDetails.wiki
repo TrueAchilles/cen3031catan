@@ -5,7 +5,7 @@ How to send and receive events:
 ===Receiving:===
     First, you must import the events classes:
 {{{
-    import settlers.events.*;
+    import settlers.game.events.*;
 }}}
     Next, your class must implement EventListener:
 {{{
