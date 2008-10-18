@@ -37,7 +37,11 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener, Se
 	Settlement tempSettlement;
     
 	/*
-	  *
+	  *constructor for the gameboard.&  Adds a listener for the mouse and sets the layout for the board.&  Also displays the splash screen and
+	  *makes the roll box visible and sets the background color
+	  *param _parent 
+	  *returns
+	  *throws
 	  */
     public GameBoard(MainBoard _parent){        
 
