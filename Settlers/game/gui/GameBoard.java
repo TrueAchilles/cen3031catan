@@ -39,9 +39,7 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener, Se
 	/*
 	  *constructor for the gameboard.&  Adds a listener for the mouse and sets the layout for the board.&  Also displays the splash screen and
 	  *makes the roll box visible and sets the background color
-	  *param _parent 
-	  *returns
-	  *throws
+	  *param _parent the mainboard that the gameboard is displayed inside
 	  */
     public GameBoard(MainBoard _parent){        
 
@@ -67,10 +65,8 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener, Se
     }
     
 	/*
-	  *
-	  *@param
-	  *@returns
-	  *@throws
+	  *Populates the vertex array with blank settlements and roads and hard codes the map into the vertex array.&  Also removes the vertices which
+	  *are outside the gameboard and shouldn't be seen.
 	  */
     private void initializeBoard()
     {
@@ -130,28 +126,63 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener, Se
     }
 
     
-    
+    /*
+	  *On a mouse click it calls the onClick method and passes the x and y coordinates of the mouse click
+	  *@param e the mouse event that holds the information about the mouse click
+	  */
     public void mousePressed(MouseEvent e){
         onClick(e.getX(),e.getY());
     }
     
+	/*
+	  *Typical event used when dealing with mouse events.&  Can be implemented later if necessary.
+	  *@param e the mouse event that holds the information about the mouse click
+	  */
     public void mouseDragged(MouseEvent e){}
     
+	/*
+	  *Typical event used when dealing with mouse events.&  Can be implemented later if necessary
+	  *@param e the mouse event that holds the information about the mouse click
+	  */
     public void mouseReleased(MouseEvent e){}
     
+	/*
+	  *When the mouse is moved it figures out where the mouse is and figures out which tile it is in.&  This allows for highlighting of buildable
+	  *roads and settlements.
+	  *@param e the mouse event that holds the information about the mouse click
+	  */
     public void mouseMoved(MouseEvent e){
 	if (action != -1)
 		calculateTile(e.getX(),e.getY());
 	}
     
+	/*
+	  *Typical event used when dealing with mouse events.&  Can be implemented later if necessary.
+	  *@param e the mouse event that holds the information about the mouse click
+	  */
     public void mouseClicked(MouseEvent e){}
     
+	/*
+	  *Typical event used when dealing with mouse events.&  Can be implemented later if necessary.
+	  *@param e the mouse event that holds the information about the mouse click
+	  */
     public void mouseExited(MouseEvent e){}
-   
+	
+	/*
+	  *Typical event used when dealing with mouse events.&  Can be implemented later if necessary.
+	  *@param e the mouse event that holds the information about the mouse click
+	  */
     public void mouseEntered(MouseEvent e){}
-   
+	
+	/*
+	  *Typical event used when dealing with mouse events.&  Can be implemented later if necessary
+	  *@param e the mouse event that holds the information about the mouse click
+	  */
     public void updateLocation(MouseEvent e){}
     
+	/*
+	  *
+	  */
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         if (vertex[0][0]!=null){
