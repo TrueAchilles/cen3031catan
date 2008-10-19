@@ -70,58 +70,61 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener, Se
 	  */
     private void initializeBoard()
     {
-		// Initializes blank settlement nodes (to cross link nodes, ie: topNode, bottomNode, sideNode. Which helps gives us clean code at a constant big O.
-		int ax=0, ay=0;
-		for (ax =0; ax < vertex.length; ax++)
-			for (ay =0; ay <vertex[ax].length; ay++)
-				vertex[ax][ay] = new Settlement(ax, ay);				
-		
-		
-		
-		
-		/*The initialization os the HARD CODED MAP */
-		/* This can be CHANGED fairly easily, but  quite obviously the map has to be hard coded or stored somewhere.*/
-		for(ax = 1; ax < vertex.length-1; ax++) {
-			for (ay = 1; ay < vertex.length-1; ay++) {
-				if (ax%2==0 ^ ay%2 == 0)
-					vertex[ax][ay].updateNode(ax, ay, ax*(universalEdgeLength+(universalStepLength/2)), ay * universalStepLength, vertex[ax][ay+1], vertex[ax][ay-1], vertex[ax-1][ay]);		
-				else
-					vertex[ax][ay].updateNode(ax, ay, ax*(universalEdgeLength+(universalStepLength/2))+(universalStepLength/2), ay * universalStepLength, vertex[ax][ay+1], vertex[ax][ay-1], vertex[ax+1][ay]);
-				if (ax == 0 || ay == 0 || ay >= 12 || ax >= 7)
-					vertex[ax][ay].setOnBoard(0);
-			}
-		}
-		
-		// Initialization of the blank ROADS.
-		for (ax =0; ax < vertex.length; ax++)
-			for (ay =0; ay <vertex[ax].length; ay++)
-				if (ax%2==0 ^ ay%2 == 0)
-				{
-					vertex[ax][ay].initializeRoad();
-				}
-				if ( (  ax%2 == 0 ^ ay%2 == 1  ) && ax < vertex.length-1 && ay < vertex[ax].length-2 && vertex[ax][ay].getOnBoard() ==1 && vertex[ax+1][ay+2].getOnBoard() == 1 )
-				{
-					resource[(ax*ay)%12] = new Resource((ax*ay)%12, vertex[ax][ay], vertex[ax][ay+1], vertex[ax][ay+2], vertex[ax+1][ay+2], vertex[ax+1][ay+1], vertex[ax+1][ay]);
-					
-				}
-		
-					
-		//This function sets tiles that are in the sea to disappear from sight.
-		vertex[1][1].setOnBoard(0);
-		vertex[2][1].setOnBoard(0);
-		vertex[1][2].setOnBoard(0);
-		
-		vertex[1][10].setOnBoard(0);
-		vertex[1][11].setOnBoard(0);
-		vertex[2][11].setOnBoard(0);
-		
-		vertex[6][1].setOnBoard(0);
-		vertex[5][1].setOnBoard(0);
-		vertex[6][2].setOnBoard(0);
-		
-		vertex[6][10].setOnBoard(0);
-		vertex[5][11].setOnBoard(0);
-		vertex[6][11].setOnBoard(0);
+
+        // Initializes blank settlement nodes (to cross link nodes, ie: topNode, bottomNode, sideNode. Which helps gives us clean code at a constant big O.
+        int ax=0, ay=0;
+        for (ax =0; ax < vertex.length; ax++)
+        for (ay =0; ay <vertex[ax].length; ay++)
+        vertex[ax][ay] = new Settlement(ax, ay);				
+        
+        
+        
+        
+        /*The initialization os the HARD CODED MAP */
+        /* This can be CHANGED fairly easily, but  quite obviously the map has to be hard coded or stored somewhere.*/
+        for(ax = 1; ax < vertex.length-1; ax++) {
+            for (ay = 1; ay < vertex.length-1; ay++) {
+                if (ax%2==0 ^ ay%2 == 0)
+                vertex[ax][ay].updateNode(ax, ay, ax*(universalEdgeLength+(universalStepLength/2)), ay * universalStepLength, vertex[ax][ay+1], vertex[ax][ay-1], vertex[ax-1][ay]);		
+                else
+                vertex[ax][ay].updateNode(ax, ay, ax*(universalEdgeLength+(universalStepLength/2))+(universalStepLength/2), ay * universalStepLength, vertex[ax][ay+1], vertex[ax][ay-1], vertex[ax+1][ay]);
+                if (ax == 0 || ay == 0 || ay >= 12 || ax >= 7)
+                vertex[ax][ay].setOnBoard(0);
+            }
+        }
+        
+        // Initialization of the blank ROADS.
+        for (ax =0; ax < vertex.length; ax++)
+        for (ay =0; ay <vertex[ax].length; ay++)
+        if (ax%2==0 ^ ay%2 == 0)
+        {
+            vertex[ax][ay].initializeRoad();
+        }
+        if ( (  ax%2 == 0 ^ ay%2 == 1  ) && ax < vertex.length-1 && ay < vertex[ax].length-2 && vertex[ax][ay].getOnBoard() ==1 && vertex[ax+1][ay+2].getOnBoard() == 1 )
+        {
+            if (resource[(ax*ay)%12] == null)
+            resource[(ax*ay)%12] = new Resource((ax*ay)%12, vertex[ax][ay], vertex[ax][ay+1], vertex[ax][ay+2], vertex[ax+1][ay+2], vertex[ax+1][ay+1], vertex[ax+1][ay]);
+            else
+            resource[(ax*ay)%12].setNext((ax*ay)%12, vertex[ax][ay], vertex[ax][ay+1], vertex[ax][ay+2], vertex[ax+1][ay+2], vertex[ax+1][ay+1], vertex[ax+1][ay]);
+        }
+        
+        
+        //This function sets tiles that are in the sea to disappear from sight.
+        vertex[1][1].setOnBoard(0);
+        vertex[2][1].setOnBoard(0);
+        vertex[1][2].setOnBoard(0);
+        
+        vertex[1][10].setOnBoard(0);
+        vertex[1][11].setOnBoard(0);
+        vertex[2][11].setOnBoard(0);
+        
+        vertex[6][1].setOnBoard(0);
+        vertex[5][1].setOnBoard(0);
+        vertex[6][2].setOnBoard(0);
+        
+        vertex[6][10].setOnBoard(0);
+        vertex[5][11].setOnBoard(0);
+        vertex[6][11].setOnBoard(0);
 
     }
 
@@ -199,70 +202,70 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener, Se
         // Draws and fills the newly positioned rectangle to the buffer.
         big.setStroke(new BasicStroke(0.7f));
 
-		
-		int ax, ay;
-		big.setPaint(Color.black);
-		for(ax = 1; ax < vertex.length-1; ax++) { //7
-			for (ay = 1; ay < vertex.length-1; ay++) { //12
-				Settlement currentNode = vertex[ax][ay];
-				Settlement southNode = vertex[ax][ay-1];
-				Settlement westNode = null;
-				big.setPaint(Color.black );
-				if (( ax%2 == 0 ^ ay%2 == 0 ) && (westNode = vertex[ax-1][ay]).getOnBoard() == 1 && currentNode.getOnBoard() == 1) {
-					//drawHexagon
-					if (currentNode.getSideRoad().hasRoad())
-					{
-						big.setStroke(new BasicStroke(5f));
-						if(currentNode.hasSettlement())
-							big.setPaint(currentNode.getOwner().getColor());
-						else
-							big.setPaint(currentNode.getSideNode().getOwner().getColor());
-					}
-					big.drawLine(currentNode.getXcord(), currentNode.getYcord(), westNode.getXcord(), westNode.getYcord() );
-					
-				}
-				big.setStroke(new BasicStroke(.7f));
-				big.setPaint(Color.black);
-
-				if (southNode.getOnBoard() == 1 && currentNode.getOnBoard() == 1) {
-					if (currentNode.getBottomRoad().hasRoad())
-					{
-						big.setStroke(new BasicStroke(5f));
-						if(currentNode.hasSettlement()) 
-							big.setPaint(currentNode.getOwner().getColor());
-						else
-							big.setPaint(currentNode.getBottomNode().getOwner().getColor());
-					}
-					big.drawLine(currentNode.getXcord(), currentNode.getYcord(), southNode.getXcord(), southNode.getYcord() );
-				}
-				
-				big.setStroke(new BasicStroke(.7f));
-				big.setPaint(Color.black);
-				
-				if (currentNode.hasSettlement()) {
-					big.setPaint(currentNode.getOwner().getColor());
-					big.fillOval(currentNode.getXcord()-7,currentNode.getYcord()-7,14,14);
-				}
-				
-				if ( (  ax%2 == 0 ^ ay%2 == 1  ) && ax < vertex.length-1 && ay < vertex[ax].length-2 && vertex[ax][ay].getOnBoard() ==1 && vertex[ax+1][ay+2].getOnBoard() == 1)
-				{
-					big.drawImage( Toolkit.getDefaultToolkit().getImage( this.getClass().getResource("/Settlers/game/images/settlement.jpg") ) , currentNode.getXcord(), currentNode.getYcord(), null);
-				}
-				
-			}
-		}
-		if (tempRoad[0] != null) {
-			big.setPaint(Color.yellow );
-			big.setStroke(new BasicStroke(5f));
-			big.drawLine( tempRoad[0].getXcord(), tempRoad[0].getYcord(), tempRoad[1].getXcord(), tempRoad[1].getYcord() );
-		}		
         
-		if (tempSettlement != null) {
-			big.setPaint(Color.yellow);
-			big.setStroke(new BasicStroke(5f));
-			big.drawOval( tempSettlement.getXcord()-10, tempSettlement.getYcord()-10, 20, 20 );
-		}		
-		
+        int ax, ay;
+        big.setPaint(Color.black);
+        for(ax = 1; ax < vertex.length-1; ax++) { //7
+            for (ay = 1; ay < vertex.length-1; ay++) { //12
+                Settlement currentNode = vertex[ax][ay];
+                Settlement southNode = vertex[ax][ay-1];
+                Settlement westNode = null;
+                big.setPaint(Color.black );
+                if (( ax%2 == 0 ^ ay%2 == 0 ) && (westNode = vertex[ax-1][ay]).getOnBoard() == 1 && currentNode.getOnBoard() == 1) {
+                    //drawHexagon
+                    if (currentNode.getSideRoad().hasRoad())
+                    {
+                        big.setStroke(new BasicStroke(5f));
+                        if(currentNode.hasSettlement())
+                        big.setPaint(currentNode.getOwner().getColor());
+                        else
+                        big.setPaint(currentNode.getSideNode().getOwner().getColor());
+                    }
+                    big.drawLine(currentNode.getXcord(), currentNode.getYcord(), westNode.getXcord(), westNode.getYcord() );
+                    
+                }
+                big.setStroke(new BasicStroke(.7f));
+                big.setPaint(Color.black);
+
+                if (southNode.getOnBoard() == 1 && currentNode.getOnBoard() == 1) {
+                    if (currentNode.getBottomRoad().hasRoad())
+                    {
+                        big.setStroke(new BasicStroke(5f));
+                        if(currentNode.hasSettlement()) 
+                        big.setPaint(currentNode.getOwner().getColor());
+                        else
+                        big.setPaint(currentNode.getBottomNode().getOwner().getColor());
+                    }
+                    big.drawLine(currentNode.getXcord(), currentNode.getYcord(), southNode.getXcord(), southNode.getYcord() );
+                }
+                
+                big.setStroke(new BasicStroke(.7f));
+                big.setPaint(Color.black);
+                
+                if (currentNode.hasSettlement()) {
+                    big.setPaint(currentNode.getOwner().getColor());
+                    big.fillOval(currentNode.getXcord()-7,currentNode.getYcord()-7,14,14);
+                }
+                
+                if ( (  ax%2 == 0 ^ ay%2 == 1  ) && ax < vertex.length-1 && ay < vertex[ax].length-2 && vertex[ax][ay].getOnBoard() ==1 && vertex[ax+1][ay+2].getOnBoard() == 1)
+                {
+                    big.drawImage( Toolkit.getDefaultToolkit().getImage( this.getClass().getResource("/Settlers/game/images/sqr.png") ) , currentNode.getXcord() - (universalEdgeLength/4) , currentNode.getYcord(), null);
+                }
+                
+            }
+        }
+        if (tempRoad[0] != null) {
+            big.setPaint(Color.yellow );
+            big.setStroke(new BasicStroke(5f));
+            big.drawLine( tempRoad[0].getXcord(), tempRoad[0].getYcord(), tempRoad[1].getXcord(), tempRoad[1].getYcord() );
+        }		
+        
+        if (tempSettlement != null) {
+            big.setPaint(Color.yellow);
+            big.setStroke(new BasicStroke(5f));
+            big.drawOval( tempSettlement.getXcord()-10, tempSettlement.getYcord()-10, 20, 20 );
+        }		
+        
         // Draws the buffered image to the screen.
         g.drawImage(bi, 0, 0, this);        
         
