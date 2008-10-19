@@ -216,10 +216,10 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener, Se
                     if (currentNode.getSideRoad().hasRoad())
                     {
                         big.setStroke(new BasicStroke(5f));
-                        if(currentNode.hasSettlement())
-                        big.setPaint(currentNode.getOwner().getColor());
-                        else
-                        big.setPaint(currentNode.getSideNode().getOwner().getColor());
+                       //if(currentNode.hasSettlement())
+                        big.setPaint(currentNode.getSideRoad().getOwner().getColor());
+                        //else
+                       // big.setPaint(currentNode.getSideNode().getOwner().getColor());
                     }
                     big.drawLine(currentNode.getXcord(), currentNode.getYcord(), westNode.getXcord(), westNode.getYcord() );
                     
@@ -231,10 +231,8 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener, Se
                     if (currentNode.getBottomRoad().hasRoad())
                     {
                         big.setStroke(new BasicStroke(5f));
-                        if(currentNode.hasSettlement()) 
-                        big.setPaint(currentNode.getOwner().getColor());
-                        else
-                        big.setPaint(currentNode.getBottomNode().getOwner().getColor());
+
+                        big.setPaint(currentNode.getBottomRoad().getOwner().getColor());
                     }
                     big.drawLine(currentNode.getXcord(), currentNode.getYcord(), southNode.getXcord(), southNode.getYcord() );
                 }
