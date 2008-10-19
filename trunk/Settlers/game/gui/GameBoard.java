@@ -82,9 +82,16 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener, Se
         
         /*The initialization os the HARD CODED MAP */
         /* This can be CHANGED fairly easily, but  quite obviously the map has to be hard coded or stored somewhere.*/
-        for(ax = 1; ax < vertex.length-1; ax++) {
-            for (ay = 1; ay < vertex.length-1; ay++) {
-                if (ax%2==0 ^ ay%2 == 0)
+        for(ax = 0; ax < vertex.length-1; ax++) {
+            for (ay = 0; ay < vertex.length-1; ay++) {
+                if ( ax == 0 && ay == 0 )
+                { }
+                else if (ax == 0)
+                vertex[ax][ay].updateNode(ax, ay, ax*(universalEdgeLength+(universalStepLength/2)), ay * universalStepLength, vertex[ax][ay+1], vertex[ax][ay-1], null);		
+                else if (ay == 0)
+                vertex[ax][ay].updateNode(ax, ay, ax*(universalEdgeLength+(universalStepLength/2)), ay * universalStepLength, vertex[ax][ay+1], null, vertex[ax-1][ay]);		
+                
+                else if (ax%2==0 ^ ay%2 == 0)
                 vertex[ax][ay].updateNode(ax, ay, ax*(universalEdgeLength+(universalStepLength/2)), ay * universalStepLength, vertex[ax][ay+1], vertex[ax][ay-1], vertex[ax-1][ay]);		
                 else
                 vertex[ax][ay].updateNode(ax, ay, ax*(universalEdgeLength+(universalStepLength/2))+(universalStepLength/2), ay * universalStepLength, vertex[ax][ay+1], vertex[ax][ay-1], vertex[ax+1][ay]);
@@ -247,7 +254,7 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener, Se
                 
                 if ( (  ax%2 == 0 ^ ay%2 == 1  ) && ax < vertex.length-1 && ay < vertex[ax].length-2 && vertex[ax][ay].getOnBoard() ==1 && vertex[ax+1][ay+2].getOnBoard() == 1)
                 {
-                    big.drawImage( Toolkit.getDefaultToolkit().getImage( this.getClass().getResource("/Settlers/game/images/sqr.png") ) , currentNode.getXcord() - (universalEdgeLength/4) , currentNode.getYcord(), null);
+                    big.drawImage( Toolkit.getDefaultToolkit().getImage( this.getClass().getResource("/Settlers/game/images/sqr.png") ) , southNode.getXcord(), currentNode.getYcord(), null);
                 }
                 
             }
