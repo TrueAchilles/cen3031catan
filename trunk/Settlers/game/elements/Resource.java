@@ -34,5 +34,15 @@ public class Resource
 		this.southEast = southEast;
 		this.resourceNumber = resourceNumber;
 	}
+	
+	public void setNext (int resourceNumber, 
+						Settlement southWest, Settlement west, Settlement northWest, 
+						Settlement northEast, Settlement east, Settlement southEast) {
+		if (next == null)
+			next = new Resource(resourceNumber, southWest, west, northWest, northEast, east, southEast);
+		else
+			next.setNext(resourceNumber, southWest, west, northWest, northEast, east, southEast);
+	}
+	
 }
 	

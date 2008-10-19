@@ -125,6 +125,24 @@ public class Settlement
 	}
 	
 	
+	public boolean hasAdjacentUserDevelopment()
+	{
+		int curPlayerID = GameState.getCurPlayer().getID();
+		
+		if( hasSettlement && owner.getID() == curPlayerID ) 
+			return true;
+		if ( topRoad.hasRoad() && topRoad.getOwner().getID() == curPlayerID ) 
+			return true;
+		
+		if ( sideRoad.hasRoad() && sideRoad.getOwner().getID() == curPlayerID )
+			return true;
+		
+		if ( bottomRoad.hasRoad() && bottomRoad.getOwner().getID() == curPlayerID )
+			return true;
+		return false;
+	}
+	
+	
 	//builds a road extending upward from the node
 	public void buildRoad( Settlement toSet)
 	{
