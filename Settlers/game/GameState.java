@@ -16,24 +16,46 @@ public class GameState
     // holds all the players
     public static LinkedList<Player> players;
     private static Player curPlayer;
+    private static int actionState = 0;
+    private static int gamePhase = 0;
     
     // called to initialize the game when it is first started
-    public static void initialize()
-    {
-        new Logic(); //sets up the logic of the game - no need to keep as a variable (yet), but it needs to be an object so it can receive events
-        new Gui();
+	public static void initialize()
+	{
+		new Logic(); //sets up the logic of the game - no need to keep as a variable (yet), but it needs to be an object so it can receive events
+		new Gui();
         
-        // code for handling init of game goes here (making game board, setting up players, etc)
-        players = new LinkedList<Player>();
+		// code for handling init of game goes here (making game board, setting up players, etc)
+		players = new LinkedList<Player>();
+	}
+	
+	public static void setCurPlayer(Player _curPlayer)
+	{
+		curPlayer = _curPlayer;
+	}
+	
+	public static Player getCurPlayer()
+	{
+		return curPlayer;
+	}
+    
+    public static int getActionState()
+    {
+        return actionState;
     }
     
-    public static void setCurPlayer(Player _curPlayer)
+    public static void setActionState(int action)
     {
-        curPlayer = _curPlayer;
+        actionState = action;
     }
     
-    public static Player getCurPlayer()
+    public static int getGamePhase()
     {
-        return curPlayer;
+        return gamePhase;
+    }
+    
+    public static void setGamePhase(int phase)
+    {
+        gamePhase = phase;
     }
 }
