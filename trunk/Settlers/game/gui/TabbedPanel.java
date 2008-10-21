@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
+import settlers.game.events.*;
 
 /**
 * This code was edited or generated using CloudGarden's Jigloo
@@ -17,19 +18,22 @@ import javax.swing.JTextArea;
 * THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
 * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
 */
-public class TabbedPanel extends javax.swing.JPanel {
+public class TabbedPanel extends javax.swing.JPanel implements EventListener {
     private JTabbedPane tabbedPanel;
     private JTextArea errorText;
     private JScrollPane sp1;
     private JPanel cardPanel;
     private JTextArea rollText;
-   private JTextArea resourcesText;
+    private JTextArea resourcesText;
     private JTextArea gameText;
     private JTextArea credits;
     
     public TabbedPanel() {
         super();
         initGUI();
+        //These are the events we need to update the current players resources accordingly
+        EventManager.registerEvent("PLAYER_INITTURN_START", this);
+        EventManager.registerEvent("PLAYER_TURN_START", this);
     }
     
     private void initGUI() {
@@ -51,14 +55,13 @@ public class TabbedPanel extends javax.swing.JPanel {
                     sp1.setPreferredSize(new java.awt.Dimension(378, 140));
                     tabbedPanel.setEnabledAt(0, false);
                 }
-            {
-               resourcesText = new JTextArea();
-               tabbedPanel.addTab("Resources", null, resourcesText, null);
-               resourcesText.setText("This is some text");
-               resourcesText.setPreferredSize(new java.awt.Dimension(378,140));
-               resourcesText.setEditable(false);
-               tabbedPanel.setEnabledAt(1,false);
-            }
+                {
+                    resourcesText = new JTextArea();
+                    tabbedPanel.addTab("Resources", null, resourcesText, null);
+                    resourcesText.setPreferredSize(new java.awt.Dimension(378,140));
+                    resourcesText.setEditable(false);
+                    tabbedPanel.setEnabledAt(1,false);
+                }
                 {
                     rollText = new JTextArea();
                     tabbedPanel.addTab("Roll History", null, rollText, null);
@@ -94,6 +97,41 @@ public class TabbedPanel extends javax.swing.JPanel {
         }
     }
     
+    public void eventCalled(Event e)
+    {
+        String event = e.getEvent();
+        
+        if (event.equals("PLAYER_INITTURN_START"))
+        {
+            resourcesText.setText(settlers.game.GameState.getCurPlayer().getName() + "'s Resources\n");
+            //resourcesText.append("Current Resources are unavailable during \ninitialization turns");
+            /**
+                                This is just a proof of concept so we know what we can get the different players resources
+                                */
+            resourcesText.append("Wood:  " + settlers.game.GameState.getCurPlayer().getWood() + "\n");
+            resourcesText.append("Ore:   " + settlers.game.GameState.getCurPlayer().getOre() + "\n");
+            resourcesText.append("Brick: "  + settlers.game.GameState.getCurPlayer().getBrick() + "\n");
+            resourcesText.append("Sheep: " + settlers.game.GameState.getCurPlayer().getSheep() + "\n");
+            resourcesText.append("Wheat: " + settlers.game.GameState.getCurPlayer().getWheat() + "\n");
+            updateUI();
+            
+        }
+        /**
+                        This else if will be used for when the game is actually in round robin and players are going through "real" turns as opposed to initialization turns
+                    */
+        else if (event.equals("PLAYER_TURN_START"))
+        {
+            resourcesText.setText(settlers.game.GameState.getCurPlayer().getName() + "'s Resources\n");
+            
+        }
+    }
+    
+    public void setResourcesText(String _resourcesText)
+    {
+        resourcesText.append(_resourcesText);
+    }
+    
+    
     private void showCredits()
     {
         
@@ -123,6 +161,7 @@ public class TabbedPanel extends javax.swing.JPanel {
         credits.append("\tScott Savino\n");
         credits.append("\tNick Dunlap\n");
     }
+    
    
 
     public void startNewGame()
