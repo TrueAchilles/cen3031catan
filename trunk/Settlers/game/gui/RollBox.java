@@ -20,42 +20,42 @@ import javax.swing.SwingConstants;
 * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
 */
 public class RollBox extends javax.swing.JPanel {
-    private JLabel rollBox;
+	private JLabel rollBox;
 
-    /**
-    * Auto-generated main method to display this 
-    * JPanel inside a new JFrame.
-    */
-    public static void main(String[] args) {
-        JFrame frame = new JFrame();
-        frame.getContentPane().add(new RollBox());
-        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
-    }
-    
-    public RollBox() {
-        super();
-        initGUI();
-    }
-    
-    private void initGUI() {
-        try {
-            this.setPreferredSize(new java.awt.Dimension(100, 100));
-            this.setSize(100, 100);
-            this.setBackground(new java.awt.Color(192,192,192));
-            {
-                rollBox = new JLabel();
-                this.add(rollBox);
-                rollBox.setText("Roll Box");
-                rollBox.setPreferredSize(new java.awt.Dimension(93, 16));
-                rollBox.setHorizontalAlignment(SwingConstants.CENTER);
-                rollBox.setHorizontalTextPosition(SwingConstants.CENTER);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        this.setVisible(false);
-    }
+	/**
+	* Auto-generated main method to display this 
+	* JPanel inside a new JFrame.
+	*/
+	public static void main(String[] args) {
+		JFrame frame = new JFrame();
+		frame.getContentPane().add(new RollBox());
+		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		frame.pack();
+		frame.setVisible(true);
+	}
+	
+	public RollBox() {
+		super();
+		initGUI();
+	}
+	
+	private void initGUI() {
+		try {
+			this.setPreferredSize(new java.awt.Dimension(100, 100));
+			this.setSize(100, 100);
+			this.setBackground(new java.awt.Color(192,192,192));
+			{
+				rollBox = new JLabel();
+				this.add(rollBox);
+				rollBox.setText("Roll Box");
+				rollBox.setPreferredSize(new java.awt.Dimension(93, 16));
+				rollBox.setHorizontalAlignment(SwingConstants.CENTER);
+				rollBox.setHorizontalTextPosition(SwingConstants.CENTER);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		this.setVisible(false);
+	}
 
 }
