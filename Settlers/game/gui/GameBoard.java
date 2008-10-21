@@ -16,31 +16,31 @@ import java.awt.image.BufferedImage;
 
 class GameBoard extends JPanel implements MouseListener, MouseMotionListener, SettlersConstants{
     private final static int RADIUS=46;
-	private final static int universalEdgeLength = 54; // The universal length of every edge/road/line.
-	private final static int universalStepLength = (int)( universalEdgeLength * 0.7071d ); // Geometry
+    private final static int universalEdgeLength = 54; // The universal length of every edge/road/line.
+    private final static int universalStepLength = (int)( universalEdgeLength * 0.7071d ); // Geometry
     private byte action=-1;
-	
-	Settlement[][] vertex = new Settlement[20][20];
+    
+    Settlement[][] vertex = new Settlement[20][20];
     
     RollBox rollBox;
     SpringLayout thisLayout;
     JLabel img;
-	
-	Resource[] resource = new Resource[12];
-	
+    
+    Resource[] resource = new Resource[12];
+    
     BufferedImage bi;
     Graphics2D big;
     Rectangle area;
     boolean firstTime = true;
-	
-	Settlement[] tempRoad = new Settlement[2];
-	Settlement tempSettlement;
     
-	/*
-	  *constructor for the gameboard.&  Adds a listener for the mouse and sets the layout for the board.&  Also displays the splash screen and
-	  *makes the roll box visible and sets the background color
-	  *param _parent the mainboard that the gameboard is displayed inside
-	  */
+    Settlement[] tempRoad = new Settlement[2];
+    Settlement tempSettlement;
+    
+    /*
+      *constructor for the gameboard.&  Adds a listener for the mouse and sets the layout for the board.&  Also displays the splash screen and
+      *makes the roll box visible and sets the background color
+      *param _parent the mainboard that the gameboard is displayed inside
+      */
     public GameBoard(MainBoard _parent){        
 
         addMouseMotionListener(this);
@@ -61,13 +61,13 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener, Se
         thisLayout.putConstraint(thisLayout.EAST, rollBox, 0, thisLayout.EAST, this);
         thisLayout.putConstraint(thisLayout.NORTH, rollBox, 0, thisLayout.NORTH, this);
         
-        this.setBackground(Color.blue);		
+        this.setBackground(Color.blue);        
     }
     
-	/*
-	  *Populates the vertex array with blank settlements and roads and hard codes the map into the vertex array.&  Also removes the vertices which
-	  *are outside the gameboard and shouldn't be seen.
-	  */
+    /*
+      *Populates the vertex array with blank settlements and roads and hard codes the map into the vertex array.&  Also removes the vertices which
+      *are outside the gameboard and shouldn't be seen.
+      */
     private void initializeBoard()
     {
 
@@ -75,7 +75,7 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener, Se
         int ax=0, ay=0;
         for (ax =0; ax < vertex.length; ax++)
         for (ay =0; ay <vertex[ax].length; ay++)
-        vertex[ax][ay] = new Settlement(ax, ay);				
+        vertex[ax][ay] = new Settlement(ax, ay);                
         
         
         
@@ -87,12 +87,12 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener, Se
                 if ( ax == 0 && ay == 0 )
                 { }
                 else if (ax == 0)
-                vertex[ax][ay].updateNode(ax, ay, ax*(universalEdgeLength+(universalStepLength/2)), ay * universalStepLength, vertex[ax][ay+1], vertex[ax][ay-1], null);		
+                vertex[ax][ay].updateNode(ax, ay, ax*(universalEdgeLength+(universalStepLength/2)), ay * universalStepLength, vertex[ax][ay+1], vertex[ax][ay-1], null);        
                 else if (ay == 0)
-                vertex[ax][ay].updateNode(ax, ay, ax*(universalEdgeLength+(universalStepLength/2)), ay * universalStepLength, vertex[ax][ay+1], null, vertex[ax-1][ay]);		
+                vertex[ax][ay].updateNode(ax, ay, ax*(universalEdgeLength+(universalStepLength/2)), ay * universalStepLength, vertex[ax][ay+1], null, vertex[ax-1][ay]);        
                 
                 else if (ax%2==0 ^ ay%2 == 0)
-                vertex[ax][ay].updateNode(ax, ay, ax*(universalEdgeLength+(universalStepLength/2)), ay * universalStepLength, vertex[ax][ay+1], vertex[ax][ay-1], vertex[ax-1][ay]);		
+                vertex[ax][ay].updateNode(ax, ay, ax*(universalEdgeLength+(universalStepLength/2)), ay * universalStepLength, vertex[ax][ay+1], vertex[ax][ay-1], vertex[ax-1][ay]);        
                 else
                 vertex[ax][ay].updateNode(ax, ay, ax*(universalEdgeLength+(universalStepLength/2))+(universalStepLength/2), ay * universalStepLength, vertex[ax][ay+1], vertex[ax][ay-1], vertex[ax+1][ay]);
                 if (ax == 0 || ay == 0 || ay >= 12 || ax >= 7)
@@ -137,62 +137,62 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener, Se
 
     
     /*
-	  *On a mouse click it calls the onClick method and passes the x and y coordinates of the mouse click
-	  *@param e the mouse event that holds the information about the mouse click
-	  */
+      *On a mouse click it calls the onClick method and passes the x and y coordinates of the mouse click
+      *@param e the mouse event that holds the information about the mouse click
+      */
     public void mousePressed(MouseEvent e){
         onClick(e.getX(),e.getY());
     }
     
-	/*
-	  *Typical event used when dealing with mouse events.&  Can be implemented later if necessary.
-	  *@param e the mouse event that holds the information about the mouse click
-	  */
+    /*
+      *Typical event used when dealing with mouse events.&  Can be implemented later if necessary.
+      *@param e the mouse event that holds the information about the mouse click
+      */
     public void mouseDragged(MouseEvent e){}
     
-	/*
-	  *Typical event used when dealing with mouse events.&  Can be implemented later if necessary
-	  *@param e the mouse event that holds the information about the mouse click
-	  */
+    /*
+      *Typical event used when dealing with mouse events.&  Can be implemented later if necessary
+      *@param e the mouse event that holds the information about the mouse click
+      */
     public void mouseReleased(MouseEvent e){}
     
-	/*
-	  *When the mouse is moved it figures out where the mouse is and figures out which tile it is in.&  This allows for highlighting of buildable
-	  *roads and settlements.
-	  *@param e the mouse event that holds the information about the mouse click
-	  */
+    /*
+      *When the mouse is moved it figures out where the mouse is and figures out which tile it is in.&  This allows for highlighting of buildable
+      *roads and settlements.
+      *@param e the mouse event that holds the information about the mouse click
+      */
     public void mouseMoved(MouseEvent e){
-	if (action != -1)
-		calculateTile(e.getX(),e.getY());
-	}
+    if (action != -1)
+        calculateTile(e.getX(),e.getY());
+    }
     
-	/*
-	  *Typical event used when dealing with mouse events.&  Can be implemented later if necessary.
-	  *@param e the mouse event that holds the information about the mouse click
-	  */
+    /*
+      *Typical event used when dealing with mouse events.&  Can be implemented later if necessary.
+      *@param e the mouse event that holds the information about the mouse click
+      */
     public void mouseClicked(MouseEvent e){}
     
-	/*
-	  *Typical event used when dealing with mouse events.&  Can be implemented later if necessary.
-	  *@param e the mouse event that holds the information about the mouse click
-	  */
+    /*
+      *Typical event used when dealing with mouse events.&  Can be implemented later if necessary.
+      *@param e the mouse event that holds the information about the mouse click
+      */
     public void mouseExited(MouseEvent e){}
-	
-	/*
-	  *Typical event used when dealing with mouse events.&  Can be implemented later if necessary.
-	  *@param e the mouse event that holds the information about the mouse click
-	  */
+    
+    /*
+      *Typical event used when dealing with mouse events.&  Can be implemented later if necessary.
+      *@param e the mouse event that holds the information about the mouse click
+      */
     public void mouseEntered(MouseEvent e){}
-	
-	/*
-	  *Typical event used when dealing with mouse events.&  Can be implemented later if necessary
-	  *@param e the mouse event that holds the information about the mouse click
-	  */
+    
+    /*
+      *Typical event used when dealing with mouse events.&  Can be implemented later if necessary
+      *@param e the mouse event that holds the information about the mouse click
+      */
     public void updateLocation(MouseEvent e){}
     
-	/*
-	  *
-	  */
+    /*
+      *
+      */
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         if (vertex[0][0]!=null){
@@ -263,13 +263,13 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener, Se
             big.setPaint(Color.yellow );
             big.setStroke(new BasicStroke(5f));
             big.drawLine( tempRoad[0].getXcord(), tempRoad[0].getYcord(), tempRoad[1].getXcord(), tempRoad[1].getYcord() );
-        }		
+        }        
         
         if (tempSettlement != null) {
             big.setPaint(Color.yellow);
             big.setStroke(new BasicStroke(5f));
             big.drawOval( tempSettlement.getXcord()-10, tempSettlement.getYcord()-10, 20, 20 );
-        }		
+        }        
         
         // Draws the buffered image to the screen.
         g.drawImage(bi, 0, 0, this);        
@@ -278,8 +278,8 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener, Se
  
     
     public void initialize(Tile[] _tiles){
-    	this.remove(img);
-		Dimension dim = getSize();
+        this.remove(img);
+        Dimension dim = getSize();
         int w = dim.width;
         int h = dim.height;
         
@@ -290,108 +290,108 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener, Se
             big.setStroke(new BasicStroke(0.1f));
             big.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             area = new Rectangle(dim);
-			
-    	initializeBoard();
-    	rollBox.setVisible(true);
+            
+        initializeBoard();
+        rollBox.setVisible(true);
         repaint();
     }
     
 
-	
-	private void onClick(int x, int y){
-		if (action == ACTION_ADD_SETTLEMENT && tempSettlement != null) {
-			SettlementEvent se = new SettlementEvent("PLAYER_INIT_ATTEMPT_SETTLEMENT", tempSettlement);
-			EventManager.callEvent(se);
-			//tempSettlement.buildSettlement();
-			tempSettlement = null;
-		}
-		if (action == ACTION_ADD_ROAD && tempRoad[0] != null)
-		{
-			//tempRoad[0].buildRoad(tempRoad[1]);
-			SettlementEvent se = new SettlementEvent("PLAYER_INIT_ATTEMPT_ROAD", tempRoad[0], tempRoad[1]);
-			EventManager.callEvent(se);
-			tempRoad[0] = null;
-		}
-		repaint();
-	
-	}
-	
+    
+    private void onClick(int x, int y){
+        if (action == ACTION_ADD_SETTLEMENT && tempSettlement != null) {
+            SettlementEvent se = new SettlementEvent("PLAYER_INIT_ATTEMPT_SETTLEMENT", tempSettlement);
+            EventManager.callEvent(se);
+            //tempSettlement.buildSettlement();
+            tempSettlement = null;
+        }
+        if (action == ACTION_ADD_ROAD && tempRoad[0] != null)
+        {
+            //tempRoad[0].buildRoad(tempRoad[1]);
+            SettlementEvent se = new SettlementEvent("PLAYER_INIT_ATTEMPT_ROAD", tempRoad[0], tempRoad[1]);
+            EventManager.callEvent(se);
+            tempRoad[0] = null;
+        }
+        repaint();
+    
+    }
+    
     private void calculateTile(int x, int y){
         
-		int y1 = (int)Math.round((double)(y-100) / universalStepLength );
-		if(y1 < 0)
-			y1 = 0;
-		int x1 = (int)Math.round((double)(x-135) / (universalEdgeLength+( universalStepLength/2 ) ));
-		if(x1 < 0)
-			x1 = 0;
-		
-		Settlement curNode = vertex[x1][y1];
+        int y1 = (int)Math.round((double)(y-100) / universalStepLength );
+        if(y1 < 0)
+            y1 = 0;
+        int x1 = (int)Math.round((double)(x-135) / (universalEdgeLength+( universalStepLength/2 ) ));
+        if(x1 < 0)
+            x1 = 0;
+        
+        Settlement curNode = vertex[x1][y1];
 
-		tempSettlement = null;
-		if (action == ACTION_ADD_SETTLEMENT){
-			if (x > curNode.getXcord() - universalEdgeLength/2 && x < curNode.getXcord() + universalEdgeLength/2 && y > curNode.getYcord() - universalEdgeLength/2 && y < curNode.getYcord() + universalEdgeLength/2)
-				if (curNode.canBuildSettlement()) {
-					tempSettlement = vertex[x1][y1];
-				}
-		}
-		tempRoad[0] = null;
-		
-		if(action == ACTION_ADD_ROAD)
-		{	// NEEDS TO BE REWRITTEN
-			int distTop = 1000, distBottom = 1000, distSide = 1000;
-			try
-			{
-				if(x1 != 0 && y1 != 0 && ( ( curNode.hasSettlement() && curNode.getOwner().getID() == GameState.getCurPlayer().getID()) || ( curNode.getTopRoad().hasRoad() && curNode.getTopRoad().getOwner().getID() == GameState.getCurPlayer().getID() ) || curNode.getSideRoad().hasRoad() || curNode.getBottomRoad().hasRoad()))
-				{
-					if(curNode.getTopNode().getOnBoard() != 0 )
-					{
-						distTop = (int)Math.sqrt( Math.pow(curNode.getTopNode().getXcord() - x,2 ) + Math.pow(curNode.getTopNode().getYcord() - y,2 ) );
-					}
-					
-					if(curNode.getBottomNode().getOnBoard() != 0)
-					{
-						distBottom = (int)Math.sqrt( Math.pow(curNode.getBottomNode().getXcord() - x,2 ) + Math.pow(curNode.getBottomNode().getYcord() - y,2 ) );
-					}
-					
-					if(curNode.getSideNode().getOnBoard() != 0)
-					{
-						distSide = (int)Math.sqrt( Math.pow(curNode.getSideNode().getXcord() - x,2 ) + Math.pow(curNode.getSideNode().getYcord() - y,2 ) );
-					}
-					
-					if(distTop < distBottom && distTop < distSide && !curNode.getTopRoad().hasRoad())
-					{
-						tempRoad[0] = curNode;
-						tempRoad[1] = curNode.getTopNode();			
-					}
-					
-					else if(distBottom < distTop && distBottom < distSide  && !curNode.getBottomRoad().hasRoad())
-					{
-						tempRoad[0] = curNode;
-						tempRoad[1] = curNode.getBottomNode();			
-					}
-					
-					else if(distSide < distBottom && distSide < distTop && !curNode.getSideRoad().hasRoad())
-					{
-						tempRoad[0] = curNode;
-						tempRoad[1] = curNode.getSideNode();			
-					}			
-				}	
-			}
-			catch(NullPointerException e) {}
-		}
-		repaint();
+        tempSettlement = null;
+        if (action == ACTION_ADD_SETTLEMENT){
+            if (x > curNode.getXcord() - universalEdgeLength/2 && x < curNode.getXcord() + universalEdgeLength/2 && y > curNode.getYcord() - universalEdgeLength/2 && y < curNode.getYcord() + universalEdgeLength/2)
+                if (curNode.canBuildSettlement()) {
+                    tempSettlement = vertex[x1][y1];
+                }
+        }
+        tempRoad[0] = null;
+        
+        if(action == ACTION_ADD_ROAD)
+        {    // NEEDS TO BE REWRITTEN
+            int distTop = 1000, distBottom = 1000, distSide = 1000;
+            try
+            {
+                if(x1 != 0 && y1 != 0 && ( ( curNode.hasSettlement() && curNode.getOwner().getID() == GameState.getCurPlayer().getID()) || ( curNode.getTopRoad().hasRoad() && curNode.getTopRoad().getOwner().getID() == GameState.getCurPlayer().getID() ) || curNode.getSideRoad().hasRoad() || curNode.getBottomRoad().hasRoad()))
+                {
+                    if(curNode.getTopNode().getOnBoard() != 0 )
+                    {
+                        distTop = (int)Math.sqrt( Math.pow(curNode.getTopNode().getXcord() - x,2 ) + Math.pow(curNode.getTopNode().getYcord() - y,2 ) );
+                    }
+                    
+                    if(curNode.getBottomNode().getOnBoard() != 0)
+                    {
+                        distBottom = (int)Math.sqrt( Math.pow(curNode.getBottomNode().getXcord() - x,2 ) + Math.pow(curNode.getBottomNode().getYcord() - y,2 ) );
+                    }
+                    
+                    if(curNode.getSideNode().getOnBoard() != 0)
+                    {
+                        distSide = (int)Math.sqrt( Math.pow(curNode.getSideNode().getXcord() - x,2 ) + Math.pow(curNode.getSideNode().getYcord() - y,2 ) );
+                    }
+                    
+                    if(distTop < distBottom && distTop < distSide && !curNode.getTopRoad().hasRoad())
+                    {
+                        tempRoad[0] = curNode;
+                        tempRoad[1] = curNode.getTopNode();            
+                    }
+                    
+                    else if(distBottom < distTop && distBottom < distSide  && !curNode.getBottomRoad().hasRoad())
+                    {
+                        tempRoad[0] = curNode;
+                        tempRoad[1] = curNode.getBottomNode();            
+                    }
+                    
+                    else if(distSide < distBottom && distSide < distTop && !curNode.getSideRoad().hasRoad())
+                    {
+                        tempRoad[0] = curNode;
+                        tempRoad[1] = curNode.getSideNode();            
+                    }            
+                }    
+            }
+            catch(NullPointerException e) {}
+        }
+        repaint();
     }
     
     
     public void setAction(byte _action){ 
-		tempRoad[0] = null;
-		this.action= _action;
-		repaint();
+        tempRoad[0] = null;
+        this.action= _action;
+        repaint();
     }
     
     public void hideBox(boolean value)
     {
-    	rollBox.setVisible(value);
+        rollBox.setVisible(value);
     }
 }
 

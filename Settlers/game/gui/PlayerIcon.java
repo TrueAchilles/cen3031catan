@@ -20,28 +20,28 @@ import javax.swing.JFrame;
 * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
 */
 public class PlayerIcon extends javax.swing.JPanel {
-	
-	Color color;
-	public PlayerIcon(Color _color) {
-		super();
-		initGUI();
-		color = _color;
-	}
-	
-	public void setColor(Color _color)
-	{
-		color = _color;
-		this.setBackground(color);
-	}
-	
-	private void initGUI() {
-		try {
-			this.setPreferredSize(new java.awt.Dimension(60, 60));
-			this.setSize(60, 60);
-			this.setBackground(color);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+    
+    Color color;
+    public PlayerIcon(Color _color) {
+        super();
+        initGUI();
+        color = _color;
+    }
+    
+    public void setColor(Color _color)
+    {
+        color = _color;
+        this.setBackground(color);
+    }
+    
+    private void initGUI() {
+        try {
+            this.setPreferredSize(new java.awt.Dimension(60, 60));
+            this.setSize(60, 60);
+            this.setBackground(color);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }

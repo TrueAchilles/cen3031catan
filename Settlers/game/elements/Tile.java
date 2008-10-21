@@ -82,7 +82,7 @@ public class Tile implements SettlersConstants {
     }
     
     public byte getType(){
-    	return type;
+        return type;
     }
     
     
@@ -345,7 +345,7 @@ public class Tile implements SettlersConstants {
     }
     
     private void upgrade2(byte pos, byte numPlayer){
-    	//To maintain redundancy
+        //To maintain redundancy
         settlement[pos]=CITY[numPlayer];
     }
     
@@ -363,7 +363,7 @@ public class Tile implements SettlersConstants {
     }
     
     private void addRoad2(byte pos, byte numPlayer){
-    	//To maintain redundancy
+        //To maintain redundancy
         road[pos]=ROAD[numPlayer];
     }
     

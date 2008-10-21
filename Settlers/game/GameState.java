@@ -18,22 +18,22 @@ public class GameState
     private static Player curPlayer;
     
     // called to initialize the game when it is first started
-	public static void initialize()
-	{
-		new Logic(); //sets up the logic of the game - no need to keep as a variable (yet), but it needs to be an object so it can receive events
-		new Gui();
+    public static void initialize()
+    {
+        new Logic(); //sets up the logic of the game - no need to keep as a variable (yet), but it needs to be an object so it can receive events
+        new Gui();
         
-		// code for handling init of game goes here (making game board, setting up players, etc)
-		players = new LinkedList<Player>();
-	}
-	
-	public static void setCurPlayer(Player _curPlayer)
-	{
-		curPlayer = _curPlayer;
-	}
-	
-	public static Player getCurPlayer()
-	{
-		return curPlayer;
-	}
+        // code for handling init of game goes here (making game board, setting up players, etc)
+        players = new LinkedList<Player>();
+    }
+    
+    public static void setCurPlayer(Player _curPlayer)
+    {
+        curPlayer = _curPlayer;
+    }
+    
+    public static Player getCurPlayer()
+    {
+        return curPlayer;
+    }
 }
