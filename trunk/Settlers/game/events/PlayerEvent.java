@@ -6,11 +6,11 @@ import settlers.game.elements.*;
 
 public class PlayerEvent extends Event
 {
-	public Player player;
+    public Player player;
 
-	public PlayerEvent(String e, Player p)
-	{
-		super(e);
-		player = p;
-	}
+    public PlayerEvent(String e, Player p)
+    {
+        super(e);
+        player = p;
+    }
 }

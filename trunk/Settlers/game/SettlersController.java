@@ -20,7 +20,7 @@ public class SettlersController implements SettlersConstants {
     Random dice;
     byte action=-1;
     byte actualPlayer=0;
-	private boolean game_in_progress = false;
+    private boolean game_in_progress = false;
     
     /** Creates new SettlersController */
     public SettlersController() {
@@ -285,18 +285,18 @@ public class SettlersController implements SettlersConstants {
     }
     
     public void buttonRoad(){
-    	if(action != ACTION_ADD_ROAD)
-    		action=ACTION_ADD_ROAD;
-    	else
-    		action = -1;
+        if(action != ACTION_ADD_ROAD)
+            action=ACTION_ADD_ROAD;
+        else
+            action = -1;
         gui.setAction(action);
     }
     
     public void buttonSettlement(){
-    	if(action != ACTION_ADD_SETTLEMENT)
-    		action=ACTION_ADD_SETTLEMENT;
-    	else
-    		action = -1;
+        if(action != ACTION_ADD_SETTLEMENT)
+            action=ACTION_ADD_SETTLEMENT;
+        else
+            action = -1;
         gui.setAction(action);
     }
     
@@ -308,14 +308,14 @@ public class SettlersController implements SettlersConstants {
     public void buttonCard(){
     }
 
-	public void gameStarted() {
-		// TODO Auto-generated method stub
-		game_in_progress = true;
-	}
-	
-	public boolean getStarted()
-	{
-		return game_in_progress;
-	}
+    public void gameStarted() {
+        // TODO Auto-generated method stub
+        game_in_progress = true;
+    }
+    
+    public boolean getStarted()
+    {
+        return game_in_progress;
+    }
     
 }
