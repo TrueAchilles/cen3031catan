@@ -13,6 +13,8 @@ import javax.swing.SwingConstants;
 import settlers.game.GameState;
 import settlers.game.elements.Player;
 
+
+
 public class PlayerPanel extends javax.swing.JPanel {
     private PlayerIcon player1;
     private JLabel playerLabel2;
