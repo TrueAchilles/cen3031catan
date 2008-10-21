@@ -76,6 +76,7 @@ public class Gui implements EventListener
             System.exit(0);            
         }
     }
+    
 
     public Gui()
     {
