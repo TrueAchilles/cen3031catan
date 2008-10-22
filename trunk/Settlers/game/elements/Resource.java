@@ -23,7 +23,7 @@ public class Resource
 	
 	private Resource next = null;
 	
-	public Resource (int resourceNumber, 
+	public Resource (int resourceNumber, int resourceType,
 						Settlement southWest, Settlement west, Settlement northWest, 
 						Settlement northEast, Settlement east, Settlement southEast) {
 		this.southWest = southWest;
@@ -32,17 +32,44 @@ public class Resource
 		this.northEast = northEast;
 		this.east = east;
 		this.southEast = southEast;
+        this.resourceType = resourceType;
 		this.resourceNumber = resourceNumber;
 	}
 	
-	public void setNext (int resourceNumber, 
+	public Resource setNext (int resourceNumber, int resourceType,
 						Settlement southWest, Settlement west, Settlement northWest, 
 						Settlement northEast, Settlement east, Settlement southEast) {
 		if (next == null)
-			next = new Resource(resourceNumber, southWest, west, northWest, northEast, east, southEast);
+			return next = new Resource(resourceNumber, resourceType, southWest, west, northWest, northEast, east, southEast);
 		else
-			next.setNext(resourceNumber, southWest, west, northWest, northEast, east, southEast);
+			return next.setNext(resourceNumber, resourceType, southWest, west, northWest, northEast, east, southEast);
 	}
+    
+    public void giveResources()
+    {
+        if (hasTheif == 0)
+        {
+            southWest.giveResources(resourceType);
+    		west.giveResources(resourceType);
+    		northWest.giveResources(resourceType);
+    		northEast.giveResources(resourceType);
+    		east.giveResources(resourceType);
+    		southEast.giveResources(resourceType);
+        }
+        if (next != null)
+            next.giveResources();
+    }
+    
+    public int getResourceType()
+    {
+        return resourceType;
+    }
+    
+    public int hasTheif()
+    {
+        return hasTheif;
+    }
+    
 	
 }
 	
