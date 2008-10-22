@@ -33,6 +33,8 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener {
 	
 	private MainBoard mainBoard;
 	private JMenu gameMenu;
+    private JMenuItem debug_quickStart;
+    private JMenu debug_menu;
 	private JMenuItem connectLan;
 	private JCheckBoxMenuItem hideRollBox;
 	private JMenuItem connectInternet;
@@ -219,6 +221,29 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener {
 						}
 					}
 				}
+                if (GlobalVar.DEBUG_MODE)
+                {
+					debug_menu = new JMenu();
+					settlersMenu.add(debug_menu);
+					debug_menu.setText("DEBUG");
+					debug_menu.setEnabled(true);
+					{
+						debug_quickStart = new JMenuItem();
+						debug_menu.add(debug_quickStart);
+						debug_quickStart.setText("Quick Start");
+                        debug_quickStart.addActionListener(this);
+						/*{
+							connectLan = new JMenuItem();
+							connectTo.add(connectLan);
+							connectLan.setText("LAN");
+						}
+						{
+							connectInternet = new JMenuItem();
+							connectTo.add(connectInternet);
+							connectInternet.setText("Internet");
+						}*/
+					}
+				}
 			}
 			{
 				bottomPanel = new BottomPanel(this);
@@ -285,6 +310,10 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener {
 		if(evt.getSource() == this.humanPlayer)
 		{
 			event_manager.addPlayer();
+		}
+        if(evt.getSource() == this.debug_quickStart)
+		{
+			event_manager.quickStart();
 		}
 		if(evt.getSource() == this.standard)
 		{
