@@ -104,7 +104,7 @@ public class ButtonPanel extends javax.swing.JPanel implements ActionListener, s
 			}
 			{
 				openingButtonPanel = new JPanel();
-				FlowLayout openingPanelLayout = new FlowLayout();
+				BorderLayout openingPanelLayout = new BorderLayout();
 				this.add(openingButtonPanel, "OPENING");
 				openingButtonPanel.setLayout(openingPanelLayout);
 				openingButtonPanel.setPreferredSize(new java.awt.Dimension(350, 150));
@@ -112,8 +112,7 @@ public class ButtonPanel extends javax.swing.JPanel implements ActionListener, s
 				openingButtonPanel.setBackground(new java.awt.Color(255,255,255));
 				{
 					openingLabel = new JLabel();
-					openingButtonPanel.add(openingLabel);
-					openingButtonPanel.add(openingLabel);
+					openingButtonPanel.add(openingLabel, BorderLayout.CENTER);
 					openingLabel.setText("OPENING TURN");
 					openingLabel.setPreferredSize(new java.awt.Dimension(139, 143));
 					openingLabel.setHorizontalAlignment(SwingConstants.CENTER);

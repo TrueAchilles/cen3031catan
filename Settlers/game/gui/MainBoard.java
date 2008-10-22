@@ -3,6 +3,7 @@ package settlers.game.gui;
 import settlers.game.*;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 
 import javax.swing.border.LineBorder;
 import javax.swing.JLabel;
@@ -83,6 +84,17 @@ public class MainBoard extends javax.swing.JPanel {
 	{
 		return this.playerPanel_created;
 	}
+	
+	public void resizeLarger()
+	{
+		this.setPreferredSize(new Dimension(800, 600));
+		gameBoard.resizeLarger();
+	}
 
+	public void resizeSmaller()
+	{
+		this.setPreferredSize(new Dimension(800, 400));
+		gameBoard.resizeSmaller();
+	}
 
 }

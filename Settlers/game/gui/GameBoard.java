@@ -20,6 +20,9 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener{
     private final static int universalStepLength = (int)( universalEdgeLength * 0.7071d ); // Geometry
     private byte action=-1;
     
+    private int dx, dy;
+    private boolean resized;
+    
     Settlement[][] vertex = new Settlement[20][20];
     
     RollBox rollBox;
@@ -43,6 +46,11 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener{
     */
     public GameBoard(MainBoard _parent){        
 
+    	dx = 125;
+    	dy = 100;
+    	
+    	resized = false;
+    	
         addMouseMotionListener(this);
         addMouseListener(this); 
         
@@ -88,28 +96,28 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener{
                 if ( ax == 0 && (ay == 0 || ay == vertex[ax].length-1) )
                 { }
                 else if (ay == vertex[ax].length-1) {
-                vertex[ax][ay].updateNode(ax, ay, ax*(universalEdgeLength+(universalStepLength/2)), ay * universalStepLength, null, vertex[ax][ay-1], vertex[ax-1][ay]);		
+                vertex[ax][ay].updateNode(ax, ay, ax*(universalEdgeLength+(universalStepLength/2)) + dx, ay * universalStepLength + dy, null, vertex[ax][ay-1], vertex[ax-1][ay], 1);		
                 }
                 else if (ay == 0) {
-                vertex[ax][ay].updateNode(ax, ay, ax*(universalEdgeLength+(universalStepLength/2)), 0, vertex[ax][ay+1], null, vertex[ax-1][ay]);		
+                vertex[ax][ay].updateNode(ax, ay, ax*(universalEdgeLength+(universalStepLength/2)) + dx, 0 + dy, vertex[ax][ay+1], null, vertex[ax-1][ay], 1);		
                 }
                 else if (ax == 0) {
-                vertex[ax][ay].updateNode(ax, ay, 0, ay * universalStepLength, vertex[ax][ay+1], vertex[ax][ay-1], null);		
+                vertex[ax][ay].updateNode(ax, ay, 0  + dx, ay * universalStepLength + dy, vertex[ax][ay+1], vertex[ax][ay-1], null, 1);		
                 }
                 else if (ay == 0) {
-                vertex[ax][ay].updateNode(ax, ay, ax*(universalEdgeLength+(universalStepLength/2)), 0, vertex[ax][ay+1], null, vertex[ax-1][ay]);		
+                vertex[ax][ay].updateNode(ax, ay, ax*(universalEdgeLength+(universalStepLength/2))  + dx, 0 + dy, vertex[ax][ay+1], null, vertex[ax-1][ay], 1);		
                 }
                 else if (ay != 0 && ay == vertex[ax].length-1) {
-                vertex[ax][ay].updateNode(ax, ay, ax*(universalEdgeLength+(universalStepLength/2)), ay * universalStepLength, null, vertex[ax][ay-1], vertex[ax-1][ay]);		
+                vertex[ax][ay].updateNode(ax, ay, ax*(universalEdgeLength+(universalStepLength/2))  + dx, ay * universalStepLength + dy, null, vertex[ax][ay-1], vertex[ax-1][ay], 1);		
                 }
                 else if (ax%2==0 ^ ay%2 == 0) {
-                vertex[ax][ay].updateNode(ax, ay, ax*(universalEdgeLength+(universalStepLength/2)), ay * universalStepLength, vertex[ax][ay+1], vertex[ax][ay-1], vertex[ax-1][ay]);		
+                vertex[ax][ay].updateNode(ax, ay, ax*(universalEdgeLength+(universalStepLength/2))  + dx, ay * universalStepLength + dy, vertex[ax][ay+1], vertex[ax][ay-1], vertex[ax-1][ay], 1);		
                 }
                 else if (ax == vertex.length-1) {
-                vertex[ax][ay].updateNode(ax, ay, ax*(universalEdgeLength+(universalStepLength/2))+(universalStepLength/2), ay * universalStepLength, vertex[ax][ay+1], vertex[ax][ay-1], null);
+                vertex[ax][ay].updateNode(ax, ay, ax*(universalEdgeLength+(universalStepLength/2))+(universalStepLength/2), ay * universalStepLength + dy, vertex[ax][ay+1], vertex[ax][ay-1], null, 1);
                 }
                 else {
-                vertex[ax][ay].updateNode(ax, ay, ax*(universalEdgeLength+(universalStepLength/2))+(universalStepLength/2), ay * universalStepLength, vertex[ax][ay+1], vertex[ax][ay-1], vertex[ax+1][ay]);
+                vertex[ax][ay].updateNode(ax, ay, ax*(universalEdgeLength+(universalStepLength/2))+(universalStepLength/2)  + dx, ay * universalStepLength + dy, vertex[ax][ay+1], vertex[ax][ay-1], vertex[ax+1][ay], 1);
                 }
                 if (ax == 0 || ay == 0 || ay >= 12 || ax >= 7)
                 vertex[ax][ay].setOnBoard(0);
@@ -346,10 +354,21 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener{
     
     private void calculateTile(int x, int y){
         
-        int y1 = (int)Math.round((double)(y-100) / universalStepLength );
-        if(y1 < 0)
-        y1 = 0;
-        int x1 = (int)Math.round((double)(x-135) / (universalEdgeLength+( universalStepLength/2 ) ));
+    	int y1;
+    	if (!resized)
+    	{
+    		y1 = (int)Math.round((double)(y-dy) / universalStepLength );
+    		if(y1 < 0)
+    			y1 = 0;
+    	}
+    	else	//It was resized
+    	{
+    		y1 = (int)Math.round((double)(y) / universalStepLength );
+    		if(y1 < 0)
+    			y1 = 0;
+    	}
+    		
+        int x1 = (int)Math.round((double)(x-dx) / (universalEdgeLength+( universalStepLength/2 ) ));
         if(x1 < 0)
         x1 = 0;
         
@@ -409,5 +428,30 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener{
     {
         rollBox.setVisible(value);
     }
-}
 
+	public void resizeSmaller() {
+		// TODO Auto-generated method stub
+		
+		for(int i = 0; i < 20; i++)
+			for(int j = 0; j < 20; j++)
+			{
+				Settlement cur = vertex[i][j];
+				cur.updateNode(i, j, cur.getXcord(), cur.getYcord() - dy, cur.getTopNode(), cur.getBottomNode(), cur.getSideNode(), cur.getOnBoard());
+			}
+		resized = true;
+		repaint();
+	}
+
+	public void resizeLarger() {
+		// TODO Auto-generated method stub
+		
+		for(int i = 0; i < 20; i++)
+			for(int j = 0; j < 20; j++)
+			{
+				Settlement cur = vertex[i][j];
+				cur.updateNode(i, j, cur.getXcord(), cur.getYcord() + dy, cur.getTopNode(), cur.getBottomNode(), cur.getSideNode(), cur.getOnBoard());
+			}	
+		resized = false;
+		repaint();
+	}
+}

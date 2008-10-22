@@ -59,15 +59,46 @@ public class SettlersEvent implements EventListener, ActionListener {
 				EventManager.callEvent(e);				
 			}
 			else
-				JOptionPane.showMessageDialog(gui, "There aren't enought players...add some!"); 
+			{
+				//Commented out for now
+				//JOptionPane.showMessageDialog(gui, "There aren't enought players...add some!");
+				createPlayer("Player Red", Color.red);
+				createPlayer("Player Black", Color.black);
+				createPlayer("Player Green", Color.green);
+				
+				bottomPanel.getButtonPanel().startNewGame();
+				bottomPanel.getTabbedPanel().startNewGame();
+				//sc.gameStarted();
+                GameState.setGamePhase(GlobalVar.GAME_INIT);
+				this.bottomPanel.getButtonPanel().setEvent(this);
+				mainBoard.getGameBoard().initialize();
+				
+				PlayerEvent e = new PlayerEvent("GAME_START", GameState.players.getFirst()); // this event is registered by logic to begin players' turns
+				GameState.setCurPlayer(GameState.players.getFirst());
+				EventManager.callEvent(e);						
+				
+			}
 		}
 		else
 		{
 			int value = JOptionPane.showConfirmDialog(gui, "Do you want to start a new game?");
-			remakeBoard();
+ 			remakeBoard();
 		}
 	}
 	
+	private void createPlayer(String _name, Color _color) {
+		// TODO Auto-generated method stub
+		if(mainBoard.isPlayerPanel() == false)
+		{
+			//Then we haven't made a game board yet...do so
+			mainBoard.makePlayerPanel();
+		}
+		Player newPlayer = new Player(_name, _color);
+		GameState.players.add(newPlayer);
+		//sc.addPlayer(newPlayer);
+		mainBoard.getPlayerPanel().addPlayer(newPlayer);
+	}
+
 	public void remakeBoard() {
 		// TODO Auto-generated method stub
 		if(GameState.getGamePhase() == GlobalVar.GAME_STARTED)
@@ -157,6 +188,7 @@ public class SettlersEvent implements EventListener, ActionListener {
 		}
 		if(e.getEvent() == "PLAYER_TURN_START")
 		{
+			GameState.setActionState(0);
 			bottomPanel.getButtonPanel().startNewTurn();
 			mainBoard.getStatusBar().setText(GameState.getCurPlayer().getName() + ": ROLL PHASE");
 		}

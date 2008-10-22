@@ -3,6 +3,7 @@ package settlers.game.gui;
 import settlers.game.*;
 import settlers.game.logic.*;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JCheckBoxMenuItem;
@@ -10,6 +11,8 @@ import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JRadioButton;
+import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JSeparator;
 
 import javax.swing.WindowConstants;
@@ -51,6 +54,9 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener {
 	private JMenuItem loadGame;
 	private JMenuItem saveGame;
 	private JMenuItem newGame;
+	private JMenu frameSize;
+	private JRadioButtonMenuItem standard;
+	private JRadioButtonMenuItem smaller;
 	private JMenu player;
 	private JMenuBar settlersMenu;
 	private BottomPanel bottomPanel;
@@ -70,7 +76,7 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener {
 			this.setTitle("Settlers of Catan");
 			AnchorLayout thisLayout = new AnchorLayout();
 			getContentPane().setLayout(thisLayout);
-			this.setMinimumSize(new java.awt.Dimension(800, 850));
+			//this.setMinimumSize(new java.awt.Dimension(800, 850));
 			{
 				settlersMenu = new JMenuBar();
 				setJMenuBar(settlersMenu);
@@ -128,6 +134,20 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener {
 						hideRollBox.setText("Hide Roll Box");
 						hideRollBox.setState(true);
 						hideRollBox.addActionListener(this);
+					}
+					{
+						frameSize = new JMenu("Frame Size");
+						gameMenu.add(frameSize);
+					}
+					{
+						standard = new JRadioButtonMenuItem("800 x 800 (standard)", true);
+						frameSize.add(standard);
+						standard.addActionListener(this);
+					}
+					{
+						smaller = new JRadioButtonMenuItem("800 x 600 (smaller)", false);
+						frameSize.add(smaller);
+						smaller.addActionListener(this);
 					}
 					{
 						sep3 = new JSeparator();
@@ -212,7 +232,7 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener {
 				mainBoard.setBackground(new java.awt.Color(255,255,255));
 				mainBoard.setSize(794, 600);
 			}
-			pack();
+			this.pack();
 			this.setSize(800, 850);
 			this.setVisible(true);
 			this.setResizable(false);
@@ -266,8 +286,40 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener {
 		{
 			event_manager.addPlayer();
 		}
+		if(evt.getSource() == this.standard)
+		{
+			this.smaller.setSelected(!standard.isSelected());
+			if(standard.isSelected())
+				this.setSizeDefault();
+		}
+		if(evt.getSource() == this.smaller)
+		{
+			this.standard.setSelected(!smaller.isSelected());
+			if(smaller.isSelected())
+				this.setSizeSmaller();
+		}
 	}
 	
+	private void setSizeSmaller() {
+		// TODO Auto-generated method stub
+		System.out.println("Sup1");
+		this.setPreferredSize(new Dimension(800, 600));
+		this.mainBoard.resizeSmaller();
+		this.pack();
+		this.validate();
+	}
+
+
+	private void setSizeDefault() {
+		// TODO Auto-generated method stub
+		System.out.println("Sup2");
+		this.setPreferredSize(new Dimension(800, 850));
+		this.mainBoard.resizeLarger();
+		this.pack();
+		this.validate();
+	}
+
+
 	public SettlersEvent getSettlersEvent()
 	{
 		return event_manager;
