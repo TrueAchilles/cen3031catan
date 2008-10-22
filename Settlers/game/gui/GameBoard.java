@@ -17,7 +17,7 @@ import java.awt.image.BufferedImage;
 
 class GameBoard extends JPanel implements MouseListener, MouseMotionListener{
 
-    private final static int universalEdgeLength = 54; // The universal length of every edge/road/line.
+    private final static int universalEdgeLength = 53; // The universal length of every edge/road/line.
     private final static int universalStepLength = (int)( universalEdgeLength * 0.7071d ); // Geometry
     private byte action=-1;
     
@@ -166,6 +166,8 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener{
         vertex[5][11].setOnBoard(0);
         vertex[6][11].setOnBoard(0);
 
+        if (resized == true) 
+            resizeSmaller();
     }
 
     
@@ -247,12 +249,17 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener{
         big.setPaint(Color.black);
         for(ax = 1; ax < vertex.length-1; ax++) { //7
             for (ay = 1; ay < vertex.length-1; ay++) { //12
+                
                 Settlement currentNode = vertex[ax][ay];
                 Settlement southNode = vertex[ax][ay-1];
                 Settlement westNode = null;
                 big.setPaint(Color.black );
+                if ( (  ax%2 == 0 ^ ay%2 == 1  ) && ax < vertex.length-1 && ay < vertex[ax].length-2 && vertex[ax][ay].getOnBoard() ==1 && vertex[ax+1][ay+2].getOnBoard() == 1)
+                {
+                    big.drawImage( Toolkit.getDefaultToolkit().getImage( this.getClass().getResource("/Settlers/game/images/resource"+vertex[ax][ay].getDrawResourceHelper().getResourceType() + ".png") ) , southNode.getXcord(), currentNode.getYcord(), null);
+                }
                 if (( ax%2 == 0 ^ ay%2 == 0 ) && (westNode = vertex[ax-1][ay]).getOnBoard() == 1 && currentNode.getOnBoard() == 1) {
-                    //drawHexagon
+                    
                     if (currentNode.getSideRoad().hasRoad())
                     {
                         big.setStroke(new BasicStroke(5f));
@@ -260,11 +267,13 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener{
                         big.setPaint(currentNode.getSideRoad().getOwner().getColor());
                         //else
                         // big.setPaint(currentNode.getSideNode().getOwner().getColor());
+                        
                     }
                     big.drawLine(currentNode.getXcord(), currentNode.getYcord(), westNode.getXcord(), westNode.getYcord() );
                     
+                    
                 }
-                big.setStroke(new BasicStroke(.7f));
+                big.setStroke(new BasicStroke(1.5f));
                 big.setPaint(Color.black);
 
                 if (southNode.getOnBoard() == 1 && currentNode.getOnBoard() == 1) {
@@ -275,9 +284,11 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener{
                         big.setPaint(currentNode.getBottomRoad().getOwner().getColor());
                     }
                     big.drawLine(currentNode.getXcord(), currentNode.getYcord(), southNode.getXcord(), southNode.getYcord() );
+                    
+                    
                 }
                 
-                big.setStroke(new BasicStroke(.7f));
+                big.setStroke(new BasicStroke(1.5f));
                 big.setPaint(Color.black);
                 
                 if (currentNode.hasSettlement()) {
@@ -285,10 +296,7 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener{
                     big.fillOval(currentNode.getXcord()-7,currentNode.getYcord()-7,14,14);
                 }
                 
-                if ( (  ax%2 == 0 ^ ay%2 == 1  ) && ax < vertex.length-1 && ay < vertex[ax].length-2 && vertex[ax][ay].getOnBoard() ==1 && vertex[ax+1][ay+2].getOnBoard() == 1)
-                {
-                    big.drawImage( Toolkit.getDefaultToolkit().getImage( this.getClass().getResource("/Settlers/game/images/resource"+vertex[ax][ay].getDrawResourceHelper().getResourceType() + ".png") ) , southNode.getXcord(), currentNode.getYcord(), null);
-                }
+                
                 
             }
         }
@@ -436,15 +444,18 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener{
 
 	public void resizeSmaller() {
 		// TODO Auto-generated method stub
-		
+        resized = true;
+		if (GameState.getGamePhase() != GlobalVar.GAME_LOADING)
+        {
 		for(int i = 0; i < 20; i++)
 			for(int j = 0; j < 20; j++)
 			{
 				Settlement cur = vertex[i][j];
 				cur.updateNode(i, j, cur.getXcord(), cur.getYcord() - dy, cur.getTopNode(), cur.getBottomNode(), cur.getSideNode(), cur.getOnBoard());
 			}
-		resized = true;
+		
 		repaint();
+        }
 	}
 
 	public void resizeLarger() {
