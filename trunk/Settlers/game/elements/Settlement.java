@@ -49,16 +49,16 @@ public class Settlement
 	}
 	
 	//constructor that receives the coordinates of this node
-	public void updateNode(int tempI, int tempJ, int x, int y, Settlement top, Settlement bottom, Settlement side)
+	public void updateNode(int tempI, int tempJ, int x, int y, Settlement top, Settlement bottom, Settlement side, int _onBoard)
 	{
 		topNode = top;
 		bottomNode = bottom;
 		sideNode = side;
 		xIndex = tempI;
 		yIndex = tempJ;
-		xCord = x + 125;
-		yCord = y + 100;
-		onBoard = 1;
+		xCord = x;
+		yCord = y;
+		onBoard = _onBoard;
 	}
 	
 	//returns the x coordinate of this node

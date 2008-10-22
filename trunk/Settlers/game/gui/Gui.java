@@ -22,6 +22,7 @@ public class Gui implements EventListener
 			System.out.println("	Player " + pe.player.getID() + " attempting to place settlement");
             GameState.setActionState(GlobalVar.ACTION_ADD_SETTLEMENT);
 			//sc.buttonSettlement();
+            gui.getMainBoard().getStatusBar().setText(GameState.getCurPlayer().getName() + ": Please place a settlement");
 //			PlayerEvent n = new PlayerEvent("PLAYER_INIT_ATTEMPT_SETTLEMENT", pe.player);
 //			EventManager.callEvent(n);
 		}
@@ -40,6 +41,7 @@ public class Gui implements EventListener
 			System.out.println("	Player " + pe.player.getID() + " attempting to place road");
             GameState.setActionState(GlobalVar.ACTION_ADD_ROAD);
 			//sc.buttonRoad();
+            gui.getMainBoard().getStatusBar().setText(GameState.getCurPlayer().getName() + ": Please place a road");
 			//PlayerEvent n = new PlayerEvent("PLAYER_INIT_ATTEMPT_ROAD", pe.player);
 			//EventManager.callEvent(n);
 		}
