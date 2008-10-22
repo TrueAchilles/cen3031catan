@@ -10,6 +10,9 @@ import java.awt.*;
 
 public class GlobalVar {
 
+    // Game Modifiers
+    public static final boolean DEBUG_MODE = true;
+
     //Materials
     public static final int EMPTY=0;
     public static final int WOOD=1;
