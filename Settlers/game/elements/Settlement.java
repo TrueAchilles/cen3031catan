@@ -25,6 +25,9 @@ public class Settlement
 	private Settlement sideNode;
 	private Settlement bottomNode;
 	
+    // allows me to draw resources
+    private Resource resourceDrawer;
+    
 	//defines whether this Node has a city
 	boolean hasCity;
 	
@@ -84,6 +87,16 @@ public class Settlement
 		return onBoard;
 	}
 	
+    
+    public void giveResources(int rType)
+    {
+        if (owner == null)
+            return;
+        if (hasSettlement)
+            owner.giveResource(rType);
+        if (hasCity)
+            owner.giveResource(rType);
+    }
 	
 	//determines if a city can be built here
 	//first checks to see if there is a city here and then builds the settlement
@@ -218,9 +231,6 @@ public class Settlement
 				sideRoad = new Road(this, sideNode, owner);
 				sideNode.sideRoad = sideRoad;
 			}
-			
-			
-			
 		
 	}
 	
@@ -228,4 +238,15 @@ public class Settlement
 	{
 		return owner;
 	}
+    
+    public Resource getDrawResourceHelper()
+    {
+        return resourceDrawer;
+    }
+    
+    public void setDrawResourceHelper(Resource r)
+    {
+        resourceDrawer = r;
+    }
+    
 }

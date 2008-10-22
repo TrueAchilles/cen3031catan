@@ -37,7 +37,6 @@ public class SettlersEvent implements EventListener, ActionListener {
 	
 	private void init()
 	{
-		//sc = gui.getController();
 		mainBoard = gui.getMainBoard();
 		bottomPanel = gui.getBottomPanel();
 	}
@@ -50,7 +49,7 @@ public class SettlersEvent implements EventListener, ActionListener {
 			{
 				bottomPanel.getButtonPanel().startNewGame();
 				bottomPanel.getTabbedPanel().startNewGame();
-				//sc.gameStarted();
+                
                 GameState.setGamePhase(GlobalVar.GAME_INIT);
 				this.bottomPanel.getButtonPanel().setEvent(this);
 				mainBoard.getGameBoard().initialize();
@@ -61,23 +60,7 @@ public class SettlersEvent implements EventListener, ActionListener {
 			}
 			else
 			{
-				//Commented out for now
-				//JOptionPane.showMessageDialog(gui, "There aren't enought players...add some!");
-				createPlayer("Player Red", Color.red);
-				createPlayer("Player Black", Color.black);
-				createPlayer("Player Green", Color.green);
-				
-				bottomPanel.getButtonPanel().startNewGame();
-				bottomPanel.getTabbedPanel().startNewGame();
-				//sc.gameStarted();
-                GameState.setGamePhase(GlobalVar.GAME_INIT);
-				this.bottomPanel.getButtonPanel().setEvent(this);
-				mainBoard.getGameBoard().initialize();
-				
-				PlayerEvent e = new PlayerEvent("GAME_START", GameState.players.getFirst()); // this event is registered by logic to begin players' turns
-				GameState.setCurPlayer(GameState.players.getFirst());
-				EventManager.callEvent(e);						
-				
+				JOptionPane.showMessageDialog(gui, "There aren't enought players...add some!");
 			}
 		}
 		else
@@ -96,7 +79,6 @@ public class SettlersEvent implements EventListener, ActionListener {
 		}
 		Player newPlayer = new Player(_name, _color);
 		GameState.players.add(newPlayer);
-		//sc.addPlayer(newPlayer);
 		mainBoard.getPlayerPanel().addPlayer(newPlayer);
 	}
 
@@ -127,7 +109,6 @@ public class SettlersEvent implements EventListener, ActionListener {
 				Color color = JColorChooser.showDialog(gui,"Choose Background Color",Color.black);
 				Player newPlayer = new Player(name, color);
 				GameState.players.add(newPlayer);
-				//sc.addPlayer(newPlayer);
 				mainBoard.getPlayerPanel().addPlayer(newPlayer);
 			}
 			else
@@ -145,28 +126,20 @@ public class SettlersEvent implements EventListener, ActionListener {
     // combines 3 add player and start new game, with no error checking (so don't use in the middle of a game!)
     public void quickStart()
     {
-        if(mainBoard.isPlayerPanel() == false)
-		{
-				//Then we haven't made a game board yet...do so
-				mainBoard.makePlayerPanel();
-		}
-        while (GameState.players.size() < 3)
-        {
-            Random r = new Random();
-            Color  c = new Color(r.nextInt(256), r.nextInt(256), r.nextInt(256));
-            Player newPlayer = new Player("Player " + GameState.players.size()+1, c);
-			GameState.players.add(newPlayer);
-            mainBoard.getPlayerPanel().addPlayer(newPlayer);
-        }
+        createPlayer("Player Red", Color.red);
+        createPlayer("Player Black", Color.black);
+        createPlayer("Player Green", Color.green);
+        
         bottomPanel.getButtonPanel().startNewGame();
         bottomPanel.getTabbedPanel().startNewGame();
+        
         GameState.setGamePhase(GlobalVar.GAME_INIT);
         this.bottomPanel.getButtonPanel().setEvent(this);
         mainBoard.getGameBoard().initialize();
         
         PlayerEvent e = new PlayerEvent("GAME_START", GameState.players.getFirst()); // this event is registered by logic to begin players' turns
         GameState.setCurPlayer(GameState.players.getFirst());
-        EventManager.callEvent(e);
+        EventManager.callEvent(e);				    
     }
 
 	public void buttonEvent(int i, java.awt.CardLayout card) {

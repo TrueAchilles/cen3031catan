@@ -60,6 +60,9 @@ public class Player
 		return resource[GlobalVar.WHEAT];
 	}
     
-    //public void add()
+    public void giveResource(int rType)
+    {
+        resource[rType]++;
+    }
 	
 }

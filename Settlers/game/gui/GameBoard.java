@@ -1,5 +1,6 @@
 package settlers.game.gui;
 
+import java.util.Random;
 import settlers.game.elements.*;
 import settlers.game.events.EventManager;
 import settlers.game.events.SettlementEvent;
@@ -135,10 +136,14 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener{
                 }
                 if ( (  ax%2 == 0 ^ ay%2 == 1  ) && ax < vertex.length-1 && ay < vertex[ax].length-2 && vertex[ax][ay].getOnBoard() ==1 && vertex[ax+1][ay+2].getOnBoard() == 1 )
                 {
-                    if (resource[(ax*ay)%12] == null)
-                    resource[(ax*ay)%12] = new Resource((ax*ay)%12, vertex[ax][ay], vertex[ax][ay+1], vertex[ax][ay+2], vertex[ax+1][ay+2], vertex[ax+1][ay+1], vertex[ax+1][ay]);
+                    Random r = new Random();
+                    int tileNum = r.nextInt(11)+1;
+                    
+                    if (resource[tileNum] == null)
+                     vertex[ax][ay].setDrawResourceHelper( resource[tileNum] = new Resource(tileNum+1, r.nextInt(5)+1, vertex[ax][ay], vertex[ax][ay+1], vertex[ax][ay+2], vertex[ax+1][ay+2], vertex[ax+1][ay+1], vertex[ax+1][ay]));
                     else
-                    resource[(ax*ay)%12].setNext((ax*ay)%12, vertex[ax][ay], vertex[ax][ay+1], vertex[ax][ay+2], vertex[ax+1][ay+2], vertex[ax+1][ay+1], vertex[ax+1][ay]);
+                    vertex[ax][ay].setDrawResourceHelper( resource[tileNum].setNext(tileNum+1, r.nextInt(5)+1, vertex[ax][ay], vertex[ax][ay+1], vertex[ax][ay+2], vertex[ax+1][ay+2], vertex[ax+1][ay+1], vertex[ax+1][ay]));
+                    
                 }
             }
         }
@@ -282,7 +287,7 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener{
                 
                 if ( (  ax%2 == 0 ^ ay%2 == 1  ) && ax < vertex.length-1 && ay < vertex[ax].length-2 && vertex[ax][ay].getOnBoard() ==1 && vertex[ax+1][ay+2].getOnBoard() == 1)
                 {
-                    big.drawImage( Toolkit.getDefaultToolkit().getImage( this.getClass().getResource("/Settlers/game/images/sqr.png") ) , southNode.getXcord(), currentNode.getYcord(), null);
+                    big.drawImage( Toolkit.getDefaultToolkit().getImage( this.getClass().getResource("/Settlers/game/images/resource"+vertex[ax][ay].getDrawResourceHelper().getResourceType() + ".png") ) , southNode.getXcord(), currentNode.getYcord(), null);
                 }
                 
             }
