@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import java.util.Random;
 import settlers.game.*;
 import settlers.game.elements.Player;
 import settlers.game.events.Event;
@@ -139,6 +140,33 @@ public class SettlersEvent implements EventListener, ActionListener {
 			JOptionPane.showMessageDialog(gui, "Cannot add players after a game has started!");
 		}
 	}
+    
+    
+    public void quickStart()
+    {
+        if(mainBoard.isPlayerPanel() == false)
+		{
+				//Then we haven't made a game board yet...do so
+				mainBoard.makePlayerPanel();
+		}
+        while (GameState.players.size() < 4)
+        {
+            Random r = new Random();
+            Color  c = new Color(r.nextInt(256), r.nextInt(256), r.nextInt(256));
+            Player newPlayer = new Player("Player " + GameState.players.size(), c);
+			GameState.players.add(newPlayer);
+            mainBoard.getPlayerPanel().addPlayer(newPlayer);
+        }
+        bottomPanel.getButtonPanel().startNewGame();
+        bottomPanel.getTabbedPanel().startNewGame();
+        GameState.setGamePhase(GlobalVar.GAME_INIT);
+        this.bottomPanel.getButtonPanel().setEvent(this);
+        mainBoard.getGameBoard().initialize();
+        
+        PlayerEvent e = new PlayerEvent("GAME_START", GameState.players.getFirst()); // this event is registered by logic to begin players' turns
+        GameState.setCurPlayer(GameState.players.getFirst());
+        EventManager.callEvent(e);
+    }
 
 	public void buttonEvent(int i, java.awt.CardLayout card) {
 		// TODO Auto-generated method stub
