@@ -142,6 +142,7 @@ public class SettlersEvent implements EventListener, ActionListener {
 	}
     
     
+    // combines 3 add player and start new game, with no error checking (so don't use in the middle of a game!)
     public void quickStart()
     {
         if(mainBoard.isPlayerPanel() == false)
@@ -149,11 +150,11 @@ public class SettlersEvent implements EventListener, ActionListener {
 				//Then we haven't made a game board yet...do so
 				mainBoard.makePlayerPanel();
 		}
-        while (GameState.players.size() < 4)
+        while (GameState.players.size() < 3)
         {
             Random r = new Random();
             Color  c = new Color(r.nextInt(256), r.nextInt(256), r.nextInt(256));
-            Player newPlayer = new Player("Player " + GameState.players.size(), c);
+            Player newPlayer = new Player("Player " + GameState.players.size()+1, c);
 			GameState.players.add(newPlayer);
             mainBoard.getPlayerPanel().addPlayer(newPlayer);
         }
