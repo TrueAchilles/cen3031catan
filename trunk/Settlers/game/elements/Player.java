@@ -7,62 +7,74 @@ import settlers.game.*;
 
 public class Player
 {
-    private static int totalNum = 0;
-    private Color playerColor;
-    private int id = 0;
-    String name = null;
-    private int resource[] = { 0, 0, 0, 0, 0, 0 }; 
-    
-    public Player(String _name, Color _color)
-    {
-        name = _name;
-        id = ++totalNum;
-        playerColor = _color;
-    }
-    
-    public String getName()
-    {
-        return name;
-    }
-    
-    public Color getColor()
-    {
-        return playerColor;
-    }
+	private static int totalNum = 0;
+	private Color playerColor;
+	private int id = 0;
+	String name = null;
+	private int resource[] = { 0, 0, 0, 0, 0, 0 }; 
+    private int victoryPointTotal;
+
+	public Player(String _name, Color _color)
+	{
+		name = _name;
+		id = ++totalNum;
+		playerColor = _color;
+        victoryPointTotal = 0;
+	}
+	
+	public String getName()
+	{
+		return name;
+	}
+	
+	public Color getColor()
+	{
+		return playerColor;
+	}
     
     public int getID()
     {
         return id;
     }
+
+    public int getVictoryPointTotal()
+	{
+		return victoryPointTotal;
+	}
     
-    public int getWood()
-    {
-        return resource[GlobalVar.WOOD];
-    }
-    
-    public int getOre()
-    {
-        return resource[GlobalVar.ORE];
-    }
-    
-    public int getBrick()
-    {
-        return resource[GlobalVar.BRICK];
-    }
-    
-    public int getSheep()
-    {
-        return resource[GlobalVar.SHEEP];
-    }
-    
-    public int getWheat()
-    {
-        return resource[GlobalVar.WHEAT];
-    }
+	public int getWood()
+	{
+		return resource[GlobalVar.WOOD];
+	}
+	
+	public int getOre()
+	{
+		return resource[GlobalVar.ORE];
+	}
+	
+	public int getBrick()
+	{
+		return resource[GlobalVar.BRICK];
+	}
+	
+	public int getSheep()
+	{
+		return resource[GlobalVar.SHEEP];
+	}
+	
+	public int getWheat()
+	{
+		return resource[GlobalVar.WHEAT];
+	}
     
     public void giveResource(int rType)
     {
         resource[rType]++;
     }
+
+    public void incrementVictoryPointTotal()
+	{
+		victoryPointTotal++;
+	}
     
 }
