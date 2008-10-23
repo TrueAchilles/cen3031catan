@@ -47,11 +47,11 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener{
     */
     public GameBoard(MainBoard _parent){        
 
-    	dx = 125;
-    	dy = 100;
-    	
-    	resized = false;
-    	
+    dx = 125;
+        dy = 100;
+        
+        resized = false;
+        
         addMouseMotionListener(this);
         addMouseListener(this); 
         
@@ -70,7 +70,7 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener{
         thisLayout.putConstraint(thisLayout.EAST, rollBox, 0, thisLayout.EAST, this);
         thisLayout.putConstraint(thisLayout.NORTH, rollBox, 0, thisLayout.NORTH, this);
         
-        this.setBackground(Color.blue);		
+        this.setBackground(Color.blue);        
     }
     
     /*
@@ -84,7 +84,7 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener{
         int ax=0, ay=0;
         for (ax =0; ax < vertex.length; ax++) {
         for (ay =0; ay <vertex[ax].length; ay++) {
-        vertex[ax][ay] = new Settlement(ax, ay);				
+        vertex[ax][ay] = new Settlement(ax, ay);                
         }
         }
         
@@ -97,22 +97,22 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener{
                 if ( ax == 0 && (ay == 0 || ay == vertex[ax].length-1) )
                 { }
                 else if (ay == vertex[ax].length-1) {
-                vertex[ax][ay].updateNode(ax, ay, ax*(universalEdgeLength+(universalStepLength/2)) + dx, ay * universalStepLength + dy, null, vertex[ax][ay-1], vertex[ax-1][ay], 1);		
+                vertex[ax][ay].updateNode(ax, ay, ax*(universalEdgeLength+(universalStepLength/2)) + dx, ay * universalStepLength + dy, null, vertex[ax][ay-1], vertex[ax-1][ay], 1);        
                 }
                 else if (ay == 0) {
-                vertex[ax][ay].updateNode(ax, ay, ax*(universalEdgeLength+(universalStepLength/2)) + dx, 0 + dy, vertex[ax][ay+1], null, vertex[ax-1][ay], 1);		
+                vertex[ax][ay].updateNode(ax, ay, ax*(universalEdgeLength+(universalStepLength/2)) + dx, 0 + dy, vertex[ax][ay+1], null, vertex[ax-1][ay], 1);        
                 }
                 else if (ax == 0) {
-                vertex[ax][ay].updateNode(ax, ay, 0  + dx, ay * universalStepLength + dy, vertex[ax][ay+1], vertex[ax][ay-1], null, 1);		
+                vertex[ax][ay].updateNode(ax, ay, 0  + dx, ay * universalStepLength + dy, vertex[ax][ay+1], vertex[ax][ay-1], null, 1);        
                 }
                 else if (ay == 0) {
-                vertex[ax][ay].updateNode(ax, ay, ax*(universalEdgeLength+(universalStepLength/2))  + dx, 0 + dy, vertex[ax][ay+1], null, vertex[ax-1][ay], 1);		
+                vertex[ax][ay].updateNode(ax, ay, ax*(universalEdgeLength+(universalStepLength/2))  + dx, 0 + dy, vertex[ax][ay+1], null, vertex[ax-1][ay], 1);        
                 }
                 else if (ay != 0 && ay == vertex[ax].length-1) {
-                vertex[ax][ay].updateNode(ax, ay, ax*(universalEdgeLength+(universalStepLength/2))  + dx, ay * universalStepLength + dy, null, vertex[ax][ay-1], vertex[ax-1][ay], 1);		
+                vertex[ax][ay].updateNode(ax, ay, ax*(universalEdgeLength+(universalStepLength/2))  + dx, ay * universalStepLength + dy, null, vertex[ax][ay-1], vertex[ax-1][ay], 1);        
                 }
                 else if (ax%2==0 ^ ay%2 == 0) {
-                vertex[ax][ay].updateNode(ax, ay, ax*(universalEdgeLength+(universalStepLength/2))  + dx, ay * universalStepLength + dy, vertex[ax][ay+1], vertex[ax][ay-1], vertex[ax-1][ay], 1);		
+                vertex[ax][ay].updateNode(ax, ay, ax*(universalEdgeLength+(universalStepLength/2))  + dx, ay * universalStepLength + dy, vertex[ax][ay+1], vertex[ax][ay-1], vertex[ax-1][ay], 1);        
                 }
                 else if (ax == vertex.length-1) {
                 vertex[ax][ay].updateNode(ax, ay, ax*(universalEdgeLength+(universalStepLength/2))+(universalStepLength/2), ay * universalStepLength + dy, vertex[ax][ay+1], vertex[ax][ay-1], null, 1);
@@ -319,13 +319,13 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener{
             big.setPaint(Color.yellow );
             big.setStroke(new BasicStroke(5f));
             big.drawLine( tempRoad[0].getXcord(), tempRoad[0].getYcord(), tempRoad[1].getXcord(), tempRoad[1].getYcord() );
-        }		
+        }        
         
         if (tempSettlement != null) {
             big.setPaint(Color.yellow);
             big.setStroke(new BasicStroke(5f));
             big.drawOval( tempSettlement.getXcord()-10, tempSettlement.getYcord()-10, 20, 20 );
-        }		
+        }        
         
         // Draws the buffered image to the screen.
         g.drawImage(bi, 0, 0, this);        
@@ -442,20 +442,20 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener{
     
     private void calculateTile(int x, int y){
         
-    	int y1;
-    	if (!resized)
-    	{
-    		y1 = (int)Math.round((double)(y-dy) / universalStepLength );
-    		if(y1 < 0)
-    			y1 = 0;
-    	}
-    	else	//It was resized
-    	{
-    		y1 = (int)Math.round((double)(y) / universalStepLength );
-    		if(y1 < 0)
-    			y1 = 0;
-    	}
-    		
+        int y1;
+        if (!resized)
+        {
+            y1 = (int)Math.round((double)(y-dy) / universalStepLength );
+            if(y1 < 0)
+                y1 = 0;
+        }
+        else    //It was resized
+        {
+            y1 = (int)Math.round((double)(y) / universalStepLength );
+            if(y1 < 0)
+                y1 = 0;
+        }
+            
         int x1 = (int)Math.round((double)(x-dx) / (universalEdgeLength+( universalStepLength/2 ) ));
         if(x1 < 0)
         x1 = 0;
@@ -472,7 +472,7 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener{
         tempRoad[0] = null;
         
         if(GameState.getActionState() == GlobalVar.ACTION_ADD_ROAD)
-        {	// NEEDS TO BE REWRITTEN
+        {    // NEEDS TO BE REWRITTEN
             int distTop = 1000, distBottom = 1000, distSide = 1000;
             int curPID = GameState.getCurPlayer().getID();
             try
@@ -486,19 +486,19 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener{
                     if(distTop < distBottom && distTop < distSide && !curNode.getTopRoad().hasRoad() && curNode.getTopNode().getOnBoard() != 0)
                     {
                         tempRoad[0] = curNode;
-                        tempRoad[1] = curNode.getTopNode();			
+                        tempRoad[1] = curNode.getTopNode();            
                     }
                     else if(distBottom < distTop && distBottom < distSide  && !curNode.getBottomRoad().hasRoad() && curNode.getBottomNode().getOnBoard() != 0)
                     {
                         tempRoad[0] = curNode;
-                        tempRoad[1] = curNode.getBottomNode();			
+                        tempRoad[1] = curNode.getBottomNode();            
                     } 
                     else if(distSide < distBottom && distSide < distTop && !curNode.getSideRoad().hasRoad() && curNode.getSideNode().getOnBoard() != 0)
                     {
                         tempRoad[0] = curNode;
-                        tempRoad[1] = curNode.getSideNode();			
-                    }			
-                }	
+                        tempRoad[1] = curNode.getSideNode();            
+                    }            
+                }    
             }
             catch(NullPointerException e) {}
         }
@@ -517,34 +517,34 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener{
         rollBox.setVisible(value);
     }
 
-	public void resizeSmaller() {
-		// TODO Auto-generated method stub
+    public void resizeSmaller() {
+        // TODO Auto-generated method stub
         resized = true;
-		if (GameState.getGamePhase() != GlobalVar.GAME_LOADING)
+        if (GameState.getGamePhase() != GlobalVar.GAME_LOADING)
         {
-		for(int i = 0; i < 20; i++)
-			for(int j = 0; j < 20; j++)
-			{
-				Settlement cur = vertex[i][j];
-				cur.updateNode(i, j, cur.getXcord(), cur.getYcord() - dy, cur.getTopNode(), cur.getBottomNode(), cur.getSideNode(), cur.getOnBoard());
-			}
-		
-		repaint();
+        for(int i = 0; i < 20; i++)
+            for(int j = 0; j < 20; j++)
+            {
+                Settlement cur = vertex[i][j];
+                cur.updateNode(i, j, cur.getXcord(), cur.getYcord() - dy, cur.getTopNode(), cur.getBottomNode(), cur.getSideNode(), cur.getOnBoard());
+            }
+        
+        repaint();
         }
-	}
+    }
 
-	public void resizeLarger() {
-		// TODO Auto-generated method stub
-		
-		for(int i = 0; i < 20; i++)
-			for(int j = 0; j < 20; j++)
-			{
-				Settlement cur = vertex[i][j];
-				cur.updateNode(i, j, cur.getXcord(), cur.getYcord() + dy, cur.getTopNode(), cur.getBottomNode(), cur.getSideNode(), cur.getOnBoard());
-			}	
-		resized = false;
-		repaint();
-	}
+    public void resizeLarger() {
+        // TODO Auto-generated method stub
+        
+        for(int i = 0; i < 20; i++)
+            for(int j = 0; j < 20; j++)
+            {
+                Settlement cur = vertex[i][j];
+                cur.updateNode(i, j, cur.getXcord(), cur.getYcord() + dy, cur.getTopNode(), cur.getBottomNode(), cur.getSideNode(), cur.getOnBoard());
+            }    
+        resized = false;
+        repaint();
+    }
     
     public void diceRollResources(int roll)
     {
