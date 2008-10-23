@@ -127,7 +127,12 @@ public class TabbedPanel extends javax.swing.JPanel implements EventListener {
         else if (event.equals("PLAYER_TURN_START"))
         {
             resourcesText.setText(settlers.game.GameState.getCurPlayer().getName() + "'s Resources\n");
-            
+            resourcesText.append("Wood:  " + settlers.game.GameState.getCurPlayer().getWood() + "\n");
+            resourcesText.append("Ore:   " + settlers.game.GameState.getCurPlayer().getOre() + "\n");
+            resourcesText.append("Brick: "  + settlers.game.GameState.getCurPlayer().getBrick() + "\n");
+            resourcesText.append("Sheep: " + settlers.game.GameState.getCurPlayer().getSheep() + "\n");
+            resourcesText.append("Wheat: " + settlers.game.GameState.getCurPlayer().getWheat() + "\n");
+            updateUI();
         }
     }
     
