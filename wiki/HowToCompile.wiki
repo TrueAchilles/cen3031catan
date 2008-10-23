@@ -24,7 +24,7 @@ All the Makefile does is run
 {{{ javac Settlers/*/*/*.java Settlers/*/*.java Settlers/*.java }}}
 
 So if you get an error such as javac command cannot be found, then place your JDK/bin folder 
-in to your Windows PATH env variable. (They taught you this in cis3020/3022).
+in to your Windows PATH env variable. ([http://www.cise.ufl.edu/~dts/class/2006/fal/software-java.html They taught you this in cis3020/3022]).
 
 
 4. type in java settlers.Settlers
