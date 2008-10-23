@@ -30,7 +30,7 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener{
     SpringLayout thisLayout;
     JLabel img;
     
-    Resource[] resource = new Resource[12];
+    Resource[] resource = new Resource[13];
     
     BufferedImage bi;
     Graphics2D big;
@@ -124,7 +124,9 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener{
                 vertex[ax][ay].setOnBoard(0);
             }
         }
-        
+        int i = 0;
+        Random r = new Random();
+        int randomDessert = r.nextInt(19)+1;
         // Initialization of the blank ROADS.
         for (ax =0; ax < vertex.length; ax++)
         {
@@ -136,13 +138,25 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener{
                 }
                 if ( (  ax%2 == 0 ^ ay%2 == 1  ) && ax < vertex.length-1 && ay < vertex[ax].length-2 && vertex[ax][ay].getOnBoard() ==1 && vertex[ax+1][ay+2].getOnBoard() == 1 )
                 {
-                    Random r = new Random();
-                    int tileNum = r.nextInt(11)+1;
                     
+                    int tileNum=0;
+                    
+                    
+                    do {
+                        tileNum = r.nextInt(11)+2;
+                    } while (tileNum == 7);
+                    i++;
+                    int resourceNum = r.nextInt(5)+1;
+                    if (i == randomDessert){
+                        resourceNum = 0;
+                        tileNum = 0;
+                    }
+                        
+                        
                     if (resource[tileNum] == null)
-                     vertex[ax][ay].setDrawResourceHelper( resource[tileNum] = new Resource(tileNum+1, r.nextInt(5)+1, vertex[ax][ay], vertex[ax][ay+1], vertex[ax][ay+2], vertex[ax+1][ay+2], vertex[ax+1][ay+1], vertex[ax+1][ay]));
+                     vertex[ax][ay].setDrawResourceHelper( resource[tileNum] = new Resource(tileNum, resourceNum, vertex[ax][ay], vertex[ax][ay+1], vertex[ax][ay+2], vertex[ax+1][ay+2], vertex[ax+1][ay+1], vertex[ax+1][ay]));
                     else
-                    vertex[ax][ay].setDrawResourceHelper( resource[tileNum].setNext(tileNum+1, r.nextInt(5)+1, vertex[ax][ay], vertex[ax][ay+1], vertex[ax][ay+2], vertex[ax+1][ay+2], vertex[ax+1][ay+1], vertex[ax+1][ay]));
+                    vertex[ax][ay].setDrawResourceHelper( resource[tileNum].setNext(tileNum, resourceNum, vertex[ax][ay], vertex[ax][ay+1], vertex[ax][ay+2], vertex[ax+1][ay+2], vertex[ax+1][ay+1], vertex[ax+1][ay]));
                     
                 }
             }
@@ -257,6 +271,7 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener{
                 if ( (  ax%2 == 0 ^ ay%2 == 1  ) && ax < vertex.length-1 && ay < vertex[ax].length-2 && vertex[ax][ay].getOnBoard() ==1 && vertex[ax+1][ay+2].getOnBoard() == 1)
                 {
                     big.drawImage( Toolkit.getDefaultToolkit().getImage( this.getClass().getResource("/Settlers/game/images/resource"+vertex[ax][ay].getDrawResourceHelper().getResourceType() + ".png") ) , southNode.getXcord(), currentNode.getYcord(), null);
+                    drawNumber(new Ellipse2D.Double(vertex[ax][ay].getXcord()+(universalStepLength*.5), vertex[ax][ay].getYcord()+(universalStepLength*2/3), (universalStepLength/2),(universalStepLength/2)),  vertex[ax][ay].getDrawResourceHelper().getResourceNumber()); 
                 }
                 if (( ax%2 == 0 ^ ay%2 == 0 ) && (westNode = vertex[ax-1][ay]).getOnBoard() == 1 && currentNode.getOnBoard() == 1) {
                     
@@ -317,6 +332,66 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener{
         
     }
 
+    
+    
+    // taken from the original code base.
+    private void drawNumber(Ellipse2D number, int value){
+        if (value==0)
+            return;
+        big.setPaint (Color.white);
+        big.fill(number);
+        big.setPaint(Color.black);
+        big.draw(number);        
+        int x=(int)(number.getCenterX());
+        int y=(int)(number.getCenterY());
+        String txt=Integer.toString(value);
+        switch (value){        
+            case 8:
+            case 6:{                 
+                 big.setFont(new Font("Dialog.plain",Font.BOLD,18));                 
+                 big.setPaint (Color.red);
+                 x=(int)(x-(4.5)*(txt.length()));
+                 y=y+7;
+                 break;
+            }
+            case 9:
+            case 5:{
+                 big.setFont(new Font("Dialog.plain",Font.BOLD,18));
+                 big.setPaint (Color.black);
+                 x=(int)(x-(4.5)*(txt.length()));
+                 y=y+7;
+                 break;
+            }
+            case 10:
+            case 4:{
+                 big.setFont(new Font("Dialog.plain",0,14));
+                 big.setPaint (Color.black);
+                 x=x-4*(txt.length());
+                 y=y+6;
+                 break;
+            }
+            case 11:
+            case 3:{
+                 big.setFont(new Font("Dialog.plain",0,12));
+                 big.setPaint (Color.black);
+                 x=(int)(x-(3.5)*(txt.length()));
+                 y=y+5;
+                 break;
+            }
+            case 12:
+            case 2:{
+                 big.setFont(new Font("Dialog.plain",0,8));
+                 big.setPaint (Color.black);
+                 x=x-2*(txt.length());
+                 y=y+4;
+                 break;
+            }
+        }
+                
+        big.drawString(txt, x, y);
+    }
+     
+     
     
     public void initialize(){
         this.remove(img);
@@ -470,4 +545,9 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener{
 		resized = false;
 		repaint();
 	}
+    
+    public void diceRollResources(int roll)
+    {
+        resource[roll].giveResources();
+    }
 }
