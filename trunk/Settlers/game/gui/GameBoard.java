@@ -548,6 +548,7 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener{
     
     public void diceRollResources(int roll)
     {
-        resource[roll].giveResources();
+        if (resource[roll] != null)
+            resource[roll].giveResources();
     }
 }
