@@ -70,6 +70,12 @@ public class Resource
         return hasTheif;
     }
     
+    public int getResourceNumber()
+    {
+        return resourceNumber;
+    }
+    
+    
 	
 }
 	
