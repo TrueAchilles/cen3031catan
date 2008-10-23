@@ -1,6 +1,6 @@
 package settlers.game.gui;
 import java.awt.BorderLayout;
-
+import java.util.Random;
 import java.awt.CardLayout;
 import java.awt.FlowLayout;
 
@@ -159,7 +159,8 @@ public class ButtonPanel extends javax.swing.JPanel implements ActionListener, s
                     roll_roll.setFont(new java.awt.Font("Segoe UI",0,10));
                     roll_roll.setToolTipText("Roll the dice");
                     roll_roll.setPreferredSize(new java.awt.Dimension(83, 45));
-                    roll_roll.setEnabled(false);
+                    roll_roll.setEnabled(true);
+                    roll_roll.addActionListener(this);
                 }
             }
             {
@@ -310,6 +311,17 @@ public class ButtonPanel extends javax.swing.JPanel implements ActionListener, s
         if(evt.getSource() == roll_next)
         {
             event_manager.buttonEvent(1, thisLayout);
+        }
+        if(evt.getSource() == roll_roll)
+        {
+            Random r = new Random();
+            int dice1 = r.nextInt(6)+1;
+            int dice2 = r.nextInt(6)+1;
+            parent.getGUI().getMainBoard().getGameBoard().diceRollResources(dice1+dice2);
+            parent.getTabbedPanel().setRandomDiceRoll("\n"+GameState.getCurPlayer().getName() + " has rolled a " + (dice1+dice2));
+            
+            
+            
         }
         if(evt.getSource() == trade_next)
         {

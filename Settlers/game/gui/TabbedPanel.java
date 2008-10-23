@@ -203,5 +203,11 @@ public class TabbedPanel extends javax.swing.JPanel implements EventListener {
         // TODO Auto-generated method stub
         return cardPanel;
     }
+    
+    public void setRandomDiceRoll(String s)
+    {
+        rollText.append(s);
+        updateUI();
+    }
 
 }
