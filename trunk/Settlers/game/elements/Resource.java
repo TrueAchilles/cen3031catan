@@ -2,6 +2,10 @@ package settlers.game.elements;
 
 import settlers.game.GameState;
 
+import settlers.game.*;
+import settlers.game.events.*;
+import settlers.game.elements.*;
+
 public class Resource
 {
 
@@ -55,9 +59,12 @@ public class Resource
             northEast.giveResources(resourceType);
             east.giveResources(resourceType);
             southEast.giveResources(resourceType);
+            
         }
         if (next != null)
+        {
             next.giveResources();
+        }
     }
     
     public int getResourceType()
