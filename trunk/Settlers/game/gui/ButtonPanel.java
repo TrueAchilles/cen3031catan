@@ -13,7 +13,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import settlers.game.events.Event;
+import settlers.game.*;
+import settlers.game.events.*;
+import settlers.game.elements.*;
 import settlers.game.*;
 
 /**
@@ -319,6 +321,12 @@ public class ButtonPanel extends javax.swing.JPanel implements ActionListener, s
             int dice2 = r.nextInt(6)+1;
             parent.getGUI().getMainBoard().getGameBoard().diceRollResources(dice1+dice2);
             parent.getTabbedPanel().setRandomDiceRoll("\n"+GameState.getCurPlayer().getName() + " has rolled a " + (dice1+dice2));
+            /**
+                                   * This event is needed to update the GUI with real time resource allotment, if this code gets updated in the future as these rolls was a hack of sorts, please move the event to the appropriate place.
+                                 */
+            Event e = new Event("DICE_ROLLED");
+            EventManager.callEvent(e);
+
             
             
             
