@@ -91,14 +91,14 @@ public class Logic implements EventListener
             PlayerEvent n = new PlayerEvent("PLAYER_INIT_ROAD_SUCCESS", GameState.getCurPlayer());
             EventManager.callEvent(n);
         }
-		else if (event.equals("PLAYER_ROLL"))
-		{
-			//call the method for dice roll
-		
-			//Proceed to end of roll finish, and begin trade phase
-			PlayerEvent E = new PlayerEvent("PLAYER_TRADE_PHASE_BEGIN", GameState.getCurPlayer());
-			EventManager.callEvent(E);
-		}
+        else if (event.equals("PLAYER_ROLL"))
+        {
+            //call the method for dice roll
+            
+            //Proceed to end of roll finish, and begin trade phase
+            PlayerEvent E = new PlayerEvent("PLAYER_TRADE_PHASE_BEGIN", GameState.getCurPlayer());
+            EventManager.callEvent(E);
+        }
 		else if(event.equals("PLAYER_TRADE_PHASE_END")) 
 		{
 			//Trade phase ends and immediately build phase begins
