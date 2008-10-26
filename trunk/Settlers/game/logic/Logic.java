@@ -91,51 +91,24 @@ public class Logic implements EventListener
             PlayerEvent n = new PlayerEvent("PLAYER_INIT_ROAD_SUCCESS", GameState.getCurPlayer());
             EventManager.callEvent(n);
         }
-		else if (event.equals("PLAYER_ROLL"))
-		{
-			//call the method for dice roll
-		
-			//Proceed to end of roll finish, and begin trade phase
-			PlayerEvent E = new PlayerEvent("PLAYER_TRADE_PHASE_BEGIN", GameState.getCurPlayer());
-			EventManager.callEvent(E);
-		}
-		else if(event.equals("PLAYER_TRADE_PHASE_END")) 
-		{
-			//Trade phase ends and immediately build phase begins
-			PlayerEvent E = new PlayerEvent("PLAYER_BUILD_PHASE_BEGIN", GameState.getCurPlayer());
-			EventManager.callEvent(E);
-			
-		}
-		else if(event.equals("PLAYER_BUILD_REQUEST")) 
-		{
-			//When player requests, he may either succeed or fail, this assumes he always succeeds
-			PlayerEvent E = new PlayerEvent("PLAYER_REQUEST_BUILD_SUCCESS", GameState.getCurPlayer());
-			EventManager.callEvent(E);
-			
-		}
-		else if (event.equals("PLAYER_TURN_END"))
-		{
-   			PlayerEvent pe = (PlayerEvent) e;
-			Player p = pe.player;
-			int next = (p.getID() == GameState.players.size()) ? 1 : p.getID() + 1;
-			Player nextP = GameState.players.get(next - 1);
-			GameState.setCurPlayer(nextP);
-			PlayerEvent n = new PlayerEvent("PLAYER_TURN_START", nextP);
-			EventManager.callEvent(n);
-            
-		}
+        else if (event.equals("PLAYER_TURN_END"))
+        {
+            PlayerEvent pe = (PlayerEvent) e;
+            Player p = pe.player;
+            int next = (p.getID() == GameState.players.size()) ? 1 : p.getID() + 1;
+            Player nextP = GameState.players.get(next - 1);
+            GameState.setCurPlayer(nextP);
+            PlayerEvent n = new PlayerEvent("PLAYER_TURN_START", nextP);
+            EventManager.callEvent(n);
+        }
     }
     
     public Logic() // registers the events logic needs
-	{
-		EventManager.registerEvent("GAME_START", this);
-		EventManager.registerEvent("PLAYER_INITTURN_END", this);
-		EventManager.registerEvent("PLAYER_TURN_END", this);
-		EventManager.registerEvent("PLAYER_INIT_ATTEMPT_SETTLEMENT", this);
-		EventManager.registerEvent("PLAYER_INIT_ATTEMPT_ROAD", this);
-		EventManager.registerEvent("PLAYER_ROLL", this);
-		EventManager.registerEvent("PLAYER_TRADE_PHASE_END", this);
-		EventManager.registerEvent("PLAYER_BUILD_REQUEST", this);
-		
-	}
+    {
+        EventManager.registerEvent("GAME_START", this);
+        EventManager.registerEvent("PLAYER_INITTURN_END", this);
+        EventManager.registerEvent("PLAYER_TURN_END", this);
+        EventManager.registerEvent("PLAYER_INIT_ATTEMPT_SETTLEMENT", this);
+        EventManager.registerEvent("PLAYER_INIT_ATTEMPT_ROAD", this);
+    }
 }
