@@ -320,7 +320,8 @@ public class ButtonPanel extends javax.swing.JPanel implements ActionListener, s
             int dice1 = r.nextInt(6)+1;
             int dice2 = r.nextInt(6)+1;
             parent.getGUI().getMainBoard().getGameBoard().diceRollResources(dice1+dice2);
-            parent.getTabbedPanel().setRandomDiceRoll("\n"+GameState.getCurPlayer().getName() + " has rolled a " + (dice1+dice2));
+            parent.getTabbedPanel().setRandomDiceRoll(GameState.getCurPlayer().getName() + " has rolled a " + (dice1+dice2) + "\n");
+            parent.getTabbedPanel().setGameText("You has rolled a " + (dice1+dice2));
             /**
                                    * This event is needed to update the GUI with real time resource allotment, if this code gets updated in the future as these rolls was a hack of sorts, please move the event to the appropriate place.
                                    */

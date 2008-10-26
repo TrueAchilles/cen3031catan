@@ -19,7 +19,7 @@ import settlers.game.events.*;
 * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
 */
 public class TabbedPanel extends javax.swing.JPanel implements EventListener {
-    private JScrollPane sp1;
+    private JScrollPane gameTextSP;
     private JScrollPane rollSP;
     private JScrollPane resourcesSP;
     private JTabbedPane tabbedPanel;
@@ -53,9 +53,9 @@ public class TabbedPanel extends javax.swing.JPanel implements EventListener {
                 {
                     gameText = new JTextArea();
                     gameText.setEditable(false);
-                    sp1 = new javax.swing.JScrollPane(gameText);
-                    tabbedPanel.addTab("GameText", null, sp1, null);
-                    sp1.setPreferredSize(new java.awt.Dimension(378, 140));
+                    gameTextSP = new javax.swing.JScrollPane(gameText);
+                    tabbedPanel.addTab("GameText", null, gameTextSP, null);
+                    gameTextSP.setPreferredSize(new java.awt.Dimension(378, 140));
                     tabbedPanel.setEnabledAt(0, false);
                 }
                 {
@@ -208,5 +208,12 @@ public class TabbedPanel extends javax.swing.JPanel implements EventListener {
         rollText.append(s);
         updateUI();
     }
+    
+    public void setGameText(String s) 
+    {
+        gameText.setText(s);
+        updateUI();
+    }
+    
 
 }
