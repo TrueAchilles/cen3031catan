@@ -1,8 +1,7 @@
 package settlers.game.gui;
+
 import java.awt.BorderLayout;
-import java.util.Random;
 import java.awt.CardLayout;
-import java.awt.FlowLayout;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,40 +15,31 @@ import javax.swing.SwingConstants;
 import settlers.game.*;
 import settlers.game.events.*;
 import settlers.game.elements.*;
-import settlers.game.*;
+import settlers.game.logic.Logic;
 
-/**
-* This code was edited or generated using CloudGarden's Jigloo
-* SWT/Swing GUI Builder, which is free for non-commercial
-* use. If Jigloo is being used commercially (ie, by a corporation,
-* company or business for any purpose whatever) then you
-* should purchase a license for each developer using Jigloo.
-* Please visit www.cloudgarden.com for details.
-* Use of Jigloo implies acceptance of these licensing terms.
-* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
-* THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
-* LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
-*/
-public class ButtonPanel extends javax.swing.JPanel implements ActionListener, settlers.game.events.EventListener {
+public class ButtonPanel extends javax.swing.JPanel
+{
+	private Logic logic;
+	
     private JPanel openingButtonPanel;
     private JLabel jLabel1;
     private JLabel roll_label;
-    private JButton roll_next;
-    private JButton roll_roll;
-    private JButton roll_thief;
+    public JButton roll_next;
+    public JButton roll_roll;
+    public JButton roll_thief;
     private JLabel introLabel;
     private JPanel Intro;
-    private JButton build_play;
-    private JButton build_dev;
-    private JButton build_next;
-    private JButton build_road;
-    private JButton build_settlement;
-    private JButton build_city;
+    public JButton build_play;
+    public JButton build_dev;
+    public JButton build_next;
+    public JButton build_road;
+    public JButton build_settlement;
+    public JButton build_city;
     private JLabel jLabel2;
-    private JButton trade_player;
-    private JButton trade_next;
-    private JButton jButton2;
-    private JButton trade_bank;
+    public JButton trade_player;
+    public JButton trade_next;
+    public JButton jButton2;
+    public JButton trade_bank;
     private JLabel openingLabel;
     private JPanel buildButtonPanel;
     private JPanel tradeButtonPanel;
@@ -79,6 +69,8 @@ public class ButtonPanel extends javax.swing.JPanel implements ActionListener, s
     
     private void initGUI() {
         try {
+        	logic = GameState.getLogic();
+        	
             thisLayout = new CardLayout();
             this.setLayout(thisLayout);
             this.setPreferredSize(new java.awt.Dimension(350, 150));
@@ -143,7 +135,8 @@ public class ButtonPanel extends javax.swing.JPanel implements ActionListener, s
                     roll_next.setFont(new java.awt.Font("Segoe UI",0,10));
                     roll_next.setToolTipText("Move to the trade phase");
                     roll_next.setPreferredSize(new java.awt.Dimension(86, 45));
-                    roll_next.addActionListener(this);
+                    roll_next.addActionListener(logic);
+                    roll_next.setEnabled(false);
                 }
                 {
                     roll_thief = new JButton();
@@ -162,7 +155,7 @@ public class ButtonPanel extends javax.swing.JPanel implements ActionListener, s
                     roll_roll.setToolTipText("Roll the dice");
                     roll_roll.setPreferredSize(new java.awt.Dimension(83, 45));
                     roll_roll.setEnabled(true);
-                    roll_roll.addActionListener(this);
+                    roll_roll.addActionListener(logic);
                 }
             }
             {
@@ -204,7 +197,7 @@ public class ButtonPanel extends javax.swing.JPanel implements ActionListener, s
                     trade_next.setFont(new java.awt.Font("Segoe UI",0,10));
                     trade_next.setToolTipText("Move on to the build phase");
                     trade_next.setPreferredSize(new java.awt.Dimension(83, 45));
-                    trade_next.addActionListener(this);
+                    trade_next.addActionListener(logic);
                 }
                 {
                     trade_player = new JButton();
@@ -246,7 +239,7 @@ public class ButtonPanel extends javax.swing.JPanel implements ActionListener, s
                     build_settlement.setFont(new java.awt.Font("Segoe UI",0,10));
                     build_settlement.setToolTipText("Build a settlement");
                     build_settlement.setPreferredSize(new java.awt.Dimension(78, 45));
-                    build_settlement.addActionListener(this);
+                    build_settlement.addActionListener(logic);
                     //build_settlement.setEnabled(false);
                 }
                 {
@@ -256,7 +249,7 @@ public class ButtonPanel extends javax.swing.JPanel implements ActionListener, s
                     build_road.setFont(new java.awt.Font("Segoe UI",0,10));
                     build_road.setToolTipText("Build a road");
                     build_road.setPreferredSize(new java.awt.Dimension(83, 45));
-                    build_road.addActionListener(this);
+                    build_road.addActionListener(logic);
                     //build_road.setEnabled(false);
                 }
                 {
@@ -266,7 +259,7 @@ public class ButtonPanel extends javax.swing.JPanel implements ActionListener, s
                     build_next.setFont(new java.awt.Font("Segoe UI",0,10));
                     build_next.setToolTipText("End your turn");
                     build_next.setPreferredSize(new java.awt.Dimension(86, 45));
-                    build_next.addActionListener(this);
+                    build_next.addActionListener(logic);
                 }
                 {
                     build_dev = new JButton();
@@ -275,7 +268,7 @@ public class ButtonPanel extends javax.swing.JPanel implements ActionListener, s
                     build_dev.setFont(new java.awt.Font("Segoe UI",0,10));
                     build_dev.setToolTipText("Draw a development card");
                     build_dev.setPreferredSize(new java.awt.Dimension(78, 45));
-                    build_dev.addActionListener(this);
+                    build_dev.addActionListener(logic);
                 }
                 {
                     build_play = new JButton();
@@ -306,59 +299,11 @@ public class ButtonPanel extends javax.swing.JPanel implements ActionListener, s
     {
         thisLayout.show(this, "ROLL");
     }
+
     
-    @Override
-    public void actionPerformed(ActionEvent evt) {
-        // TODO Auto-generated method stub
-        if(evt.getSource() == roll_next)
-        {
-            event_manager.buttonEvent(1, thisLayout);
-        }
-        if(evt.getSource() == roll_roll)
-        {
-            Random r = new Random();
-            int dice1 = r.nextInt(6)+1;
-            int dice2 = r.nextInt(6)+1;
-            parent.getGUI().getMainBoard().getGameBoard().diceRollResources(dice1+dice2);
-            parent.getTabbedPanel().setRandomDiceRoll(GameState.getCurPlayer().getName() + " has rolled a " + (dice1+dice2) + "\n");
-            parent.getTabbedPanel().setGameText("You has rolled a " + (dice1+dice2));
-            /**
-                                   * This event is needed to update the GUI with real time resource allotment, if this code gets updated in the future as these rolls was a hack of sorts, please move the event to the appropriate place.
-                                   */
-            Event e = new Event("DICE_ROLLED");
-            EventManager.callEvent(e);
-
-            
-            
-            
-        }
-        if(evt.getSource() == trade_next)
-        {
-            event_manager.buttonEvent(2, thisLayout);
-        }
-        if(evt.getSource() == build_next)
-        {
-            event_manager.buttonEvent(3, thisLayout);
-        }
-        if(evt.getSource() == build_dev)
-        {
-            event_manager.buttonEvent(4, thisLayout);
-        }
-        if(evt.getSource() == build_settlement)
-        {
-            GameState.setActionState(GlobalVar.ACTION_ADD_SETTLEMENT);
-        }
-        if(evt.getSource() == build_road)
-        {
-            GameState.setActionState(GlobalVar.ACTION_ADD_ROAD);
-        }
-    }
-
-    @Override
-    public void eventCalled(Event e) {
-        // TODO Auto-generated method stub
-        if(e.getEvent() == "PLAYER_TURN_START");
-            thisLayout.show(this, "ROLL");
+    public void switchPanel(String _pane)
+    {
+    	thisLayout.show(this, _pane);
     }
 
 }
