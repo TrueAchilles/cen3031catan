@@ -1,7 +1,5 @@
 package settlers.game.gui;
 
-import settlers.game.*;
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
@@ -9,11 +7,11 @@ import javax.swing.border.LineBorder;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
+@SuppressWarnings("serial")
 public class MainBoard extends javax.swing.JPanel {
     
     private static JLabel statusBar;
-    private static SettlersGUI parent;
-    private static GameBoard gameBoard;
+    public static GameBoard gameBoard;
     private static PlayerPanel playerPanel;
     
     private boolean playerPanel_created = false;
@@ -21,13 +19,12 @@ public class MainBoard extends javax.swing.JPanel {
     public MainBoard()
     {
         super();
-        parent = null;
         initGUI();
     }
     
-    public MainBoard(SettlersGUI _parent) {
+    public MainBoard(SettlersGUI _parent) 
+    {
         super();
-        parent = _parent;
         initGUI();
     }
     
@@ -60,7 +57,12 @@ public class MainBoard extends javax.swing.JPanel {
 
     public GameBoard getGameBoard()
     {
-        return this.gameBoard;
+        return gameBoard;
+    }
+    
+    public RollBox getRollBox()
+    {
+    	return gameBoard.getRollBox();
     }
     
     public PlayerPanel getPlayerPanel()

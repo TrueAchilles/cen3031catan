@@ -142,39 +142,6 @@ public class SettlersEvent implements EventListener, ActionListener {
         EventManager.callEvent(e);                    
     }
 
-    public void buttonEvent(int i, java.awt.CardLayout card) {
-        // TODO Auto-generated method stub
-        if(i == 0)
-        {
-            //Then the button was Opening's Next
-            PlayerEvent e = new PlayerEvent("PLAYER_INITTURN_END", GameState.getCurPlayer());
-            EventManager.callEvent(e);
-            
-        }
-        else if (i == 1)
-        {
-            //Then it was Roll's Next
-            card.show(bottomPanel.getButtonPanel(), "TRADE");
-            mainBoard.getStatusBar().setText(GameState.getCurPlayer().getName() + ": TRADE PHASE");
-        }
-        else if (i == 2)
-        {
-            //Then it was Trade's Next
-            card.show(bottomPanel.getButtonPanel(), "BUILD");
-            mainBoard.getStatusBar().setText(GameState.getCurPlayer().getName() + ": BUILD PHASE");
-        }
-        else if (i == 3)
-        {
-            //Then it was Build's Next
-            PlayerEvent e = new PlayerEvent("PLAYER_TURN_END", GameState.getCurPlayer());
-            EventManager.callEvent(e);
-        }
-        else if(i == 4)
-        {
-            //The Build's Dev Card
-        }
-    }
-
     @Override
     public void eventCalled(Event e) {
         // TODO Auto-generated method stub

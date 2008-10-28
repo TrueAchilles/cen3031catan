@@ -10,12 +10,10 @@ import settlers.game.*;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
-/*Applet is not used at the moment
-import java.applet.Applet; */
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;
 
-class GameBoard extends JPanel implements MouseListener, MouseMotionListener{
+public class GameBoard extends JPanel implements MouseListener, MouseMotionListener{
 
     private final static int universalEdgeLength = 53; // The universal length of every edge/road/line.
     private final static int universalStepLength = (int)( universalEdgeLength * 0.7071d ); // Geometry
@@ -550,5 +548,10 @@ class GameBoard extends JPanel implements MouseListener, MouseMotionListener{
     {
         if (resource[roll] != null)
             resource[roll].giveResources();
+    }
+    
+    public RollBox getRollBox()
+    {
+    	return rollBox;
     }
 }
