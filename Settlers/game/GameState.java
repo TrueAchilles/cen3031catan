@@ -1,6 +1,7 @@
-//this class holds the state of the game.  It will hold the players, game board, resources, cards, etc.
-//implemented statically: no need to make it an object
-
+/**
+ * This class holds the state of the game.  It will hold the players, game board, resources, cards, etc.
+ * It is implemented statically: so there is no need to make it an object
+ */
 package settlers.game;
 
 import java.util.*;
@@ -19,7 +20,9 @@ public class GameState
     private static int actionState = 0;
     private static int gamePhase = 0;
     
-    // called to initialize the game when it is first started
+    /**
+     * Called to initialize the game when it is first started. 
+     */
 	public static void initialize()
 	{
 		new Logic(); //sets up the logic of the game - no need to keep as a variable (yet), but it needs to be an object so it can receive events
@@ -33,7 +36,7 @@ public class GameState
 	{
 		curPlayer = _curPlayer;
 	}
-	
+    
 	public static Player getCurPlayer()
 	{
 		return curPlayer;
@@ -44,6 +47,11 @@ public class GameState
         return actionState;
     }
     
+    /**
+     * Sets the current action state.&nbsp;Available actions are static ACTION_ADD_SETTLEMENT, ACTION_ADD_ROAD and ACTION_ADD_CITY from GlobalVar.
+     *
+     * @param action int to be set as the action
+     */
     public static void setActionState(int action)
     {
         actionState = action;
@@ -54,6 +62,11 @@ public class GameState
         return gamePhase;
     }
     
+    /**
+     * Sets the current game phase.&nbsp;Available phases are static GAME_LOADING, GAME_INIT and GAME_STARTED from GlobalVar.
+     *
+     * @param phase int to be set as the action
+     */
     public static void setGamePhase(int phase)
     {
         gamePhase = phase;
