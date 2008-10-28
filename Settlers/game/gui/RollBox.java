@@ -1,61 +1,99 @@
 package settlers.game.gui;
 
-import java.awt.Dimension;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.MediaTracker;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.Random;
 
-import javax.swing.WindowConstants;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
+import javax.imageio.ImageIO;
+import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
 
-/**
-* This code was edited or generated using CloudGarden's Jigloo
-* SWT/Swing GUI Builder, which is free for non-commercial
-* use. If Jigloo is being used commercially (ie, by a corporation,
-* company or business for any purpose whatever) then you
-* should purchase a license for each developer using Jigloo.
-* Please visit www.cloudgarden.com for details.
-* Use of Jigloo implies acceptance of these licensing terms.
-* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
-* THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
-* LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
-*/
-public class RollBox extends javax.swing.JPanel {
-    private JLabel rollBox;
-
-    /**
-    * Auto-generated main method to display this 
-    * JPanel inside a new JFrame.
-    */
-    public static void main(String[] args) {
-        JFrame frame = new JFrame();
-        frame.getContentPane().add(new RollBox());
-        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
-    }
+public class RollBox extends JPanel implements Runnable
+{   
+    private BufferedImage anim[] = new BufferedImage[5];
+    private int index;
+    
+    private boolean rolling, finalRoll;
+    
+    private Graphics2D g2d;
+    
+    private Random rand;
     
     public RollBox() {
         super();
         initGUI();
     }
     
-    private void initGUI() {
-        try {
-            this.setPreferredSize(new java.awt.Dimension(100, 100));
-            this.setSize(100, 100);
-            this.setBackground(new java.awt.Color(192,192,192));
-            {
-                rollBox = new JLabel();
-                this.add(rollBox);
-                rollBox.setText("Roll Box");
-                rollBox.setPreferredSize(new java.awt.Dimension(93, 16));
-                rollBox.setHorizontalAlignment(SwingConstants.CENTER);
-                rollBox.setHorizontalTextPosition(SwingConstants.CENTER);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private void initGUI() 
+    {
+    	rolling = false;
+    	finalRoll = false;
+    	
+        anim = new BufferedImage[6];
+        
+        rand = new Random();
+    	
+        this.setPreferredSize(new java.awt.Dimension(120, 120));
+        this.setSize(120, 120);
+        this.setBackground(new java.awt.Color(192,192,192));
+        this.setBorder(new LineBorder(Color.black, 3));
+        
+    	for (int i = 0; i <= 5; i++) {
+			try {
+				anim[i] = ImageIO.read(getClass().getResource("/settlers/game/images/d" + (i+1) + ".png"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+        
         this.setVisible(false);
     }
+    
+    public int roll()
+    {
+    	new Thread(this).start();
+    	return rollDie();
+    }
+    
+    private int rollDie()
+    {
+    	int rollValue = dice.roll(2);
+    	System.out.println("Dice 1: " + dice.getD1() + " Dice 2: " + dice.getD2());
+    	
+    	animate();
+    	
+    	return rollValue;
+    	
+    }
+    
+    private void animate()
+    {
+    	rolling = true;
+    	repaint();
+    }
+    
+    public void paintComponent(Graphics g) {
+    	super.paintComponent(g);
+    	
+    	if(rolling)
+    	{
+    		g.drawImage(anim[dice.getD1()-1], 10, 10, null);
+    		g.drawImage(anim[dice.getD2()-1], 60, 60, null);
+    	}
+    	
+    }
+    
+	@Override
+	public void run() 
+	{
+		// TODO Auto-generated method stub
+		
+	}
 
 }

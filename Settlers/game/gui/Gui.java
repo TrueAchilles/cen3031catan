@@ -9,9 +9,9 @@ import settlers.game.events.*;
 
 public class Gui implements EventListener
 {
-   
-    SettlersGUI gui;
-   
+	
+    public SettlersGUI gui;
+    
     public void eventCalled(Event e)
     {
         String event = e.getEvent();
@@ -19,45 +19,43 @@ public class Gui implements EventListener
         {
             PlayerEvent pe = (PlayerEvent) e;
             System.out.println("Player init turn: " + pe.player.getID());
-            System.out.println("    Player " + pe.player.getID() + " attempting to place settlement");
+            System.out.println("	Player " + pe.player.getID() + " attempting to place settlement");
             GameState.setActionState(GlobalVar.ACTION_ADD_SETTLEMENT);
             //sc.buttonSettlement();
-            gui.getMainBoard().getStatusBar().setText(GameState.getCurPlayer().getName() + ": Please place a settlement");
-//            PlayerEvent n = new PlayerEvent("PLAYER_INIT_ATTEMPT_SETTLEMENT", pe.player);
-//            EventManager.callEvent(n);
+            //PlayerEvent n = new PlayerEvent("PLAYER_INIT_ATTEMPT_SETTLEMENT", pe.player);
+            //EventManager.callEvent(n);
         }
         else if (event.equals("PLAYER_INIT_SETTLEMENT_FAIL"))
         {
             PlayerEvent pe = (PlayerEvent) e;
-            System.out.println("    Player " + pe.player.getID() + " please place the settlement correctly");
-
+            System.out.println("	Player " + pe.player.getID() + " please place the settlement correctly");  
+            
             PlayerEvent n = new PlayerEvent("PLAYER_INIT_ATTEMPT_SETTLEMENT", pe.player);
             EventManager.callEvent(n);
         }
         else if (event.equals("PLAYER_INIT_SETTLEMENT_SUCCESS"))
         {
             PlayerEvent pe = (PlayerEvent) e;
-            System.out.println("    Player " + pe.player.getID() + " placed settlement");
-            System.out.println("    Player " + pe.player.getID() + " attempting to place road");
+            System.out.println("	Player " + pe.player.getID() + " placed settlement");
+            System.out.println("	Player " + pe.player.getID() + " attempting to place road");
             GameState.setActionState(GlobalVar.ACTION_ADD_ROAD);
             //sc.buttonRoad();
-            gui.getMainBoard().getStatusBar().setText(GameState.getCurPlayer().getName() + ": Please place a road");
             //PlayerEvent n = new PlayerEvent("PLAYER_INIT_ATTEMPT_ROAD", pe.player);
             //EventManager.callEvent(n);
         }
         else if (event.equals("PLAYER_INIT_ROAD_FAIL"))
         {
             PlayerEvent pe = (PlayerEvent) e;
-            System.out.println("    Player " + pe.player.getID() + " please place the road correctly");
-
+            System.out.println("	Player " + pe.player.getID() + " please place the road correctly");
+            
             PlayerEvent n = new PlayerEvent("PLAYER_INIT_ATTEMPT_SETTLEMENT", pe.player);
             EventManager.callEvent(n);
         }
         else if (event.equals("PLAYER_INIT_ROAD_SUCCESS"))
         {
             PlayerEvent pe = (PlayerEvent) e;
-            System.out.println("    Player " + pe.player.getID() + " placed road");
-            System.out.println("    Player " + pe.player.getID() + " initial turn ends");
+            System.out.println("	Player " + pe.player.getID() + " placed road");
+            System.out.println("	Player " + pe.player.getID() + " initial turn ends");
             PlayerEvent n = new PlayerEvent("PLAYER_INITTURN_END", pe.player);
             EventManager.callEvent(n);
         }
@@ -65,17 +63,51 @@ public class Gui implements EventListener
         {
             PlayerEvent pe = (PlayerEvent) e;
             System.out.println("Player turn: " + pe.player.getID());
-            // in theory, something should happen here
-
+            
+            gui.getBottomPanel().getButtonPanel().roll_next.setEnabled(false);
+            gui.getBottomPanel().getButtonPanel().roll_roll.setEnabled(true);
+            
+            //Talk to ButtonPanel and tell it to switch
+            gui.getBottomPanel().getButtonPanel().switchPanel("ROLL");            
+        }
+        else if (event.equals("PLAYER_TRADE_PHASE_BEGIN"))
+        {
+            PlayerEvent pe = (PlayerEvent) e;
+            
+            //Trade phase commences, player can build, use development cards, or end turn
+            //Therefore need else statements here for these interactions
+            //For now the trade Phase immediately ends
+            
+            //Talk to ButtonPanel and tell it to switch
+            gui.getBottomPanel().getButtonPanel().switchPanel("TRADE");
+            
+        }
+        else if(event.equals("PLAYER_BUILD_PHASE_BEGIN")) 
+        {
+            PlayerEvent pe = (PlayerEvent) e;
+            //Player requests to build an object on to the board
+            
+            //Talk to ButtonPanel and tell it to switch
+            gui.getBottomPanel().getButtonPanel().switchPanel("BUILD");
+            
+            PlayerEvent E = new PlayerEvent("PLAYER_BUILD_REQUEST", pe.player);
+            EventManager.callEvent(E);
+            
+        }
+        else if(event.equals("PLAYER_REQUEST_BUILD_SUCCESS")) 
+        {
+            PlayerEvent pe = (PlayerEvent) e;
+            //Player was successful and his turn automatically ends
+            
         }
         else if(event.equals("GAME_END"))
         {
             System.out.println("Game is ending...");
             JOptionPane.showMessageDialog(gui, GameState.players.get(0).getName() + " wins!");
-            System.exit(0);            
+            System.exit(0);			
         }
     }
-
+	
     public Gui()
     {
         EventManager.registerEvent("PLAYER_INITTURN_START", this);
@@ -85,10 +117,12 @@ public class Gui implements EventListener
         EventManager.registerEvent("PLAYER_INIT_ROAD_SUCCESS", this);
         EventManager.registerEvent("PLAYER_INIT_ROAD_FAIL", this);
         EventManager.registerEvent("GAME_END", this);
-       
+        EventManager.registerEvent("PLAYER_TRADE_PHASE_BEGIN", this);
+        EventManager.registerEvent("PLAYER_BUILD_PHASE_BEGIN", this);
+        EventManager.registerEvent("PLAYER_REQUEST_BUILD_SUCCESS", this);
+		
 
         gui = new SettlersGUI();
-        gui.initialize();        
+        gui.initialize();		
     }
-   
 }
