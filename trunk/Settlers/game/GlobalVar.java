@@ -1,13 +1,10 @@
 package settlers.game;
 
-/**
- *
- * @author  Dodger
- * @version 0.1
- */
-
 import java.awt.*;
 
+/**
+ * Contains all of the aliases for all of the values used throughout the game.
+ */
 public class GlobalVar {
 
     // Game Modifiers
@@ -62,6 +59,7 @@ public class GlobalVar {
     public static final int ACTION_ADD_CITY=2;
     public static final int ACTION_ADD_ROAD=3;
     
+    //Game states
     public static final int GAME_LOADING = 0;
     public static final int GAME_INIT = 1;
     public static final int GAME_STARTED = 2;

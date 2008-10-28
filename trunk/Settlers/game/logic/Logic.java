@@ -1,5 +1,3 @@
-//this class will hold the logic portion of the code, or at least be the main class for it
-
 package settlers.game.logic;
 
 import javax.swing.JOptionPane;
@@ -8,10 +6,20 @@ import settlers.game.*;
 import settlers.game.events.*;
 import settlers.game.elements.*;
 
+/**
+ * This class holds the logic portion of the code, or at least will be the main class for it
+ */
+
 public class Logic implements EventListener
 {
     public int iteration; // 1 means first init iteration, 2 means 2nd init iteration, 3 means game iterations (don't need to increment after 3)
-   
+
+    /**
+     * Checks called Events.&nbsp;If the game is being started, makes first player being their
+     * first turn.&nbsp;Otherwise passes the event on to handlePlayerEvent.
+     *
+     * @param e The Event being called
+     */
     public void eventCalled(Event e)
     {
         String event = e.getEvent();
@@ -29,8 +37,13 @@ public class Logic implements EventListener
             handlePlayerEvent(e);
         }
     }
-   
-    public void handlePlayerEvent(Event e) // right now, computes who goes next based on the last player and what iteration we are on
+
+    /**
+     * Right now, computes who goes next based on the last player and what iteration we are on.
+     *
+     * @param e The Event being called
+     */
+    public void handlePlayerEvent(Event e) // 
     {
         String event = e.getEvent();
        
@@ -102,8 +115,11 @@ public class Logic implements EventListener
             EventManager.callEvent(n);
         }
     }
-   
-    public Logic() // registers the events logic needs
+
+    /**
+     * Registers the events logic needs.
+     */
+    public Logic()
     {
         EventManager.registerEvent("GAME_START", this);
         EventManager.registerEvent("PLAYER_INITTURN_END", this);
