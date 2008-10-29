@@ -36,7 +36,7 @@ public class TabbedPanel extends javax.swing.JPanel implements EventListener {
         //These are the events we need to update the current players resources accordingly
         EventManager.registerEvent("PLAYER_INITTURN_START", this);
         EventManager.registerEvent("PLAYER_TURN_START", this);
-        EventManager.registerEvent("DICE_ROLLED", this);
+        EventManager.registerEvent("RESOURCES_ALLOTTED", this);
     }
     
     private void initGUI() {
@@ -126,7 +126,7 @@ public class TabbedPanel extends javax.swing.JPanel implements EventListener {
                         * This else if will be used for when the game is actually in round robin  and the dice are rolled.  This allows the resources to update to the screen
                         * in real time.
                         */
-        else if (event.equals("DICE_ROLLED"))
+        else if (event.equals("RESOURCES_ALLOTTED"))
         {
             resourcesText.setText(settlers.game.GameState.getCurPlayer().getName() + "'s Resources\n");
             resourcesText.append("Wood:  " + settlers.game.GameState.getCurPlayer().getWood() + "\n");
