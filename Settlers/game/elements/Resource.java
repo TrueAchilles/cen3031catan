@@ -65,6 +65,8 @@ public class Resource
         {
             next.giveResources();
         }
+        Event e = new Event("RESOURCES_ALLOTTED");
+        EventManager.callEvent(e);
     }
     
     public int getResourceType()
