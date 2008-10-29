@@ -143,10 +143,6 @@ public class Logic implements EventListener, ActionListener
         {
         	int roll = GameState.getGui().gui.getMainBoard().getRollBox().roll();
             
-            /**
-            * This event is needed to update the GUI with real time resource allotment, if this code gets updated in the future as these rolls was a hack of sorts, please move the event to the appropriate place.
-            */
-            
             System.out.println("So we rolled a " + roll);
             
             GameState.getGui().gui.getMainBoard().getGameBoard().diceRollResources(roll);
