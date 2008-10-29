@@ -64,6 +64,13 @@ public class Gui implements EventListener
             PlayerEvent pe = (PlayerEvent) e;
             System.out.println("Player turn: " + pe.player.getID());
             
+            gui.getBottomPanel().turnStart();
+            
+        }
+        else if(event.equals("PLAYER_ROLL_PHASE_BEGIN"))
+        {
+        	gui.getBottomPanel().hideTurnStart();
+            
             gui.getBottomPanel().getButtonPanel().roll_next.setEnabled(false);
             gui.getBottomPanel().getButtonPanel().roll_roll.setEnabled(true);
             
@@ -94,6 +101,58 @@ public class Gui implements EventListener
             EventManager.callEvent(E);
             
         }
+        else if(event.equals("BUILD_REQUEST"))
+        {
+        	BuildEvent b = (BuildEvent) e;
+        	
+        	switch(b.buildType)
+        	{
+	        	case 1:
+	        	{
+	        		System.out.println("Trying to build a settlement");
+	        		if(GameState.getCurPlayer().canBuySettlement())
+	        		{
+	        			System.out.println("Making the settlement...");
+	        			GameState.setActionState(GlobalVar.ACTION_ADD_SETTLEMENT);
+	        		}
+	        		break;
+
+	        	}
+	        	case 2:
+	        	{
+	        		System.out.println("Trying to build a city");
+	        		if(GameState.getCurPlayer().canBuyCity())
+	        		{
+	        			System.out.println("Making the city...");
+	        			GameState.setActionState(GlobalVar.ACTION_ADD_CITY);
+	        		}
+	        		break;
+
+	        	}
+	        	case 3:
+	        	{
+	        		System.out.println("Trying to build a road");
+	        		if(GameState.getCurPlayer().canBuyRoad())
+	        		{
+	        			System.out.println("Making the road...");
+	        			GameState.setActionState(GlobalVar.ACTION_ADD_ROAD);
+	        		}
+        			break;
+
+	        	}
+	        	case 4:
+	        	{
+	        		System.out.println("Trying to build a dev card");
+	        		if(GameState.getCurPlayer().canBuyDevCard())
+	        		{
+	        			System.out.println("Making a dev card...");
+	        			PlayerEvent pe = new PlayerEvent("PLAYER_BUILD_DEV_CARD", GameState.getCurPlayer());
+	        			EventManager.callEvent(pe);
+	        		}	
+	        		break;
+	        	}
+        	}
+        }
         else if(event.equals("PLAYER_REQUEST_BUILD_SUCCESS")) 
         {
             PlayerEvent pe = (PlayerEvent) e;
@@ -103,7 +162,7 @@ public class Gui implements EventListener
         else if(event.equals("GAME_END"))
         {
             System.out.println("Game is ending...");
-            JOptionPane.showMessageDialog(gui, GameState.players.get(0).getName() + " wins!");
+            JOptionPane.showMessageDialog(gui, GameState.getCurPlayer().getName() + " wins!");
             System.exit(0);			
         }
     }
@@ -117,11 +176,12 @@ public class Gui implements EventListener
         EventManager.registerEvent("PLAYER_INIT_ROAD_SUCCESS", this);
         EventManager.registerEvent("PLAYER_INIT_ROAD_FAIL", this);
         EventManager.registerEvent("GAME_END", this);
+        EventManager.registerEvent("PLAYER_ROLL_PHASE_BEGIN", this);
         EventManager.registerEvent("PLAYER_TRADE_PHASE_BEGIN", this);
         EventManager.registerEvent("PLAYER_BUILD_PHASE_BEGIN", this);
+        EventManager.registerEvent("BUILD_REQUEST", this);
         EventManager.registerEvent("PLAYER_REQUEST_BUILD_SUCCESS", this);
 		
-
         gui = new SettlersGUI();
         gui.initialize();		
     }

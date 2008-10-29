@@ -58,6 +58,7 @@ public class GlobalVar {
     public static final int ACTION_ADD_SETTLEMENT=1;
     public static final int ACTION_ADD_CITY=2;
     public static final int ACTION_ADD_ROAD=3;
+    public static final int ACTION_ADD_DEV=4;
     
     //Game states
     public static final int GAME_LOADING = 0;
