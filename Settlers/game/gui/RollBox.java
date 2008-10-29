@@ -13,7 +13,13 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
-public class RollBox extends JPanel implements Runnable
+import settlers.game.GameState;
+import settlers.game.events.Event;
+import settlers.game.events.EventListener;
+import settlers.game.events.EventManager;
+import settlers.game.events.PlayerEvent;
+
+public class RollBox extends JPanel implements Runnable, EventListener
 {   
     private BufferedImage anim[] = new BufferedImage[5];
     private int index;
@@ -26,6 +32,7 @@ public class RollBox extends JPanel implements Runnable
     
     public RollBox() {
         super();
+        EventManager.registerEvent("DICE_ROLLED", this);
         initGUI();
     }
     
@@ -89,11 +96,25 @@ public class RollBox extends JPanel implements Runnable
     	
     }
     
-	@Override
 	public void run() 
 	{
 		// TODO Auto-generated method stub
 		
+	}
+
+	public void eventCalled(Event e) {
+
+		String event = e.getEvent();
+		
+		if(event.equals("DICE_ROLLED"))
+		{
+			int value = roll();
+			GameState.getGui().gui.getMainBoard().getGameBoard().diceRollResources(value);
+			GameState.getGui().gui.getBottomPanel().getTabbedPanel().setRandomDiceRoll(GameState.getCurPlayer().getName() + " rolled: " + value +"\n");
+			
+			PlayerEvent n = new PlayerEvent("PLAYER_ROLLED", GameState.getCurPlayer());
+            EventManager.callEvent(n);
+		}
 	}
 
 }

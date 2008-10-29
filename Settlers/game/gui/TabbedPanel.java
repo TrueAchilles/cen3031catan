@@ -4,6 +4,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
+
+import settlers.game.GameState;
 import settlers.game.events.*;
 
 /**
@@ -36,7 +38,10 @@ public class TabbedPanel extends javax.swing.JPanel implements EventListener {
         //These are the events we need to update the current players resources accordingly
         EventManager.registerEvent("PLAYER_INITTURN_START", this);
         EventManager.registerEvent("PLAYER_TURN_START", this);
-        EventManager.registerEvent("RESOURCES_ALLOTTED", this);
+        EventManager.registerEvent("PLAYER_ROLLED", this);
+        EventManager.registerEvent("PLAYER_BUILT_DEV_CARD", this);
+        EventManager.registerEvent("PLAYER_BUILT_SETTLEMENT", this);
+        EventManager.registerEvent("PLAYER_BUILT_ROAD", this);
     }
     
     private void initGUI() {
@@ -119,14 +124,18 @@ public class TabbedPanel extends javax.swing.JPanel implements EventListener {
             resourcesText.append("Brick: "  + settlers.game.GameState.getCurPlayer().getBrick() + "\n");
             resourcesText.append("Sheep: " + settlers.game.GameState.getCurPlayer().getSheep() + "\n");
             resourcesText.append("Wheat: " + settlers.game.GameState.getCurPlayer().getWheat() + "\n");
+            resourcesText.append("Victory points " + GameState.getCurPlayer().getVictoryPointTotal() + "\n");
+            
+            displayDevCards();
+
             updateUI();
             
         }
         /**
-                        * This else if will be used for when the game is actually in round robin  and the dice are rolled.  This allows the resources to update to the screen
-                        * in real time.
-                        */
-        else if (event.equals("RESOURCES_ALLOTTED"))
+        * This else if will be used for when the game is actually in round robin  and the dice are rolled.  This allows the resources to update to the screen
+        * in real time.
+        */
+        else if (event.equals("PLAYER_BUILT_DEV_CARD") || event.equals("PLAYER_BUILT_SETTLEMENT") || event.equals("PLAYER_BUILT_ROAD") || event.equals("PLAYER_ROLLED"))
         {
             resourcesText.setText(settlers.game.GameState.getCurPlayer().getName() + "'s Resources\n");
             resourcesText.append("Wood:  " + settlers.game.GameState.getCurPlayer().getWood() + "\n");
@@ -134,8 +143,58 @@ public class TabbedPanel extends javax.swing.JPanel implements EventListener {
             resourcesText.append("Brick: "  + settlers.game.GameState.getCurPlayer().getBrick() + "\n");
             resourcesText.append("Sheep: " + settlers.game.GameState.getCurPlayer().getSheep() + "\n");
             resourcesText.append("Wheat: " + settlers.game.GameState.getCurPlayer().getWheat() + "\n");
-            updateUI();
+            resourcesText.append("Victory points " + GameState.getCurPlayer().getVictoryPointTotal() + "\n");
             
+            displayDevCards();
+            
+            updateUI(); 
+        }
+    }
+    
+    private void displayDevCards()
+    {
+        int[] dev = GameState.getCurPlayer().getDevCards();
+        for(int i = 0; i < 4; i++)
+        {
+        	switch(i)
+        	{
+        		case(0):
+        		{
+	            	if(dev[i] != 0)
+	            		if(dev[i] > 1)
+	            			resourcesText.append("Year of plenty x " + dev[i] + "\n");
+	            		else
+	            			resourcesText.append("Year of plenty\n");
+	            	break;
+        		}
+        		case(1):
+        		{
+	            	if(dev[i] != 0)
+	            		if(dev[i] > 1)
+	            			resourcesText.append("Road Building x " + dev[i] + "\n");
+	            		else
+	            			resourcesText.append("Road Building\n");
+	            	break;
+        		}
+        		case(2):
+        		{
+	            	if(dev[i] != 0)
+	            		if(dev[i] > 1)
+	            			resourcesText.append("Palace x " + dev[i] + "\n");
+	            		else
+	            			resourcesText.append("Palace\n");
+	            	break;
+        		}
+        		case(3):
+        		{
+	            	if(dev[i] != 0)
+	            		if(dev[i] > 1)
+	            			resourcesText.append("Monopoly x " + dev[i] + "\n");
+	            		else
+	            			resourcesText.append("Monopoly\n");
+	            	break;
+        		}
+        	}
         }
     }
     
@@ -143,7 +202,7 @@ public class TabbedPanel extends javax.swing.JPanel implements EventListener {
     
     private void showCredits()
     {
-        
+    	
     }
     
     private void makeCredits() {

@@ -4,6 +4,8 @@ package settlers.game.elements;
 
 import java.awt.Color;
 import settlers.game.*;
+import settlers.game.events.EventManager;
+import settlers.game.events.PlayerEvent;
 
 public class Player
 {
@@ -12,6 +14,7 @@ public class Player
     private int id = 0;
     String name = null;
     private int resource[] = { 0, 0, 0, 0, 0, 0 }; 
+    private int devCards[] = {0, 0, 0, 0, 0};
     private int victoryPointTotal;
 
     public Player(String _name, Color _color)
@@ -75,6 +78,75 @@ public class Player
     public void incrementVictoryPointTotal()
     {
         victoryPointTotal++;
+        if(victoryPointTotal == 10)
+        {
+        	PlayerEvent n = new PlayerEvent("GAME_END", GameState.getCurPlayer());
+        	EventManager.callEvent(n);
+        }
     }
     
+    public void addDevCard(int dType)
+    {
+    	devCards[dType]++;
+    }
+    
+    public int[] getDevCards()
+    {
+    	return devCards;
+    }
+    
+    public boolean canBuySettlement()
+    {
+    	if(resource[GlobalVar.BRICK] > 0 && resource[GlobalVar.WHEAT] > 0 && resource[GlobalVar.WOOD] > 0 && resource[GlobalVar.SHEEP] > 0)
+    		return true;
+    	return false;
+    }
+    
+    public boolean canBuyRoad()
+    {
+    	if(resource[GlobalVar.BRICK] > 0 && resource[GlobalVar.WOOD] > 0)
+    		return true;
+    	return false;
+    }
+    
+    public boolean canBuyCity()
+    {
+    	if(resource[GlobalVar.ORE] > 2 && resource[GlobalVar.WHEAT] > 1)
+    		return true;
+    	return false;
+    }
+    
+    public boolean canBuyDevCard()
+    {
+    	if(resource[GlobalVar.ORE] > 0 && resource[GlobalVar.WHEAT] > 0 && resource[GlobalVar.SHEEP] > 0)
+    		return true;
+    	return false;
+    }
+    
+    public void buildSettlement()
+    {
+    	resource[GlobalVar.BRICK]--;
+    	resource[GlobalVar.WHEAT]--;
+    	resource[GlobalVar.WOOD]--;
+    	resource[GlobalVar.SHEEP]--;
+    }
+    
+    public void buildRoad()
+    {
+    	resource[GlobalVar.BRICK]--;
+    	resource[GlobalVar.WOOD]--;
+    }
+    
+    public void buildCity()
+    {
+    	resource[GlobalVar.ORE] -= 3;
+    	resource[GlobalVar.WHEAT] -= 2;
+    }
+    
+    public void buildDevCard()
+    {
+    	resource[GlobalVar.ORE]--;
+    	resource[GlobalVar.WHEAT]--;
+    	resource[GlobalVar.SHEEP]--;
+    }
 }

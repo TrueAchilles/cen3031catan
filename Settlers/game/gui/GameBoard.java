@@ -2,6 +2,7 @@ package settlers.game.gui;
 
 import java.util.Random;
 import settlers.game.elements.*;
+import settlers.game.events.PlayerEvent;
 import settlers.game.events.EventManager;
 import settlers.game.events.SettlementEvent;
 import settlers.game.logic.*;
@@ -37,6 +38,8 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
     
     Settlement[] tempRoad = new Settlement[2];
     Settlement tempSettlement;
+    
+    Graphics g2;
     
     /*
     *constructor for the gameboard.&  Adds a listener for the mouse and sets the layout for the board.&  Also displays the splash screen and
@@ -241,6 +244,7 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
     *
     */
     public void paintComponent(Graphics g){
+    	g2 = g;
         super.paintComponent(g);
         if (vertex[0][0]!=null){
             update(g);
@@ -414,24 +418,32 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
     
     private void onClick(int x, int y){
         if (GameState.getActionState() == GlobalVar.ACTION_ADD_SETTLEMENT && tempSettlement != null) {
-            if (GameState.getGamePhase() == GlobalVar.GAME_INIT) {
-            SettlementEvent se = new SettlementEvent("PLAYER_INIT_ATTEMPT_SETTLEMENT", tempSettlement);
-            EventManager.callEvent(se);
+            if (GameState.getGamePhase() == GlobalVar.GAME_INIT)
+            {
+	            SettlementEvent se = new SettlementEvent("PLAYER_INIT_ATTEMPT_SETTLEMENT", tempSettlement);
+	            EventManager.callEvent(se);
             }
-            else {tempSettlement.buildSettlement();}
+            else
+            {
+            	tempSettlement.buildSettlement();
+            	PlayerEvent pe = new PlayerEvent("PLAYER_BUILD_SETTLEMENT", GameState.getCurPlayer());
+            	EventManager.callEvent(pe);
+            }
             tempSettlement = null;
         }
         if (GameState.getActionState() == GlobalVar.ACTION_ADD_ROAD && tempRoad[0] != null)
         {
-            
-            
             if (GameState.getGamePhase() == GlobalVar.GAME_INIT)
             {
-            SettlementEvent se = new SettlementEvent("PLAYER_INIT_ATTEMPT_ROAD", tempRoad[0], tempRoad[1]);
-            
-            EventManager.callEvent(se);
+            	SettlementEvent se = new SettlementEvent("PLAYER_INIT_ATTEMPT_ROAD", tempRoad[0], tempRoad[1]);
+            	EventManager.callEvent(se);
            }
-           else { tempRoad[0].buildRoad(tempRoad[1]); }
+           else 
+           { 
+        	    tempRoad[0].buildRoad(tempRoad[1]); 
+	           	PlayerEvent pe = new PlayerEvent("PLAYER_BUILD_ROAD", GameState.getCurPlayer());
+	        	EventManager.callEvent(pe);
+           }
             tempRoad[0] = null;
         }
         repaint();
@@ -553,5 +565,10 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
     public RollBox getRollBox()
     {
     	return rollBox;
+    }
+    
+    public void getDevCard()
+    {
+    	DevCard dev = new DevCard(this);
     }
 }

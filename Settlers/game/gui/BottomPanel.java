@@ -2,8 +2,13 @@ package settlers.game.gui;
 
 import java.awt.Dimension;
 
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 import javax.swing.JFrame;
+
+import settlers.game.GameState;
 
 
 /**
@@ -20,9 +25,15 @@ import javax.swing.JFrame;
 */
 public class BottomPanel extends javax.swing.JPanel {
     
-    private ButtonPanel buttonPanel;
+
     public SettlersGUI parent;
+    
+    private ButtonPanel buttonPanel;
+    private JPanel turnStartPanel;
     private TabbedPanel tabbedPanel;
+    
+    public JButton startButton;
+    private JLabel startLabel;
     
     public BottomPanel(SettlersGUI _parent) {
         super();
@@ -45,6 +56,22 @@ public class BottomPanel extends javax.swing.JPanel {
                 buttonPanel = new ButtonPanel(this, parent.getSettlersEvent());
                 this.add(buttonPanel, new AnchorConstraint(0, 440, 0, -1, AnchorConstraint.ANCHOR_ABS, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_ABS, AnchorConstraint.ANCHOR_ABS));
             }
+            {
+            	turnStartPanel = new JPanel();
+            	
+            	turnStartPanel.setVisible(false);
+            	turnStartPanel.setSize(this.getWidth(), this.getHeight());
+            	{
+            		startLabel = new JLabel();
+            		turnStartPanel.add(startLabel);
+            	}
+            	{
+            		startButton = new JButton("Press to start");
+            		startButton.addActionListener(GameState.getLogic());
+            		turnStartPanel.add(startButton);
+            	}
+            	this.add(turnStartPanel);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -58,6 +85,24 @@ public class BottomPanel extends javax.swing.JPanel {
     public TabbedPanel getTabbedPanel()
     {
         return tabbedPanel;
+    }
+    
+    public void turnStart()
+    {
+    	startLabel.setText(GameState.getCurPlayer().getName() + ": BEGIN YOUR TURN");
+    	this.setBorder(new javax.swing.border.LineBorder(java.awt.Color.black, 2));
+    	buttonPanel.setVisible(false);
+    	tabbedPanel.setVisible(false);
+    	turnStartPanel.setVisible(true);
+    	this.validate();
+    }
+    
+    public void hideTurnStart()
+    {
+    	turnStartPanel.setVisible(false);
+    	buttonPanel.setVisible(true);
+    	tabbedPanel.setVisible(true);
+    	this.validate();
     }
     
     public SettlersGUI getGUI()
