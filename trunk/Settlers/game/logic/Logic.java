@@ -94,9 +94,9 @@ public class Logic implements EventListener, ActionListener
         }
         else if (event.equals("PLAYER_INIT_ATTEMPT_ROAD"))
         {
-            SettlementEvent se = (SettlementEvent) e;
+            RoadEvent se = (RoadEvent) e;
             //re.road.
-            se.settlement.buildRoad(se.settlement2);
+            se.road.buildRoad();
             PlayerEvent n = new PlayerEvent("PLAYER_INIT_ROAD_SUCCESS", GameState.getCurPlayer());
             EventManager.callEvent(n);
         }
@@ -171,6 +171,11 @@ public class Logic implements EventListener, ActionListener
         if(evt.getSource() == b.build_road)
         {
             GameState.setActionState(GlobalVar.ACTION_ADD_ROAD);
+        }
+        if(evt.getSource() == GameState.getGui().gui.getBottomPanel().startButton)
+        {
+        	PlayerEvent n = new PlayerEvent("PLAYER_ROLL_PHASE_BEGIN", GameState.getCurPlayer());
+        	EventManager.callEvent(n);
         }
     }
     
