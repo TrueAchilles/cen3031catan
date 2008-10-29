@@ -20,13 +20,16 @@ public class GameState
     private static int actionState = 0;
     private static int gamePhase = 0;
     
+    private static Logic logic;
+    private static Gui gui;
+    
     /**
      * Called to initialize the game when it is first started. 
      */
 	public static void initialize()
 	{
-		new Logic(); //sets up the logic of the game - no need to keep as a variable (yet), but it needs to be an object so it can receive events
-		new Gui();
+		logic = new Logic(); //sets up the logic of the game - no need to keep as a variable (yet), but it needs to be an object so it can receive events
+		gui = new Gui();
         
 		// code for handling init of game goes here (making game board, setting up players, etc)
 		players = new LinkedList<Player>();
@@ -70,5 +73,15 @@ public class GameState
     public static void setGamePhase(int phase)
     {
         gamePhase = phase;
+    }
+    
+    public static Logic getLogic()
+    {
+    	return logic;
+    }
+    
+    public static Gui getGui()
+    {
+    	return gui;
     }
 }
