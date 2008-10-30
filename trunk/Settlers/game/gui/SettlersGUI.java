@@ -331,21 +331,23 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener {
     
     private void setSizeSmaller() {
         // TODO Auto-generated method stub
-        System.out.println("Sup1");
+        //System.out.println("Sup1");
         this.setPreferredSize(new Dimension(800, 600));
-        this.mainBoard.resizeSmaller();
         this.pack();
         this.validate();
+        this.mainBoard.resizeSmaller();
+
     }
 
 
     private void setSizeDefault() {
         // TODO Auto-generated method stub
-        System.out.println("Sup2");
+        //System.out.println("Sup2");
         this.setPreferredSize(new Dimension(800, 850));
-        this.mainBoard.resizeLarger();
         this.pack();
         this.validate();
+        this.mainBoard.resizeLarger();
+        
     }
 
 

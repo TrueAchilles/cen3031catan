@@ -137,6 +137,7 @@ public class ButtonPanel extends javax.swing.JPanel
                     roll_next.setPreferredSize(new java.awt.Dimension(86, 45));
                     roll_next.addActionListener(logic);
                     roll_next.setEnabled(false);
+
                 }
                 {
                     roll_thief = new JButton();
@@ -230,7 +231,7 @@ public class ButtonPanel extends javax.swing.JPanel
                     build_city.setFont(new java.awt.Font("Segoe UI",0,10));
                     build_city.setToolTipText("Make a city out of an existing settlement");
                     build_city.setPreferredSize(new java.awt.Dimension(86, 45));
-                    build_city.setEnabled(false);
+                    //build_city.setEnabled(false);
                 }
                 {
                     build_settlement = new JButton();
@@ -282,7 +283,9 @@ public class ButtonPanel extends javax.swing.JPanel
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }            
+        //build_city.setEnabled(false);
+        
     }
 
     public void startNewGame()

@@ -1,4 +1,5 @@
 package settlers.game.elements;
+import settlers.game.GameState;
 
 public class Road
 {
@@ -35,9 +36,39 @@ public class Road
     public void build(Settlement set1, Settlement set2)
     {
 
-        owner = settlers.game.GameState.getCurPlayer();
+        owner = GameState.getCurPlayer();
         hasRoad = true;
         
+    }
+
+    public void buildRoad()
+    {
+        owner = GameState.getCurPlayer();
+        hasRoad = true;
+    }
+
+
+    public Settlement getS1()
+    {
+        return s1;
+    }
+    
+    public Settlement getS2()
+    {
+        return s2;
+    }
+    
+    public boolean canBuildRoad()
+    {
+        if (hasRoad)
+            return false;
+        Player curP = GameState.getCurPlayer();
+        if (s1 != null && (curP == s1.getOwner() || s1.checkExtendRoad() ) )
+            return true;
+        else if (s2 != null && (curP == s2.getOwner() || s2.checkExtendRoad() ) )
+            return true;
+        else
+            return false;
     }
     
     public Player getOwner()

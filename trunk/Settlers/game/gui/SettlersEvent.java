@@ -147,6 +147,7 @@ public class SettlersEvent implements EventListener, ActionListener {
         // TODO Auto-generated method stub
         if(e.getEvent() == "PLAYER_TURN_END")
         {
+            
         /*
             if(GameState.getCurPlayer().getID() == GameState.players.size())
                 GameState.setCurPlayer(GameState.players.get(0));

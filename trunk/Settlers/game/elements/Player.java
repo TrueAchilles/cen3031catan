@@ -13,7 +13,7 @@ public class Player
     private Color playerColor;
     private int id = 0;
     String name = null;
-    private int resource[] = { 0, 0, 0, 0, 0, 0 }; 
+    private int resource[] = { 2, 2, 2, 2, 2, 2 }; 
     private int devCards[] = {0, 0, 0, 0, 0};
     private int victoryPointTotal;
 
