@@ -91,12 +91,14 @@ public class MainBoard extends javax.swing.JPanel {
     {
         this.setPreferredSize(new Dimension(800, 600));
         gameBoard.resizeLarger();
+        
     }
 
     public void resizeSmaller()
     {
         this.setPreferredSize(new Dimension(800, 400));
         gameBoard.resizeSmaller();
+
     }
 
 }
