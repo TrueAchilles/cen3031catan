@@ -45,7 +45,8 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
      Graphics g2;
      
     /**
-    * Constructor for the gameboard.&  Adds a listener for the mouse and sets the layout for the board.&  Also displays the splash screen and
+    * Constructor for the gameboard.&  Adds a listener for the mouse and sets 
+    * the layout for the board.&  Also displays the splash screen and
     * makes the roll box visible and sets the background color
     * @param _parent the mainboard that the gameboard is displayed inside
     */
