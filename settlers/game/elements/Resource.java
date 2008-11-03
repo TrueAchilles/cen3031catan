@@ -19,7 +19,7 @@ public class Resource
     Settlement east;
     Settlement southEast;
     
-    private int hasTheif;
+    private int hasThief;
     
     private int resourceNumber;
     
@@ -51,7 +51,7 @@ public class Resource
     
     public void giveResources()
     {
-        if (hasTheif == 0)
+        if (hasThief == 0)
         {
             southWest.giveResources(resourceType);
             west.giveResources(resourceType);
@@ -72,9 +72,19 @@ public class Resource
         return resourceType;
     }
     
-    public int hasTheif()
+    public int hasThief()
     {
-        return hasTheif;
+        return hasThief;
+    }
+    
+    public void placeThief()
+    {
+        hasThief = 1;
+    }
+    
+    public void removeThief()
+    {
+        hasThief = 0;
     }
     
     public int getResourceNumber()

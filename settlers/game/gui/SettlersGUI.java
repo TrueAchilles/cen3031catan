@@ -279,10 +279,7 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener {
     public JMenuBar getMenu(){
         return settlersMenu;
     }
-    
-    public void setAction(byte action){
-        this.mainBoard.getGameBoard().setAction(action);
-    }
+
 
     public void showError(String string) {
         // TODO Auto-generated method stub
