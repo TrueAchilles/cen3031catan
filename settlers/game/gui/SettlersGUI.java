@@ -23,7 +23,7 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener {
     {
         //Set Look & Feel
         try {
-            javax.swing.UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+            javax.swing.UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch(Exception e) {
             e.printStackTrace();
         }
