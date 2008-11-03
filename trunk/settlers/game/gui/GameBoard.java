@@ -21,7 +21,6 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
     Random r = new Random();
     private int xPadding, yPadding;
     private boolean resized;
-      private byte action=-1;
     int edgeLength , stepLength;
     
     Settlement[][] vertex = null;
@@ -39,6 +38,8 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
     
     Road tempRoad;
     Settlement tempSettlement;
+    Settlement tempRobber;
+    
     Settlement robber;
     
      Graphics g2;
@@ -123,26 +124,23 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
         resource = new Resource[13];
         int rType[] = GlobalVar.RESOURCE_TYPE_ARRAY;
         int rNum[] = GlobalVar.RESOURCE_NUMBER_ARRAY;
-        int randomDesert = -1, i = 0, index;
+        int i = 0, index;
         boolean placedDesert = false;
         shuffleArray(rType);
         shuffleArray(rNum);
-        if (GlobalVar.HAS_DESERT)
-            randomDesert = r.nextInt(19);
-        
         
 
         for (int ay =0; ay < vertex.length; ay++) {
             for (int ax =0; ax <vertex[ay].length; ax++) {
                 if ( GlobalVar.MAP[ay][ax] == 2 ) {
-                    index = (placedDesert ? i - 1 : i);
-                        
+                    index = (placedDesert ? i - 1 : i);  
                     if (resource[ rNum[index] ] == null)
                         vertex[ay][ax].setDrawResourceHelper( resource[ rNum[index] ] = new Resource( (rType[i] == GlobalVar.DESERT ? 0 : rNum[index]), rType[i], vertex[ay][ax], vertex[ay+1][ax], vertex[ay+2][ax], vertex[ay+2][ax+1], vertex[ay+1][ax+1], vertex[ay][ax+1]));
                     else
-                    vertex[ay][ax].setDrawResourceHelper( resource[rNum[index]].setNext((rType[i] == GlobalVar.DESERT ? 0 : rNum[index]), rType[i], vertex[ay][ax], vertex[ay+1][ax], vertex[ay+2][ax], vertex[ay+2][ax+1], vertex[ay+1][ax+1], vertex[ay][ax+1]));
-                    if (i == randomDesert){
+                        vertex[ay][ax].setDrawResourceHelper( resource[rNum[index]].setNext((rType[i] == GlobalVar.DESERT ? 0 : rNum[index]), rType[i], vertex[ay][ax], vertex[ay+1][ax], vertex[ay+2][ax], vertex[ay+2][ax+1], vertex[ay+1][ax+1], vertex[ay][ax+1]));
+                    if (rType[i] == GlobalVar.DESERT){
                         placedDesert = true;
+                        robber = vertex[ay][ax]; 
                     }
                     i++;
                 }
@@ -314,18 +312,35 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
             }
         }
         if (tempRoad != null) {
-            big.setPaint(Color.yellow );
+            big.setPaint(GameState.getCurPlayer().getColor() );
             big.setStroke(new BasicStroke(5f));
             big.drawLine( tempRoad.getS1().getXcord(), tempRoad.getS1().getYcord(), tempRoad.getS2().getXcord(), tempRoad.getS2().getYcord() );
             big.setStroke(new BasicStroke(0.7f));
         }        
         
         if (tempSettlement != null) {
-            big.setPaint(Color.yellow);
+            big.setPaint(GameState.getCurPlayer().getColor());
             big.setStroke(new BasicStroke(5f));
             big.drawOval( tempSettlement.getXcord()-10, tempSettlement.getYcord()-10, 20, 20 );
             big.setStroke(new BasicStroke(0.7f));
         }        
+        
+        if (robber != null) {
+            big.drawImage( Toolkit.getDefaultToolkit().getImage( this.getClass().getResource("/Settlers/game/images/sheep.jpg") ) , robber.getXcord()+(stepLength/2), robber.getYcord()+(stepLength*2/3), (int)(stepLength/2), (int)(stepLength / 2), null);
+            //big.fillOval(robber.getXcord()-7,robber.getYcord()-7,14,14);
+        }
+        
+        if (tempRobber != null) {
+            big.setPaint(GameState.getCurPlayer().getColor() );
+            big.setStroke(new BasicStroke(5f));
+            big.drawLine( tempRobber.getXcord(), tempRobber.getYcord(), tempRobber.getSideNode().getXcord(), tempRobber.getSideNode().getYcord() );
+            big.drawLine( tempRobber.getXcord(), tempRobber.getYcord(), tempRobber.getBottomNode().getXcord(), tempRobber.getBottomNode().getYcord() );
+            big.drawLine( tempRobber.getBottomNode().getXcord(), tempRobber.getBottomNode().getYcord(), tempRobber.getBottomNode().getBottomNode().getXcord(), tempRobber.getBottomNode().getBottomNode().getYcord() );
+            big.drawLine( tempRobber.getBottomNode().getBottomNode().getXcord(), tempRobber.getBottomNode().getBottomNode().getYcord(), tempRobber.getBottomNode().getBottomNode().getSideNode().getXcord(), tempRobber.getBottomNode().getBottomNode().getSideNode().getYcord() );
+            big.drawLine( tempRobber.getSideNode().getXcord(), tempRobber.getSideNode().getYcord(), tempRobber.getSideNode().getBottomNode().getXcord(), tempRobber.getSideNode().getBottomNode().getYcord() );
+            big.drawLine( tempRobber.getSideNode().getBottomNode().getXcord(), tempRobber.getSideNode().getBottomNode().getYcord(), tempRobber.getSideNode().getBottomNode().getBottomNode().getXcord(), tempRobber.getSideNode().getBottomNode().getBottomNode().getYcord() );
+            big.setStroke(new BasicStroke(0.7f));
+        }
         
         // Draws the buffered image to the screen.
         g.drawImage(bi, 0, 0, this);        
@@ -391,7 +406,7 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
     }
      
      
-    
+     
     public void initialize(){
         this.remove(img);
         Dimension dim = getSize();
@@ -440,22 +455,29 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
             
             tempSettlement = null;
         }
+        if (GameState.getActionState() == GlobalVar.ACTION_MOVE_ROBBER && tempRobber != null)
+        {
+            robber.getDrawResourceHelper().removeThief();
+            robber = tempRobber;
+            robber.getDrawResourceHelper().placeThief();
+            tempRobber = null;
+            GameState.setActionState(0);
+            
+        }
         if (GameState.getActionState() == GlobalVar.ACTION_ADD_ROAD && tempRoad != null)
         {
-            
-            
-        if (GameState.getGamePhase() == GlobalVar.GAME_INIT)
-        {
-            RoadEvent se = new RoadEvent("PLAYER_INIT_ATTEMPT_ROAD", tempRoad);
-            
-            EventManager.callEvent(se);
-        }
-        else { 
-            tempRoad.buildRoad(); 
-            PlayerEvent pe = new PlayerEvent("PLAYER_BUILD_ROAD", GameState.getCurPlayer());
-            
-        }
-        tempRoad = null;
+            if (GameState.getGamePhase() == GlobalVar.GAME_INIT)
+            {
+                RoadEvent se = new RoadEvent("PLAYER_INIT_ATTEMPT_ROAD", tempRoad);
+                
+                EventManager.callEvent(se);
+            }
+            else { 
+                tempRoad.buildRoad(); 
+                PlayerEvent pe = new PlayerEvent("PLAYER_BUILD_ROAD", GameState.getCurPlayer());
+                
+            }
+            tempRoad = null;
 
         }
         repaint();
@@ -471,6 +493,7 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
     private void calculateTile(int x, int y){
         tempSettlement = null;
         tempRoad = null;
+        tempRobber = null;
         int lowEstimateX = (int)((x - xPadding - (edgeLength/2)) /  (edgeLength+(stepLength/2)) );
         int lowEstimateY = (int)((y - yPadding - (stepLength/2)) / (stepLength));
         if (lowEstimateX < 0 || lowEstimateY < 0)
@@ -531,7 +554,26 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
                 tempRoad = tRoad;
         }
         
-       
+        if(GameState.getActionState() == GlobalVar.ACTION_MOVE_ROBBER)
+        {   
+            int m=0, n=0; 
+            int min=1000, tempMin;
+            for (int j = lowEstimateY; j < lowEstimateY+3; j++) {
+                for (int i = lowEstimateX; i < lowEstimateX + 2; i++) {
+                    if (j < vertex.length && i < vertex[0].length && (tempMin = calculateDistance(x,y,i,j)) < min)
+                    {
+                        min = tempMin;
+                        m = i;
+                        n = j;
+                    }
+                }
+            }
+            if (GlobalVar.MAP[n][m] == 2 && robber != vertex[n][m])
+                tempRobber = vertex[n][m];
+         
+        
+         
+        }
         repaint();
     }
     
@@ -567,16 +609,14 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
     
     public void diceRollResources(int roll)
     {
-        if (resource[roll] != null)
+        if (roll == 7) {
+            GameState.setActionState(GlobalVar.ACTION_MOVE_ROBBER);
+        }
+        else if (resource[roll] != null) {
             resource[roll].giveResources();
+        }
     }
     
-      
-    public void setAction(byte _action){ 
-        tempRoad = null;
-        this.action= _action;
-        repaint();
-    }
     
     public RollBox getRollBox()
     {
