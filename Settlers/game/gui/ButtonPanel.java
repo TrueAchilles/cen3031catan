@@ -207,7 +207,8 @@ public class ButtonPanel extends javax.swing.JPanel
                     trade_player.setFont(new java.awt.Font("Segoe UI",0,10));
                     trade_player.setToolTipText("Trade with another player");
                     trade_player.setPreferredSize(new java.awt.Dimension(83, 45));
-                    trade_player.setEnabled(false);
+                    trade_player.setEnabled(true);
+                    trade_player.addActionListener(logic);
                 }
             }
             {

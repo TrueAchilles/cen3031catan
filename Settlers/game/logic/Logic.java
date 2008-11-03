@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 
 import settlers.game.*;
+import settlers.game.gui.*;
 import settlers.game.events.*;
 import settlers.game.elements.*;
 import settlers.game.gui.ButtonPanel;
@@ -154,6 +155,10 @@ public class Logic implements EventListener, ActionListener
         {
             PlayerEvent n = new PlayerEvent("PLAYER_TRADE_PHASE_END", GameState.getCurPlayer());
             EventManager.callEvent(n);
+        }
+        if(evt.getSource() == b.trade_player)
+        {
+            TradeWindow wind = new TradeWindow(GameState.players.size());
         }
         if(evt.getSource() == b.build_next)
         {

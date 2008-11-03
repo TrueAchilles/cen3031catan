@@ -74,6 +74,16 @@ public class Player
     {
         resource[rType]++;
     }
+    
+    public void subtractResource(int rType)
+    {
+        resource[rType]--;
+    }
+    
+    public void printResources()
+    {
+        System.out.println(getBrick()+"\n"+getOre()+"\n"+getSheep()+"\n"+getWheat()+"\n"+getWood()+"\n");
+    }
 
     public void incrementVictoryPointTotal()
     {
