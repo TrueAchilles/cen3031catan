@@ -1,2 +1,2 @@
 poc:
-	javac Settlers/*/*/*.java Settlers/*/*.java Settlers/*.java
+	javac settlers/*/*/*.java settlers/*/*.java settlers/*.java
