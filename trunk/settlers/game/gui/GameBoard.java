@@ -44,10 +44,10 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
     
      Graphics g2;
      
-    /*
-    *constructor for the gameboard.&  Adds a listener for the mouse and sets the layout for the board.&  Also displays the splash screen and
-    *makes the roll box visible and sets the background color
-    *param _parent the mainboard that the gameboard is displayed inside
+    /**
+    * Constructor for the gameboard.&  Adds a listener for the mouse and sets the layout for the board.&  Also displays the splash screen and
+    * makes the roll box visible and sets the background color
+    * @param _parent the mainboard that the gameboard is displayed inside
     */
     public GameBoard(MainBoard _parent){        
 
@@ -158,7 +158,7 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
                 big.setPaint(Color.black );
                 if ( GlobalVar.MAP[ay][ax] == 2)
                 {
-                    big.drawImage( Toolkit.getDefaultToolkit().getImage( this.getClass().getResource("/Settlers/game/images/resource"+vertex[ay][ax].getDrawResourceHelper().getResourceType() + ".png") ) , vertex[ay+1][ax].getXcord(), vertex[ay][ax].getYcord(),edgeLength + (int)(edgeLength * .7071d), (int)(edgeLength * 2 * .7071d), null);
+                    big.drawImage( Toolkit.getDefaultToolkit().getImage( this.getClass().getResource("/settlers/game/images/resource"+vertex[ay][ax].getDrawResourceHelper().getResourceType() + ".png") ) , vertex[ay+1][ax].getXcord(), vertex[ay][ax].getYcord(),edgeLength + (int)(edgeLength * .7071d), (int)(edgeLength * 2 * .7071d), null);
                     drawNumber(new Ellipse2D.Double(vertex[ay][ax].getXcord()+(stepLength*.5), vertex[ay][ax].getYcord()+(stepLength*2/3), (stepLength/2),(stepLength/2)),  vertex[ay][ax].getDrawResourceHelper().getResourceNumber()); 
                 }
                 

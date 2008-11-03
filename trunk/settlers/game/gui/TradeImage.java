@@ -16,23 +16,23 @@ class TradeImage extends JLabel implements MouseListener
     
         if (resource == GlobalVar.WOOD)
         {
-            this.setIcon(new ImageIcon(getClass().getResource("/Settlers/game/images/wood3.jpg")));
+            this.setIcon(new ImageIcon(getClass().getResource("/settlers/game/images/wood3.jpg")));
         }
         else if (resource == GlobalVar.BRICK)
         {
-            this.setIcon(new ImageIcon(getClass().getResource("/Settlers/game/images/bricks3.jpg")));
+            this.setIcon(new ImageIcon(getClass().getResource("/settlers/game/images/bricks3.jpg")));
         }
         else if (resource == GlobalVar.WHEAT)
         {
-            this.setIcon(new ImageIcon(getClass().getResource("/Settlers/game/images/wheat3.jpg")));
+            this.setIcon(new ImageIcon(getClass().getResource("/settlers/game/images/wheat3.jpg")));
         }
         else if (resource == GlobalVar.SHEEP)
         {
-            this.setIcon(new ImageIcon(getClass().getResource("/Settlers/game/images/sheep3.jpg")));
+            this.setIcon(new ImageIcon(getClass().getResource("/settlers/game/images/sheep3.jpg")));
         }
         else if (resource == GlobalVar.ORE)
         {
-            this.setIcon(new ImageIcon(getClass().getResource("/Settlers/game/images/ore3.jpg")));
+            this.setIcon(new ImageIcon(getClass().getResource("/settlers/game/images/ore3.jpg")));
         }
     }
     
@@ -48,23 +48,23 @@ class TradeImage extends JLabel implements MouseListener
             clicked = true;
             if (resource == GlobalVar.WOOD)
             {
-                this.setIcon(new ImageIcon(getClass().getResource("/Settlers/game/images/wood3S.jpg")));
+                this.setIcon(new ImageIcon(getClass().getResource("/settlers/game/images/wood3S.jpg")));
             }
             else if (resource == GlobalVar.BRICK)
             {
-                this.setIcon(new ImageIcon(getClass().getResource("/Settlers/game/images/bricks3S.jpg")));
+                this.setIcon(new ImageIcon(getClass().getResource("/settlers/game/images/bricks3S.jpg")));
             }
             else if (resource == GlobalVar.WHEAT)
             {
-                this.setIcon(new ImageIcon(getClass().getResource("/Settlers/game/images/wheat3S.jpg")));
+                this.setIcon(new ImageIcon(getClass().getResource("/settlers/game/images/wheat3S.jpg")));
             }
             else if (resource == GlobalVar.SHEEP)
             {
-                this.setIcon(new ImageIcon(getClass().getResource("/Settlers/game/images/sheep3S.jpg")));
+                this.setIcon(new ImageIcon(getClass().getResource("/settlers/game/images/sheep3S.jpg")));
             }
             else if (resource == GlobalVar.ORE)
             {
-                this.setIcon(new ImageIcon(getClass().getResource("/Settlers/game/images/ore3S.jpg")));
+                this.setIcon(new ImageIcon(getClass().getResource("/settlers/game/images/ore3S.jpg")));
             }
         }
         else
@@ -72,23 +72,23 @@ class TradeImage extends JLabel implements MouseListener
             clicked = false;
             if (resource == GlobalVar.WOOD)
             {
-                this.setIcon(new ImageIcon(getClass().getResource("/Settlers/game/images/wood3.jpg")));
+                this.setIcon(new ImageIcon(getClass().getResource("/settlers/game/images/wood3.jpg")));
             }
             else if (resource == GlobalVar.BRICK)
             {
-                this.setIcon(new ImageIcon(getClass().getResource("/Settlers/game/images/bricks3.jpg")));
+                this.setIcon(new ImageIcon(getClass().getResource("/settlers/game/images/bricks3.jpg")));
             }
             else if (resource == GlobalVar.WHEAT)
             {
-                this.setIcon(new ImageIcon(getClass().getResource("/Settlers/game/images/wheat3.jpg")));
+                this.setIcon(new ImageIcon(getClass().getResource("/settlers/game/images/wheat3.jpg")));
             }
             else if (resource == GlobalVar.SHEEP)
             {
-                this.setIcon(new ImageIcon(getClass().getResource("/Settlers/game/images/sheep3.jpg")));
+                this.setIcon(new ImageIcon(getClass().getResource("/settlers/game/images/sheep3.jpg")));
             }
             else if (resource == GlobalVar.ORE)
             {
-                this.setIcon(new ImageIcon(getClass().getResource("/Settlers/game/images/ore3.jpg")));
+                this.setIcon(new ImageIcon(getClass().getResource("/settlers/game/images/ore3.jpg")));
             }
         }
     }
