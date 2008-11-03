@@ -220,10 +220,8 @@ public class TabbedPanel extends javax.swing.JPanel implements EventListener {
         credits.append("\tPaul Marks\n");
         credits.append("\nLogic Team\n");
         credits.append("\tEric Mudge\n");
-        credits.append("\tAlvaro Salkeld\n");
         credits.append("\tPatrick Meyer\n");
         credits.append("\tFrancesca Ramadori\n");
-        credits.append("\tEdward Brotz\n");
         credits.append("\tNaveen Dhawan\n");
         credits.append("\tCarlos Estevez\n");
         credits.append("\tScott Savino\n");
