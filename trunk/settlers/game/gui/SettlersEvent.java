@@ -11,6 +11,7 @@ import settlers.game.events.Event;
 import settlers.game.events.EventListener;
 import settlers.game.events.EventManager;
 import settlers.game.events.PlayerEvent;
+import settlers.game.logic.Logic;
 
 import javax.swing.JColorChooser;
 import javax.swing.JDialog;
@@ -18,7 +19,8 @@ import javax.swing.JOptionPane;
 
 
 
-public class SettlersEvent implements EventListener, ActionListener {
+public class SettlersEvent implements EventListener 
+{
     
     SettlersGUI gui;
     
@@ -66,7 +68,18 @@ public class SettlersEvent implements EventListener, ActionListener {
         else
         {
             int value = JOptionPane.showConfirmDialog(gui, "Do you want to start a new game?");
-             remakeBoard();
+            if(value == JOptionPane.OK_OPTION)
+            {
+                GameState.setGamePhase(GlobalVar.GAME_INIT);
+                this.bottomPanel.getButtonPanel().setEvent(this);
+                mainBoard.getGameBoard().initialize();
+            
+	            PlayerEvent e = new PlayerEvent("GAME_START", GameState.players.getFirst()); // this event is registered by logic to begin players' turns
+	            GameState.setCurPlayer(GameState.players.getFirst());
+	            EventManager.callEvent(e); 
+	            
+	            gui.getMainBoard().getGameBoard().repaint();
+            }
         }
     }
     
@@ -79,19 +92,38 @@ public class SettlersEvent implements EventListener, ActionListener {
         }
         Player newPlayer = new Player(_name, _color);
         GameState.players.add(newPlayer);
+     
         mainBoard.getPlayerPanel().addPlayer(newPlayer);
     }
 
     public void remakeBoard() {
         // TODO Auto-generated method stub
-        if(GameState.getGamePhase() == GlobalVar.GAME_STARTED)
-        {
-            gui.initialize();
-        }
-        else
-        {
-            JOptionPane.showMessageDialog(gui, "Can't re-make the board if a game hasn't been created");
-        }
+    	
+    	if(GameState.getGamePhase() == GlobalVar.GAME_INIT)
+    	{
+            PlayerEvent e = new PlayerEvent("GAME_START", GameState.players.getFirst()); // this event is registered by logic to begin players' turns
+            GameState.setCurPlayer(GameState.players.getFirst());
+            EventManager.callEvent(e); 
+            
+	        int value = JOptionPane.showConfirmDialog(gui, "Do you want to remake the board?");
+	        if(value == JOptionPane.OK_OPTION)
+	        {
+                GameState.setGamePhase(GlobalVar.GAME_INIT);
+                this.bottomPanel.getButtonPanel().setEvent(this);
+                mainBoard.getGameBoard().initialize();
+	        	
+                PlayerEvent n = new PlayerEvent("GAME_START", GameState.players.getFirst()); // this event is registered by logic to begin players' turns
+                GameState.setCurPlayer(GameState.players.getFirst());
+                EventManager.callEvent(n); 
+                
+                gui.getMainBoard().getGameBoard().repaint();
+	        }
+    	}
+    	else
+    	{
+    		JOptionPane.showMessageDialog(gui, "Cannot do this when the game has already started");
+    	}
+        
     }
 
     public void addPlayer()
@@ -126,6 +158,11 @@ public class SettlersEvent implements EventListener, ActionListener {
     // combines 3 add player and start new game, with no error checking (so don't use in the middle of a game!)
     public void quickStart()
     {
+    	if(GameState.getGamePhase() == GlobalVar.GAME_STARTED)
+    	{
+    		JOptionPane.showMessageDialog(gui, "Can't do this since the game has started");
+    		return;
+    	}
         createPlayer("Player Red", Color.red);
         createPlayer("Player Black", Color.black);
         createPlayer("Player Green", Color.green);
@@ -142,7 +179,6 @@ public class SettlersEvent implements EventListener, ActionListener {
         EventManager.callEvent(e);                    
     }
 
-    @Override
     public void eventCalled(Event e) {
         // TODO Auto-generated method stub
         if(e.getEvent() == "PLAYER_TURN_END")
@@ -162,11 +198,5 @@ public class SettlersEvent implements EventListener, ActionListener {
             bottomPanel.getButtonPanel().startNewTurn();
             mainBoard.getStatusBar().setText(GameState.getCurPlayer().getName() + ": ROLL PHASE");
         }
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent arg0) {
-        // TODO Auto-generated method stub
-        
     }
 }

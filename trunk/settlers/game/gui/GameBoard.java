@@ -476,6 +476,7 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
             else { 
                 tempRoad.buildRoad(); 
                 PlayerEvent pe = new PlayerEvent("PLAYER_BUILD_ROAD", GameState.getCurPlayer());
+                EventManager.callEvent(pe);
                 
             }
             tempRoad = null;

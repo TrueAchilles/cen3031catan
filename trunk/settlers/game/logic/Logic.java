@@ -101,14 +101,15 @@ public class Logic implements EventListener, ActionListener
             PlayerEvent n = new PlayerEvent("PLAYER_INIT_ROAD_SUCCESS", GameState.getCurPlayer());
             EventManager.callEvent(n);
         }
-//        else if (event.equals("PLAYER_ROLL"))
-//        {
-//        	//call the method for dice roll
-//
-//        	//Proceed to end of roll finish, and begin trade phase
-//        	PlayerEvent E = new PlayerEvent("PLAYER_TRADE_PHASE_BEGIN", GameState.getCurPlayer());
-//        	EventManager.callEvent(E);
-//        }
+        
+        else if (event.equals("PLAYER_ROLLED"))
+        {
+        	//When the player has already rolled
+            b.roll_roll.setEnabled(false);
+            b.roll_next.setEnabled(true);
+            b.roll_next.grabFocus();
+        }
+        
         else if(event.equals("PLAYER_TRADE_PHASE_END")) 
         {
             //Trade phase ends and immediately build phase begins
@@ -120,6 +121,39 @@ public class Logic implements EventListener, ActionListener
             //When player requests, he may either succeed or fail, this assumes he always succeeds
             PlayerEvent E = new PlayerEvent("PLAYER_REQUEST_BUILD_SUCCESS", GameState.getCurPlayer());
             EventManager.callEvent(E);
+        }
+        else if(event.equals("PLAYER_BUILD_SETTLEMENT"))
+        {
+        	PlayerEvent pe = (PlayerEvent) e;
+        	
+        	pe.player.buildSettlement();
+        	
+        	GameState.setActionState(-1);
+        	
+        	PlayerEvent E = new PlayerEvent("PLAYER_BUILT_SETTLEMENT", GameState.getCurPlayer());
+        	EventManager.callEvent(E);
+        }
+        else if(event.equals("PLAYER_BUILD_ROAD"))
+        {
+        	PlayerEvent pe = (PlayerEvent) e;
+        	
+        	pe.player.buildRoad();
+        	
+        	GameState.setActionState(-1);
+        	
+        	PlayerEvent E = new PlayerEvent("PLAYER_BUILT_ROAD", GameState.getCurPlayer());
+        	EventManager.callEvent(E);
+        }
+        else if(event.equals("PLAYER_BUILD_DEV_CARD"))
+        {
+        	
+        	PlayerEvent pe = (PlayerEvent) e;
+        	
+        	pe.player.buildDevCard();
+        	
+        	GameState.setActionState(-1);
+        	
+        	GameState.getGui().gui.getMainBoard().getGameBoard().getDevCard();
         }
         else if (event.equals("PLAYER_TURN_END"))
         {
@@ -142,23 +176,18 @@ public class Logic implements EventListener, ActionListener
         }
         if(evt.getSource() == b.roll_roll)
         {
-        	int roll = GameState.getGui().gui.getMainBoard().getRollBox().roll();
-            
-            System.out.println("So we rolled a " + roll);
-            
-            GameState.getGui().gui.getMainBoard().getGameBoard().diceRollResources(roll);
-            
-            b.roll_roll.setEnabled(false);
-            b.roll_next.setEnabled(true);
+            Event n = new Event("DICE_ROLLED");
+            EventManager.callEvent(n);
+
+        }
+        if(evt.getSource() == b.trade_player)
+        {
+        	TradeWindow t = new TradeWindow(GameState.players.size());
         }
         if(evt.getSource() == b.trade_next)
         {
             PlayerEvent n = new PlayerEvent("PLAYER_TRADE_PHASE_END", GameState.getCurPlayer());
             EventManager.callEvent(n);
-        }
-        if(evt.getSource() == b.trade_player)
-        {
-            TradeWindow wind = new TradeWindow(GameState.players.size());
         }
         if(evt.getSource() == b.build_next)
         {
@@ -167,15 +196,18 @@ public class Logic implements EventListener, ActionListener
         }
         if(evt.getSource() == b.build_dev)
         {
-            //
+            BuildEvent b = new BuildEvent("BUILD_REQUEST", 4);
+            EventManager.callEvent(b);
         }
         if(evt.getSource() == b.build_settlement)
         {
-            GameState.setActionState(GlobalVar.ACTION_ADD_SETTLEMENT);
+            BuildEvent b = new BuildEvent("BUILD_REQUEST", 1);
+            EventManager.callEvent(b);
         }
         if(evt.getSource() == b.build_road)
         {
-            GameState.setActionState(GlobalVar.ACTION_ADD_ROAD);
+            BuildEvent b = new BuildEvent("BUILD_REQUEST", 3);
+            EventManager.callEvent(b);
         }
         if(evt.getSource() == GameState.getGui().gui.getBottomPanel().startButton)
         {
@@ -192,7 +224,11 @@ public class Logic implements EventListener, ActionListener
         EventManager.registerEvent("PLAYER_INIT_ATTEMPT_SETTLEMENT", this);
         EventManager.registerEvent("PLAYER_INIT_ATTEMPT_ROAD", this);
         EventManager.registerEvent("PLAYER_ROLL", this);
+        EventManager.registerEvent("PLAYER_ROLLED", this);
         EventManager.registerEvent("PLAYER_TRADE_PHASE_END", this);
+        EventManager.registerEvent("PLAYER_BUILD_DEV_CARD", this);
+        EventManager.registerEvent("PLAYER_BUILD_ROAD", this);
+        EventManager.registerEvent("PLAYER_BUILD_SETTLEMENT", this);
         EventManager.registerEvent("PLAYER_BUILD_REQUEST", this);
 	}
 }

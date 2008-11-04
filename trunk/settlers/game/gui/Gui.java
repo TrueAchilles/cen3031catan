@@ -66,6 +66,8 @@ public class Gui implements EventListener
             
             gui.getBottomPanel().turnStart();
             
+            gui.getBottomPanel().startButton.grabFocus();
+            
         }
         else if(event.equals("PLAYER_ROLL_PHASE_BEGIN"))
         {
@@ -73,6 +75,7 @@ public class Gui implements EventListener
             
             gui.getBottomPanel().getButtonPanel().roll_next.setEnabled(false);
             gui.getBottomPanel().getButtonPanel().roll_roll.setEnabled(true);
+            gui.getBottomPanel().getButtonPanel().roll_roll.grabFocus();
             
             //Talk to ButtonPanel and tell it to switch
             gui.getBottomPanel().getButtonPanel().switchPanel("ROLL");            
@@ -87,6 +90,7 @@ public class Gui implements EventListener
             
             //Talk to ButtonPanel and tell it to switch
             gui.getBottomPanel().getButtonPanel().switchPanel("TRADE");
+            gui.getBottomPanel().getButtonPanel().trade_next.grabFocus();
             
         }
         else if(event.equals("PLAYER_BUILD_PHASE_BEGIN")) 
@@ -96,6 +100,7 @@ public class Gui implements EventListener
             
             //Talk to ButtonPanel and tell it to switch
             gui.getBottomPanel().getButtonPanel().switchPanel("BUILD");
+            gui.getBottomPanel().getButtonPanel().build_next.grabFocus();
             
             PlayerEvent E = new PlayerEvent("PLAYER_BUILD_REQUEST", pe.player);
             EventManager.callEvent(E);

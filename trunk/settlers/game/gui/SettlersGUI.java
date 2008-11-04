@@ -6,6 +6,9 @@ import settlers.game.logic.*;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
 import javax.swing.JCheckBoxMenuItem;
 
 import javax.swing.JMenu;
@@ -14,17 +17,18 @@ import javax.swing.JMenuItem;
 import javax.swing.JRadioButton;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JSeparator;
-import javax.swing.UIManager;
+import javax.swing.KeyStroke;
 
 import javax.swing.WindowConstants;
 import javax.swing.SwingUtilities;
 
-public class SettlersGUI extends javax.swing.JFrame implements ActionListener {
+public class SettlersGUI extends javax.swing.JFrame implements ActionListener
+{
 
     {
         //Set Look & Feel
         try {
-            javax.swing.UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            javax.swing.UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -84,9 +88,9 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener {
                 settlersMenu = new JMenuBar();
                 setJMenuBar(settlersMenu);
                 {
-                    gameMenu = new JMenu();
+                    gameMenu = new JMenu("Game");
                     settlersMenu.add(gameMenu);
-                    gameMenu.setText("Game");
+                    gameMenu.setMnemonic(KeyEvent.VK_G);
                     {
                         newGame = new JMenuItem();
                         gameMenu.add(newGame);
@@ -113,6 +117,7 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener {
                         remakeBoard = new JMenuItem();
                         gameMenu.add(remakeBoard);
                         remakeBoard.setText("Re-make Board");
+                        remakeBoard.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.CTRL_MASK));
                         remakeBoard.addActionListener(this);
                     }
                     {
@@ -145,11 +150,13 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener {
                     {
                         standard = new JRadioButtonMenuItem("800 x 800 (standard)", true);
                         frameSize.add(standard);
+                        standard.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, ActionEvent.CTRL_MASK));
                         standard.addActionListener(this);
                     }
                     {
                         smaller = new JRadioButtonMenuItem("800 x 600 (smaller)", false);
                         frameSize.add(smaller);
+                        smaller.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
                         smaller.addActionListener(this);
                     }
                     {
@@ -160,13 +167,14 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener {
                         exit = new JMenuItem();
                         gameMenu.add(exit);
                         exit.setText("Exit");
+                        exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, ActionEvent.CTRL_MASK));
                         exit.addActionListener(this);
                     }
                 }
                 {
-                    player = new JMenu();
+                    player = new JMenu("Player");
+                    player.setMnemonic(KeyEvent.VK_P);
                     settlersMenu.add(player);
-                    player.setText("Player");
                     {
                         addPlayer = new JMenu();
                         player.add(addPlayer);
@@ -175,6 +183,7 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener {
                             humanPlayer = new JMenuItem();
                             addPlayer.add(humanPlayer);
                             humanPlayer.setText("Add Human Player");
+                            standard.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, ActionEvent.CTRL_MASK));
                             humanPlayer.addActionListener(this);
                         }
                         {
@@ -202,9 +211,9 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener {
                     }
                 }
                 {
-                    connection = new JMenu();
+                    connection = new JMenu("Connection");
                     settlersMenu.add(connection);
-                    connection.setText("Connection");
+                    connection.setMnemonic(KeyEvent.VK_C);
                     connection.setEnabled(false);
                     {
                         connectTo = new JMenu();
@@ -224,14 +233,15 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener {
                 }
                 if (GlobalVar.DEBUG_MODE)
                 {
-                    debug_menu = new JMenu();
+                    debug_menu = new JMenu("DEBUG");
+                    debug_menu.setMnemonic(KeyEvent.VK_D);
                     settlersMenu.add(debug_menu);
-                    debug_menu.setText("DEBUG");
                     debug_menu.setEnabled(true);
                     {
                         debug_quickStart = new JMenuItem();
                         debug_menu.add(debug_quickStart);
                         debug_quickStart.setText("Quick Start");
+                        debug_quickStart.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
                         debug_quickStart.addActionListener(this);
                         /*{
                             connectLan = new JMenuItem();
@@ -262,6 +272,8 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener {
             this.setSize(800, 850);
             this.setVisible(true);
             this.setResizable(false);
+            
+            this.requestFocus();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -279,7 +291,6 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener {
     public JMenuBar getMenu(){
         return settlersMenu;
     }
-
 
     public void showError(String string) {
         // TODO Auto-generated method stub
@@ -363,4 +374,36 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener {
     {
         return bottomPanel;
     }
+
+
+//	public void keyPressed(KeyEvent arg0) 
+//	{
+//		//The MenuItem keys
+//		if(arg0.getKeyCode() == KeyEvent.VK_N && arg0.getModifiers() == KeyEvent.CTRL_MASK)
+//			debug_quickStart.doClick();
+//		if(arg0.getKeyCode() == KeyEvent.VK_P && arg0.getModifiers() == KeyEvent.CTRL_MASK)
+//			humanPlayer.doClick();
+//		if(arg0.getKeyCode() == KeyEvent.VK_X && arg0.getModifiers() == KeyEvent.CTRL_MASK)
+//			exit.doClick();
+//		if(arg0.getKeyCode() == KeyEvent.VK_S && arg0.getModifiers() == KeyEvent.CTRL_MASK)
+//			smaller.doClick();
+//		if(arg0.getKeyCode() == KeyEvent.VK_L && arg0.getModifiers() == KeyEvent.CTRL_MASK)
+//			standard.doClick();
+//		
+//		//Menu keys
+//		if(arg0.getKeyCode() == KeyEvent.VK_G && arg0.getModifiers() == KeyEvent.ALT_MASK)
+//			gameMenu.doClick();
+//		if(arg0.getKeyCode() == KeyEvent.VK_D && arg0.getModifiers() == KeyEvent.ALT_MASK)
+//			debug_menu.doClick();
+//		if(arg0.getKeyCode() == KeyEvent.VK_C && arg0.getModifiers() == KeyEvent.ALT_MASK)
+//			connection.doClick();
+//		if(arg0.getKeyCode() == KeyEvent.VK_P && arg0.getModifiers() == KeyEvent.ALT_MASK)
+//			player.doClick();
+//	}
+//
+//
+//	public void keyReleased(KeyEvent arg0) { }
+//
+//
+//	public void keyTyped(KeyEvent arg0) { }
 }

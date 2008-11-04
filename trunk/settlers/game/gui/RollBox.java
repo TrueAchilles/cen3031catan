@@ -85,20 +85,41 @@ public class RollBox extends JPanel implements Runnable, EventListener
     	repaint();
     }
     
-    public void paintComponent(Graphics g) {
-    	super.paintComponent(g);
+    public void paint(Graphics g) {
+    	super.paint(g);
     	
     	if(rolling)
     	{
-    		g.drawImage(anim[dice.getD1()-1], 10, 10, null);
-    		g.drawImage(anim[dice.getD2()-1], 60, 60, null);
+    		g.drawImage(anim[rand.nextInt(6)], 10, 10, null);
+    		g.drawImage(anim[rand.nextInt(6)], 60, 60, null);
+    	}
+    	else if(finalRoll)
+    	{
+    		g.drawImage(anim[dice.getD1() - 1], 10, 10, null);
+    		g.drawImage(anim[dice.getD2() - 1], 60, 60, null);
     	}
     	
     }
     
 	public void run() 
 	{
-		// TODO Auto-generated method stub
+		rolling = true;
+		for(int i = 0; i < 10; i++)
+		{
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			repaint();
+		}
+		rolling = false;
+		finalRoll = true;
+		repaint();
+		
+		PlayerEvent e = new PlayerEvent("PLAYER_ROLLED", GameState.getCurPlayer());
+		EventManager.callEvent(e);
 		
 	}
 
@@ -111,9 +132,6 @@ public class RollBox extends JPanel implements Runnable, EventListener
 			int value = roll();
 			GameState.getGui().gui.getMainBoard().getGameBoard().diceRollResources(value);
 			GameState.getGui().gui.getBottomPanel().getTabbedPanel().setRandomDiceRoll(GameState.getCurPlayer().getName() + " rolled: " + value +"\n");
-			
-			PlayerEvent n = new PlayerEvent("PLAYER_ROLLED", GameState.getCurPlayer());
-            EventManager.callEvent(n);
 		}
 	}
 

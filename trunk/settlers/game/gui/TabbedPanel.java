@@ -8,18 +8,6 @@ import javax.swing.JTextArea;
 import settlers.game.GameState;
 import settlers.game.events.*;
 
-/**
-* This code was edited or generated using CloudGarden's Jigloo
-* SWT/Swing GUI Builder, which is free for non-commercial
-* use. If Jigloo is being used commercially (ie, by a corporation,
-* company or business for any purpose whatever) then you
-* should purchase a license for each developer using Jigloo.
-* Please visit www.cloudgarden.com for details.
-* Use of Jigloo implies acceptance of these licensing terms.
-* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
-* THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
-* LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
-*/
 public class TabbedPanel extends javax.swing.JPanel implements EventListener {
     private JScrollPane gameTextSP;
     private JScrollPane rollSP;
@@ -42,6 +30,7 @@ public class TabbedPanel extends javax.swing.JPanel implements EventListener {
         EventManager.registerEvent("PLAYER_BUILT_DEV_CARD", this);
         EventManager.registerEvent("PLAYER_BUILT_SETTLEMENT", this);
         EventManager.registerEvent("PLAYER_BUILT_ROAD", this);
+        EventManager.registerEvent("PLAYER_TRADED", this);
     }
     
     private void initGUI() {
@@ -135,7 +124,7 @@ public class TabbedPanel extends javax.swing.JPanel implements EventListener {
         * This else if will be used for when the game is actually in round robin  and the dice are rolled.  This allows the resources to update to the screen
         * in real time.
         */
-        else if (event.equals("PLAYER_BUILT_DEV_CARD") || event.equals("PLAYER_BUILT_SETTLEMENT") || event.equals("PLAYER_BUILT_ROAD") || event.equals("PLAYER_ROLLED"))
+        else if (event.equals("PLAYER_BUILT_DEV_CARD") || event.equals("PLAYER_BUILT_SETTLEMENT") || event.equals("PLAYER_BUILT_ROAD") || event.equals("PLAYER_ROLLED") || event.equals("PLAYER_TRADED"))
         {
             resourcesText.setText(settlers.game.GameState.getCurPlayer().getName() + "'s Resources\n");
             resourcesText.append("Wood:  " + settlers.game.GameState.getCurPlayer().getWood() + "\n");
@@ -154,7 +143,8 @@ public class TabbedPanel extends javax.swing.JPanel implements EventListener {
     private void displayDevCards()
     {
         int[] dev = GameState.getCurPlayer().getDevCards();
-        for(int i = 0; i < 4; i++)
+        
+        for(int i = 0; i < 5; i++)
         {
         	switch(i)
         	{
@@ -194,6 +184,15 @@ public class TabbedPanel extends javax.swing.JPanel implements EventListener {
 	            			resourcesText.append("Monopoly\n");
 	            	break;
         		}
+        		case(4):
+        		{
+	            	if(dev[i] != 0)
+	            		if(dev[i] > 1)
+	            			resourcesText.append("Knight x " + dev[i] + "\n");
+	            		else
+	            			resourcesText.append("Knight\n");
+	            	break;
+        		}
         	}
         }
     }
@@ -220,8 +219,10 @@ public class TabbedPanel extends javax.swing.JPanel implements EventListener {
         credits.append("\tPaul Marks\n");
         credits.append("\nLogic Team\n");
         credits.append("\tEric Mudge\n");
+        credits.append("\tAlvaro Salkeld\n");
         credits.append("\tPatrick Meyer\n");
         credits.append("\tFrancesca Ramadori\n");
+        credits.append("\tEdward Brotz\n");
         credits.append("\tNaveen Dhawan\n");
         credits.append("\tCarlos Estevez\n");
         credits.append("\tScott Savino\n");
@@ -270,17 +271,6 @@ public class TabbedPanel extends javax.swing.JPanel implements EventListener {
     {
         gameText.setText(s);
         updateUI();
-    }
-    
-    public void refreshResourceDisplay()
-    {
-        resourcesText.setText(settlers.game.GameState.getCurPlayer().getName() + "'s Resources\n");
-        resourcesText.append("Wood:  " + settlers.game.GameState.getCurPlayer().getWood() + "\n");
-        resourcesText.append("Ore:   " + settlers.game.GameState.getCurPlayer().getOre() + "\n");
-        resourcesText.append("Brick: "  + settlers.game.GameState.getCurPlayer().getBrick() + "\n");
-        resourcesText.append("Sheep: " + settlers.game.GameState.getCurPlayer().getSheep() + "\n");
-        resourcesText.append("Wheat: " + settlers.game.GameState.getCurPlayer().getWheat() + "\n");
-        resourcesText.append("Victory points " + GameState.getCurPlayer().getVictoryPointTotal() + "\n");    
     }
     
 
