@@ -6,6 +6,8 @@ import javax.swing.*;
 import javax.swing.border.*;
 import settlers.game.*;
 import settlers.game.elements.*;
+import settlers.game.events.EventManager;
+import settlers.game.events.PlayerEvent;
 
 public class TradeWindow implements ActionListener
 {
@@ -779,10 +781,8 @@ public class TradeWindow implements ActionListener
                 }
             }
             
-            //curPlayer.printResources();
-            //System.out.println();
-            //temp.printResources();
-            GameState.getGui().gui.getBottomPanel().getTabbedPanel().refreshResourceDisplay();
+            PlayerEvent n = new PlayerEvent("PLAYER_TRADED", GameState.getCurPlayer());
+            EventManager.callEvent(n);
             frame.dispose();
         }
         
@@ -1062,10 +1062,9 @@ public class TradeWindow implements ActionListener
                 }
             }
             
-            //curPlayer.printResources();
-            //System.out.println();
-            //temp.printResources();
-            GameState.getGui().gui.getBottomPanel().getTabbedPanel().refreshResourceDisplay();
+            PlayerEvent n = new PlayerEvent("PLAYER_TRADED", GameState.getCurPlayer());
+            EventManager.callEvent(n);
+            
             frame.dispose();
         }
         
@@ -1363,10 +1362,9 @@ public class TradeWindow implements ActionListener
                 }
             }
             
-            //curPlayer.printResources();
-            //System.out.println();
-            //temp.printResources();
-            GameState.getGui().gui.getBottomPanel().getTabbedPanel().refreshResourceDisplay();
+            PlayerEvent n = new PlayerEvent("PLAYER_TRADED", GameState.getCurPlayer());
+            EventManager.callEvent(n);
+            
             frame.dispose();
         }
     }
