@@ -782,6 +782,7 @@ public class TradeWindow implements ActionListener
             //curPlayer.printResources();
             //System.out.println();
             //temp.printResources();
+            GameState.getGui().gui.getBottomPanel().getTabbedPanel().refreshResourceDisplay();
             frame.dispose();
         }
         
@@ -1064,6 +1065,7 @@ public class TradeWindow implements ActionListener
             //curPlayer.printResources();
             //System.out.println();
             //temp.printResources();
+            GameState.getGui().gui.getBottomPanel().getTabbedPanel().refreshResourceDisplay();
             frame.dispose();
         }
         
@@ -1364,6 +1366,7 @@ public class TradeWindow implements ActionListener
             //curPlayer.printResources();
             //System.out.println();
             //temp.printResources();
+            GameState.getGui().gui.getBottomPanel().getTabbedPanel().refreshResourceDisplay();
             frame.dispose();
         }
     }
