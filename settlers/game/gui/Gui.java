@@ -21,6 +21,7 @@ public class Gui implements EventListener
             System.out.println("Player init turn: " + pe.player.getID());
             System.out.println("	Player " + pe.player.getID() + " attempting to place settlement");
             GameState.setActionState(GlobalVar.ACTION_ADD_SETTLEMENT);
+             MainBoard.getStatusBar().setText(GameState.getCurPlayer().getName() + ": INITIAL SETTLEMENT BUILD PHASE");
             //sc.buttonSettlement();
             //PlayerEvent n = new PlayerEvent("PLAYER_INIT_ATTEMPT_SETTLEMENT", pe.player);
             //EventManager.callEvent(n);
@@ -39,6 +40,7 @@ public class Gui implements EventListener
             System.out.println("	Player " + pe.player.getID() + " placed settlement");
             System.out.println("	Player " + pe.player.getID() + " attempting to place road");
             GameState.setActionState(GlobalVar.ACTION_ADD_ROAD);
+            MainBoard.getStatusBar().setText(GameState.getCurPlayer().getName() + ": INITIAL ROAD BUILD PHASE");
             //sc.buttonRoad();
             //PlayerEvent n = new PlayerEvent("PLAYER_INIT_ATTEMPT_ROAD", pe.player);
             //EventManager.callEvent(n);
