@@ -184,6 +184,11 @@ public class Logic implements EventListener, ActionListener
         {
         	TradeWindow t = new TradeWindow(GameState.players.size());
         }
+        
+        if(evt.getSource() == b.trade_bank)
+        {
+            BankTradeWindow bt = new BankTradeWindow();
+        }
         if(evt.getSource() == b.trade_next)
         {
             PlayerEvent n = new PlayerEvent("PLAYER_TRADE_PHASE_END", GameState.getCurPlayer());

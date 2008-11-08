@@ -160,7 +160,7 @@ public class SettlersEvent implements EventListener
     {
     	if(GameState.getGamePhase() == GlobalVar.GAME_STARTED)
     	{
-    		JOptionPane.showMessageDialog(gui, "Can't do this since the game has started");
+    		JOptionPane.showMessageDialog(gui, "Can't do this since the game has started.");
     		return;
     	}
         createPlayer("Player Red", Color.red);

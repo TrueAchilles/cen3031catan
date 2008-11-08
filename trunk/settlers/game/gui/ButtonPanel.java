@@ -133,7 +133,7 @@ public class ButtonPanel extends javax.swing.JPanel
                     rollButtonPanel.add(roll_next, new AnchorConstraint(336, 0, 636, 755, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_ABS, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
                     roll_next.setText("NEXT");
                     roll_next.setFont(new java.awt.Font("Segoe UI",0,10));
-                    roll_next.setToolTipText("Move to the trade phase");
+                    roll_next.setToolTipText("Move to the trade phase.");
                     roll_next.setPreferredSize(new java.awt.Dimension(86, 45));
                     roll_next.addActionListener(logic);
                     roll_next.setEnabled(false);
@@ -144,7 +144,7 @@ public class ButtonPanel extends javax.swing.JPanel
                     rollButtonPanel.add(roll_thief, new AnchorConstraint(336, 755, 636, 532, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
                     roll_thief.setText("THIEF");
                     roll_thief.setFont(new java.awt.Font("Segoe UI",0,10));
-                    roll_thief.setToolTipText("Move the thief");
+                    roll_thief.setToolTipText("Move the thief.");
                     roll_thief.setPreferredSize(new java.awt.Dimension(78, 45));
                     roll_thief.setEnabled(false);
                 }
@@ -153,7 +153,7 @@ public class ButtonPanel extends javax.swing.JPanel
                     rollButtonPanel.add(roll_roll, new AnchorConstraint(336, 532, 636, 295, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
                     roll_roll.setText("ROLL");
                     roll_roll.setFont(new java.awt.Font("Segoe UI",0,10));
-                    roll_roll.setToolTipText("Roll the dice");
+                    roll_roll.setToolTipText("Roll the dice.");
                     roll_roll.setPreferredSize(new java.awt.Dimension(83, 45));
                     roll_roll.setEnabled(true);
                     roll_roll.addActionListener(logic);
@@ -178,7 +178,7 @@ public class ButtonPanel extends javax.swing.JPanel
                     tradeButtonPanel.add(jButton2, new AnchorConstraint(303, 755, 603, 532, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
                     jButton2.setText("TRADE: PORT");
                     jButton2.setFont(new java.awt.Font("Segoe UI",0,10));
-                    jButton2.setToolTipText("Trade with a port");
+                    jButton2.setToolTipText("Trade with a port.");
                     jButton2.setPreferredSize(new java.awt.Dimension(78,45));
                     jButton2.setEnabled(false);
                 }
@@ -187,16 +187,17 @@ public class ButtonPanel extends javax.swing.JPanel
                     tradeButtonPanel.add(trade_bank, new AnchorConstraint(303, 0, 603, 755, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_ABS, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
                     trade_bank.setText("TRADE: BANK");
                     trade_bank.setFont(new java.awt.Font("Segoe UI",0,10));
-                    trade_bank.setToolTipText("Trade with the bank");
+                    trade_bank.setToolTipText("Trade with the bank.");
                     trade_bank.setPreferredSize(new java.awt.Dimension(86,45));
-                    trade_bank.setEnabled(false);
+                    trade_bank.setEnabled(true);
+                    trade_bank.addActionListener(logic);
                 }
                 {
                     trade_next = new JButton();
                     tradeButtonPanel.add(trade_next, new AnchorConstraint(610, 764, 910, 527, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
                     trade_next.setText("NEXT");
                     trade_next.setFont(new java.awt.Font("Segoe UI",0,10));
-                    trade_next.setToolTipText("Move on to the build phase");
+                    trade_next.setToolTipText("Move on to the build phase.");
                     trade_next.setPreferredSize(new java.awt.Dimension(83, 45));
                     trade_next.addActionListener(logic);
                 }
@@ -205,7 +206,7 @@ public class ButtonPanel extends javax.swing.JPanel
                     tradeButtonPanel.add(trade_player, new AnchorConstraint(303, 527, 603, 290, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
                     trade_player.setText("TRADE: PLAYER");
                     trade_player.setFont(new java.awt.Font("Segoe UI",0,10));
-                    trade_player.setToolTipText("Trade with another player");
+                    trade_player.setToolTipText("Trade with another player.");
                     trade_player.setPreferredSize(new java.awt.Dimension(83, 45));
                     trade_player.setEnabled(true);
                     trade_player.addActionListener(logic);
