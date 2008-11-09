@@ -16,6 +16,8 @@ public class Player
     private int resource[] = { 2, 2, 2, 2, 2, 2 }; 
     private int devCards[] = {0, 0, 0, 0, 0};
     private int victoryPointTotal;
+    private int numberOfResourceCards = 12;
+    private int numberofDevCards = 0;
 
     public Player(String _name, Color _color)
     {
@@ -70,14 +72,26 @@ public class Player
         return resource[GlobalVar.WHEAT];
     }
     
+    public int getNumberOfResCards()
+    {
+        return numberOfResourceCards;
+    }
+    
+    public int getNumberOfDevCards()
+    {
+        return numberofDevCards;
+    }
+    
     public void giveResource(int rType)
     {
         resource[rType]++;
+        numberOfResourceCards++;
     }
     
     public void subtractResource(int rType)
     {
         resource[rType]--;
+        numberOfResourceCards--;
     }
     
     public void printResources()
@@ -98,6 +112,8 @@ public class Player
     public void addDevCard(int dType)
     {
     	devCards[dType]++;
+        numberofDevCards++;
+        
     }
     
     public int[] getDevCards()
@@ -139,18 +155,21 @@ public class Player
     	resource[GlobalVar.WHEAT]--;
     	resource[GlobalVar.WOOD]--;
     	resource[GlobalVar.SHEEP]--;
+        numberOfResourceCards -= 4;
     }
     
     public void buildRoad()
     {
     	resource[GlobalVar.BRICK]--;
     	resource[GlobalVar.WOOD]--;
+        numberOfResourceCards -= 2;
     }
     
     public void buildCity()
     {
     	resource[GlobalVar.ORE] -= 3;
     	resource[GlobalVar.WHEAT] -= 2;
+        numberOfResourceCards -= 5;
     }
     
     public void buildDevCard()
@@ -158,5 +177,6 @@ public class Player
     	resource[GlobalVar.ORE]--;
     	resource[GlobalVar.WHEAT]--;
     	resource[GlobalVar.SHEEP]--;
+        numberOfResourceCards -= 3;
     }
 }
