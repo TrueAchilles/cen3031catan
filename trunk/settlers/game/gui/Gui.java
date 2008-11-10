@@ -76,6 +76,14 @@ public class Gui implements EventListener
         	gui.getBottomPanel().hideTurnStart();
             
             gui.getBottomPanel().getButtonPanel().roll_next.setEnabled(false);
+            
+            //If Player has a development Card, allows him to play it if he so chooses to.
+            if (GameState.getCurPlayer().hasDevCards())
+                gui.getBottomPanel().getButtonPanel().roll_thief.setEnabled(true);
+            else
+                gui.getBottomPanel().getButtonPanel().roll_thief.setEnabled(false);
+            
+
             gui.getBottomPanel().getButtonPanel().roll_roll.setEnabled(true);
             gui.getBottomPanel().getButtonPanel().roll_roll.grabFocus();
             
@@ -85,10 +93,6 @@ public class Gui implements EventListener
         else if (event.equals("PLAYER_TRADE_PHASE_BEGIN"))
         {
             PlayerEvent pe = (PlayerEvent) e;
-            
-            //Trade phase commences, player can build, use development cards, or end turn
-            //Therefore need else statements here for these interactions
-            //For now the trade Phase immediately ends
             
             //Talk to ButtonPanel and tell it to switch
             gui.getBottomPanel().getButtonPanel().switchPanel("TRADE");
@@ -166,6 +170,39 @@ public class Gui implements EventListener
             //Player was successful and his turn automatically ends
             
         }
+        else if(event.equals("PLAYER_PLAY_KNIGHT"))
+        {
+            //Allows for current Player to move the robber
+            GameState.setActionState(GlobalVar.ACTION_MOVE_ROBBER);
+            
+            //Throws PLAYER_KNIGHT_PLACED
+            DevelopmentEvent n = new DevelopmentEvent("PLAYER_KNIGHT_PLACED", 4);
+            EventManager.callEvent(n);
+        }
+        else if(event.equals("PLAYER_CHOOSE_KNIGHTED"))
+        {
+            //Player chooses which settlement to steal from
+            DevelopmentEvent n = new DevelopmentEvent("PLAYER_KNIGHTED_CHOSEN", 4);
+            EventManager.callEvent(n);
+        }
+        else if(event.equals("PLAYER_KNIGHT_SUCCESS"))
+        {
+            ///Things to implement:
+            //*Resources will be updated as given from logic with new stolen resource
+            //*Largest Army increments by 1
+            
+            //Buttons are now updated, only 1 dev card can be played at a time
+            gui.getBottomPanel().getButtonPanel().roll_thief.setEnabled(false);
+            
+            //Knight Card is longer in the Current Player's hand
+            GameState.getCurPlayer().removeDevCard(4);
+            
+            //Checks to see if Player rolled or not, if roll has not yet executed then the player will still be able to roll but not go to the next phase
+            if (gui.getBottomPanel().getButtonPanel().roll_roll.isEnabled() == true)
+                gui.getBottomPanel().getButtonPanel().roll_next.setEnabled(false);
+            else 
+                gui.getBottomPanel().getButtonPanel().roll_next.setEnabled(true);
+        }
         else if(event.equals("GAME_END"))
         {
             System.out.println("Game is ending...");
@@ -188,6 +225,12 @@ public class Gui implements EventListener
         EventManager.registerEvent("PLAYER_BUILD_PHASE_BEGIN", this);
         EventManager.registerEvent("BUILD_REQUEST", this);
         EventManager.registerEvent("PLAYER_REQUEST_BUILD_SUCCESS", this);
+        
+        //Knight Registered Events
+        EventManager.registerEvent("PLAYER_PLAY_KNIGHT", this);
+        EventManager.registerEvent("PLAYER_CHOOSE_KNIGHTED", this);
+        EventManager.registerEvent("PLAYER_KNIGHT_SUCCESS", this);
+        
 		
         gui = new SettlersGUI();
         gui.initialize();		

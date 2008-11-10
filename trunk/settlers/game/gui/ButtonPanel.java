@@ -142,11 +142,12 @@ public class ButtonPanel extends javax.swing.JPanel
                 {
                     roll_thief = new JButton();
                     rollButtonPanel.add(roll_thief, new AnchorConstraint(336, 755, 636, 532, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
-                    roll_thief.setText("THIEF");
+                    roll_thief.setText("KNIGHT");
                     roll_thief.setFont(new java.awt.Font("Segoe UI",0,10));
                     roll_thief.setToolTipText("Move the thief.");
                     roll_thief.setPreferredSize(new java.awt.Dimension(78, 45));
                     roll_thief.setEnabled(false);
+                    roll_thief.addActionListener(logic);
                 }
                 {
                     roll_roll = new JButton();

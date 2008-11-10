@@ -155,6 +155,37 @@ public class Logic implements EventListener, ActionListener
         	
         	GameState.getGui().gui.getMainBoard().getGameBoard().getDevCard();
         }
+        else if(event.equals("PLAYER_PLAY_DEVELOPMENTCARD"))
+        {
+            //Handles the development card in play.
+            DevelopmentEvent de = (DevelopmentEvent) e;
+            
+            //Code to handle Knight Card
+            if (de.getDType() == 4)
+            {
+                DevelopmentEvent n = new DevelopmentEvent("PLAYER_PLAY_KNIGHT", 4);
+                EventManager.callEvent(n);                
+            }
+            
+            //Other Dev Cards waiting to be implemented.
+        }
+        else if (event.equals("PLAYER_KNIGHT_PLACED"))
+        {
+            //Waiting To be Implemented:
+            //Needs to call logic functions to determine whose settlements are next to the robber 
+            //and send to GUI so that the players choice of who is robbed can be determined.
+            //This settlement needs to be highlighted and then send to GUI
+            
+            DevelopmentEvent n = new DevelopmentEvent("PLAYER_CHOOSE_KNIGHTED", 4);
+            EventManager.callEvent(n);
+        }
+        else if(event.equals("PLAYER_KNIGHTED_CHOSEN"))
+        {
+            //Needs to update the resources after the Player recieves the pillaged resource
+            DevelopmentEvent n = new DevelopmentEvent("PLAYER_KNIGHT_SUCCESS", 4);
+            EventManager.callEvent(n);
+        }
+        
         else if (event.equals("PLAYER_TURN_END"))
         {
             PlayerEvent pe = (PlayerEvent) e;
@@ -179,6 +210,17 @@ public class Logic implements EventListener, ActionListener
             Event n = new Event("DICE_ROLLED");
             EventManager.callEvent(n);
 
+        }
+        if(evt.getSource() == b.roll_thief && GameState.getCurPlayer().getDevCards()[4] > 0) 
+        {
+            //Throws PLAYER_PLAY_DEVELOPMENTCARD Event to Logic, with the Knight card
+            DevelopmentEvent n = new DevelopmentEvent("PLAYER_PLAY_DEVELOPMENTCARD", 4);
+            EventManager.callEvent(n);
+        }
+        ///Remove Once all dev cards are playable
+        else if (evt.getSource() == b.roll_thief && GameState.getCurPlayer().getDevCards()[4] == 0)
+        {
+            System.out.println("You have a dev card that isn't yet playable, sorry bud.  Wait till you get a knight card :)");
         }
         if(evt.getSource() == b.trade_player)
         {
@@ -235,5 +277,10 @@ public class Logic implements EventListener, ActionListener
         EventManager.registerEvent("PLAYER_BUILD_ROAD", this);
         EventManager.registerEvent("PLAYER_BUILD_SETTLEMENT", this);
         EventManager.registerEvent("PLAYER_BUILD_REQUEST", this);
+        EventManager.registerEvent("PLAYER_PLAY_DEVELOPMENTCARD", this);
+        
+        //Knight Registered Events
+        EventManager.registerEvent("PLAYER_KNIGHT_PLACED", this);
+        EventManager.registerEvent("PLAYER_KNIGHTED_CHOSEN", this);
 	}
 }
