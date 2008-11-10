@@ -510,7 +510,9 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
         Settlement lowEstimateNode = vertex[lowEstimateY][lowEstimateX];
         
         
-       
+        //Locates the node when actionState is currently in building settlement, the code
+        //will update this node with a settlement if it's canBuildSettlement() returns
+        //true
         if (GameState.getActionState() == GlobalVar.ACTION_ADD_SETTLEMENT){
             int m=0, n=0; 
             int min=1000, tempMin;
@@ -528,7 +530,8 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
                 tempSettlement = vertex[n][m];
         }
         
-        
+        //Locates the edge clicked on if current ActionState is ADD_ROAD,
+        //it will check for canBuildRoad() set to true.
         if(GameState.getActionState() == GlobalVar.ACTION_ADD_ROAD)
         {
             Road tRoad = null;
@@ -612,7 +615,7 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
     public void diceRollResources(int roll)
     {
         if (roll == 7) {
-            GameState.setActionState(GlobalVar.ACTION_MOVE_ROBBER);
+            GameState.setActionState(GlobalVar.ACTION_MOVE_ROBBER);        
         }
         else if (resource[roll] != null) {
             resource[roll].giveResources();

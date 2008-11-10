@@ -115,7 +115,17 @@ public class Player
         numberofDevCards++;
         
     }
-    
+    public void removeDevCard(int dType)
+    {
+        devCards[dType]--;
+        numberofDevCards--;
+    }
+    public boolean hasDevCards()
+    {
+        if (devCards[0] + devCards[1] + devCards[2] + devCards[3] + devCards[4] == 0) 
+            return false;
+       return true;
+    }
     public int[] getDevCards()
     {
     	return devCards;
