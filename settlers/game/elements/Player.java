@@ -93,7 +93,23 @@ public class Player
         resource[rType]--;
         numberOfResourceCards--;
     }
-    
+
+        // works like previous two functions, but permits a greater
+        // addition or subtraction than 1 resource
+    public void alterResource(int rType, int amountAlteration, int operationFlag)
+    {
+        switch(operationFlag)
+        {
+            case 0: // 0 == addition
+                resource[rType] += amountAlteration;
+                break;
+            case 1: // 1 == subtraction
+                resource[rType] -= amountAlteration;
+                break;
+        }
+        resource[rType]++;
+    }
+
     public void printResources()
     {
         System.out.println(getBrick()+"\n"+getOre()+"\n"+getSheep()+"\n"+getWheat()+"\n"+getWood()+"\n");

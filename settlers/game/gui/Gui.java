@@ -103,7 +103,22 @@ public class Gui implements EventListener
         {
             PlayerEvent pe = (PlayerEvent) e;
             //Player requests to build an object on to the board
-            
+    
+            if (pe.player.canBuySettlement() == false)
+            {
+                gui.getBottomPanel().getButtonPanel().build_road.setEnabled(false);
+            }
+
+            if (pe.player.canBuyCity() == false)
+            {
+                gui.getBottomPanel().getButtonPanel().build_city.setEnabled(false);
+            }
+
+            if (pe.player.canBuyDevCard() == false)
+            {
+                gui.getBottomPanel().getButtonPanel().build_dev.setEnabled(false);
+            }
+        
             //Talk to ButtonPanel and tell it to switch
             gui.getBottomPanel().getButtonPanel().switchPanel("BUILD");
             gui.getBottomPanel().getButtonPanel().build_next.grabFocus();
