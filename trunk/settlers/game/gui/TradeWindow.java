@@ -355,7 +355,7 @@ public class TradeWindow implements ActionListener
                 status.setText(curPlayer.getName() + ": Press the 'Show Resources' button.");
                 execute.setText("Offer Resources");
                 execute.setActionCommand("Next Player");
-				execute.setEnabled(false);
+                execute.setEnabled(false);
                 display.addActionListener(this);
                 display.setActionCommand("Show");
                 displayPanel.add(display);
@@ -502,7 +502,7 @@ public class TradeWindow implements ActionListener
         {
             status.setText(curPlayer.getName() + ": Select the resource you are willing to trade.");
             display.setEnabled(false);
-			execute.setEnabled(true);
+            execute.setEnabled(true);
             
             if (counter == 2)
             {
@@ -1515,31 +1515,31 @@ public class TradeWindow implements ActionListener
         
         return true;
     }
-	
-	public void setResourceVisibility(int counter)
-	{
-		if (counter == 1)
-		{
-			if (offBrick.getClicked() == false)
-			{
-				offBrick.setVisible(false);
-			}
-			if (offOre.getClicked() == false)
-			{
-				offOre.setVisible(false);
-			}
-			if (offSheep.getClicked() == false)
-			{
-				offSheep.setVisible(false);
-			}
-			if (offWheat.getClicked() == false)
-			{
-				offWheat.setVisible(false);
-			}
-			if (offWood.getClicked() == false)
-			{
-				offWood.setVisible(false);
-			}
+    
+    public void setResourceVisibility(int counter)
+    {
+        if (counter == 1)
+        {
+            if (offBrick.getClicked() == false)
+            {
+                offBrick.setVisible(false);
+            }
+            if (offOre.getClicked() == false)
+            {
+                offOre.setVisible(false);
+            }
+            if (offSheep.getClicked() == false)
+            {
+                offSheep.setVisible(false);
+            }
+            if (offWheat.getClicked() == false)
+            {
+                offWheat.setVisible(false);
+            }
+            if (offWood.getClicked() == false)
+            {
+                offWood.setVisible(false);
+            }
             
             if (askBrick.getClicked() == false)
             {
@@ -1561,77 +1561,77 @@ public class TradeWindow implements ActionListener
             {
                 askWood.setVisible(false);
             }
-		}
-		else if (counter == 2)
-		{
-			if (off2Brick.getClicked() == false)
-			{
-				off2Brick.setVisible(false);
-			}
-			if (off2Ore.getClicked() == false)
-			{
-				off2Ore.setVisible(false);
-			}
-			if (off2Sheep.getClicked() == false)
-			{
-				off2Sheep.setVisible(false);
-			}
-			if (off2Wheat.getClicked() == false)
-			{
-				off2Wheat.setVisible(false);
-			}
-			if (off2Wood.getClicked() == false)
-			{
-				off2Wood.setVisible(false);
-			}		
-		}
-		else if (counter == 3)
-		{
-			if (off3Brick.getClicked() == false)
-			{
-				off3Brick.setVisible(false);
-			}
-			if (off3Ore.getClicked() == false)
-			{
-				off3Ore.setVisible(false);
-			}
-			if (off3Sheep.getClicked() == false)
-			{
-				off3Sheep.setVisible(false);
-			}
-			if (off3Wheat.getClicked() == false)
-			{
-				off3Wheat.setVisible(false);
-			}
-			if (off3Wood.getClicked() == false)
-			{
-				off3Wood.setVisible(false);
-			}		
-		}
-		else if (counter == 4)
-		{
-			if (off4Brick.getClicked() == false)
-			{
-				off4Brick.setVisible(false);
-			}
-			if (off4Ore.getClicked() == false)
-			{
-				off4Ore.setVisible(false);
-			}
-			if (off4Sheep.getClicked() == false)
-			{
-				off4Sheep.setVisible(false);
-			}
-			if (off4Wheat.getClicked() == false)
-			{
-				off4Wheat.setVisible(false);
-			}
-			if (off4Wood.getClicked() == false)
-			{
-				off4Wood.setVisible(false);
-			}
-		}
-	}
+        }
+        else if (counter == 2)
+        {
+            if (off2Brick.getClicked() == false)
+            {
+                off2Brick.setVisible(false);
+            }
+            if (off2Ore.getClicked() == false)
+            {
+                off2Ore.setVisible(false);
+            }
+            if (off2Sheep.getClicked() == false)
+            {
+                off2Sheep.setVisible(false);
+            }
+            if (off2Wheat.getClicked() == false)
+            {
+                off2Wheat.setVisible(false);
+            }
+            if (off2Wood.getClicked() == false)
+            {
+                off2Wood.setVisible(false);
+            }        
+        }
+        else if (counter == 3)
+        {
+            if (off3Brick.getClicked() == false)
+            {
+                off3Brick.setVisible(false);
+            }
+            if (off3Ore.getClicked() == false)
+            {
+                off3Ore.setVisible(false);
+            }
+            if (off3Sheep.getClicked() == false)
+            {
+                off3Sheep.setVisible(false);
+            }
+            if (off3Wheat.getClicked() == false)
+            {
+                off3Wheat.setVisible(false);
+            }
+            if (off3Wood.getClicked() == false)
+            {
+                off3Wood.setVisible(false);
+            }        
+        }
+        else if (counter == 4)
+        {
+            if (off4Brick.getClicked() == false)
+            {
+                off4Brick.setVisible(false);
+            }
+            if (off4Ore.getClicked() == false)
+            {
+                off4Ore.setVisible(false);
+            }
+            if (off4Sheep.getClicked() == false)
+            {
+                off4Sheep.setVisible(false);
+            }
+            if (off4Wheat.getClicked() == false)
+            {
+                off4Wheat.setVisible(false);
+            }
+            if (off4Wood.getClicked() == false)
+            {
+                off4Wood.setVisible(false);
+            }
+        }
+    }
     
     public void setOfferVisibility(int counter)
     {

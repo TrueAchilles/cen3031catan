@@ -146,54 +146,54 @@ public class TabbedPanel extends javax.swing.JPanel implements EventListener {
         
         for(int i = 0; i < 5; i++)
         {
-        	switch(i)
-        	{
-        		case(0):
-        		{
-	            	if(dev[i] != 0)
-	            		if(dev[i] > 1)
-	            			resourcesText.append("Year of plenty x " + dev[i] + "\n");
-	            		else
-	            			resourcesText.append("Year of plenty\n");
-	            	break;
-        		}
-        		case(1):
-        		{
-	            	if(dev[i] != 0)
-	            		if(dev[i] > 1)
-	            			resourcesText.append("Road Building x " + dev[i] + "\n");
-	            		else
-	            			resourcesText.append("Road Building\n");
-	            	break;
-        		}
-        		case(2):
-        		{
-	            	if(dev[i] != 0)
-	            		if(dev[i] > 1)
-	            			resourcesText.append("Palace x " + dev[i] + "\n");
-	            		else
-	            			resourcesText.append("Palace\n");
-	            	break;
-        		}
-        		case(3):
-        		{
-	            	if(dev[i] != 0)
-	            		if(dev[i] > 1)
-	            			resourcesText.append("Monopoly x " + dev[i] + "\n");
-	            		else
-	            			resourcesText.append("Monopoly\n");
-	            	break;
-        		}
-        		case(4):
-        		{
-	            	if(dev[i] != 0)
-	            		if(dev[i] > 1)
-	            			resourcesText.append("Knight x " + dev[i] + "\n");
-	            		else
-	            			resourcesText.append("Knight\n");
-	            	break;
-        		}
-        	}
+            switch(i)
+            {
+                case(0):
+                {
+                    if(dev[i] != 0)
+                        if(dev[i] > 1)
+                            resourcesText.append("Year of plenty x " + dev[i] + "\n");
+                        else
+                            resourcesText.append("Year of plenty\n");
+                    break;
+                }
+                case(1):
+                {
+                    if(dev[i] != 0)
+                        if(dev[i] > 1)
+                            resourcesText.append("Road Building x " + dev[i] + "\n");
+                        else
+                            resourcesText.append("Road Building\n");
+                    break;
+                }
+                case(2):
+                {
+                    if(dev[i] != 0)
+                        if(dev[i] > 1)
+                            resourcesText.append("Palace x " + dev[i] + "\n");
+                        else
+                            resourcesText.append("Palace\n");
+                    break;
+                }
+                case(3):
+                {
+                    if(dev[i] != 0)
+                        if(dev[i] > 1)
+                            resourcesText.append("Monopoly x " + dev[i] + "\n");
+                        else
+                            resourcesText.append("Monopoly\n");
+                    break;
+                }
+                case(4):
+                {
+                    if(dev[i] != 0)
+                        if(dev[i] > 1)
+                            resourcesText.append("Knight x " + dev[i] + "\n");
+                        else
+                            resourcesText.append("Knight\n");
+                    break;
+                }
+            }
         }
     }
     
@@ -201,7 +201,7 @@ public class TabbedPanel extends javax.swing.JPanel implements EventListener {
     
     private void showCredits()
     {
-    	
+        
     }
     
     private void makeCredits() {

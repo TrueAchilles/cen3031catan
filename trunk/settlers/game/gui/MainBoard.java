@@ -62,7 +62,7 @@ public class MainBoard extends javax.swing.JPanel {
     
     public RollBox getRollBox()
     {
-    	return gameBoard.getRollBox();
+        return gameBoard.getRollBox();
     }
     
     public PlayerPanel getPlayerPanel()

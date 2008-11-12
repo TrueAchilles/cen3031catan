@@ -376,34 +376,34 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener
     }
 
 
-//	public void keyPressed(KeyEvent arg0) 
-//	{
-//		//The MenuItem keys
-//		if(arg0.getKeyCode() == KeyEvent.VK_N && arg0.getModifiers() == KeyEvent.CTRL_MASK)
-//			debug_quickStart.doClick();
-//		if(arg0.getKeyCode() == KeyEvent.VK_P && arg0.getModifiers() == KeyEvent.CTRL_MASK)
-//			humanPlayer.doClick();
-//		if(arg0.getKeyCode() == KeyEvent.VK_X && arg0.getModifiers() == KeyEvent.CTRL_MASK)
-//			exit.doClick();
-//		if(arg0.getKeyCode() == KeyEvent.VK_S && arg0.getModifiers() == KeyEvent.CTRL_MASK)
-//			smaller.doClick();
-//		if(arg0.getKeyCode() == KeyEvent.VK_L && arg0.getModifiers() == KeyEvent.CTRL_MASK)
-//			standard.doClick();
-//		
-//		//Menu keys
-//		if(arg0.getKeyCode() == KeyEvent.VK_G && arg0.getModifiers() == KeyEvent.ALT_MASK)
-//			gameMenu.doClick();
-//		if(arg0.getKeyCode() == KeyEvent.VK_D && arg0.getModifiers() == KeyEvent.ALT_MASK)
-//			debug_menu.doClick();
-//		if(arg0.getKeyCode() == KeyEvent.VK_C && arg0.getModifiers() == KeyEvent.ALT_MASK)
-//			connection.doClick();
-//		if(arg0.getKeyCode() == KeyEvent.VK_P && arg0.getModifiers() == KeyEvent.ALT_MASK)
-//			player.doClick();
-//	}
+//    public void keyPressed(KeyEvent arg0) 
+//    {
+//        //The MenuItem keys
+//        if(arg0.getKeyCode() == KeyEvent.VK_N && arg0.getModifiers() == KeyEvent.CTRL_MASK)
+//            debug_quickStart.doClick();
+//        if(arg0.getKeyCode() == KeyEvent.VK_P && arg0.getModifiers() == KeyEvent.CTRL_MASK)
+//            humanPlayer.doClick();
+//        if(arg0.getKeyCode() == KeyEvent.VK_X && arg0.getModifiers() == KeyEvent.CTRL_MASK)
+//            exit.doClick();
+//        if(arg0.getKeyCode() == KeyEvent.VK_S && arg0.getModifiers() == KeyEvent.CTRL_MASK)
+//            smaller.doClick();
+//        if(arg0.getKeyCode() == KeyEvent.VK_L && arg0.getModifiers() == KeyEvent.CTRL_MASK)
+//            standard.doClick();
+//        
+//        //Menu keys
+//        if(arg0.getKeyCode() == KeyEvent.VK_G && arg0.getModifiers() == KeyEvent.ALT_MASK)
+//            gameMenu.doClick();
+//        if(arg0.getKeyCode() == KeyEvent.VK_D && arg0.getModifiers() == KeyEvent.ALT_MASK)
+//            debug_menu.doClick();
+//        if(arg0.getKeyCode() == KeyEvent.VK_C && arg0.getModifiers() == KeyEvent.ALT_MASK)
+//            connection.doClick();
+//        if(arg0.getKeyCode() == KeyEvent.VK_P && arg0.getModifiers() == KeyEvent.ALT_MASK)
+//            player.doClick();
+//    }
 //
 //
-//	public void keyReleased(KeyEvent arg0) { }
+//    public void keyReleased(KeyEvent arg0) { }
 //
 //
-//	public void keyTyped(KeyEvent arg0) { }
+//    public void keyTyped(KeyEvent arg0) { }
 }
