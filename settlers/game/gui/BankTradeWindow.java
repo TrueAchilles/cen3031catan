@@ -339,8 +339,8 @@ public class BankTradeWindow implements ActionListener {
             frame.dispose();
         }
     }
-	
-	public void setResourceVisibility() {
+    
+    public void setResourceVisibility() {
         if (offBrick.getClicked() == false)
             offBrick.setVisible(false);
         if (offOre.getClicked() == false)
@@ -362,7 +362,7 @@ public class BankTradeWindow implements ActionListener {
             askWheat.setVisible(false);
         if (askWood.getClicked() == false)
             askWood.setVisible(false);
-	}
+    }
     
     public void setOfferVisibility() {
         if (curPlayer.getBrick() == 0)

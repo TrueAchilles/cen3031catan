@@ -19,8 +19,8 @@ import settlers.game.logic.Logic;
 
 public class ButtonPanel extends javax.swing.JPanel
 {
-	private Logic logic;
-	
+    private Logic logic;
+    
     private JPanel openingButtonPanel;
     private JLabel jLabel1;
     private JLabel roll_label;
@@ -69,8 +69,8 @@ public class ButtonPanel extends javax.swing.JPanel
     
     private void initGUI() {
         try {
-        	logic = GameState.getLogic();
-        	
+            logic = GameState.getLogic();
+            
             thisLayout = new CardLayout();
             this.setLayout(thisLayout);
             this.setPreferredSize(new java.awt.Dimension(350, 150));
@@ -309,7 +309,7 @@ public class ButtonPanel extends javax.swing.JPanel
     
     public void switchPanel(String _pane)
     {
-    	thisLayout.show(this, _pane);
+        thisLayout.show(this, _pane);
     }
 
 }

@@ -15,8 +15,8 @@ import settlers.game.gui.ButtonPanel;
 
 public class Logic implements EventListener, ActionListener
 {
-	private ButtonPanel b;
-	
+    private ButtonPanel b;
+    
     public int iteration; // 1 means first init iteration, 2 means 2nd init iteration, 3 means game iterations (don't need to increment after 3)
     
     public void eventCalled(Event e)
@@ -104,7 +104,7 @@ public class Logic implements EventListener, ActionListener
         
         else if (event.equals("PLAYER_ROLLED"))
         {
-        	//When the player has already rolled
+            //When the player has already rolled
             b.roll_roll.setEnabled(false);
             b.roll_next.setEnabled(true);
             b.roll_next.grabFocus();
@@ -124,36 +124,36 @@ public class Logic implements EventListener, ActionListener
         }
         else if(event.equals("PLAYER_BUILD_SETTLEMENT"))
         {
-        	PlayerEvent pe = (PlayerEvent) e;
-        	
-        	pe.player.buildSettlement();
-        	
-        	GameState.setActionState(-1);
-        	
-        	PlayerEvent E = new PlayerEvent("PLAYER_BUILT_SETTLEMENT", GameState.getCurPlayer());
-        	EventManager.callEvent(E);
+            PlayerEvent pe = (PlayerEvent) e;
+            
+            pe.player.buildSettlement();
+            
+            GameState.setActionState(-1);
+            
+            PlayerEvent E = new PlayerEvent("PLAYER_BUILT_SETTLEMENT", GameState.getCurPlayer());
+            EventManager.callEvent(E);
         }
         else if(event.equals("PLAYER_BUILD_ROAD"))
         {
-        	PlayerEvent pe = (PlayerEvent) e;
-        	
-        	pe.player.buildRoad();
-        	
-        	GameState.setActionState(-1);
-        	
-        	PlayerEvent E = new PlayerEvent("PLAYER_BUILT_ROAD", GameState.getCurPlayer());
-        	EventManager.callEvent(E);
+            PlayerEvent pe = (PlayerEvent) e;
+            
+            pe.player.buildRoad();
+            
+            GameState.setActionState(-1);
+            
+            PlayerEvent E = new PlayerEvent("PLAYER_BUILT_ROAD", GameState.getCurPlayer());
+            EventManager.callEvent(E);
         }
         else if(event.equals("PLAYER_BUILD_DEV_CARD"))
         {
-        	
-        	PlayerEvent pe = (PlayerEvent) e;
-        	
-        	pe.player.buildDevCard();
-        	
-        	GameState.setActionState(-1);
-        	
-        	GameState.getGui().gui.getMainBoard().getGameBoard().getDevCard();
+            
+            PlayerEvent pe = (PlayerEvent) e;
+            
+            pe.player.buildDevCard();
+            
+            GameState.setActionState(-1);
+            
+            GameState.getGui().gui.getMainBoard().getGameBoard().getDevCard();
         }
         else if(event.equals("PLAYER_PLAY_DEVELOPMENTCARD"))
         {
@@ -224,7 +224,7 @@ public class Logic implements EventListener, ActionListener
         }
         if(evt.getSource() == b.trade_player)
         {
-        	TradeWindow t = new TradeWindow(GameState.players.size());
+            TradeWindow t = new TradeWindow(GameState.players.size());
         }
         
         if(evt.getSource() == b.trade_bank)
@@ -258,8 +258,8 @@ public class Logic implements EventListener, ActionListener
         }
         if(evt.getSource() == GameState.getGui().gui.getBottomPanel().startButton)
         {
-        	PlayerEvent n = new PlayerEvent("PLAYER_ROLL_PHASE_BEGIN", GameState.getCurPlayer());
-        	EventManager.callEvent(n);
+            PlayerEvent n = new PlayerEvent("PLAYER_ROLL_PHASE_BEGIN", GameState.getCurPlayer());
+            EventManager.callEvent(n);
         }
     }
     
@@ -282,5 +282,5 @@ public class Logic implements EventListener, ActionListener
         //Knight Registered Events
         EventManager.registerEvent("PLAYER_KNIGHT_PLACED", this);
         EventManager.registerEvent("PLAYER_KNIGHTED_CHOSEN", this);
-	}
+    }
 }

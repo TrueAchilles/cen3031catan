@@ -38,101 +38,101 @@ public class RollBox extends JPanel implements Runnable, EventListener
     
     private void initGUI() 
     {
-    	rolling = false;
-    	finalRoll = false;
-    	
+        rolling = false;
+        finalRoll = false;
+        
         anim = new BufferedImage[6];
         
         rand = new Random();
-    	
+        
         this.setPreferredSize(new java.awt.Dimension(120, 120));
         this.setSize(120, 120);
         this.setBackground(new java.awt.Color(192,192,192));
         this.setBorder(new LineBorder(Color.black, 3));
         
-    	for (int i = 0; i <= 5; i++) {
-			try {
-				anim[i] = ImageIO.read(getClass().getResource("/settlers/game/images/d" + (i+1) + ".png"));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+        for (int i = 0; i <= 5; i++) {
+            try {
+                anim[i] = ImageIO.read(getClass().getResource("/settlers/game/images/d" + (i+1) + ".png"));
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
         
         this.setVisible(false);
     }
     
     public int roll()
     {
-    	new Thread(this).start();
-    	return rollDie();
+        new Thread(this).start();
+        return rollDie();
     }
     
     private int rollDie()
     {
-    	int rollValue = dice.roll(2);
-    	System.out.println("Dice 1: " + dice.getD1() + " Dice 2: " + dice.getD2());
-    	
-    	animate();
-    	
-    	return rollValue;
-    	
+        int rollValue = dice.roll(2);
+        System.out.println("Dice 1: " + dice.getD1() + " Dice 2: " + dice.getD2());
+        
+        animate();
+        
+        return rollValue;
+        
     }
     
     private void animate()
     {
-    	rolling = true;
-    	repaint();
+        rolling = true;
+        repaint();
     }
     
     public void paint(Graphics g) {
-    	super.paint(g);
-    	
-    	if(rolling)
-    	{
-    		g.drawImage(anim[rand.nextInt(6)], 10, 10, null);
-    		g.drawImage(anim[rand.nextInt(6)], 60, 60, null);
-    	}
-    	else if(finalRoll)
-    	{
-    		g.drawImage(anim[dice.getD1() - 1], 10, 10, null);
-    		g.drawImage(anim[dice.getD2() - 1], 60, 60, null);
-    	}
-    	
+        super.paint(g);
+        
+        if(rolling)
+        {
+            g.drawImage(anim[rand.nextInt(6)], 10, 10, null);
+            g.drawImage(anim[rand.nextInt(6)], 60, 60, null);
+        }
+        else if(finalRoll)
+        {
+            g.drawImage(anim[dice.getD1() - 1], 10, 10, null);
+            g.drawImage(anim[dice.getD2() - 1], 60, 60, null);
+        }
+        
     }
     
-	public void run() 
-	{
-		rolling = true;
-		for(int i = 0; i < 10; i++)
-		{
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			repaint();
-		}
-		rolling = false;
-		finalRoll = true;
-		repaint();
-		
-		PlayerEvent e = new PlayerEvent("PLAYER_ROLLED", GameState.getCurPlayer());
-		EventManager.callEvent(e);
-		
-	}
+    public void run() 
+    {
+        rolling = true;
+        for(int i = 0; i < 10; i++)
+        {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            repaint();
+        }
+        rolling = false;
+        finalRoll = true;
+        repaint();
+        
+        PlayerEvent e = new PlayerEvent("PLAYER_ROLLED", GameState.getCurPlayer());
+        EventManager.callEvent(e);
+        
+    }
 
-	public void eventCalled(Event e) {
+    public void eventCalled(Event e) {
 
-		String event = e.getEvent();
-		
-		if(event.equals("DICE_ROLLED"))
-		{
-			int value = roll();
-			GameState.getGui().gui.getMainBoard().getGameBoard().diceRollResources(value);
-			GameState.getGui().gui.getBottomPanel().getTabbedPanel().setRandomDiceRoll(GameState.getCurPlayer().getName() + " rolled: " + value +"\n");
-		}
-	}
+        String event = e.getEvent();
+        
+        if(event.equals("DICE_ROLLED"))
+        {
+            int value = roll();
+            GameState.getGui().gui.getMainBoard().getGameBoard().diceRollResources(value);
+            GameState.getGui().gui.getBottomPanel().getTabbedPanel().setRandomDiceRoll(GameState.getCurPlayer().getName() + " rolled: " + value +"\n");
+        }
+    }
 
 }

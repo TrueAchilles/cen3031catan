@@ -625,7 +625,7 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
     
     public RollBox getRollBox()
     {
-    	return rollBox;
+        return rollBox;
     }
     
     

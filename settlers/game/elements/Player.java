@@ -120,14 +120,14 @@ public class Player
         victoryPointTotal++;
         if(victoryPointTotal == 10)
         {
-        	PlayerEvent n = new PlayerEvent("GAME_END", GameState.getCurPlayer());
-        	EventManager.callEvent(n);
+            PlayerEvent n = new PlayerEvent("GAME_END", GameState.getCurPlayer());
+            EventManager.callEvent(n);
         }
     }
     
     public void addDevCard(int dType)
     {
-    	devCards[dType]++;
+        devCards[dType]++;
         numberofDevCards++;
         
     }
@@ -144,65 +144,65 @@ public class Player
     }
     public int[] getDevCards()
     {
-    	return devCards;
+        return devCards;
     }
     
     public boolean canBuySettlement()
     {
-    	if(resource[GlobalVar.BRICK] > 0 && resource[GlobalVar.WHEAT] > 0 && resource[GlobalVar.WOOD] > 0 && resource[GlobalVar.SHEEP] > 0)
-    		return true;
-    	return false;
+        if(resource[GlobalVar.BRICK] > 0 && resource[GlobalVar.WHEAT] > 0 && resource[GlobalVar.WOOD] > 0 && resource[GlobalVar.SHEEP] > 0)
+            return true;
+        return false;
     }
     
     public boolean canBuyRoad()
     {
-    	if(resource[GlobalVar.BRICK] > 0 && resource[GlobalVar.WOOD] > 0)
-    		return true;
-    	return false;
+        if(resource[GlobalVar.BRICK] > 0 && resource[GlobalVar.WOOD] > 0)
+            return true;
+        return false;
     }
     
     public boolean canBuyCity()
     {
-    	if(resource[GlobalVar.ORE] > 2 && resource[GlobalVar.WHEAT] > 1)
-    		return true;
-    	return false;
+        if(resource[GlobalVar.ORE] > 2 && resource[GlobalVar.WHEAT] > 1)
+            return true;
+        return false;
     }
     
     public boolean canBuyDevCard()
     {
-    	if(resource[GlobalVar.ORE] > 0 && resource[GlobalVar.WHEAT] > 0 && resource[GlobalVar.SHEEP] > 0)
-    		return true;
-    	return false;
+        if(resource[GlobalVar.ORE] > 0 && resource[GlobalVar.WHEAT] > 0 && resource[GlobalVar.SHEEP] > 0)
+            return true;
+        return false;
     }
     
     public void buildSettlement()
     {
-    	resource[GlobalVar.BRICK]--;
-    	resource[GlobalVar.WHEAT]--;
-    	resource[GlobalVar.WOOD]--;
-    	resource[GlobalVar.SHEEP]--;
+        resource[GlobalVar.BRICK]--;
+        resource[GlobalVar.WHEAT]--;
+        resource[GlobalVar.WOOD]--;
+        resource[GlobalVar.SHEEP]--;
         numberOfResourceCards -= 4;
     }
     
     public void buildRoad()
     {
-    	resource[GlobalVar.BRICK]--;
-    	resource[GlobalVar.WOOD]--;
+        resource[GlobalVar.BRICK]--;
+        resource[GlobalVar.WOOD]--;
         numberOfResourceCards -= 2;
     }
     
     public void buildCity()
     {
-    	resource[GlobalVar.ORE] -= 3;
-    	resource[GlobalVar.WHEAT] -= 2;
+        resource[GlobalVar.ORE] -= 3;
+        resource[GlobalVar.WHEAT] -= 2;
         numberOfResourceCards -= 5;
     }
     
     public void buildDevCard()
     {
-    	resource[GlobalVar.ORE]--;
-    	resource[GlobalVar.WHEAT]--;
-    	resource[GlobalVar.SHEEP]--;
+        resource[GlobalVar.ORE]--;
+        resource[GlobalVar.WHEAT]--;
+        resource[GlobalVar.SHEEP]--;
         numberOfResourceCards -= 3;
     }
 }
