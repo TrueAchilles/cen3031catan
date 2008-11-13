@@ -78,7 +78,7 @@ public class Gui implements EventListener
             gui.getBottomPanel().getButtonPanel().roll_next.setEnabled(false);
             
             //If Player has a development Card, allows him to play it if he so chooses to.
-            if (GameState.getCurPlayer().hasDevCards())
+            if (GameState.getCurPlayer().getDevCards().getSize() > 0)
                 gui.getBottomPanel().getButtonPanel().roll_thief.setEnabled(true);
             else
                 gui.getBottomPanel().getButtonPanel().roll_thief.setEnabled(false);
@@ -210,7 +210,7 @@ public class Gui implements EventListener
             gui.getBottomPanel().getButtonPanel().roll_thief.setEnabled(false);
             
             //Knight Card is longer in the Current Player's hand
-            GameState.getCurPlayer().removeDevCard(4);
+            GameState.getCurPlayer().getDevCards().turnOver(1);
             
             //Checks to see if Player rolled or not, if roll has not yet executed then the player will still be able to roll but not go to the next phase
             if (gui.getBottomPanel().getButtonPanel().roll_roll.isEnabled() == true)

@@ -7,24 +7,30 @@ import settlers.game.*;
 import settlers.game.events.EventManager;
 import settlers.game.events.PlayerEvent;
 
+import settlers.game.gui.Deck;
+import settlers.game.gui.DevelopmentCard;
+
 public class Player
 {
     private static int totalNum = 0;
     private Color playerColor;
     private int id = 0;
     String name = null;
-    private int resource[] = { 2, 2, 2, 2, 2, 2 }; 
-    private int devCards[] = {0, 0, 0, 0, 0};
+    private int resource[] = { 200, 200, 200, 200, 200, 200 }; 
+    //private int devCards[] = {0, 0, 0, 0, 0};
     private int victoryPointTotal;
     private int numberOfResourceCards = 12;
     private int numberofDevCards = 0;
 
+	private Deck devCards;
+	
     public Player(String _name, Color _color)
     {
         name = _name;
         id = ++totalNum;
         playerColor = _color;
         victoryPointTotal = 0;
+		devCards = new Deck("player", GameState.getGui().gui.getMainBoard().getGameBoard());
     }
     
     public String getName()
@@ -124,7 +130,8 @@ public class Player
             EventManager.callEvent(n);
         }
     }
-    
+	
+    /*
     public void addDevCard(int dType)
     {
         devCards[dType]++;
@@ -141,8 +148,9 @@ public class Player
         if (devCards[0] + devCards[1] + devCards[2] + devCards[3] + devCards[4] == 0) 
             return false;
        return true;
-    }
-    public int[] getDevCards()
+    }*/
+	
+    public Deck getDevCards()
     {
         return devCards;
     }

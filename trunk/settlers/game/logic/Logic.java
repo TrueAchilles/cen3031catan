@@ -151,9 +151,9 @@ public class Logic implements EventListener, ActionListener
             
             pe.player.buildDevCard();
             
+			pe.player.getDevCards().addCard(GameState.getGui().gui.getMainBoard().getGameBoard().getBoardDevCards().drawCard());
+			
             GameState.setActionState(-1);
-            
-            GameState.getGui().gui.getMainBoard().getGameBoard().getDevCard();
         }
         else if(event.equals("PLAYER_PLAY_DEVELOPMENTCARD"))
         {
@@ -211,14 +211,14 @@ public class Logic implements EventListener, ActionListener
             EventManager.callEvent(n);
 
         }
-        if(evt.getSource() == b.roll_thief && GameState.getCurPlayer().getDevCards()[4] > 0) 
+        if(evt.getSource() == b.roll_thief && GameState.getCurPlayer().getDevCards().hasType(1) > 0) 
         {
             //Throws PLAYER_PLAY_DEVELOPMENTCARD Event to Logic, with the Knight card
-            DevelopmentEvent n = new DevelopmentEvent("PLAYER_PLAY_DEVELOPMENTCARD", 4);
+            DevelopmentEvent n = new DevelopmentEvent("PLAYER_PLAY_DEVELOPMENTCARD", 1);
             EventManager.callEvent(n);
         }
         ///Remove Once all dev cards are playable
-        else if (evt.getSource() == b.roll_thief && GameState.getCurPlayer().getDevCards()[4] == 0)
+        else if (evt.getSource() == b.roll_thief && GameState.getCurPlayer().getDevCards().hasType(1) == 0)
         {
             System.out.println("You have a dev card that isn't yet playable, sorry bud.  Wait till you get a knight card :)");
         }

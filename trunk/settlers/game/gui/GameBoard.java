@@ -9,6 +9,9 @@ import settlers.game.events.RoadEvent;
 import settlers.game.logic.*;
 import settlers.game.*;
 
+import settlers.game.gui.Deck;
+import settlers.game.gui.DevelopmentCard;
+
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
@@ -42,7 +45,9 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
     
     Settlement robber;
     
-     Graphics g2;
+	Deck devCards;
+	
+    Graphics g2;
      
     /**
     * Constructor for the gameboard.&  Adds a listener for the mouse and sets 
@@ -70,7 +75,9 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
         thisLayout.putConstraint(thisLayout.EAST, rollBox, 0, thisLayout.EAST, this);
         thisLayout.putConstraint(thisLayout.NORTH, rollBox, 0, thisLayout.NORTH, this);
         
-        this.setBackground(Color.blue);        
+        this.setBackground(Color.blue);   
+
+		devCards = new Deck("board", this);
     }
     
     /*
@@ -488,7 +495,6 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
     
     private int calculateDistance(int x, int y, int i, int j)
     {
-
         return (int)Math.sqrt( Math.pow( x - vertex[j][i].getXcord(),2) + Math.pow( y - vertex[j][i].getYcord(),2) );
     }
     
@@ -628,7 +634,6 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
         return rollBox;
     }
     
-    
         
     private void shuffleArray(int[] ar)
     {
@@ -641,9 +646,9 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
         }
     }
     
-    public void getDevCard()
+    public Deck getBoardDevCards()
     {
-        DevCard dev = new DevCard(this);
+        return devCards;
     }
   
 }
