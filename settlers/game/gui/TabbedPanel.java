@@ -7,14 +7,18 @@ import javax.swing.JTextArea;
 
 import settlers.game.GameState;
 import settlers.game.events.*;
+import settlers.game.gui.Deck;
+import settlers.game.gui.DevelopmentCard;
 
 public class TabbedPanel extends javax.swing.JPanel implements EventListener {
     private JScrollPane gameTextSP;
     private JScrollPane rollSP;
     private JScrollPane resourcesSP;
+	private JScrollPane cardSP;
     private JTabbedPane tabbedPanel;
+	
     private JTextArea errorText;
-    private JPanel cardPanel;
+    private JTextArea cardText;
     private JTextArea rollText;
     private JTextArea resourcesText;
     private JTextArea gameText;
@@ -76,8 +80,11 @@ public class TabbedPanel extends javax.swing.JPanel implements EventListener {
                     tabbedPanel.setEnabledAt(3, false);
                 }
                 {
-                    cardPanel = new JPanel();
-                    tabbedPanel.addTab("Your Cards", null, cardPanel, null);
+					cardText = new JTextArea();
+                    cardText.setEditable(false);
+					cardSP = new javax.swing.JScrollPane(cardText);
+                    tabbedPanel.addTab("Your Cards", null, cardSP, null);
+					cardSP.setPreferredSize(new java.awt.Dimension(378,140));
                     tabbedPanel.setEnabledAt(4, false);
                 }
                 {
@@ -142,55 +149,57 @@ public class TabbedPanel extends javax.swing.JPanel implements EventListener {
     
     private void displayDevCards()
     {
-        int[] dev = GameState.getCurPlayer().getDevCards();
+        Deck dev = GameState.getCurPlayer().getDevCards();
         
-        for(int i = 0; i < 5; i++)
+		cardText.setText(settlers.game.GameState.getCurPlayer().getName() + "'s Development Cards\n\n");
+		
+        for(int i = 1; i < 6; i++)
         {
             switch(i)
             {
-                case(0):
-                {
-                    if(dev[i] != 0)
-                        if(dev[i] > 1)
-                            resourcesText.append("Year of plenty x " + dev[i] + "\n");
-                        else
-                            resourcesText.append("Year of plenty\n");
-                    break;
-                }
                 case(1):
                 {
-                    if(dev[i] != 0)
-                        if(dev[i] > 1)
-                            resourcesText.append("Road Building x " + dev[i] + "\n");
+                    if(dev.hasType(1) != 0)
+                        if(dev.hasType(1) > 1)
+                            cardText.append("Knight x " + dev.hasType(1) + "\n");
                         else
-                            resourcesText.append("Road Building\n");
+                            cardText.append("Knight\n");
                     break;
                 }
                 case(2):
                 {
-                    if(dev[i] != 0)
-                        if(dev[i] > 1)
-                            resourcesText.append("Palace x " + dev[i] + "\n");
+                    if(dev.hasType(2) != 0)
+                        if(dev.hasType(2) > 1)
+                            cardText.append("Road Building x " + dev.hasType(2) + "\n");
                         else
-                            resourcesText.append("Palace\n");
+                            cardText.append("Road Building\n");
                     break;
                 }
                 case(3):
                 {
-                    if(dev[i] != 0)
-                        if(dev[i] > 1)
-                            resourcesText.append("Monopoly x " + dev[i] + "\n");
+                    if(dev.hasType(3) != 0)
+                        if(dev.hasType(3) > 1)
+                            cardText.append("Monopoly x " + dev.hasType(3) + "\n");
                         else
-                            resourcesText.append("Monopoly\n");
+                            cardText.append("Monopoly\n");
                     break;
                 }
                 case(4):
                 {
-                    if(dev[i] != 0)
-                        if(dev[i] > 1)
-                            resourcesText.append("Knight x " + dev[i] + "\n");
+                    if(dev.hasType(4) != 0)
+                        if(dev.hasType(4) > 1)
+                            cardText.append("Year of Plenty x " + dev.hasType(4) + "\n");
                         else
-                            resourcesText.append("Knight\n");
+                            cardText.append("Year of Plenty\n");
+                    break;
+                }
+                case(5):
+                {
+                    if(dev.hasType(5) != 0)
+                        if(dev.hasType(5) > 1)
+                            cardText.append("Palace x " + dev.hasType(5) + "\n");
+                        else
+                            cardText.append("Palace\n");
                     break;
                 }
             }
@@ -256,9 +265,9 @@ public class TabbedPanel extends javax.swing.JPanel implements EventListener {
         return this.errorText;
     }
 
-    public JPanel getCardPanel() {
+    public JTextArea getCardText() {
         // TODO Auto-generated method stub
-        return cardPanel;
+        return cardText;
     }
     
     public void setRandomDiceRoll(String s)
