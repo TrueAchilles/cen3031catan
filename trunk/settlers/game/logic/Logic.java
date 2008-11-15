@@ -224,7 +224,7 @@ public class Logic implements EventListener, ActionListener
         }
         if(evt.getSource() == b.trade_player)
         {
-            TradeWindow t = new TradeWindow(GameState.players.size());
+            PlayerTrade pt = new PlayerTrade(GameState.players.size());
         }
         
         if(evt.getSource() == b.trade_bank)

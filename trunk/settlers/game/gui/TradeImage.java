@@ -41,6 +41,11 @@ class TradeImage extends JLabel implements MouseListener
         return clicked;
     }
     
+    public void setClicked(boolean clicked)
+    {
+        this.clicked = clicked;
+    }
+    
     public void mouseClicked(MouseEvent event)
     {
         if (clicked == false)
