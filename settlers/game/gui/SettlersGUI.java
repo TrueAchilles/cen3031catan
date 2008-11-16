@@ -38,6 +38,8 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener
     
     private MainBoard mainBoard;
     private JMenu gameMenu;
+    private JMenuItem debug_rollaSeven;
+    private JMenuItem debug_showMeTheMoney;
     private JMenuItem debug_quickStart;
     private JMenuItem debug_bigQuickStart;
     private JMenu debug_menu;
@@ -95,7 +97,7 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener
                     {
                         newGame = new JMenuItem();
                         gameMenu.add(newGame);
-                        newGame.setText("New Game");
+                        newGame.setText("Reset Board");
                         newGame.addActionListener(this);
                     }
                     {
@@ -252,6 +254,20 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener
                         debug_bigQuickStart.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, ActionEvent.CTRL_MASK));
                         debug_bigQuickStart.addActionListener(this);
                     }
+                    {
+                        debug_showMeTheMoney = new JMenuItem();
+                        debug_menu.add(debug_showMeTheMoney);
+                        debug_showMeTheMoney.setText("Show Me The Money");
+                        debug_showMeTheMoney.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, ActionEvent.CTRL_MASK));
+                        debug_showMeTheMoney.addActionListener(this);
+                    }
+                    {
+                        debug_rollaSeven = new JMenuItem();
+                        debug_menu.add(debug_rollaSeven);
+                        debug_rollaSeven.setText("Roll a Seven");
+                        debug_rollaSeven.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, ActionEvent.CTRL_MASK));
+                        debug_rollaSeven.addActionListener(this);
+                    }
                         /*{
                             connectLan = new JMenuItem();
                             connectTo.add(connectLan);
@@ -337,6 +353,11 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener
         {
             event_manager.quickStart(true);
         }
+        if(evt.getSource() == this.debug_showMeTheMoney)
+        {
+            event_manager.muchMoney();
+        }
+        
         if(evt.getSource() == this.standard)
         {
             this.smaller.setSelected(!standard.isSelected());
