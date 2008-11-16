@@ -10,7 +10,7 @@ public class GlobalVar {
     // Game Modifiers
     public static final boolean DEBUG_MODE = true;
     
-    public static final int ODD_SWITCH = 1; // odd name for an odd variable, eh? Switch this to break all. 
+    public static final int ODD_SWITCH = 0; // odd name for an odd variable, eh? Switch this to break all. 
     public static final int MAP[][] = {
     
         { 0,0,0,0,0,0,0,0 },
@@ -26,10 +26,33 @@ public class GlobalVar {
         { 0,0,1,1,1,1,0,0 },
         { 0,0,0,1,1,0,0,0 },
         { 0,0,0,0,0,0,0,0 } };
+        
+            
+        public static final int BIGMAP[][] = {
+        
+        { 0,0,0,0,0,0,0,0,0,0,0,0 },
+        { 0,0,0,0,0,2,1,0,0,0,0,0 },
+        { 0,0,0,0,2,1,2,1,0,0,0,0 },
+        { 0,0,0,2,1,2,1,2,1,0,0,0 },
+        { 0,0,2,1,2,1,2,1,2,1,0,0 },
+        { 0,0,1,2,1,2,1,2,1,1,0,0 },
+        { 0,0,2,1,2,1,2,1,2,1,0,0 },
+        { 0,0,1,2,1,2,1,2,1,1,0,0 },
+        { 0,0,2,1,2,1,2,1,2,1,0,0 },
+        { 0,0,1,2,1,2,1,2,1,1,0,0 },
+        { 0,0,2,1,2,1,2,1,2,1,0,0 },
+        { 0,0,1,2,1,2,1,2,1,1,0,0 },
+        { 0,0,1,1,2,1,2,1,1,1,0,0 },
+        { 0,0,0,1,1,2,1,1,1,0,0,0 },
+        { 0,0,0,0,1,1,1,1,0,0,0,0 },
+        { 0,0,0,0,0,1,1,0,0,0,0,0 }, 
+        { 0,0,0,0,0,0,0,0,0,0,0,0 }       
+        
+        };
 
-    public static final int RESOURCE_TYPE_ARRAY[] = { 0, 1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5 };
+    public static final int RESOURCE_TYPE_ARRAY[] = { 0, 1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5,1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5  };
     public static final boolean HAS_DESERT = true;   
-    public static final int RESOURCE_NUMBER_ARRAY[] = { 2, 3, 3, 4, 4 , 5 , 5, 6 ,6 , 8 , 8, 9 , 9, 10, 10, 11, 11, 12 }; 
+    public static final int RESOURCE_NUMBER_ARRAY[] = { 2, 3, 3, 4, 4 , 5 , 5, 6 ,6 , 8 , 8, 9 , 9, 10, 10, 11, 11, 12,2, 3, 3, 4, 4 , 5 , 5, 6 ,6 , 8 , 8, 9 , 9, 10, 10, 11, 11, 12 }; 
     
     // Map Related
     public static final int EDGE_LENGTH = 53;

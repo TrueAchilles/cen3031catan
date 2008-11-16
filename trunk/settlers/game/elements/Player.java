@@ -4,6 +4,7 @@ package settlers.game.elements;
 
 import java.awt.Color;
 import settlers.game.*;
+import settlers.game.elements.LongestRoad;
 import settlers.game.events.EventManager;
 import settlers.game.events.PlayerEvent;
 
@@ -19,18 +20,22 @@ public class Player
     private int resource[] = { 200, 200, 200, 200, 200, 200 }; 
     //private int devCards[] = {0, 0, 0, 0, 0};
     private int victoryPointTotal;
+    private Player nextPlayer;
+    private Player prevPlayer;
+    private LongestRoad longRoad;
     private int numberOfResourceCards = 12;
     private int numberofDevCards = 0;
 
-	private Deck devCards;
-	
+    private Deck devCards;
+    
     public Player(String _name, Color _color)
     {
         name = _name;
         id = ++totalNum;
         playerColor = _color;
         victoryPointTotal = 0;
-		devCards = new Deck("player", GameState.getGui().gui.getMainBoard().getGameBoard());
+        longRoad = new LongestRoad();
+        devCards = new Deck("player", GameState.getGui().gui.getMainBoard().getGameBoard());
     }
     
     public String getName()
@@ -130,7 +135,7 @@ public class Player
             EventManager.callEvent(n);
         }
     }
-	
+    
     /*
     public void addDevCard(int dType)
     {
@@ -149,7 +154,7 @@ public class Player
             return false;
        return true;
     }*/
-	
+    
     public Deck getDevCards()
     {
         return devCards;
@@ -212,5 +217,39 @@ public class Player
         resource[GlobalVar.WHEAT]--;
         resource[GlobalVar.SHEEP]--;
         numberOfResourceCards -= 3;
+    }
+    
+    public void setPreviousPlayer(Player p)
+    {
+        prevPlayer = p;
+    }
+    
+    public Player getPreviousPlayer()
+    {
+        return prevPlayer;
+    }
+    
+    public void setNextPlayer(Player p)
+    {
+        nextPlayer = p;
+    }
+    
+    public Player getNextPlayer()
+    {
+        return nextPlayer;
+    }
+    
+    
+    public void addRoad(Road r)
+    {
+        int len = longRoad.addRoad(r);
+        System.out.println("Biggest length is "+len);
+    }
+    
+        
+    
+    public String toString()
+    {
+        return name;
     }
 }

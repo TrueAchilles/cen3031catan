@@ -156,7 +156,7 @@ public class SettlersEvent implements EventListener
     
     
     // combines 3 add player and start new game, with no error checking (so don't use in the middle of a game!)
-    public void quickStart()
+    public void quickStart(boolean big)
     {
         if(GameState.getGamePhase() == GlobalVar.GAME_STARTED)
         {
@@ -166,7 +166,12 @@ public class SettlersEvent implements EventListener
         createPlayer("Player Red", Color.red);
         createPlayer("Player Black", Color.black);
         createPlayer("Player Green", Color.green);
-        
+        if (big == true)
+        {
+            createPlayer("Player Orange", Color.orange);
+            createPlayer("Player Blue", Color.blue);
+            createPlayer("Player Magenta", Color.magenta);
+        }
         bottomPanel.getButtonPanel().startNewGame();
         bottomPanel.getTabbedPanel().startNewGame();
         

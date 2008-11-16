@@ -39,6 +39,7 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener
     private MainBoard mainBoard;
     private JMenu gameMenu;
     private JMenuItem debug_quickStart;
+    private JMenuItem debug_bigQuickStart;
     private JMenu debug_menu;
     private JMenuItem connectLan;
     private JCheckBoxMenuItem hideRollBox;
@@ -243,6 +244,14 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener
                         debug_quickStart.setText("Quick Start");
                         debug_quickStart.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
                         debug_quickStart.addActionListener(this);
+                    }
+                    {
+                        debug_bigQuickStart = new JMenuItem();
+                        debug_menu.add(debug_bigQuickStart);
+                        debug_bigQuickStart.setText("Big Quick Start");
+                        debug_bigQuickStart.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, ActionEvent.CTRL_MASK));
+                        debug_bigQuickStart.addActionListener(this);
+                    }
                         /*{
                             connectLan = new JMenuItem();
                             connectTo.add(connectLan);
@@ -253,7 +262,7 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener
                             connectTo.add(connectInternet);
                             connectInternet.setText("Internet");
                         }*/
-                    }
+                    
                 }
             }
             {
@@ -322,7 +331,11 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener
         }
         if(evt.getSource() == this.debug_quickStart)
         {
-            event_manager.quickStart();
+            event_manager.quickStart(false);
+        }
+        if(evt.getSource() == this.debug_bigQuickStart)
+        {
+            event_manager.quickStart(true);
         }
         if(evt.getSource() == this.standard)
         {
