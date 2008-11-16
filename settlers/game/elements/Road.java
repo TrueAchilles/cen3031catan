@@ -6,11 +6,8 @@ public class Road
 
     Settlement s1;
     Settlement s2;
+
     Player owner;
- 
-    //defines who owns this road
-    //commented out because of lack of player class
-    //Player owner;
     
     //defines whether the road has been built or not
     boolean hasRoad;
@@ -25,28 +22,6 @@ public class Road
         hasRoad=false;
         owner = _owner;
     }
-    
-    public boolean hasRoad()
-    {
-        return hasRoad;
-    }
-    
-    //proper method heading that should be commmented out once player class is implemented
-    //public void build(Player player)
-    public void build(Settlement set1, Settlement set2)
-    {
-
-        owner = GameState.getCurPlayer();
-        hasRoad = true;
-        
-    }
-
-    public void buildRoad()
-    {
-        owner = GameState.getCurPlayer();
-        hasRoad = true;
-    }
-
 
     public Settlement getS1()
     {
@@ -58,17 +33,49 @@ public class Road
         return s2;
     }
     
-    public boolean canBuildRoad()
+    public Settlement getOtherSettlement(Settlement s)
+    {
+        if (s == s1)
+            return s2;
+        else if (s == s2)
+            return s1;
+        return null;
+    }
+    
+    public boolean hasRoad() {
+        return hasRoad;
+    }
+    
+    public boolean canBuildRoad(Player p)
     {
         if (hasRoad)
             return false;
-        Player curP = GameState.getCurPlayer();
-        if (s1 != null && (curP == s1.getOwner() || s1.checkExtendRoad() ) )
+        if (s1 != null && (p == s1.getOwner() || s1.checkRoadExtension(p) ) )
             return true;
-        else if (s2 != null && (curP == s2.getOwner() || s2.checkExtendRoad() ) )
+        else if (s2 != null && (p == s2.getOwner() || s2.checkRoadExtension(p) ) )
             return true;
         else
             return false;
+    }
+    
+    public boolean canBuildRoad()
+    {
+        return canBuildRoad(GameState.getCurPlayer());
+    }
+    
+    public boolean buildRoad(Player p)
+    {
+        if (canBuildRoad(p)) {
+            owner = p;
+            hasRoad = true;
+            p.addRoad(this);
+            return true;
+        }
+        return false;
+    }
+    public boolean buildRoad()
+    {
+        return buildRoad(GameState.getCurPlayer());
     }
     
     public Player getOwner()

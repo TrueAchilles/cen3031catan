@@ -38,6 +38,7 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
     Graphics2D big;
     Rectangle area;
     boolean firstTime = true;
+    int map[][];
     
     Road tempRoad;
     Settlement tempSettlement;
@@ -87,7 +88,11 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
     // Initializes blank settlement nodes (to cross link nodes, ie: topNode, bottomNode, sideNode.)
     private void clearMap()
     {
-        vertex = new Settlement[GlobalVar.MAP.length][GlobalVar.MAP[0].length];
+        if (GameState.players.size() <= 4)
+            map = GlobalVar.MAP;
+        else
+            map = GlobalVar.BIGMAP;
+        vertex = new Settlement[map.length][map[0].length];
         for (int ay =0; ay < vertex.length; ay++) {
             for (int ax =0; ax <vertex[ay].length; ax++) {
                 vertex[ay][ax] = new Settlement(ay, ax);                
@@ -99,26 +104,26 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
     {
         Dimension dim = getSize();
         int w = dim.width;
-        int h = dim.height;
+        int h = dim.height-26;
         System.out.println(w + "\n" + h );
-        System.out.println(GlobalVar.MAP.length);
-        //if ( h / (( GlobalVar.MAP.length / 2) + 1 ) < 
-        edgeLength = (int) ( h /( ( GlobalVar.MAP.length / 2 )+2) );
+        System.out.println(map.length);
+        //if ( h / (( map.length / 2) + 1 ) < 
+        edgeLength = (int) ( h /( ( map.length / 2 )+2) );
         stepLength = (int)(edgeLength * 0.7071d);
-        yPadding = (int)((h - ( (edgeLength + (edgeLength * .7071d))*(GlobalVar.MAP.length-3)/2) )/2);
-        xPadding = (int)(  (w - ( ((edgeLength * 2 * .7071d) + edgeLength)/ 2) * (GlobalVar.MAP[0].length+1) )/2);
+        yPadding = (int)((h - ( (edgeLength + (edgeLength * .7071d))*(map.length-3)/2) )/2)+26;
+        xPadding = (int)(  (w - ( ((edgeLength * 2 * .7071d) + edgeLength)/ 2) * (map[0].length+1) )/2);
         
         
         for(int ay = 0; ay < vertex.length; ay++) {
             for (int ax = 0; ax < vertex[ay].length; ax++) {
-                if (GlobalVar.MAP[ay][ax] == 0) {
-                    vertex[ay][ax].setOnBoard(0);   
+                if (map[ay][ax] == 0) {
+                    vertex[ay][ax].setAsOcean(true);   
                 } else {
                     if (ax%2== GlobalVar.ODD_SWITCH ^ ay%2 == GlobalVar.ODD_SWITCH) {
-                        vertex[ay][ax].updateNode(ax, ay, ax*(edgeLength+(stepLength/2))  + xPadding, ay * stepLength + yPadding, ( GlobalVar.MAP[ay-1][ax] == 0 ? null : vertex[ay-1][ax]), ( GlobalVar.MAP[ay+1][ax] == 0 ? null : vertex[ay+1][ax]), ( GlobalVar.MAP[ay][ax-1] == 0 ? null : vertex[ay][ax-1]), 1);        
+                        vertex[ay][ax].updateNode(ax, ay, ax*(edgeLength+(stepLength/2))  + xPadding, ay * stepLength + yPadding, ( map[ay-1][ax] == 0 ? null : vertex[ay-1][ax]), ( map[ay+1][ax] == 0 ? null : vertex[ay+1][ax]), ( map[ay][ax-1] == 0 ? null : vertex[ay][ax-1]), false);        
                         vertex[ay][ax].initializeRoad();
                     } else {
-                        vertex[ay][ax].updateNode(ax, ay, ax*(edgeLength+(stepLength/2))+(stepLength/2)  + xPadding, ay * stepLength + yPadding, ( GlobalVar.MAP[ay-1][ax] == 0 ? null : vertex[ay-1][ax]), ( GlobalVar.MAP[ay+1][ax] == 0 ? null : vertex[ay+1][ax]), ( GlobalVar.MAP[ay][ax+1] == 0 ? null : vertex[ay][ax+1]), 1);
+                        vertex[ay][ax].updateNode(ax, ay, ax*(edgeLength+(stepLength/2))+(stepLength/2)  + xPadding, ay * stepLength + yPadding, ( map[ay-1][ax] == 0 ? null : vertex[ay-1][ax]), ( map[ay+1][ax] == 0 ? null : vertex[ay+1][ax]), ( map[ay][ax+1] == 0 ? null : vertex[ay][ax+1]), false);
                     }
                     
                 }
@@ -140,7 +145,7 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
 
         for (int ay =0; ay < vertex.length; ay++) {
             for (int ax =0; ax <vertex[ay].length; ax++) {
-                if ( GlobalVar.MAP[ay][ax] == 2 ) {
+                if ( map[ay][ax] == 2 ) {
                     index = (placedDesert ? i - 1 : i);  
                     if (resource[ rNum[index] ] == null)
                         vertex[ay][ax].setDrawResourceHelper( resource[ rNum[index] ] = new Resource( (rType[i] == GlobalVar.DESERT ? 0 : rNum[index]), rType[i], vertex[ay][ax], vertex[ay+1][ax], vertex[ay+2][ax], vertex[ay+2][ax+1], vertex[ay+1][ax+1], vertex[ay][ax+1]));
@@ -160,11 +165,11 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
     {
         for(int ay = 0; ay < vertex.length; ay++) { //7
             for (int ax = 0; ax < vertex[ay].length; ax++) { //12
-                if (GlobalVar.MAP[ay][ax] == 0)
+                if (map[ay][ax] == 0)
                     continue;
                     
                 big.setPaint(Color.black );
-                if ( GlobalVar.MAP[ay][ax] == 2)
+                if ( map[ay][ax] == 2)
                 {
                     big.drawImage( Toolkit.getDefaultToolkit().getImage( this.getClass().getResource("/settlers/game/images/resource"+vertex[ay][ax].getDrawResourceHelper().getResourceType() + ".png") ) , vertex[ay+1][ax].getXcord(), vertex[ay][ax].getYcord(),edgeLength + (int)(edgeLength * .7071d), (int)(edgeLength * 2 * .7071d), null);
                     drawNumber(new Ellipse2D.Double(vertex[ay][ax].getXcord()+(stepLength*.5), vertex[ay][ax].getYcord()+(stepLength*2/3), (stepLength/2),(stepLength/2)),  vertex[ay][ax].getDrawResourceHelper().getResourceNumber()); 
@@ -175,7 +180,7 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
                 Settlement westNode = null;
                 big.setPaint(Color.black );
                 
-                if (( ax%2 == 0 ^ ay%2 == 0 ) && (westNode = vertex[ay][ax-1]).getOnBoard() == 1 && currentNode.getOnBoard() == 1) {
+                if (( ax%2 == GlobalVar.ODD_SWITCH ^ ay%2 == GlobalVar.ODD_SWITCH ) && (westNode = vertex[ay][ax-1]).checkIfOcean() == false && currentNode.checkIfOcean() == false) {
                     
                     if (currentNode.getSideRoad().hasRoad())
                     {
@@ -193,7 +198,7 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
                 big.setStroke(new BasicStroke(1.5f));
                 big.setPaint(Color.black);
 
-                if (bottomNode.getOnBoard() == 1 && currentNode.getOnBoard() == 1) {
+                if (bottomNode.checkIfOcean() == false && currentNode.checkIfOcean() == false) {
                     if (currentNode.getBottomRoad().hasRoad())
                     {
                         big.setStroke(new BasicStroke(5f));
@@ -298,7 +303,7 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
         
         for(ay = 0; ay < vertex.length; ay++) { //7
             for (ax = 0; ax < vertex[ay].length; ax++) { //12
-                if (GlobalVar.MAP[ay][ax] == 0)
+                if (map[ay][ax] == 0)
                     continue;
                     
                 Settlement currentNode = vertex[ay][ax];
@@ -469,7 +474,9 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
             robber = tempRobber;
             robber.getDrawResourceHelper().placeThief();
             tempRobber = null;
-            GameState.setActionState(0);
+            
+            PlayerEvent pe = new PlayerEvent("PLAYER_ROBBER_PLACED", GameState.getCurPlayer());
+            EventManager.callEvent(pe);
             
         }
         if (GameState.getActionState() == GlobalVar.ACTION_ADD_ROAD && tempRoad != null)
@@ -544,7 +551,7 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
             int min=1000, tempMin;
             for (int j = lowEstimateY; j < lowEstimateY+3; j++) {
                 for (int i = lowEstimateX; i < lowEstimateX + 2; i++) {
-                    if (j < vertex.length && i < vertex[0].length && vertex[j][i].getOnBoard() ==1 && (tempMin = calculateDistance(x,y,i,j)) < min)
+                    if (j < vertex.length && i < vertex[0].length && vertex[j][i].checkIfOcean() ==false && (tempMin = calculateDistance(x,y,i,j)) < min)
                     {
                         min = tempMin;
                         int distanceSide = calculateDistance(x,y,i-1,j);
@@ -579,7 +586,7 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
                     }
                 }
             }
-            if (GlobalVar.MAP[n][m] == 2 && robber != vertex[n][m])
+            if (map[n][m] == 2 && robber != vertex[n][m])
                 tempRobber = vertex[n][m];
          
         

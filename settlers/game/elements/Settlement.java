@@ -9,12 +9,19 @@ public class Settlement
     private int xCord=0;
     private int yCord=0;
     
-    //not really sure what these do
+    //uniquely identifies the settlement and its location.
     private int xIndex,yIndex;
     
-    private int onBoard;
+    private boolean isOcean;
     
-    Player player;
+    //defines whether this Node has a city
+    private boolean hasCity;
+    
+    //defines whether this node has a settlement
+    private boolean hasSettlement;
+    
+    //define the owner of this settlement or city
+    private Player owner = null;    
     
     //define roads that are connected to this node
     private Road topRoad;
@@ -29,14 +36,7 @@ public class Settlement
     // allows me to draw resources
     private Resource resourceDrawer;
     
-    //defines whether this Node has a city
-    boolean hasCity;
-    
-    //defines whether this node has a settlement
-    boolean hasSettlement;
-    private Player owner = null;
-    
-    //need 3 variables here to hold the tiles that are adjacent to this node
+
     
     //constructor which initializes all values to null
     public Settlement(int x, int y)
@@ -49,11 +49,14 @@ public class Settlement
         topNode = null;
         sideNode = null;
         bottomNode = null;
-        onBoard = 0;
+        hasSettlement = false;
+        hasCity = false;
+        owner = null;
+        isOcean = true;
     }
     
     //constructor that receives the coordinates of this node
-    public void updateNode(int tempI, int tempJ, int x, int y, Settlement top, Settlement bottom, Settlement side, int _onBoard)
+    public void updateNode(int tempI, int tempJ, int x, int y, Settlement top, Settlement bottom, Settlement side, boolean ocean)
     {
         topNode = top;
         bottomNode = bottom;
@@ -62,17 +65,50 @@ public class Settlement
         yIndex = tempJ;
         xCord = x;
         yCord = y;
-        onBoard = _onBoard;
+        isOcean = ocean;  
     }
     
-    public void updateNode(int tempI, int tempJ, Settlement top, Settlement bottom, Settlement side, int _onBoard)
+    public void updateNode(int tempI, int tempJ, Settlement top, Settlement bottom, Settlement side, boolean ocean)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     {
         topNode = top;
         bottomNode = bottom;
         sideNode = side;
         xIndex = tempI;
         yIndex = tempJ;
-        onBoard = _onBoard;
+        isOcean = ocean;
     }
     
     //returns the x coordinate of this node
@@ -88,105 +124,182 @@ public class Settlement
     }
     
     // allows me to set a node as buildable
-    public void setOnBoard(int a)
+    public void setAsOcean(boolean a)
     {
-        onBoard = a;
+        isOcean = a;
     }
     
-    public int getOnBoard()
+    public boolean checkIfOcean()
     {
-        return onBoard;
+        return isOcean;
     }
     
     
-    public void giveResources(int rType)
+    public boolean giveResources(int rType)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     {
         if (owner == null)
-            return;
+            return false;
         if (hasSettlement)
             owner.giveResource(rType);
         if (hasCity)
             owner.giveResource(rType);
+        return true;
     }
     
-    //determines if a city can be built here
-    //first checks to see if there is a city here and then builds the settlement
-    public void buildCity()
-    {
-        if (hasSettlement)
-        {
-            hasCity = true;
-            owner.incrementVictoryPointTotal();
-        }
-    }
-    
-    public void build()
-    {
-    
-    }
     
     public boolean hasSettlement()
     {
         return hasSettlement;
     }
     
-    public void buildSettlement()
+    public boolean canBuildSettlement(Player p)
     {
-        System.out.println("Attemtping to build settlement for " + GameState.getCurPlayer().getID());
-        if (onBoard == 0)
-            return;
-        if ( (topNode != null && topNode.hasSettlement()) || (bottomNode != null && bottomNode.hasSettlement()) || (sideNode != null && sideNode.hasSettlement() ))
-            return;
-        hasSettlement = true;
-        owner = GameState.getCurPlayer();
-        owner.incrementVictoryPointTotal();
-        System.out.println("successfully built - owner has " + owner.getVictoryPointTotal() + " victory points.");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        if (isOcean == true)
+            return false;
+
+
+
+
+
+
+
+
+
+
+
+
+
+        if ( hasSettlement )
+            return false;
+
+
+        if ( (topNode == null ? false : topNode.hasSettlement() ) || (bottomNode == null ? false : bottomNode.hasSettlement()) || (sideNode == null ? false : sideNode.hasSettlement() ) )
+            return false; // if there is an adjacent settlement then return false.
+        if ( GameState.getGamePhase() == GlobalVar.GAME_INIT )
+            return true;
+        if ( ( topRoad == null ? false : topRoad.getOwner() == p ) || ( bottomRoad == null ? false : bottomRoad.getOwner() == p ) ||  ( sideRoad == null ? false : sideRoad.getOwner() == p ) )
+            return true;
+        return false;
     }
     
     public boolean canBuildSettlement()
     {
-        if (onBoard == 0)
-            return false;
-        
-        
-        if ( hasSettlement || (topNode == null ? false : topNode.hasSettlement() ) || (bottomNode == null ? false : bottomNode.hasSettlement()) || (sideNode == null ? false : sideNode.hasSettlement()) )
-            return false;
-        if ( GameState.getGamePhase() == GlobalVar.GAME_INIT )
+        return canBuildSettlement(GameState.getCurPlayer());
+    }
+    
+    public boolean buildSettlement(Player p)
+    {
+        System.out.println("Attemtping to build settlement for " + p.toString());
+        if ( canBuildSettlement(p) ) {
+            hasSettlement = true;
+            owner = p;
+            owner.incrementVictoryPointTotal();
+            System.out.println("successfully built - owner has " + owner.getVictoryPointTotal() + " victory points.");
             return true;
-        Player curP = GameState.getCurPlayer();
-        if ( ( topRoad == null ? false : topRoad.getOwner() == curP ) || ( bottomRoad == null ? false : bottomRoad.getOwner() == curP ) ||  ( sideRoad == null ? false : sideRoad.getOwner() == curP ) )
+        }
+        else {
+            System.out.println("Failed building settlement for " + p.toString() + ".");
+            return false;
+        }
+    }
+    public boolean buildSettlement()
+    {
+        return buildSettlement(GameState.getCurPlayer());
+    }
+    
+    public boolean hasCity()
+    {
+        return hasCity;
+    }
+    
+    
+    public boolean canBuildCity(Player p)
+    {
+        if ( hasSettlement && owner == p )
             return true;
         return false;
     }
     
-    
-    public boolean hasAdjacentUserDevelopment()
+    public boolean canBuildCity()
     {
-        int curPlayerID = GameState.getCurPlayer().getID();
-        
-        if( hasSettlement && owner.getID() == curPlayerID ) 
-            return true;
-        if ( topRoad.hasRoad() && topRoad.getOwner().getID() == curPlayerID ) 
-            return true;
-        
-        if ( sideRoad.hasRoad() && sideRoad.getOwner().getID() == curPlayerID )
-            return true;
-        
-        if ( bottomRoad.hasRoad() && bottomRoad.getOwner().getID() == curPlayerID )
-            return true;
-        return false;
+        return canBuildCity(GameState.getCurPlayer());
     }
     
     
-    //builds a road extending upward from the node
-    public void buildRoad( Settlement toSet)
+        //determines if a city can be built here
+    //first checks to see if there is a city here and then builds the settlement
+    public boolean buildCity(Player p)
     {
-        if ( toSet.getYcord() > yCord )
-            topRoad.build(this, toSet);
-        else if (toSet.getYcord() == yCord )
-            sideRoad.build(this, toSet);
-        else
-            bottomRoad.build(this, toSet);
+        if ( canBuildCity(p) )
+        {
+            hasCity = true;
+            owner.incrementVictoryPointTotal();
+            System.out.println("successfully upgraded to city - owner has " + owner.getVictoryPointTotal() + " victory points.");
+            return true;
+        }
+        return false;
+    }
+    public boolean buildCity()
+    {
+        return buildCity(GameState.getCurPlayer());
+    }
+    
+    public void initializeRoad()
+    {
+            if (topNode != null && topRoad == null)
+            {
+                topRoad = new Road(this, topNode, owner);
+                topNode.bottomRoad = topRoad;
+            }
+            if (bottomNode != null && bottomRoad == null)
+            {
+                bottomRoad = new Road(this, bottomNode, owner);
+                bottomNode.topRoad = bottomRoad;
+            }
+            if (sideNode != null && sideRoad == null)
+            {
+                sideRoad = new Road(this, sideNode, owner);
+                sideNode.sideRoad = sideRoad;
+            }
     }
 
     //returns the node to the top of this node
@@ -232,27 +345,7 @@ public class Settlement
     }
     
     
-    public void initializeRoad()
-    {
-        
-            
-            if (topNode != null && topRoad == null)
-            {
-                topRoad = new Road(this, topNode, owner);
-                topNode.bottomRoad = topRoad;
-            }
-            if (bottomNode != null && bottomRoad == null)
-            {
-                bottomRoad = new Road(this, bottomNode, owner);
-                bottomNode.topRoad = bottomRoad;
-            }
-            if (sideNode != null && sideRoad == null)
-            {
-                sideRoad = new Road(this, sideNode, owner);
-                sideNode.sideRoad = sideRoad;
-            }
-        
-    }
+
     
     public Player getOwner()
     {
@@ -269,29 +362,35 @@ public class Settlement
         resourceDrawer = r;
     }
     
-    public boolean checkExtendRoad()
+    
+    public boolean checkRoadExtension(Player p)
     {
-        Player curP = GameState.getCurPlayer();
-        if  ( ( sideRoad != null && curP == sideRoad.getOwner() ) ||
-            ( topRoad != null && curP == topRoad.getOwner() ) ||
-            ( bottomRoad != null && curP == bottomRoad.getOwner() ) )
+        if  ( ( sideRoad != null && p == sideRoad.getOwner() ) ||
+            ( topRoad != null && p == topRoad.getOwner() ) ||
+            ( bottomRoad != null && p == bottomRoad.getOwner() ) )
             return true;
         else
             return false;
     }
     
+    public boolean checkRoadExtension()
+    {
+        return checkRoadExtension(GameState.getCurPlayer() );
+    }
+    
+    
     public String toString()
     {
         return 
         "("+xIndex+", " +yIndex+")...(" + xCord+", "+yCord+")"+
-        ( onBoard ==1 ? "SETT" : "nott" ) +
+        ( isOcean ? "SETT" : "nott" ) +
         (topNode == null ? "t:0," : "t:1,")+
         (bottomNode == null ? "b:0," : "b:1,")+ 
         (sideNode == null ? "s:0\t" : "s:1\t");
     /*
         return 
         "Settlement "+xIndex+", " +yIndex+") at " + xCord+", "+yCord+")"+
-        ( onBoard ==1? "\nOn Board" : "\nNot on board" ) +
+        ( isOcean ==1? "\nOn Board" : "\nNot on board" ) +
         (topNode == null ? "\nNo Top Node " : "\nHas Top Node")+
         (bottomNode == null ? "\nNo Bottom Node " : "\nHas Bottom Node")+ 
         (sideNode == null ? "\nNo Side Node " : "\nHas Side Node");*/
