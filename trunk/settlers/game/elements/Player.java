@@ -17,7 +17,7 @@ public class Player
     private Color playerColor;
     private int id = 0;
     String name = null;
-    private int resource[] = { 200, 200, 200, 200, 200, 200 }; 
+    private int resource[] = { 2, 2, 2, 2, 2, 2 }; 
     //private int devCards[] = {0, 0, 0, 0, 0};
     private int victoryPointTotal;
     private Player nextPlayer;

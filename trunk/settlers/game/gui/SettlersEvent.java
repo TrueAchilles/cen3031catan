@@ -204,4 +204,20 @@ public class SettlersEvent implements EventListener
             mainBoard.getStatusBar().setText(GameState.getCurPlayer().getName() + ": ROLL PHASE");
         }
     }
+    
+    public void muchMoney()
+    {
+        int i = 0;
+        for (i = 0; i < GameState.players.size(); i++)
+        {
+            Player p = GameState.players.get(i);
+            p.alterResource(GlobalVar.WOOD, 150, 0);
+            p.alterResource(GlobalVar.ORE, 150, 0);
+            p.alterResource(GlobalVar.WHEAT, 150, 0);
+            p.alterResource(GlobalVar.BRICK, 150, 0);
+            p.alterResource(GlobalVar.SHEEP, 150, 0);
+            p.alterResource(GlobalVar.WOOD, 150, 0);
+        }    
+        
+    }
 }
