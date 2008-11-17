@@ -2,6 +2,8 @@ package settlers.game.elements;
 
 import java.util.Vector;
 import java.util.Iterator;
+import java.util.Stack;
+import java.lang.Math;
 import settlers.game.elements.*;
 
 // IGNORE THIS CODE FOR NOW. 
@@ -15,38 +17,22 @@ import settlers.game.elements.*;
 
 public class LongestRoad
 {
-    private class Point
-    {
-        Road road;
-        Settlement settlement;
-        int length;
-        Point startPath;
-        
-        Point(Road r, Settlement s, Point path)
-        {
-            road = r;
-            settlement = s;
-            startPath = path;
-            length = 1;
-        }
-        int extend(Road r, Settlement s)
-        {
-            road = r;
-            settlement = s;
-            return ++length;
-        }
-    }
-    
+
     int roadCount;
+    int longestRoad;
+    Settlement startSettlement1;
+    Road startRoad1;
+    Settlement startSettlement2;
+    Road startRoad2;
+
+    Player owner;
+    Stack roadStack;
     
-    Point startPoint1;
-    Point startPoint2;
-    Vector<Point> endPointCollection;
-    
-    public LongestRoad()
+    public LongestRoad(Player p)
     {
         roadCount = 0;
-        endPointCollection = new Vector<Point>();
+        longestRoad = 0;
+        owner = p;
         
     }
     
@@ -61,154 +47,133 @@ public class LongestRoad
         roadCount++;
         Settlement s1 = r.getS1();
         Settlement s2 = r.getS2();
-        
         if (roadCount == 1)
         {
-            startPoint1 = new Point(r, s1, null);
-            endPointCollection.add( new Point(r, s2, startPoint1));
+            startRoad1 = r;
             return 1;
         }
         if (roadCount == 2)
         {
-            startPoint2 = new Point(r, s1, null);
-            endPointCollection.add( new Point(r, s2, startPoint2));
+            startRoad2 = r;
             return 1;
         }
         
+
+        /*
+        if ( s1 == startSettlement1) {
+            startSettlement1 = s2;
+            startRoad1 = r;
+        } else if ( s2 == startSettlement1) {
+            startSettlement1 = s1;
+            startRoad1 = r;
+        } else if (s1 == startSettlement2) {
+            startSettlement2 = s2;
+            startRoad1 = r;
+        } else if (s2 == startSettlement2) {
+            startSettlement2 = s1;
+            startRoad1 = r;
+        }
+            */
+     /*   int depth = 0;
+        int longestDepth = 0;
+        roadStack = new Stack();
+        roadStack.push(startRoad1);
         
+    
+
         
-        if (this.isEndPoint(s1) && this.isStartPoint(s2))
+        while ( !roadStack.empty() )
         {
-            System.out.println("s1 is an end point, and s2 is a startpoint");
+            depth++;
+            longestDepth = Math.max(longestDepth, depth);
+            Settlement s = (Settlement)settlementStack.peek();
+            r = (Road)roadStack.peek();
+            System.out.println(s.toString() + " " + r.toString() );
+            Road checkR = this.checkAndGetRoad(s, r, "Top");
+            if ( checkR != null && roadStack.search(checkR) == 0)
+            {
+                settlementStack.push(s.getTopNode());
+                roadStack.push(checkR);
+                continue;
+            }
+            checkR = this.checkAndGetRoad(s, r, "Side");
+            if ( checkR != null && roadStack.search(checkR) == 0)
+            {
+                settlementStack.push(s.getSideNode());
+                roadStack.push(checkR);
+                continue;
+            }
+            checkR = this.checkAndGetRoad(s, r, "Bottom");
+            if ( checkR != null && roadStack.search(checkR) == 0)
+            {
+                settlementStack.push(s.getBottomNode());
+                roadStack.push(checkR);
+                continue;
+            }
+            spentStack.push(r);
+            settlementStack.pop();
+            roadStack.pop();
+            depth--;
+            if (s == startSettlement1) {
+                spentStack = new Stack();
+                depth = 0;
+            }
             
-        }
-        else if (this.isEndPoint(s2) && this.isStartPoint(s1))
+        } 
+    
+        longestRoad = longestDepth;
+        return longestDepth;*/
+        return 0;
+    }
+    
+    
+    private void rrs(Road r)
+    {
+        Road nextR[] = { r.getS1().getTopRoad(), r.getS1().getBottomRoad(), r.getS1().getSideRoad(),
+                   r.getS2().getTopRoad(), r.getS2().getBottomRoad(), r.getS2().getSideRoad() };
+        int i;
+        for (i = 0; i < nextR.length/2; i++)
         {
-            System.out.println("s2 is an end point, and s1 is a startpoint");
-            
-        }
-        else if (this.isEndPoint(s1) && this.isEndPoint(s2))
+            if (true)
+            {}
+        }    
+        for (i = nextR.length/2; i < nextR.length; i++)
         {
-            System.out.println("s1 is an end point, and s2 is a end point");
-            
         }
-        else if (this.isEndPoint(s1))
-        {
-            System.out.println("s1 is an end point");
-            /* There is one end point and nothing else. Alright! A very typical move. */
-            return this.getEndPoint(s1).extend(r, s2);
-        }
-        else if (this.isEndPoint(s2))
-        {
-            System.out.println("s2 is an end point");
-            return this.getEndPoint(s2).extend(r,s1);
-        }
-        else if (this.isStartPoint(s1))
-        {
-            System.out.println("s1 is a startpoint");
-            /*Just building where the path begins */
-            Point sp = this.getStartPoint(s1);
-            sp.settlement = s2;
-            sp.road = r;
-            incrementPaths(sp);
-            
-        }
-        else if (this.isStartPoint(s2))
-        {
-            System.out.println("s2 is a startpoint");
-            /*Just building where the path begins */
-            Point sp = this.getStartPoint(s2);
-            sp.settlement = s1;
-            sp.road = r;
-            incrementPaths(sp);  
-                        
+    }
+    
+    private Road checkAndGetRoad(Settlement cs, Road cr, String a)
+    {
+        Road r;
+        Settlement s;
+        if (a == "Top") {
+            r = cs.getTopRoad();
+            s = cs.getTopNode();
+        } else if (a == "Bottom") {
+            r = cs.getBottomRoad();
+            s = cs.getBottomNode();
         } else {
-        /* It must be creating a new end point */
-        /* This is a big deal as it is common, but i'll do it later... */
+            r = cs.getSideRoad();
+            s = cs.getSideNode();
+        }
         
-        System.out.println("new point");
+        if (cr == r) {
+            System.out.println("Road is going backwards");
+            return null;            
         }
-        return this.max();
-    }
-    
-    private boolean isStartPoint(Settlement s)
-    {
-        if (s == startPoint1.settlement || s == startPoint2.settlement)
-            return true;
-        return false;
-    }
-    
-    private Point getStartPoint(Settlement s)
-    {
-        if (s == startPoint1.settlement)
-            return startPoint1;
-        if (s == startPoint2.settlement)
-            return startPoint2;
+            
+        if ( s.getOwner() != null && s.getOwner() != owner)
+        {
+            System.out.println("Blocked by another player");
+            return null;
+        }
+        if (r.getOwner() == owner)
+        {
+            System.out.println("Now we're cookin");
+            return r;
+        }
+        System.out.println("Simply failed");
         return null;
-    }
-    
-    private boolean isEndPoint(Settlement s)
-    {
-        Iterator itr = endPointCollection.iterator();
-        while(itr.hasNext())
-        {
-            Point p = (Point)itr.next();
-            if (p.settlement == s)
-                return true;
-        }
-        return false;
-    }
-    
-    private void mergePaths(Point sp, int len)
-    {
-        Iterator itr = endPointCollection.iterator();
-        while(itr.hasNext())
-        {
-            Point p = (Point)itr.next();
-            if (p.startPath == sp)
-                p.length += len;
-        }
-        if (sp == startPoint1)
-            startPoint1 = startPoint2;
-        else
-            startPoint2 = startPoint1;
-    }
-    
-    private void incrementPaths(Point sp)
-    {
-        Iterator itr = endPointCollection.iterator();
-        while(itr.hasNext())
-        {
-            Point p = (Point)itr.next();
-            if (p.startPath == sp)
-                p.length++;
-        }
-    }
-    
-    
-    private Point getEndPoint(Settlement s)
-    {
-        Iterator itr = endPointCollection.iterator();
-        while(itr.hasNext())
-        {
-            Point p = (Point)itr.next();
-            if (p.settlement == s)
-                return p;
-        }
-        return null;
-    }
-    
-    private int max()
-    {
-        Iterator itr = endPointCollection.iterator();
-        int max = -1;
-        while(itr.hasNext())
-        {
-            Point p = (Point)itr.next();
-            if (p.length > max)
-                max = p.length;
-        }
-        return max;
     }
 }
     

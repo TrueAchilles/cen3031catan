@@ -135,8 +135,15 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
     private void resourceMap()
     {
         resource = new Resource[13];
-        int rType[] = GlobalVar.RESOURCE_TYPE_ARRAY;
-        int rNum[] = GlobalVar.RESOURCE_NUMBER_ARRAY;
+        int rType[];
+        int rNum[];
+        if (GameState.players.size() <= 4) {
+            rType = GlobalVar.RESOURCE_TYPE_ARRAY;
+            rNum = GlobalVar.RESOURCE_NUMBER_ARRAY;
+        } else {
+            rType = GlobalVar.BIG_RESOURCE_TYPE_ARRAY;
+            rNum = GlobalVar.BIG_RESOURCE_NUMBER_ARRAY;
+        }
         int i = 0, index;
         boolean placedDesert = false;
         shuffleArray(rType);

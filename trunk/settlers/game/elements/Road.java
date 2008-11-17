@@ -82,4 +82,9 @@ public class Road
     {
         return owner;
     }
+    
+    public String toString()
+    {
+        return "Road("+s1.toString() + "," + s2.toString()+")";
+    }
 }

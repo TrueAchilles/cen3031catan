@@ -34,7 +34,7 @@ public class Player
         id = ++totalNum;
         playerColor = _color;
         victoryPointTotal = 0;
-        longRoad = new LongestRoad();
+        longRoad = new LongestRoad(this);
         devCards = new Deck("player", GameState.getGui().gui.getMainBoard().getGameBoard());
     }
     
