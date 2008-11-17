@@ -7,6 +7,7 @@ import java.awt.*;
  */
 public class GlobalVar {
 
+    public static ContainerGUI containerGUI = new ContainerGUI();
     // Game Modifiers
     public static final boolean DEBUG_MODE = true;
     public static final int MAX_NUMBER_PLAYERS = 8;
@@ -115,9 +116,6 @@ public class GlobalVar {
     public static final int GAME_LOADING = 0;
     public static final int GAME_INIT = 1;
     public static final int GAME_STARTED = 2;
-    
-    
-   
 
 }
 

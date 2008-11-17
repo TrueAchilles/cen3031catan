@@ -71,6 +71,7 @@ public class BottomPanel extends javax.swing.JPanel {
                     turnStartPanel.add(startButton);
                 }
                 this.add(turnStartPanel);
+                settlers.game.GlobalVar.containerGUI.setBottomPanel(this);
             }
         } catch (Exception e) {
             e.printStackTrace();
