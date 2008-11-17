@@ -64,6 +64,9 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener
     private JMenuItem loadGame;
     private JMenuItem saveGame;
     private JMenuItem newGame;
+    private JMenu help;
+    private JMenuItem howToPlay;
+    private JMenuItem about;
     private JMenu frameSize;
     private JRadioButtonMenuItem standard;
     private JRadioButtonMenuItem smaller;
@@ -98,6 +101,7 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener
                         newGame = new JMenuItem();
                         gameMenu.add(newGame);
                         newGame.setText("Reset Board");
+                        newGame.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
                         newGame.addActionListener(this);
                     }
                     {
@@ -127,6 +131,7 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener
                         loadBoard = new JMenuItem();
                         gameMenu.add(loadBoard);
                         loadBoard.setText("Load Board");
+                        loadBoard.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B, ActionEvent.CTRL_MASK));
                         loadBoard.setEnabled(false);
                     }
                     {
@@ -186,6 +191,7 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener
                             humanPlayer = new JMenuItem();
                             addPlayer.add(humanPlayer);
                             humanPlayer.setText("Add Human Player");
+                            humanPlayer.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, ActionEvent.CTRL_MASK));
                             standard.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, ActionEvent.CTRL_MASK));
                             humanPlayer.addActionListener(this);
                         }
@@ -193,6 +199,7 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener
                             computerPlayer = new JMenuItem();
                             addPlayer.add(computerPlayer);
                             computerPlayer.setText("Add Computer Player");
+                            computerPlayer.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.CTRL_MASK));
                             computerPlayer.setEnabled(false);
                         }
                     }
@@ -204,12 +211,14 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener
                         makeProfile = new JMenuItem();
                         player.add(makeProfile);
                         makeProfile.setText("Make Profile");
+                        makeProfile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.CTRL_MASK));
                         makeProfile.setEnabled(false);
                     }
                     {
                         editProfile = new JMenuItem();
                         player.add(editProfile);
                         editProfile.setText("Edit Profile");
+                        editProfile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, ActionEvent.CTRL_MASK));
                         editProfile.setEnabled(false);
                     }
                 }
@@ -234,6 +243,26 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener
                         }
                     }
                 }
+                {
+                    help = new JMenu("Help");
+                    settlersMenu.add(help);
+                    help.setEnabled(true);
+                    {
+                        {
+                            howToPlay = new JMenuItem();
+                            help.add(howToPlay);
+                            howToPlay.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1, KeyEvent.KEY_LOCATION_UNKNOWN));
+                            howToPlay.addActionListener(this);
+                            howToPlay.setText("How to Play Settlers of Catan");
+                        }
+                        {
+                            about = new JMenuItem();
+                            help.add(about);
+                            about.addActionListener(this);
+                            about.setText("About Java Settlers of Catan");
+                        }
+                    }
+                }
                 if (GlobalVar.DEBUG_MODE)
                 {
                     debug_menu = new JMenu("DEBUG");
@@ -251,21 +280,21 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener
                         debug_bigQuickStart = new JMenuItem();
                         debug_menu.add(debug_bigQuickStart);
                         debug_bigQuickStart.setText("Big Quick Start");
-                        debug_bigQuickStart.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, ActionEvent.CTRL_MASK));
+                        debug_bigQuickStart.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.SHIFT_MASK));
                         debug_bigQuickStart.addActionListener(this);
                     }
                     {
                         debug_showMeTheMoney = new JMenuItem();
                         debug_menu.add(debug_showMeTheMoney);
                         debug_showMeTheMoney.setText("Show Me The Money");
-                        debug_showMeTheMoney.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, ActionEvent.CTRL_MASK));
+                        debug_showMeTheMoney.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, ActionEvent.SHIFT_MASK));
                         debug_showMeTheMoney.addActionListener(this);
                     }
                     {
                         debug_rollaSeven = new JMenuItem();
                         debug_menu.add(debug_rollaSeven);
                         debug_rollaSeven.setText("Roll a Seven");
-                        debug_rollaSeven.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, ActionEvent.CTRL_MASK));
+                        debug_rollaSeven.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_7, ActionEvent.SHIFT_MASK));
                         debug_rollaSeven.addActionListener(this);
                     }
                         /*{
@@ -344,6 +373,17 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener
         if(evt.getSource() == this.humanPlayer)
         {
             event_manager.addPlayer();
+        }
+        if(evt.getSource() == about)
+        {
+            String aboutNotice = new String(
+"Java Settlers of Catan was programmed for CEN3031 Intro to Software Engineering\nat the University of Florida in Gainesville, Florida by Team E.D.S.B.S. The game was a\npre-existing open source program that was selected for the class.\nThe team was lead by Edward Brotz, Alvaro Salkeld, Nick Antonelli, and Ross Nichols and Patrick Meyer.\n\n");
+
+            aboutNotice = aboutNotice.concat("GUI Team:\n* Nick Antonelli (GUI Team Lead)\n* Spencer Gall\n* Eric Hernandez\n* Andrew Stroizer\n* Paul Marks\n\n");
+            aboutNotice = aboutNotice.concat("Logic Team\n* Eric Mudge\n* Alvaro Salkeld\n* Patrick Meyer\n* Francesca Ramadori\n* Edward Brotz\n* Naveen Dhawan\n* Carlos Estevez\n* Scott Savino\n* Nick Dunlap\n");
+System.out.println(aboutNotice);
+            javax.swing.JOptionPane.showMessageDialog(this.mainBoard, aboutNotice, "About Java Settlers of Catan", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+
         }
         if(evt.getSource() == this.debug_quickStart)
         {

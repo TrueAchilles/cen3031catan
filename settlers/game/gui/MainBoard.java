@@ -48,6 +48,8 @@ public class MainBoard extends javax.swing.JPanel {
             statusBar.setPreferredSize(new java.awt.Dimension(409, 26));
             statusBar.setBorder(new LineBorder(new java.awt.Color(0,0,0), 2, false));
             this.add(gameBoard, BorderLayout.CENTER);
+            settlers.game.GlobalVar.containerGUI.setMainBoard(this);
+            settlers.game.GlobalVar.containerGUI.setGameBoard(gameBoard);
         } 
         catch (Exception e) 
         {
