@@ -474,7 +474,13 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
             robber = tempRobber;
             robber.getDrawResourceHelper().placeThief();
             tempRobber = null;
-            
+
+                // now that the thief has been placed, display screen to remove half of a player's cards
+                // first, get the tile on which the thief is placed
+            Resource robberTile = robber.getDrawResourceHelper();
+                // now, create the window to remove cards. Pass the thief tile as an argument
+            RobberRemoveCardsWindow rrcw = new RobberRemoveCardsWindow(robberTile);
+
             PlayerEvent pe = new PlayerEvent("PLAYER_ROBBER_PLACED", GameState.getCurPlayer());
             EventManager.callEvent(pe);
             

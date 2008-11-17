@@ -81,7 +81,22 @@ public class Resource
     {
         hasThief = 1;
     }
-    
+
+    public Settlement[] getSettlements()
+    {
+        Settlement[] settlements = new Settlement[6];
+
+        settlements[0] = northEast;
+        settlements[1] = east;
+        settlements[2] = southEast;
+        settlements[3] = southWest;
+        settlements[4] = west;
+        settlements[5] = southWest;
+
+        return settlements;
+    }
+
+
     public void removeThief()
     {
         hasThief = 0;

@@ -409,6 +409,14 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener
         return bottomPanel;
     }
 
+    public void toggleComponent(String component, boolean enabled)
+    {
+        if (component.equals("Player"))
+        {
+            player.setEnabled(enabled);
+        }
+    }
+
 
 //    public void keyPressed(KeyEvent arg0) 
 //    {

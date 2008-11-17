@@ -14,6 +14,7 @@ import settlers.game.events.PlayerEvent;
 public class RobberRemoveCardsWindow implements ActionListener
 {
 
+    private Resource robberTile;
     private JFrame frame = new JFrame("Robber Lose Cards Window");
     private JComboBox[] resourceComboBox;
     private Integer[][] comboBoxOptions;
@@ -30,8 +31,10 @@ public class RobberRemoveCardsWindow implements ActionListener
     private int[] numberOfCardsToLose;
     private int[][] selectedBoxValues;
 
-    public RobberRemoveCardsWindow()
+    public RobberRemoveCardsWindow(Resource robberTile)
     {
+
+        this.robberTile = robberTile;
 
         int counter = 0;
         for (Player player : GameState.players)
@@ -306,7 +309,7 @@ public class RobberRemoveCardsWindow implements ActionListener
     public void closeWindow()
     {
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        RobberTakeCardWindow rtcw = new RobberTakeCardWindow();
+        RobberTakeCardWindow rtcw = new RobberTakeCardWindow(robberTile);
         frame.setVisible(false);
     }
 
