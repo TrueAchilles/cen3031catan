@@ -69,39 +69,6 @@ public class Settlement
     }
     
     public void updateNode(int tempI, int tempJ, Settlement top, Settlement bottom, Settlement side, boolean ocean)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     {
         topNode = top;
         bottomNode = bottom;
@@ -136,30 +103,6 @@ public class Settlement
     
     
     public boolean giveResources(int rType)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     {
         if (owner == null)
             return false;
@@ -178,40 +121,10 @@ public class Settlement
     
     public boolean canBuildSettlement(Player p)
     {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         if (isOcean == true)
             return false;
-
-
-
-
-
-
-
-
-
-
-
-
-
         if ( hasSettlement )
             return false;
-
-
         if ( (topNode == null ? false : topNode.hasSettlement() ) || (bottomNode == null ? false : bottomNode.hasSettlement()) || (sideNode == null ? false : sideNode.hasSettlement() ) )
             return false; // if there is an adjacent settlement then return false.
         if ( GameState.getGamePhase() == GlobalVar.GAME_INIT )
@@ -382,11 +295,7 @@ public class Settlement
     public String toString()
     {
         return 
-        "("+xIndex+", " +yIndex+")...(" + xCord+", "+yCord+")"+
-        ( isOcean ? "SETT" : "nott" ) +
-        (topNode == null ? "t:0," : "t:1,")+
-        (bottomNode == null ? "b:0," : "b:1,")+ 
-        (sideNode == null ? "s:0\t" : "s:1\t");
+        "Settlement("+xIndex+", " +yIndex+")";
     /*
         return 
         "Settlement "+xIndex+", " +yIndex+") at " + xCord+", "+yCord+")"+
