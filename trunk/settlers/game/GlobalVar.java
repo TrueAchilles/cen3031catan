@@ -9,7 +9,7 @@ public class GlobalVar {
 
     // Game Modifiers
     public static final boolean DEBUG_MODE = true;
-    
+    public static final int MAX_NUMBER_PLAYERS = 8;
     public static final int ODD_SWITCH = 0; // odd name for an odd variable, eh? Switch this to break all. 
     public static final int MAP[][] = {
     

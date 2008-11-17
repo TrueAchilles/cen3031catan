@@ -135,17 +135,17 @@ public class SettlersEvent implements EventListener
                 //Then we haven't made a game board yet...do so
                 mainBoard.makePlayerPanel();
             }
-            if(GameState.players.size() < 4)
+            if(GameState.players.size() < GlobalVar.MAX_NUMBER_PLAYERS)
             {
                 String name = JOptionPane.showInputDialog("Please enter the name of Player " + (GameState.players.size() + 1) + ".");
-                Color color = JColorChooser.showDialog(gui,"Choose Background Color",Color.black);
+                Color color = JColorChooser.showDialog(gui,"Choose Background Color for " + name.toString(),Color.black);
                 Player newPlayer = new Player(name, color);
                 GameState.players.add(newPlayer);
                 mainBoard.getPlayerPanel().addPlayer(newPlayer);
             }
             else
             {
-                JOptionPane.showMessageDialog(gui, "There are already 4 players, more cannot be added!");
+                JOptionPane.showMessageDialog(gui, "There are already 8 players, more cannot be added!");
             }
         }
         else

@@ -18,6 +18,12 @@ public class Gui implements EventListener
         if (event.equals("PLAYER_INITTURN_START"))
         {
             PlayerEvent pe = (PlayerEvent) e;
+
+            if (pe.player.getID() == 1)
+            {
+                gui.toggleComponent("Player", false);
+            }
+
             System.out.println("Player init turn: " + pe.player.getID());
             System.out.println("    Player " + pe.player.getID() + " attempting to place settlement");
             GameState.setActionState(GlobalVar.ACTION_ADD_SETTLEMENT);
