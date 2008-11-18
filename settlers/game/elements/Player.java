@@ -24,7 +24,7 @@ public class Player
     private Player prevPlayer;
     private LongestRoad longRoad;
     private int numberOfResourceCards = 12;
-    private int numberofDevCards = 0;
+    private int numberOfDevCards = 0;
 
     private Deck devCards;
     
@@ -90,7 +90,7 @@ public class Player
     
     public int getNumberOfDevCards()
     {
-        return numberofDevCards;
+        return numberOfDevCards;
     }
     
     public void giveResource(int rType)
