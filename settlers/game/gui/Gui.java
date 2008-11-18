@@ -4,19 +4,34 @@ package settlers.game.gui;
 
 import javax.swing.JOptionPane;
 
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextArea;
+
+import settlers.game.GameState;
+import settlers.game.events.*;
+
+import settlers.game.*;
+import settlers.game.logic.*;
+
 import settlers.game.*;
 import settlers.game.events.*;
 
-public class Gui implements EventListener
+public class Gui extends javax.swing.JFrame implements EventListener
 {
     
     public SettlersGUI gui;
+    //This is used to initially set up the player info panel
+    private boolean playerInfoInitialized = false;
+    private PlayerInfo playerInfo;
     
     public void eventCalled(Event e)
     {
         String event = e.getEvent();
         if (event.equals("PLAYER_INITTURN_START"))
         {
+
             PlayerEvent pe = (PlayerEvent) e;
 
             if (pe.player.getID() == 1)
@@ -27,7 +42,19 @@ public class Gui implements EventListener
             System.out.println("Player init turn: " + pe.player.getID());
             System.out.println("    Player " + pe.player.getID() + " attempting to place settlement");
             GameState.setActionState(GlobalVar.ACTION_ADD_SETTLEMENT);
-             MainBoard.getStatusBar().setText(GameState.getCurPlayer().getName() + ": INITIAL SETTLEMENT BUILD PHASE");
+            MainBoard.getStatusBar().setText(GameState.getCurPlayer().getName() + ": INITIAL SETTLEMENT BUILD PHASE");
+            //Once the first "PLAYER_INITTURN_START" has been thrown, initialize the player information panel
+            if (!(playerInfoInitialized))
+            {
+            
+                playerInfo = new PlayerInfo();
+                playerInfo.setPlayerInfoInitialized(true);
+                playerInfoInitialized = true;
+                playerInfo.setLocation(800, 0);
+                System.out.println("The location of the window is: " + playerInfo.getLocation());
+            
+            }
+            
             //sc.buttonSettlement();
             //PlayerEvent n = new PlayerEvent("PLAYER_INIT_ATTEMPT_SETTLEMENT", pe.player);
             //EventManager.callEvent(n);
@@ -256,4 +283,5 @@ public class Gui implements EventListener
         gui = new SettlersGUI();
         gui.initialize();        
     }
+
 }

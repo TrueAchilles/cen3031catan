@@ -3,6 +3,7 @@ package settlers.game.gui;
 import settlers.game.*;
 import settlers.game.logic.*;
 
+import java.awt.Point;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -35,7 +36,6 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener
     }
 
     private SettlersEvent event_manager;
-    
     private MainBoard mainBoard;
     private JMenu gameMenu;
     private JMenuItem debug_rollaSeven;
@@ -45,6 +45,7 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener
     private JMenu debug_menu;
     private JMenuItem connectLan;
     private JCheckBoxMenuItem hideRollBox;
+    private JCheckBoxMenuItem hidePlayerInfo;
     private JMenuItem connectInternet;
     private JMenu connectTo;
     private JMenuItem editProfile;
@@ -148,8 +149,15 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener
                         hideRollBox = new JCheckBoxMenuItem();
                         gameMenu.add(hideRollBox);
                         hideRollBox.setText("Hide Roll Box");
-                        hideRollBox.setState(true);
+                        hideRollBox.setState(false);
                         hideRollBox.addActionListener(this);
+                    }
+                    {
+                        hidePlayerInfo = new JCheckBoxMenuItem();
+                        gameMenu.add(hidePlayerInfo);
+                        hidePlayerInfo.setText("Hide Player Info");
+                        hidePlayerInfo.setState(false);
+                        hidePlayerInfo.addActionListener(this);
                     }
                     {
                         frameSize = new JMenu("Frame Size");
@@ -410,6 +418,11 @@ System.out.println(aboutNotice);
             if(smaller.isSelected())
                 this.setSizeSmaller();
         }
+        if(evt.getSource() == this.hidePlayerInfo)
+        {
+            //Gui.playerInfo.setVisible(true);
+        }
+        
     }
     
     private void setSizeSmaller() {
