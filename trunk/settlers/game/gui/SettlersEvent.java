@@ -12,7 +12,6 @@ import settlers.game.events.Event;
 import settlers.game.events.EventListener;
 import settlers.game.events.EventManager;
 import settlers.game.events.PlayerEvent;
-import settlers.game.logic.Logic;
 
 import javax.swing.JColorChooser;
 import javax.swing.JDialog;

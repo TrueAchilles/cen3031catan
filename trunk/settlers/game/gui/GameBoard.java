@@ -6,7 +6,6 @@ import settlers.game.events.EventManager;
 import settlers.game.events.PlayerEvent;
 import settlers.game.events.SettlementEvent;
 import settlers.game.events.RoadEvent;
-import settlers.game.logic.*;
 import settlers.game.*;
 
 import settlers.game.gui.Deck;
@@ -654,7 +653,11 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
         return rollBox;
     }
     
-        
+    public Settlement getVertex(int x, int y)
+    {
+        return vertex[y][x];
+    }
+
     private void shuffleArray(int[] ar)
     {
         //--- Shuffle by exchanging each element randomly

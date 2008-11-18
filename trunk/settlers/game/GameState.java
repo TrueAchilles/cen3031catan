@@ -10,7 +10,6 @@ import settlers.game.elements.*;
 import settlers.game.events.EventManager;
 import settlers.game.events.PlayerEvent;
 import settlers.game.gui.*;
-import settlers.game.logic.Logic;
 
 public class GameState
 {
@@ -20,17 +19,16 @@ public class GameState
     private static int actionState = 0;
     private static int gamePhase = 0;
     
-    private static Logic logic;
-    private static Gui gui;
+    private static GamePlay gamePlay;
     
     /**
      * Called to initialize the game when it is first started. 
      */
     public static void initialize()
     {
-        logic = new Logic(); //sets up the logic of the game - no need to keep as a variable (yet), but it needs to be an object so it can receive events
-        gui = new Gui();
-        
+        //sets up the logic of the game - no need to keep as a variable (yet), but it needs to be an object so it can receive events
+        gamePlay = new GamePlay();
+        new ContainerGUI();
         // code for handling init of game goes here (making game board, setting up players, etc)
         players = new LinkedList<Player>();
     }
@@ -75,13 +73,13 @@ public class GameState
         gamePhase = phase;
     }
     
-    public static Logic getLogic()
+    public static GamePlay getLogic()
     {
-        return logic;
+        return gamePlay;
     }
     
-    public static Gui getGui()
+    public static GamePlay getGui()
     {
-        return gui;
+        return gamePlay;
     }
 }
