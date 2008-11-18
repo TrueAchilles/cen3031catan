@@ -26,7 +26,7 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
     private boolean resized;
     int edgeLength , stepLength;
     
-    Settlement[][] vertex = null;
+    public Settlement[][] vertex = null;
     
     RollBox rollBox;
     SpringLayout thisLayout;
@@ -40,8 +40,8 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
     boolean firstTime = true;
     int map[][];
     
-    Road tempRoad;
-    Settlement tempSettlement;
+    public Road tempRoad;
+    public Settlement tempSettlement;
     Settlement tempRobber;
     
     Settlement robber;
@@ -518,7 +518,7 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
         return (int)Math.sqrt( Math.pow( x - vertex[j][i].getXcord(),2) + Math.pow( y - vertex[j][i].getYcord(),2) );
     }
     
-    private void calculateTile(int x, int y){
+    public void calculateTile(int x, int y){
         tempSettlement = null;
         tempRoad = null;
         tempRobber = null;

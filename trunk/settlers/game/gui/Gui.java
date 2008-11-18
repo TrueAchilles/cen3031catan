@@ -3,7 +3,7 @@
 package settlers.game.gui;
 
 import javax.swing.JOptionPane;
-
+import settlers.game.elements.*;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -33,33 +33,34 @@ public class Gui extends javax.swing.JFrame implements EventListener
         {
 
             PlayerEvent pe = (PlayerEvent) e;
-
-            if (pe.player.getID() == 1)
+            if(pe.player.getName() != "AIVeryEasy")
             {
-                gui.toggleComponent("Player", false);
+                System.out.println("Player init turn: " + pe.player.getID());
+                System.out.println("	Player " + pe.player.getID() + " attempting to place settlement");
+                GameState.setActionState(GlobalVar.ACTION_ADD_SETTLEMENT);
+                 MainBoard.getStatusBar().setText(GameState.getCurPlayer().getName() + ": INITIAL SETTLEMENT BUILD PHASE");
+            }
+            else
+            {
+            	System.out.println("Comp Player init turn: " + pe.player.getID());
+                System.out.println("	Comp Player " + pe.player.getID() + " attempting to place settlement");
+                pe.player.initSettlementPlacement();
+                PlayerEvent n = new PlayerEvent("PLAYER_INITTURN_END", pe.player);
             }
 
-            System.out.println("Player init turn: " + pe.player.getID());
-            System.out.println("    Player " + pe.player.getID() + " attempting to place settlement");
-            GameState.setActionState(GlobalVar.ACTION_ADD_SETTLEMENT);
-			
-            MainBoard.getStatusBar().setText(GameState.getCurPlayer().getName() + ": INITIAL SETTLEMENT BUILD PHASE");
 
-            //Once the first "PLAYER_INITTURN_START" has been thrown, initialize the player information panel
-            if (!(playerInfoInitialized))
-            {
-            
-                playerInfo = new PlayerInfo();
-                playerInfo.setPlayerInfoInitialized(true);
-                playerInfoInitialized = true;
-                playerInfo.setLocation(800, 0);
-                System.out.println("The location of the window is: " + playerInfo.getLocation());
-            
-            }
-            
-            //sc.buttonSettlement();
-            //PlayerEvent n = new PlayerEvent("PLAYER_INIT_ATTEMPT_SETTLEMENT", pe.player);
-            //EventManager.callEvent(n);
+
+
+
+
+
+
+
+
+
+
+
+
         }
         else if (event.equals("PLAYER_INIT_SETTLEMENT_FAIL"))
         {
@@ -71,14 +72,20 @@ public class Gui extends javax.swing.JFrame implements EventListener
         }
         else if (event.equals("PLAYER_INIT_SETTLEMENT_SUCCESS"))
         {
-            PlayerEvent pe = (PlayerEvent) e;
-            System.out.println("    Player " + pe.player.getID() + " placed settlement");
-            System.out.println("    Player " + pe.player.getID() + " attempting to place road");
-            GameState.setActionState(GlobalVar.ACTION_ADD_ROAD);
-            MainBoard.getStatusBar().setText(GameState.getCurPlayer().getName() + ": INITIAL ROAD BUILD PHASE");
-            //sc.buttonRoad();
-            //PlayerEvent n = new PlayerEvent("PLAYER_INIT_ATTEMPT_ROAD", pe.player);
-            //EventManager.callEvent(n);
+        	PlayerEvent pe = (PlayerEvent) e;
+        	if(pe.player.getName() != "AIVeryEasy")
+            {
+        		System.out.println("	Player " + pe.player.getID() + " placed settlement");
+        		System.out.println("	Player " + pe.player.getID() + " attempting to place road");
+        		GameState.setActionState(GlobalVar.ACTION_ADD_ROAD);
+        		MainBoard.getStatusBar().setText(GameState.getCurPlayer().getName() + ": INITIAL ROAD BUILD PHASE");
+            }
+        	else
+        	{
+        		System.out.println("Comp Player init turn: " + pe.player.getID());
+                System.out.println("	Comp Player " + pe.player.getID() + " attempting to place road");
+                pe.player.initRoadPlacement();
+        	}
         }
         else if (event.equals("PLAYER_INIT_ROAD_FAIL"))
         {
@@ -90,25 +97,46 @@ public class Gui extends javax.swing.JFrame implements EventListener
         }
         else if (event.equals("PLAYER_INIT_ROAD_SUCCESS"))
         {
-            PlayerEvent pe = (PlayerEvent) e;
-            System.out.println("    Player " + pe.player.getID() + " placed road");
-            System.out.println("    Player " + pe.player.getID() + " initial turn ends");
-            PlayerEvent n = new PlayerEvent("PLAYER_INITTURN_END", pe.player);
-            EventManager.callEvent(n);
+        	PlayerEvent pe = (PlayerEvent) e;
+        	if(pe.player.getName() != "AIVeryEasy")
+            {
+        		System.out.println("	Player " + pe.player.getID() + " placed road");
+            	System.out.println("	Player " + pe.player.getID() + " initial turn ends");
+            	PlayerEvent n = new PlayerEvent("PLAYER_INITTURN_END", pe.player);
+            	EventManager.callEvent(n);
+            }
+        	else
+        	{
+        		System.out.println("	Comp Player " + pe.player.getID() + " placed road");
+            	System.out.println("	Comp Player " + pe.player.getID() + " initial turn ends");
+            	PlayerEvent n = new PlayerEvent("PLAYER_INITTURN_END", pe.player);
+            	EventManager.callEvent(n);
+        	}
         }
         else if (event.equals("PLAYER_TURN_START"))
         {
-            PlayerEvent pe = (PlayerEvent) e;
-            System.out.println("Player turn: " + pe.player.getID());
+    		PlayerEvent pe = (PlayerEvent) e;
+        	if(pe.player.getName() != "AIVeryEasy")
+            {
+        		System.out.println("Player turn: " + pe.player.getID());
+        		
+        		gui.getBottomPanel().turnStart();
             
-            gui.getBottomPanel().turnStart();
-            
-            gui.getBottomPanel().startButton.grabFocus();
+        		gui.getBottomPanel().startButton.grabFocus();
+            }
+        	else
+        	{
+        		System.out.println("Comp Player turn: " + pe.player.getID());
+        		pe.player.startTurn();
+        	}
             
         }
         else if(event.equals("PLAYER_ROLL_PHASE_BEGIN"))
         {
-            gui.getBottomPanel().hideTurnStart();
+        	PlayerEvent pe = (PlayerEvent) e;
+        	if(pe.player.getName() != "AIVeryEasy")
+            {
+        		gui.getBottomPanel().hideTurnStart();
             
             gui.getBottomPanel().getButtonPanel().roll_next.setEnabled(false);
             
@@ -122,13 +150,32 @@ public class Gui extends javax.swing.JFrame implements EventListener
             gui.getBottomPanel().getButtonPanel().roll_roll.setEnabled(true);
             gui.getBottomPanel().getButtonPanel().roll_roll.grabFocus();
             
-            //Talk to ButtonPanel and tell it to switch
-            gui.getBottomPanel().getButtonPanel().switchPanel("ROLL");            
+            	//Talk to ButtonPanel and tell it to switch
+            	gui.getBottomPanel().getButtonPanel().switchPanel("ROLL");        
+            }
+        	else
+        	{
+        		pe.player.roll();
+        		pe.player.rollToTrade();
+        	}
         }
         else if (event.equals("PLAYER_TRADE_PHASE_BEGIN"))
         {
-            PlayerEvent pe = (PlayerEvent) e;
+        	PlayerEvent pe = (PlayerEvent) e;
+        	if(pe.player.getName() != "AIVeryEasy")
+            {
+        		//Trade phase commences, player can build, use development cards, or end turn
+        		//Therefore need else statements here for these interactions
+        		//For now the trade Phase immediately ends
             
+        		//Talk to ButtonPanel and tell it to switch
+        		gui.getBottomPanel().getButtonPanel().switchPanel("TRADE");
+        		gui.getBottomPanel().getButtonPanel().trade_next.grabFocus();
+            }
+        	else
+        	{
+        		pe.player.tradeToBuild();
+        	}
             //Talk to ButtonPanel and tell it to switch
             gui.getBottomPanel().getButtonPanel().switchPanel("TRADE");
             gui.getBottomPanel().getButtonPanel().trade_next.grabFocus();
@@ -136,8 +183,10 @@ public class Gui extends javax.swing.JFrame implements EventListener
         }
         else if(event.equals("PLAYER_BUILD_PHASE_BEGIN")) 
         {
-            PlayerEvent pe = (PlayerEvent) e;
-            //Player requests to build an object on to the board
+        	PlayerEvent pe = (PlayerEvent) e;
+        	if(pe.player.getName() != "AIVeryEasy")
+            {
+        		//Player requests to build an object on to the board
     
             if (pe.player.canBuySettlement() == false)
             {
@@ -154,13 +203,18 @@ public class Gui extends javax.swing.JFrame implements EventListener
                 gui.getBottomPanel().getButtonPanel().build_dev.setEnabled(false);
             }
         
-            //Talk to ButtonPanel and tell it to switch
-            gui.getBottomPanel().getButtonPanel().switchPanel("BUILD");
-            gui.getBottomPanel().getButtonPanel().build_next.grabFocus();
+        		//Talk to ButtonPanel and tell it to switch
+        		gui.getBottomPanel().getButtonPanel().switchPanel("BUILD");
+        		gui.getBottomPanel().getButtonPanel().build_next.grabFocus();
             
-            PlayerEvent E = new PlayerEvent("PLAYER_BUILD_REQUEST", pe.player);
-            EventManager.callEvent(E);
-            
+        		PlayerEvent E = new PlayerEvent("PLAYER_BUILD_REQUEST", pe.player);
+        		EventManager.callEvent(E);
+            }
+        	else
+        	{
+        		pe.player.actBuild();
+        		pe.player.turnEnd();
+        	}
         }
         else if(event.equals("BUILD_REQUEST"))
         {
