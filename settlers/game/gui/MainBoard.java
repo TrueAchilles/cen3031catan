@@ -7,11 +7,12 @@ import javax.swing.border.LineBorder;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
+import settlers.game.*;
+
 @SuppressWarnings("serial")
 public class MainBoard extends javax.swing.JPanel {
     
     private static JLabel statusBar;
-    public static GameBoard gameBoard;
     private static PlayerPanel playerPanel;
     
     private boolean playerPanel_created = false;
@@ -37,8 +38,8 @@ public class MainBoard extends javax.swing.JPanel {
             BorderLayout thisLayout = new BorderLayout();
             this.setLayout(thisLayout);
             this.setBackground(new java.awt.Color(255,255,255));
-            gameBoard = new GameBoard(this);
-            gameBoard.setPreferredSize(new java.awt.Dimension(802, 574));    //732, 574
+            ContainerGUI.gameBoard = new GameBoard(this);
+            ContainerGUI.gameBoard.setPreferredSize(new java.awt.Dimension(802, 574));    //732, 574
             statusBar = new JLabel();
             this.add(statusBar, BorderLayout.NORTH);
             statusBar.setText("Status Bar");
@@ -47,9 +48,7 @@ public class MainBoard extends javax.swing.JPanel {
             statusBar.setFont(new java.awt.Font("Tahoma",0,14));
             statusBar.setPreferredSize(new java.awt.Dimension(409, 26));
             statusBar.setBorder(new LineBorder(new java.awt.Color(0,0,0), 2, false));
-            this.add(gameBoard, BorderLayout.CENTER);
-            settlers.game.GlobalVar.containerGUI.setMainBoard(this);
-            settlers.game.GlobalVar.containerGUI.setGameBoard(gameBoard);
+            this.add(ContainerGUI.gameBoard, BorderLayout.CENTER);
         } 
         catch (Exception e) 
         {
@@ -59,12 +58,12 @@ public class MainBoard extends javax.swing.JPanel {
 
     public GameBoard getGameBoard()
     {
-        return gameBoard;
+        return ContainerGUI.gameBoard;
     }
     
     public RollBox getRollBox()
     {
-        return gameBoard.getRollBox();
+        return ContainerGUI.gameBoard.getRollBox();
     }
     
     public PlayerPanel getPlayerPanel()
@@ -92,14 +91,14 @@ public class MainBoard extends javax.swing.JPanel {
     public void resizeLarger()
     {
         this.setPreferredSize(new Dimension(800, 600));
-        gameBoard.resizeLarger();
+        ContainerGUI.gameBoard.resizeLarger();
         
     }
 
     public void resizeSmaller()
     {
         this.setPreferredSize(new Dimension(800, 400));
-        gameBoard.resizeSmaller();
+        ContainerGUI.gameBoard.resizeSmaller();
 
     }
 

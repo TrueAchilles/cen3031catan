@@ -9,13 +9,16 @@ import settlers.game.gui.*;
 public class ContainerGUI
 {
 
-    public MainBoard mainBoard = null;
-    public GameBoard gameBoard = null;
-    public BottomPanel bottomPanel = null;
+    public static MainBoard mainBoard;
+    public static GameBoard gameBoard;
+    public static BottomPanel bottomPanel;
+    public static SettlersGUI settlersGUI;
 
 
     public ContainerGUI()
     {
+        settlersGUI = new SettlersGUI();
+        // by some insane cascading effects, the rest of the variables are set.
 
     }
 

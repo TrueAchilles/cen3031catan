@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 import settlers.game.GameState;
+import settlers.game.*;
 import settlers.game.events.Event;
 import settlers.game.events.EventListener;
 import settlers.game.events.EventManager;
@@ -130,8 +131,8 @@ public class RollBox extends JPanel implements Runnable, EventListener
         if(event.equals("DICE_ROLLED"))
         {
             int value = roll();
-            GameState.getGui().gui.getMainBoard().getGameBoard().diceRollResources(value);
-            GameState.getGui().gui.getBottomPanel().getTabbedPanel().setRandomDiceRoll(GameState.getCurPlayer().getName() + " rolled: " + value +"\n");
+            ContainerGUI.gameBoard.diceRollResources(value);
+            ContainerGUI.bottomPanel.getTabbedPanel().setRandomDiceRoll(GameState.getCurPlayer().getName() + " rolled: " + value +"\n");
         }
     }
 

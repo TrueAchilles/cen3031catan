@@ -30,6 +30,7 @@ public class Player
     private LongestRoad longRoad;
     private int numberOfResourceCards = 12;
     private int numberOfDevCards = 0;
+    private boolean isAI = false;
 
     private Deck devCards;
     
@@ -40,8 +41,13 @@ public class Player
         playerColor = _color;
         victoryPointTotal = 0;     
         longRoad = new LongestRoad(this);
-        devCards = new Deck("player", GameState.getGui().gui.getMainBoard().getGameBoard());
+        devCards = new Deck("player", ContainerGUI.gameBoard);
     }
+    
+    public void setasAI()
+    {
+        isAI = true;
+    }    
     
     public String getName()
     {
@@ -248,7 +254,9 @@ public class Player
     public void addRoad(Road r)
     {
         int len = longRoad.addRoad(r);
+           System.out.println("Biggest length is "+len);
     
+    }
     //These are for the AI
     public void initSettlementPlacement()
     {}
@@ -273,8 +281,7 @@ public class Player
 		
 	public void actBuild() 
 	{}
-        System.out.println("Biggest length is "+len);
-    }
+     
     
         
     

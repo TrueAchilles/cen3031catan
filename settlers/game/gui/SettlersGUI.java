@@ -1,7 +1,6 @@
 package settlers.game.gui;
 
 import settlers.game.*;
-import settlers.game.logic.*;
 
 import java.awt.Point;
 import java.awt.Dimension;
@@ -36,7 +35,6 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener
     }
 
     private SettlersEvent event_manager;
-    private MainBoard mainBoard;
     private JMenu gameMenu;
     private JMenuItem debug_rollaSeven;
     private JMenuItem debug_showMeTheMoney;
@@ -74,7 +72,6 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener
     private JRadioButtonMenuItem smaller;
     private JMenu player;
     private JMenuBar settlersMenu;
-    private BottomPanel bottomPanel;
 
     public SettlersGUI()
     {
@@ -319,16 +316,16 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener
                 }
             }
             {
-                bottomPanel = new BottomPanel(this);
-                getContentPane().add(bottomPanel, new AnchorConstraint(835, 1023, 1001, 0, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
-                bottomPanel.setPreferredSize(new java.awt.Dimension(802, 131));
+                ContainerGUI.bottomPanel = new BottomPanel(this);
+                getContentPane().add(ContainerGUI.bottomPanel, new AnchorConstraint(835, 1023, 1001, 0, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
+                ContainerGUI.bottomPanel.setPreferredSize(new java.awt.Dimension(802, 131));
             }
             {
-                mainBoard = new MainBoard(this);
-                getContentPane().add(mainBoard, new AnchorConstraint(2, 1000, 834, 0, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
-                mainBoard.setPreferredSize(new java.awt.Dimension(794, 598));
-                mainBoard.setBackground(new java.awt.Color(255,255,255));
-                mainBoard.setSize(794, 600);
+                ContainerGUI.mainBoard = new MainBoard(this);
+                getContentPane().add(ContainerGUI.mainBoard, new AnchorConstraint(2, 1000, 834, 0, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
+                ContainerGUI.mainBoard.setPreferredSize(new java.awt.Dimension(794, 598));
+                ContainerGUI.mainBoard.setBackground(new java.awt.Color(255,255,255));
+                ContainerGUI.mainBoard.setSize(794, 600);
             }
             this.pack();
             this.setSize(800, 850);
@@ -342,11 +339,7 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener
     }
 
     public void write(String txt){
-        this.bottomPanel.getTabbedPanel().getGameText().append(txt);
-    }
-    
-    public void initialize(){
-        this.mainBoard.getGameBoard().hideBox(false);
+        ContainerGUI.bottomPanel.getTabbedPanel().getGameText().append(txt);
     }
 
     
@@ -356,7 +349,7 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener
 
     public void showError(String string) {
         // TODO Auto-generated method stub
-        this.bottomPanel.getTabbedPanel().getErrorPanel().append(string);
+        ContainerGUI.bottomPanel.getTabbedPanel().getErrorPanel().append(string);
     }
 
     @Override
@@ -376,7 +369,7 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener
         }
         if(evt.getSource() == this.hideRollBox)
         {
-            mainBoard.getGameBoard().hideBox(hideRollBox.isSelected());
+            ContainerGUI.mainBoard.getGameBoard().hideBox(hideRollBox.isSelected());
         }
         if(evt.getSource() == this.humanPlayer)
         {
@@ -394,7 +387,7 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener
             aboutNotice = aboutNotice.concat("GUI Team:\n* Nick Antonelli (GUI Team Lead)\n* Spencer Gall\n* Eric Hernandez\n* Andrew Stroizer\n* Paul Marks\n\n");
             aboutNotice = aboutNotice.concat("Logic Team\n* Eric Mudge\n* Alvaro Salkeld\n* Patrick Meyer\n* Francesca Ramadori\n* Edward Brotz\n* Naveen Dhawan\n* Carlos Estevez\n* Scott Savino\n* Nick Dunlap\n");
 System.out.println(aboutNotice);
-            javax.swing.JOptionPane.showMessageDialog(this.mainBoard, aboutNotice, "About Java Settlers of Catan", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+            javax.swing.JOptionPane.showMessageDialog(ContainerGUI.mainBoard, aboutNotice, "About Java Settlers of Catan", javax.swing.JOptionPane.INFORMATION_MESSAGE);
 
         }
         if(evt.getSource() == this.debug_quickStart)
@@ -439,7 +432,7 @@ System.out.println(aboutNotice);
         this.setPreferredSize(new Dimension(800, 600));
         this.pack();
         this.validate();
-        this.mainBoard.resizeSmaller();
+        ContainerGUI.mainBoard.resizeSmaller();
 
     }
 
@@ -450,7 +443,7 @@ System.out.println(aboutNotice);
         this.setPreferredSize(new Dimension(800, 850));
         this.pack();
         this.validate();
-        this.mainBoard.resizeLarger();
+        ContainerGUI.mainBoard.resizeLarger();
         
     }
 
@@ -462,12 +455,12 @@ System.out.println(aboutNotice);
 
     public MainBoard getMainBoard() {
         // TODO Auto-generated method stub
-        return mainBoard;
+        return ContainerGUI.mainBoard;
     }    
     
     public BottomPanel getBottomPanel()
     {
-        return bottomPanel;
+        return ContainerGUI.bottomPanel;
     }
 
     public void toggleComponent(String component, boolean enabled)
