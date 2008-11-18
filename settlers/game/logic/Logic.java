@@ -154,6 +154,10 @@ public class Logic implements EventListener, ActionListener
 			pe.player.getDevCards().addCard(GameState.getGui().gui.getMainBoard().getGameBoard().getBoardDevCards().drawCard());
 			
             GameState.setActionState(-1);
+			
+			//System.out.println("Player " + pe.player.ID() + " has drawn a development card");
+
+
         }
         else if(event.equals("PLAYER_PLAY_DEVELOPMENTCARD"))
         {

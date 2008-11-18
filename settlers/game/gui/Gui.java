@@ -42,7 +42,9 @@ public class Gui extends javax.swing.JFrame implements EventListener
             System.out.println("Player init turn: " + pe.player.getID());
             System.out.println("    Player " + pe.player.getID() + " attempting to place settlement");
             GameState.setActionState(GlobalVar.ACTION_ADD_SETTLEMENT);
+			
             MainBoard.getStatusBar().setText(GameState.getCurPlayer().getName() + ": INITIAL SETTLEMENT BUILD PHASE");
+
             //Once the first "PLAYER_INITTURN_START" has been thrown, initialize the player information panel
             if (!(playerInfoInitialized))
             {
