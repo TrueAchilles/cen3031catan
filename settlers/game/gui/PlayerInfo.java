@@ -65,17 +65,17 @@ public class PlayerInfo extends javax.swing.JPanel implements EventListener, Act
      JTextArea[] playerPanels;
 
      //Pciture Locations
-     ImageIcon brick3    = new ImageIcon("/settlers/game/images/brick3.jpg");
-     ImageIcon ore3      = new ImageIcon("/settlers/game/images/ore3.jpg");
-     ImageIcon wheat3    = new ImageIcon("/settlers/game/images/wheat3.jpg");
-     ImageIcon wood3     = new ImageIcon("/settlers/game/images/wood3.jpg");
-     ImageIcon wool3     = new ImageIcon("/settlers/game/images/wool3.jpg");
+     ImageIcon brick;
+     ImageIcon ore;      
+     ImageIcon wheat;    
+     ImageIcon wood;     
+     ImageIcon wool;     
      
-     ImageIcon knight    = new ImageIcon("/settlers/game/images/Knight.jpg");
-	 ImageIcon monopoly  = new ImageIcon("/settlers/game/images/Monopoly.jpg");
-	 ImageIcon palace    = new ImageIcon("/settlers/game/images/Palace.jpg");
-	 ImageIcon road      = new ImageIcon("/settlers/game/images/Road Building.jpg");
-	 ImageIcon plenty    = new ImageIcon("/settlers/game/images/Year of Plenty.jpg");
+     ImageIcon knight;
+	 ImageIcon monopoly;
+	 ImageIcon palace;
+	 ImageIcon road;     
+	 ImageIcon plenty;    
      
      //Counters
      int playerCounter = 0;
@@ -216,12 +216,21 @@ public class PlayerInfo extends javax.swing.JPanel implements EventListener, Act
             resourceBorder.setTitleColor(Color.black);
             resourcesPanel.setBorder(resourceBorder);
             resourcesPanel.setLayout(new GridLayout(3,2,5,5));
+            
+            
+            brick = new ImageIcon(getClass().getResource("/settlers/game/images/bricks3.jpg"));
+            ore = new ImageIcon(getClass().getResource("/settlers/game/images/ore3.jpg"));
+            wheat = new ImageIcon(getClass().getResource("/settlers/game/images/wheat3.jpg"));
+            wood = new ImageIcon(getClass().getResource("/settlers/game/images/wood3.jpg"));
+            wool = new ImageIcon(getClass().getResource("/settlers/game/images/sheep3.jpg"));
+            
+            
             //Create the initial JLabels with the pictures of the resources and the amount that the first player has
-            lblBrick = new JLabel("Brick: x" + currPlayer.getBrick(), brick3, JLabel.LEFT);
-            lblOre = new JLabel("Ore: x" + currPlayer.getOre(), ore3, JLabel.LEFT);
-            lblWheat = new JLabel("Wheat: x" + currPlayer.getWheat() , wheat3, JLabel.LEFT);
-            lblWood = new JLabel("Wood: x" + currPlayer.getWood(), wood3, JLabel.LEFT);
-            lblWool = new JLabel("Wool: x" + currPlayer.getSheep(), wool3, JLabel.LEFT);
+            lblBrick = new JLabel("Brick: x" + currPlayer.getBrick(), brick, JLabel.LEFT);
+            lblOre = new JLabel("Ore: x" + currPlayer.getOre(), ore, JLabel.LEFT);
+            lblWheat = new JLabel("Wheat: x" + currPlayer.getWheat(), wheat, JLabel.LEFT);
+            lblWood = new JLabel("Wood: x" + currPlayer.getWood(), wood, JLabel.LEFT);
+            lblWool = new JLabel("Wool: x" + currPlayer.getSheep(), wool, JLabel.LEFT);
             //Add the labels to the planel 
             resourcesPanel.add(lblBrick);
             resourcesPanel.add(lblOre);
@@ -232,15 +241,27 @@ public class PlayerInfo extends javax.swing.JPanel implements EventListener, Act
             developmentBorder = new TitledBorder(new LineBorder(Color.black), currPlayer.getName());
             developmentBorder.setTitleColor(Color.black);
             developmentPanel.setBorder(developmentBorder);
-            developmentPanel.setLayout(new GridLayout(1,5,0,5));
-
-            lblKnight = new JButton("Knight: x",knight);
-            lblMonopoly = new JButton("Monopoly: x:",monopoly);
-            lblPalace = new JButton("Palace: x",palace);
-            lblRoad_Building = new JButton("Road Bulding: x",road);
-            lblYear_Of_Plenty = new JButton("Year Of Plenty: x",plenty);
+            developmentPanel.setLayout(new GridLayout(2,5,0,5));
             
+            knight    = new ImageIcon(getClass().getResource("/settlers/game/images/Knight.jpg"));
+            monopoly  = new ImageIcon(getClass().getResource("/settlers/game/images/Monopoly.jpg"));
+            palace    = new ImageIcon(getClass().getResource("/settlers/game/images/Palace.jpg"));
+            road      = new ImageIcon(getClass().getResource("/settlers/game/images/Road Building.jpg"));
+            plenty    = new ImageIcon(getClass().getResource("/settlers/game/images/Year of Plenty.jpg"));
 
+            lblKnight = new JButton(knight);
+            lblMonopoly = new JButton(monopoly);
+            lblPalace = new JButton(palace);
+            lblRoad_Building = new JButton(road);
+            lblYear_Of_Plenty = new JButton(plenty);
+            
+            JLabel test = new JLabel("Brick: x" + currPlayer.getBrick(), JLabel.CENTER);
+            JLabel test1 = new JLabel("Brick: x" + currPlayer.getBrick(), JLabel.CENTER);
+            JLabel test2 = new JLabel("Brick: x" + currPlayer.getBrick(), JLabel.CENTER);
+            JLabel test3 = new JLabel("Brick: x" + currPlayer.getBrick(), JLabel.CENTER);
+            JLabel test4 = new JLabel("Brick: x" + currPlayer.getBrick(), JLabel.CENTER);
+
+            
             
             lblKnight.addActionListener(this);
             lblMonopoly.addActionListener(this);
@@ -253,6 +274,11 @@ public class PlayerInfo extends javax.swing.JPanel implements EventListener, Act
             developmentPanel.add(lblPalace);
             developmentPanel.add(lblRoad_Building);
             developmentPanel.add(lblYear_Of_Plenty);
+            developmentPanel.add(test);
+            developmentPanel.add(test1);
+            developmentPanel.add(test2);
+            developmentPanel.add(test3);
+            developmentPanel.add(test4);
 		}
 		
 		playerInfo.add(cardTabs);
