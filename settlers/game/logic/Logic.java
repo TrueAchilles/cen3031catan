@@ -30,7 +30,6 @@ public class Logic implements EventListener, ActionListener
             Player p = pe.player;
             
             b = GameState.getGui().gui.getBottomPanel().getButtonPanel();
-            
             PlayerEvent n = new PlayerEvent("PLAYER_INITTURN_START", p);
             EventManager.callEvent(n);
         }

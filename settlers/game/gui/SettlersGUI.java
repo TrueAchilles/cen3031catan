@@ -41,6 +41,7 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener
     private JMenuItem debug_rollaSeven;
     private JMenuItem debug_showMeTheMoney;
     private JMenuItem debug_quickStart;
+    private JMenuItem debug_quickStartComp;
     private JMenuItem debug_bigQuickStart;
     private JMenu debug_menu;
     private JMenuItem connectLan;
@@ -207,8 +208,7 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener
                             computerPlayer = new JMenuItem();
                             addPlayer.add(computerPlayer);
                             computerPlayer.setText("Add Computer Player");
-                            computerPlayer.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.CTRL_MASK));
-                            computerPlayer.setEnabled(false);
+                            computerPlayer.addActionListener(this);
                         }
                     }
                     {
@@ -382,6 +382,10 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener
         {
             event_manager.addPlayer();
         }
+        if(evt.getSource() == this.computerPlayer)
+        {
+            event_manager.addComputerPlayer();
+        }
         if(evt.getSource() == about)
         {
             String aboutNotice = new String(
@@ -396,6 +400,10 @@ System.out.println(aboutNotice);
         if(evt.getSource() == this.debug_quickStart)
         {
             event_manager.quickStart(false);
+        }
+        if(evt.getSource() == this.debug_quickStartComp)
+        {
+            event_manager.quickStartComp();
         }
         if(evt.getSource() == this.debug_bigQuickStart)
         {

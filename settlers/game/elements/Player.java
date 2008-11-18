@@ -3,10 +3,14 @@
 package settlers.game.elements;
 
 import java.awt.Color;
+import java.util.Random;
+
 import settlers.game.*;
+import settlers.game.events.Event;
 import settlers.game.elements.LongestRoad;
 import settlers.game.events.EventManager;
 import settlers.game.events.PlayerEvent;
+import settlers.game.events.SettlementEvent;
 
 import settlers.game.gui.Deck;
 import settlers.game.gui.DevelopmentCard;
@@ -20,6 +24,7 @@ public class Player
     private int resource[] = { 2, 2, 2, 2, 2, 2 }; 
     //private int devCards[] = {0, 0, 0, 0, 0};
     private int victoryPointTotal;
+    boolean isComputer = false;
     private Player nextPlayer;
     private Player prevPlayer;
     private LongestRoad longRoad;
@@ -33,7 +38,7 @@ public class Player
         name = _name;
         id = ++totalNum;
         playerColor = _color;
-        victoryPointTotal = 0;
+        victoryPointTotal = 0;     
         longRoad = new LongestRoad(this);
         devCards = new Deck("player", GameState.getGui().gui.getMainBoard().getGameBoard());
     }
@@ -243,6 +248,31 @@ public class Player
     public void addRoad(Road r)
     {
         int len = longRoad.addRoad(r);
+    
+    //These are for the AI
+    public void initSettlementPlacement()
+    {}
+    
+    public void initRoadPlacement()
+    {}
+    
+    public void startTurn()
+	{}
+	
+	public void roll()
+	{}
+	
+	public void rollToTrade()
+	{}
+	
+	public void tradeToBuild()
+	{}
+	
+	public void turnEnd()
+	{}
+		
+	public void actBuild() 
+	{}
         System.out.println("Biggest length is "+len);
     }
     
