@@ -363,59 +363,77 @@ public class PlayerTrade implements ActionListener
         }
         else if (event.getActionCommand().equals("Offer >"))
         {
-            p1BrickImage.setClicked(false);
-            p1BrickImage.setEnabled(false);
-            p1OreImage.setClicked(false);
-            p1OreImage.setEnabled(false);
-            p1SheepImage.setClicked(false);
-            p1SheepImage.setEnabled(false);
-            p1WheatImage.setClicked(false);
-            p1WheatImage.setEnabled(false);
-            p1WoodImage.setClicked(false);
-            p1WoodImage.setEnabled(false);
+            Player temp = GameState.getCurPlayer();
             
-            p2BrickImage.setEnabled(true);
-            p2OreImage.setEnabled(true);
-            p2SheepImage.setEnabled(true);
-            p2WheatImage.setEnabled(true);
-            p2WoodImage.setEnabled(true);
+            if (p1Brick > temp.getBrick() || p1Ore > temp.getOre() || p1Sheep > temp.getSheep() || p1Wheat > temp.getWheat() || p1Wood > temp.getWood())
+            {
+                JOptionPane.showMessageDialog(tradeFrame, "You cannot offer more resources than you own!");
+            }
+            else
+            {
+                p1BrickImage.setClicked(false);
+                p1BrickImage.setEnabled(false);
+                p1OreImage.setClicked(false);
+                p1OreImage.setEnabled(false);
+                p1SheepImage.setClicked(false);
+                p1SheepImage.setEnabled(false);
+                p1WheatImage.setClicked(false);
+                p1WheatImage.setEnabled(false);
+                p1WoodImage.setClicked(false);
+                p1WoodImage.setEnabled(false);
             
-            status.setText(GameState.players.get(tradeID-1).getName() + ": Select resources to add or remove from trade");
-            offer.setText("< Offer");
-            offer.setActionCommand("< Offer");
+                p2BrickImage.setEnabled(true);
+                p2OreImage.setEnabled(true);
+                p2SheepImage.setEnabled(true);
+                p2WheatImage.setEnabled(true);
+                p2WoodImage.setEnabled(true);
+            
+                status.setText(GameState.players.get(tradeID-1).getName() + ": Select resources to add or remove from trade");
+                offer.setText("< Offer");
+                offer.setActionCommand("< Offer");
+            }
         }
         else if (event.getActionCommand().equals("< Offer"))
         {
-            p1BrickImage.setEnabled(true);
-            p1OreImage.setEnabled(true);
-            p1SheepImage.setEnabled(true);
-            p1WheatImage.setEnabled(true);
-            p1WoodImage.setEnabled(true);
+            Player temp = GameState.players.get(tradeID-1);
+        
+            if (p2Brick > temp.getBrick() || p2Ore > temp.getOre() || p2Sheep > temp.getSheep() || p2Wheat > temp.getWheat() || p2Wood > temp.getWood())
+            {
+                JOptionPane.showMessageDialog(tradeFrame, "You cannot offer more resources than you own!");
+            }
+            else
+            {
+                p1BrickImage.setEnabled(true);
+                p1OreImage.setEnabled(true);
+                p1SheepImage.setEnabled(true);
+                p1WheatImage.setEnabled(true);
+                p1WoodImage.setEnabled(true);
             
-            p2BrickImage.setClicked(false);
-            p2OreImage.setClicked(false);
-            p2SheepImage.setClicked(false);
-            p2WheatImage.setClicked(false);
-            p2WoodImage.setClicked(false);
+                p2BrickImage.setClicked(false);
+                p2OreImage.setClicked(false);
+                p2SheepImage.setClicked(false);
+                p2WheatImage.setClicked(false);
+                p2WoodImage.setClicked(false);
             
-            JPanel acceptPanel = new JPanel();
-            JPanel rejectPanel = new JPanel();
-            JButton accept = new JButton("Accept Offer");
-            accept.addActionListener(this);
-            accept.setActionCommand("Accept");
-            JButton reject = new JButton("Reject Offer");
-            reject.addActionListener(this);
-            reject.setActionCommand("Reject");
+                JPanel acceptPanel = new JPanel();
+                JPanel rejectPanel = new JPanel();
+                JButton accept = new JButton("Accept Offer");
+                accept.addActionListener(this);
+                accept.setActionCommand("Accept");
+                JButton reject = new JButton("Reject Offer");
+                reject.addActionListener(this);
+                reject.setActionCommand("Reject");
             
-            acceptPanel.add(accept);
-            rejectPanel.add(reject);
-            buttonPanel.remove(addPanel);
-            buttonPanel.remove(offerPanel);
-            buttonPanel.remove(removePanel);
-            buttonPanel.setLayout(new GridLayout(1,2,5,0));
-            buttonPanel.add(acceptPanel);
-            buttonPanel.add(rejectPanel);
-            buttonPanel.updateUI();
+                acceptPanel.add(accept);
+                rejectPanel.add(reject);
+                buttonPanel.remove(addPanel);
+                buttonPanel.remove(offerPanel);
+                buttonPanel.remove(removePanel);
+                buttonPanel.setLayout(new GridLayout(1,2,5,0));
+                buttonPanel.add(acceptPanel);
+                buttonPanel.add(rejectPanel);
+                buttonPanel.updateUI();
+            }
         }
         else if (event.getActionCommand().equals("Accept"))
         {
