@@ -30,7 +30,8 @@ public class RollBox extends JPanel implements Runnable, EventListener
     private Graphics2D g2d;
     
     private Random rand;
-    
+    private Dice dice;
+
     public RollBox() {
         super();
         EventManager.registerEvent("DICE_ROLLED", this);
@@ -39,6 +40,7 @@ public class RollBox extends JPanel implements Runnable, EventListener
     
     private void initGUI() 
     {
+        dice = new Dice();
         rolling = false;
         finalRoll = false;
         

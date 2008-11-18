@@ -91,7 +91,7 @@ public class Resource
         settlements[2] = southEast;
         settlements[3] = southWest;
         settlements[4] = west;
-        settlements[5] = southWest;
+        settlements[5] = northWest;
 
         return settlements;
     }
