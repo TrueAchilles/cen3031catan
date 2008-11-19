@@ -50,7 +50,7 @@ public class Dice{
         else if (numDice == 2) {
             D1 = r.nextInt(5) + 1;
 
-            if (rollSeven = true) {
+            if (rollSeven == true) {
                 D2 = 7 - D1;
                 rollSeven = false;
             }
