@@ -9,13 +9,13 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import settlers.game.*;
 import settlers.game.elements.*;
 import settlers.game.events.EventManager;
-import settlers.game.events.PlayerEvent;
+import settlers.game.events.Event;
 
 public class RobberRemoveCardsWindow implements ActionListener
 {
 
     private Resource robberTile;
-    private JFrame frame = new JFrame("Robber Lose Cards Window");
+    private JFrame frame = new JFrame("Discard Half of All Resources - Settlers of Catan");
     private JComboBox[] resourceComboBox;
     private Integer[][] comboBoxOptions;
     private JLabel[] images = new JLabel[6];
@@ -118,7 +118,11 @@ public class RobberRemoveCardsWindow implements ActionListener
                 resourceComboBox[i] = new JComboBox(comboBoxOptions[i]);
                 resourceComboBox[i].addActionListener(this);
                 resourceComboBox[i].setActionCommand("Select");
-                comboBoxPanels[currentPlayer].add(resourceComboBox[i]);
+                resourceComboBox[i].setPreferredSize(new java.awt.Dimension(62, 25));
+
+                JPanel selectBoxPanel = new JPanel();
+                selectBoxPanel.add(resourceComboBox[i]);
+                comboBoxPanels[currentPlayer].add(selectBoxPanel);
             }
 
 
@@ -126,32 +130,49 @@ public class RobberRemoveCardsWindow implements ActionListener
             openPanel.addActionListener(this);
             openPanel.setActionCommand("Next");
 
-            JButton accept = new JButton("Accept Info");
-            accept.addActionListener(this);
-            accept.setActionCommand("Accept");
+            JButton remove = new JButton("Discard Resources");
+            remove.addActionListener(this);
+            remove.setActionCommand("Remove");
 
+            JButton count = new JButton("Resource Count Check");
+            count.addActionListener(this);
+            count.setActionCommand("Count");
 
-            JLabel message = new JLabel(player.getName() + ", please remove " + numberOfCardsToLose[currentPlayer] + " resources.");
+            JPanel hidePanel = new JPanel();
+            hidePanel.add(openPanel);
+
+            String messageText = new String(player.getName() + ", please discard " + numberOfCardsToLose[currentPlayer] + " resources.");
+
+            JLabel message = new JLabel(messageText);
+
             hidePanels[currentPlayer].add(message, BorderLayout.CENTER);
-            hidePanels[currentPlayer].add(openPanel, BorderLayout.SOUTH);
+            hidePanels[currentPlayer].add(hidePanel, BorderLayout.SOUTH);
+            hidePanels[currentPlayer].add(Box.createHorizontalStrut(15), BorderLayout.WEST);
             framePanel.add(hidePanels[currentPlayer], "hidePanel" + currentPlayer);
 
-            JLabel playerName = new JLabel(player.getName());
+            JLabel playerName = new JLabel(messageText);
+            JPanel removePanel = new JPanel();
+            removePanel.add(remove);
+            removePanel.add(Box.createVerticalStrut(5));
+            removePanel.add(count);
+    
+            contentPanels[currentPlayer].add(Box.createHorizontalStrut(3), BorderLayout.NORTH);
             contentPanels[currentPlayer].add(playerName, BorderLayout.NORTH);
             contentPanels[currentPlayer].add(comboBoxPanels[currentPlayer], BorderLayout.CENTER);
-            contentPanels[currentPlayer].add(accept, BorderLayout.SOUTH);
+            contentPanels[currentPlayer].add(removePanel, BorderLayout.SOUTH);
             framePanel.add(contentPanels[currentPlayer], "contentPanel" + currentPlayer);
 
             currentPlayer++;
         }
 
+        frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         frame.getContentPane().add(framePanel);
         frame.setVisible(true);
         frame.requestFocus();
-        frame.setResizable(true);
+        frame.setResizable(false);
         frame.pack();
         frame.setLocationRelativeTo(null);
-        frame.setSize(600,300);
+        frame.setSize(345,210);
 
     }
 
@@ -162,16 +183,15 @@ public class RobberRemoveCardsWindow implements ActionListener
             System.out.println("ThunderCats, ho!");
             cardLayout.next(framePanel);
         }
-        else if(e.getActionCommand() == "Accept")
+        else if(e.getActionCommand() == "Remove")
         {
 
             Component[] components = framePanel.getComponents();
             JPanel currentPanel = (JPanel) components[(currentPanelNumber * 2) + 1];
-            JPanel comboBoxPanel = (JPanel) currentPanel.getComponent(1);
+            JPanel comboBoxPanel = (JPanel) currentPanel.getComponent(2);
             Component[] boxPanelComponents = comboBoxPanel.getComponents();
 
             int sum = 0;
-            System.out.println("Must select " + numberOfCardsToLose[currentPanelNumber] + " cards");
             for (int i = 0; i < selectedBoxValues[currentPanelNumber].length; sum += selectedBoxValues[currentPanelNumber][i], i++);
 
             if (sum == numberOfCardsToLose[currentPanelNumber])
@@ -179,14 +199,18 @@ public class RobberRemoveCardsWindow implements ActionListener
                 Player player = playerQueue.poll();
                 for (int i = 5; i < boxPanelComponents.length; i++)
                 {
-                    JComboBox comboBox = (JComboBox) boxPanelComponents[i];
+                    JPanel innerComboBoxPanel = (JPanel) boxPanelComponents[i];
+                    JComboBox comboBox = (JComboBox) innerComboBoxPanel.getComponent(0);
                     Integer selectedValue = (Integer) comboBox.getSelectedItem();
 
                     player.alterResource(i - 4, selectedValue.intValue(), 1);
                 }
 
-                String title = new String("Settlers of Catan");
-                String message = new String("You have lost the following resources:\n");
+                Event event = new Event("THIEF_DISCARD_RESOURCES");
+                EventManager.callEvent(event);
+
+                String title = new String(player.getName() + " - Settlers of Catan");
+                String message = new String(player.getName() + ", you have discarded the following resources:\n");
 
                 for (int i = 0; i < selectedBoxValues[currentPanelNumber].length; i++)
                 {
@@ -237,15 +261,15 @@ public class RobberRemoveCardsWindow implements ActionListener
             }
             else if (sum > numberOfCardsToLose[currentPanelNumber])
             {
-                String title = new String("Settlers of Catan");
-                String message = new String("You have selected too many cards. Please select only " + numberOfCardsToLose[currentPanelNumber] + " resources to remove.");
+                String title = new String("Discard Resources - Settlers of Catan");
+                String message = new String("You have selected too many resources. Please select only " + numberOfCardsToLose[currentPanelNumber] + " resources to remove.");
 
                 createDialogBox(title, message, JOptionPane.ERROR_MESSAGE);
             }
             else if (sum < numberOfCardsToLose[currentPanelNumber])
             {
-                String title = new String("Settlers of Catan");
-                String message = new String("You have not selected enough cards. Please select " + numberOfCardsToLose[currentPanelNumber] + " resources to remove.");
+                String title = new String("Discard Resources - Settlers of Catan");
+                String message = new String("You have not selected enough resources. Please select " + numberOfCardsToLose[currentPanelNumber] + " resources to remove.");
 
                 createDialogBox(title, message, JOptionPane.ERROR_MESSAGE);
             }
@@ -257,12 +281,13 @@ public class RobberRemoveCardsWindow implements ActionListener
 
             Component[] components = framePanel.getComponents();
             JPanel currentPanel = (JPanel) components[(currentPanelNumber * 2) + 1];
-            JPanel comboBoxPanel = (JPanel) currentPanel.getComponent(1);
+            JPanel comboBoxPanel = (JPanel) currentPanel.getComponent(2);
             Component[] boxPanelComponents = comboBoxPanel.getComponents();
             int index = 5;
             for (int i = 5; i < boxPanelComponents.length; i++)
             {
-                JComboBox comboBox = (JComboBox) boxPanelComponents[i];
+                JPanel innerComboBoxPanel = (JPanel) boxPanelComponents[i];
+                JComboBox comboBox = (JComboBox) innerComboBoxPanel.getComponent(0);
                 if (comboBox == box)
                 {
                     index = i;
@@ -271,7 +296,29 @@ public class RobberRemoveCardsWindow implements ActionListener
             }
 
             selectedBoxValues[currentPanelNumber][index - 5] = selectedIndex;
-            System.out.println(selectedIndex);
+
+        }
+        else if(e.getActionCommand() == "Count")
+        {
+            int sum = 0;
+            for (int i = 0; i < selectedBoxValues[currentPanelNumber].length; sum += selectedBoxValues[currentPanelNumber][i], i++);
+
+            String message = new String("You have selected " + sum + " resource(s).\n");
+
+            if (sum < numberOfCardsToLose[currentPanelNumber])
+            {
+                message = message.concat("You still need to select " + (numberOfCardsToLose[currentPanelNumber] - sum) + " resource(s).");
+            }
+            else if (sum > numberOfCardsToLose[currentPanelNumber])
+            {
+                message = message.concat("You need to de-select " + (sum - numberOfCardsToLose[currentPanelNumber]) + " resource(s).");
+            }
+            else
+            {
+                message = message.concat("You have selected enough resources to discard.");
+            }
+
+            createDialogBox("Resource Count Check - Settlers of Catan", message, JOptionPane.INFORMATION_MESSAGE);
 
         }
     }
@@ -281,27 +328,35 @@ public class RobberRemoveCardsWindow implements ActionListener
         for (int i = 1; i < images.length; i++)
         {
             images[i] = new JLabel();
+            String toolTip = new String();
 
             if (i == GlobalVar.WOOD)
             {
                 images[i].setIcon(new ImageIcon(getClass().getResource("/settlers/game/images/wood3.jpg")));
+                toolTip = "Wood";
             }
             else if (i == GlobalVar.BRICK)
             {
                 images[i].setIcon(new ImageIcon(getClass().getResource("/settlers/game/images/bricks3.jpg")));
+                toolTip = "Brick";
             }
             else if (i == GlobalVar.WHEAT)
             {
                 images[i].setIcon(new ImageIcon(getClass().getResource("/settlers/game/images/wheat3.jpg")));
+                toolTip = "Wheat";
             }
             else if (i == GlobalVar.SHEEP)
             {
                 images[i].setIcon(new ImageIcon(getClass().getResource("/settlers/game/images/sheep3.jpg")));
+                toolTip = "Sheep";
             }
             else if (i == GlobalVar.ORE)
             {
                 images[i].setIcon(new ImageIcon(getClass().getResource("/settlers/game/images/ore3.jpg")));
+                toolTip = "Ore";
             }
+
+            images[i].setToolTipText(toolTip);
 
         }
     }
