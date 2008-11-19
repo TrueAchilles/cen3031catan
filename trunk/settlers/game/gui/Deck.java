@@ -69,6 +69,7 @@ public class Deck implements Runnable
 			
 	}
 	
+	//runs a thread that displays the development card to the user
 	private void makeDeck()
 	{
 		new Thread(this).start();
@@ -204,6 +205,7 @@ public class Deck implements Runnable
     	EventManager.callEvent(E);
 	}
 	
+	//returns the number of DevelopmentCards in the deck
 	public int getSize()
 	{
 		if (cards == null)

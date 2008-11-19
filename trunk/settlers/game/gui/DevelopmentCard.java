@@ -84,6 +84,7 @@ public class DevelopmentCard
 		return cardType;
 	}
 	
+	//returns a string holding the location of the card image
 	public String getFileLocation()
 	{
 		switch(cardType)
@@ -112,6 +113,7 @@ public class DevelopmentCard
 		return "";
 	}
 	
+	//prints this development card to the screen
 	public void print()
 	{
 		switch (cardType)
