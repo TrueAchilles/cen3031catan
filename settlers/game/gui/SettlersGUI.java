@@ -22,7 +22,7 @@ import javax.swing.KeyStroke;
 import javax.swing.WindowConstants;
 import javax.swing.SwingUtilities;
 
-public class SettlersGUI extends javax.swing.JFrame implements ActionListener
+public class SettlersGUI extends javax.swing.JFrame
 {
 
     {
@@ -34,50 +34,48 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener
         }
     }
 
-    private SettlersEvent event_manager;
-    private JMenu gameMenu;
-    private JMenuItem debug_rollaSeven;
-    private JMenuItem debug_showMeTheMoney;
-    private JMenuItem debug_quickStart;
-    private JMenuItem debug_quickStartComp;
-    private JMenuItem debug_bigQuickStart;
-    private JMenu debug_menu;
-    private JMenuItem connectLan;
-    private JCheckBoxMenuItem hideRollBox;
-    private JCheckBoxMenuItem hidePlayerInfo;
-    private JMenuItem connectInternet;
-    private JMenu connectTo;
-    private JMenuItem editProfile;
-    private JMenuItem makeProfile;
-    private JSeparator sep4;
-    private JMenuItem computerPlayer;
-    private JMenuItem humanPlayer;
-    private JMenu addPlayer;
-    private JSeparator sep3;
-    private JMenuItem exit;
-    private JSeparator sep2;
-    private JMenuItem saveBoard;
-    private JMenu connection;
-    private JMenuItem loadBoard;
-    private JMenuItem remakeBoard;
-    private JSeparator sep1;
-    private JMenuItem loadGame;
-    private JMenuItem saveGame;
-    private JMenuItem newGame;
-    private JMenu help;
-    private JMenuItem howToPlay;
-    private JMenuItem about;
-    private JMenu frameSize;
-    private JRadioButtonMenuItem standard;
-    private JRadioButtonMenuItem smaller;
-    private JMenu player;
-    private JMenuBar settlersMenu;
+    public SettlersEvent event_manager;
+    public JMenu gameMenu;
+    public JMenuItem debug_rollaSeven;
+    public JMenuItem debug_showMeTheMoney;
+    public JMenuItem debug_quickStart;
+    public JMenuItem debug_bigQuickStart;
+    public JMenu debug_menu;
+    public JMenuItem connectLan;
+    public JCheckBoxMenuItem hideRollBox;
+    public JCheckBoxMenuItem hidePlayerInfo;
+    public JMenuItem connectInternet;
+    public JMenu connectTo;
+    public JMenuItem editProfile;
+    public JMenuItem makeProfile;
+    public JSeparator sep4;
+    public JMenuItem computerPlayer;
+    public JMenuItem humanPlayer;
+    public JMenu addPlayer;
+    public JSeparator sep3;
+    public JMenuItem exit;
+    public JSeparator sep2;
+    public JMenuItem saveBoard;
+    public JMenu connection;
+    public JMenuItem loadBoard;
+    public JMenuItem remakeBoard;
+    public JSeparator sep1;
+    public JMenuItem loadGame;
+    public JMenuItem saveGame;
+    public JMenuItem newGame;
+    public JMenu help;
+    public JMenuItem howToPlay;
+    public JMenuItem about;
+    public JMenu frameSize;
+    public JRadioButtonMenuItem standard;
+    public JRadioButtonMenuItem smaller;
+    public JMenu player;
+    public JMenuBar settlersMenu;
 
     public SettlersGUI()
     {
         super();
         initGUI();
-        event_manager = new SettlersEvent(this);
     }
     
     
@@ -101,7 +99,7 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener
                         gameMenu.add(newGame);
                         newGame.setText("Reset Board");
                         newGame.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
-                        newGame.addActionListener(this);
+                        newGame.addActionListener(ContainerGUI.gameButtons);
                     }
                     {
                         saveGame = new JMenuItem();
@@ -124,7 +122,7 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener
                         gameMenu.add(remakeBoard);
                         remakeBoard.setText("Re-make Board");
                         remakeBoard.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.CTRL_MASK));
-                        remakeBoard.addActionListener(this);
+                        remakeBoard.addActionListener(ContainerGUI.gameButtons);
                     }
                     {
                         loadBoard = new JMenuItem();
@@ -148,14 +146,14 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener
                         gameMenu.add(hideRollBox);
                         hideRollBox.setText("Hide Roll Box");
                         hideRollBox.setState(false);
-                        hideRollBox.addActionListener(this);
+                        hideRollBox.addActionListener(ContainerGUI.gameButtons);
                     }
                     {
                         hidePlayerInfo = new JCheckBoxMenuItem();
                         gameMenu.add(hidePlayerInfo);
                         hidePlayerInfo.setText("Hide Player Info");
                         hidePlayerInfo.setState(false);
-                        hidePlayerInfo.addActionListener(this);
+                        hidePlayerInfo.addActionListener(ContainerGUI.gameButtons);
                     }
                     {
                         frameSize = new JMenu("Frame Size");
@@ -165,13 +163,13 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener
                         standard = new JRadioButtonMenuItem("800 x 800 (standard)", true);
                         frameSize.add(standard);
                         standard.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, ActionEvent.CTRL_MASK));
-                        standard.addActionListener(this);
+                        standard.addActionListener(ContainerGUI.gameButtons);
                     }
                     {
                         smaller = new JRadioButtonMenuItem("800 x 600 (smaller)", false);
                         frameSize.add(smaller);
                         smaller.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
-                        smaller.addActionListener(this);
+                        smaller.addActionListener(ContainerGUI.gameButtons);
                     }
                     {
                         sep3 = new JSeparator();
@@ -182,7 +180,7 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener
                         gameMenu.add(exit);
                         exit.setText("Exit");
                         exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, ActionEvent.CTRL_MASK));
-                        exit.addActionListener(this);
+                        exit.addActionListener(ContainerGUI.gameButtons);
                     }
                 }
                 {
@@ -199,13 +197,14 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener
                             humanPlayer.setText("Add Human Player");
                             humanPlayer.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, ActionEvent.CTRL_MASK));
                             standard.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, ActionEvent.CTRL_MASK));
-                            humanPlayer.addActionListener(this);
+                            humanPlayer.addActionListener(ContainerGUI.gameButtons);
                         }
                         {
                             computerPlayer = new JMenuItem();
                             addPlayer.add(computerPlayer);
                             computerPlayer.setText("Add Computer Player");
-                            computerPlayer.addActionListener(this);
+                            computerPlayer.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.CTRL_MASK));
+                            computerPlayer.setEnabled(false);
                         }
                     }
                     {
@@ -257,13 +256,13 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener
                             howToPlay = new JMenuItem();
                             help.add(howToPlay);
                             howToPlay.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1, KeyEvent.KEY_LOCATION_UNKNOWN));
-                            howToPlay.addActionListener(this);
+                            howToPlay.addActionListener(ContainerGUI.gameButtons);
                             howToPlay.setText("How to Play Settlers of Catan");
                         }
                         {
                             about = new JMenuItem();
                             help.add(about);
-                            about.addActionListener(this);
+                            about.addActionListener(ContainerGUI.gameButtons);
                             about.setText("About Java Settlers of Catan");
                         }
                     }
@@ -279,28 +278,28 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener
                         debug_menu.add(debug_quickStart);
                         debug_quickStart.setText("Quick Start");
                         debug_quickStart.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
-                        debug_quickStart.addActionListener(this);
+                        debug_quickStart.addActionListener(ContainerGUI.gameButtons);
                     }
                     {
                         debug_bigQuickStart = new JMenuItem();
                         debug_menu.add(debug_bigQuickStart);
                         debug_bigQuickStart.setText("Big Quick Start");
                         debug_bigQuickStart.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.SHIFT_MASK));
-                        debug_bigQuickStart.addActionListener(this);
+                        debug_bigQuickStart.addActionListener(ContainerGUI.gameButtons);
                     }
                     {
                         debug_showMeTheMoney = new JMenuItem();
                         debug_menu.add(debug_showMeTheMoney);
                         debug_showMeTheMoney.setText("Show Me The Money");
                         debug_showMeTheMoney.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, ActionEvent.SHIFT_MASK));
-                        debug_showMeTheMoney.addActionListener(this);
+                        debug_showMeTheMoney.addActionListener(ContainerGUI.gameButtons);
                     }
                     {
                         debug_rollaSeven = new JMenuItem();
                         debug_menu.add(debug_rollaSeven);
                         debug_rollaSeven.setText("Roll a Seven");
                         debug_rollaSeven.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_7, ActionEvent.SHIFT_MASK));
-                        debug_rollaSeven.addActionListener(this);
+                        debug_rollaSeven.addActionListener(ContainerGUI.gameButtons);
                     }
                         /*{
                             connectLan = new JMenuItem();
@@ -351,82 +350,9 @@ public class SettlersGUI extends javax.swing.JFrame implements ActionListener
         // TODO Auto-generated method stub
         ContainerGUI.bottomPanel.getTabbedPanel().getErrorPanel().append(string);
     }
-
-    @Override
-    public void actionPerformed(ActionEvent evt) {
-        // TODO Auto-generated method stub
-        if(evt.getSource() == this.exit)
-        {
-            System.exit(0);
-        }
-        if(evt.getSource() == this.newGame)
-        {
-            event_manager.startNewGame();
-        }
-        if(evt.getSource() == this.remakeBoard)
-        {
-            event_manager.remakeBoard();
-        }
-        if(evt.getSource() == this.hideRollBox)
-        {
-            ContainerGUI.mainBoard.getGameBoard().hideBox(hideRollBox.isSelected());
-        }
-        if(evt.getSource() == this.humanPlayer)
-        {
-            event_manager.addPlayer();
-        }
-        if(evt.getSource() == this.computerPlayer)
-        {
-            event_manager.addComputerPlayer();
-        }
-        if(evt.getSource() == about)
-        {
-            String aboutNotice = new String(
-"Java Settlers of Catan was programmed for CEN3031 Intro to Software Engineering\nat the University of Florida in Gainesville, Florida by Team E.D.S.B.S. The game was a\npre-existing open source program that was selected for the class.\nThe team was lead by Edward Brotz, Alvaro Salkeld, Nick Antonelli, and Ross Nichols and Patrick Meyer.\n\n");
-
-            aboutNotice = aboutNotice.concat("GUI Team:\n* Nick Antonelli (GUI Team Lead)\n* Spencer Gall\n* Eric Hernandez\n* Andrew Stroizer\n* Paul Marks\n\n");
-            aboutNotice = aboutNotice.concat("Logic Team\n* Eric Mudge\n* Alvaro Salkeld\n* Patrick Meyer\n* Francesca Ramadori\n* Edward Brotz\n* Naveen Dhawan\n* Carlos Estevez\n* Scott Savino\n* Nick Dunlap\n");
-System.out.println(aboutNotice);
-            javax.swing.JOptionPane.showMessageDialog(ContainerGUI.mainBoard, aboutNotice, "About Java Settlers of Catan", javax.swing.JOptionPane.INFORMATION_MESSAGE);
-
-        }
-        if(evt.getSource() == this.debug_quickStart)
-        {
-            event_manager.quickStart(false);
-        }
-        if(evt.getSource() == this.debug_quickStartComp)
-        {
-            event_manager.quickStartComp();
-        }
-        if(evt.getSource() == this.debug_bigQuickStart)
-        {
-            event_manager.quickStart(true);
-        }
-        if(evt.getSource() == this.debug_showMeTheMoney)
-        {
-            event_manager.muchMoney();
-        }
-        
-        if(evt.getSource() == this.standard)
-        {
-            this.smaller.setSelected(!standard.isSelected());
-            if(standard.isSelected())
-                this.setSizeDefault();
-        }
-        if(evt.getSource() == this.smaller)
-        {
-            this.standard.setSelected(!smaller.isSelected());
-            if(smaller.isSelected())
-                this.setSizeSmaller();
-        }
-        if(evt.getSource() == this.hidePlayerInfo)
-        {
-            //Gui.playerInfo.setVisible(true);
-        }
-        
-    }
     
-    private void setSizeSmaller() {
+    
+    public void setSizeSmaller() {
         // TODO Auto-generated method stub
         //System.out.println("Sup1");
         this.setPreferredSize(new Dimension(800, 600));
@@ -437,7 +363,7 @@ System.out.println(aboutNotice);
     }
 
 
-    private void setSizeDefault() {
+    public void setSizeDefault() {
         // TODO Auto-generated method stub
         //System.out.println("Sup2");
         this.setPreferredSize(new Dimension(800, 850));

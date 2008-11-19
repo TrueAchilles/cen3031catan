@@ -20,7 +20,6 @@ import settlers.game.events.*;
 
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
 
@@ -31,7 +30,7 @@ import settlers.game.elements.*;
 import settlers.game.gui.ButtonPanel;
 
 
-public class GamePlay extends javax.swing.JFrame implements EventListener, ActionListener
+public class GamePlay implements EventListener
 {
 
     public SettlersGUI gui;
@@ -42,7 +41,7 @@ public class GamePlay extends javax.swing.JFrame implements EventListener, Actio
     private ButtonPanel b;
 
     
-    public void eventCalled(Event e)
+    public boolean eventCalled(Event e)
     {
         String event = e.getEvent();
         if (event.equals("GAME_START")) // make the first player begin their first init turn
@@ -258,9 +257,9 @@ public class GamePlay extends javax.swing.JFrame implements EventListener, Actio
         }
         else if(event.equals("BUILD_REQUEST"))
         {
-            BuildEvent b = (BuildEvent) e;
+            BuildEvent be = (BuildEvent) e;
             
-            switch(b.buildType)
+            switch(be.buildType)
             {
                 case 1:
                 {
@@ -414,9 +413,7 @@ public class GamePlay extends javax.swing.JFrame implements EventListener, Actio
         else if (event.equals("PLAYER_ROLLED"))
         {
             //When the player has already rolled
-            b.roll_roll.setEnabled(false);
-            b.roll_next.setEnabled(true);
-            b.roll_next.grabFocus();
+
         }
         
         else if(event.equals("PLAYER_TRADE_PHASE_END")) 
@@ -505,72 +502,140 @@ public class GamePlay extends javax.swing.JFrame implements EventListener, Actio
             PlayerEvent n = new PlayerEvent("PLAYER_TURN_START", nextP);
             EventManager.callEvent(n);
         }
-    }
-    
-    public void actionPerformed(ActionEvent evt) {
-        // TODO Auto-generated method stub
-        if(evt.getSource() == b.roll_next)
+        //////////NEW EVENTS//////////////
+        else if (event.equals("PLAYER_WISHESTO_START_TURN")) 
         {
-            PlayerEvent n = new PlayerEvent("PLAYER_TRADE_PHASE_BEGIN", GameState.getCurPlayer());
-            EventManager.callEvent(n); 
+            System.out.println("Player wishes to start turn.");
         }
-        if(evt.getSource() == b.roll_roll)
+        else if (event.equals("PLAYER_WISHESTO_ROLL"))
         {
-            Event n = new Event("DICE_ROLLED");
-            EventManager.callEvent(n);
+            System.out.println("Player wishes roll.");
+            PlayerEvent pe = (PlayerEvent) e;
+            Player p = pe.player;
+            
+            if (p != GameState.getCurPlayer())
+            {
+                System.out.println("You can't roll, you are not the current player!");
+                return false;
+            }
+            if (GameState.diceHasBeenRolledDuringTurn == true)
+            {
+                System.out.println("You have already rolled a dice this turn!");
+                return false;
+            }
+            b.roll_roll.setEnabled(false);
+            GameState.diceHasBeenRolledDuringTurn = true;
+            int value = ContainerGUI.rollBox.roll();
 
+            ContainerGUI.gameBoard.diceRollResources(value);
+            ContainerGUI.bottomPanel.getTabbedPanel().setRandomDiceRoll(GameState.getCurPlayer().getName() + " rolled: " + value +"\n");
+            
+            if (value == 7 && GlobalVar.ROBBER == true) 
+            {
+                System.out.println("All players with over yay cards must remove half their deck.");
+                RobberRemoveCardsWindow rrcw = new RobberRemoveCardsWindow();
+            }
+            else {
+            b.roll_next.setEnabled(true);
+            b.roll_next.grabFocus();
+            }
+            System.out.println("Player has successfully finished rolling dice");
+            return true;
+            
         }
-        if(evt.getSource() == b.roll_thief && GameState.getCurPlayer().getDevCards().hasType(1) > 0) 
+        else if (event.equals("PLAYER_WISHESTO_BUILD_ROAD"))
         {
-            //Throws PLAYER_PLAY_DEVELOPMENTCARD Event to Logic, with the Knight card
-            DevelopmentEvent n = new DevelopmentEvent("PLAYER_PLAY_DEVELOPMENTCARD", 1);
-            EventManager.callEvent(n);
+            System.out.println("Player wishes to build road.");
         }
-        ///Remove Once all dev cards are playable
-        else if (evt.getSource() == b.roll_thief && GameState.getCurPlayer().getDevCards().hasType(1) == 0)
+        else if (event.equals("PLAYER_WISHESTO_BUILD_SETTLEMENT"))
         {
-            System.out.println("You have a dev card that isn't yet playable, sorry bud.  Wait till you get a knight card :)");
+            System.out.println("Player wishes to build settlement.");
         }
-        if(evt.getSource() == b.trade_player)
+        else if (event.equals("PLAYER_WISHESTO_BUILD_CITY"))
         {
-            PlayerTrade pt = new PlayerTrade(GameState.players.size());
+            System.out.println("Player wishes to build city.");
+        }
+        else if (event.equals("PLAYER_WISHESTO_BUY_ROAD"))
+        {
+            System.out.println("Player wishes to buy road.");
+        }
+        else if (event.equals("PLAYER_WISHESTO_BUY_SETTLEMENT"))
+        {
+            System.out.println("Player wishes to buy settlement");
+        }
+        else if (event.equals("PLAYER_WISHESTO_BUY_CITY"))
+        {
+            System.out.println("Player wishes to buy city");
+        }
+        else if (event.equals("PLAYER_WISHESTO_BUY_DEV"))
+        {
+            System.out.println("Player wishes to buy a development card.");
+        }
+        else if (event.equals("PLAYER_WISHESTO_TRADE"))
+        {
+            System.out.println("Player wishes to trade.");
+        }
+        else if (event.equals("PLAYER_WISHESTO_PLAY_DEV"))
+        {
+            System.out.println("Player wishes to play development card.");
+        }
+        else if (event.equals("PLAYER_WISHESTO_PLAY_ROAD"))
+        {
+            System.out.println("Player wishes to play road building card.");
+        }
+        else if (event.equals("PLAYER_WISHESTO_PLAY_MONOPOLY"))
+        {
+            System.out.println("Player wishes to play monopoly.");
+        }
+        else if (event.equals("PLAYER_WISHESTO_PLAY_KNIGHT"))
+        {
+            System.out.println("Player wishes to play knight.");
+        }
+        else if (event.equals("PLAYER_WISHESTO_PLAY_DISCOVERY"))
+        {
+            System.out.println("Player wishes to play discovery card.");
+        }
+        else if (event.equals("PLAYER_MUST_START_TURN"))
+        {
+            System.out.println("Player, you must start your turn.");
+        }
+        else if (event.equals("PLAYER_MUST_ROLL"))
+        {
+            System.out.println("Player, you must roll.");
+        }
+        else if (event.equals("PLAYER_MUST_BUILD_ROAD"))
+        {
+            System.out.println("Player, you must build road.");
+        }
+        else if (event.equals("PLAYER_MUST_BUILD_SETTLEMENT"))
+        {
+            System.out.println("Player, you must be settlement.");
+        }
+        else if (event.equals("PLAYER_MUST_BUILD_CITY"))
+        {
+            System.out.println("Player, you must build city.");
         }
         
-        if(evt.getSource() == b.trade_bank)
+        
+        else if (event.equals("PLAYER_MUST_DISCARD_HALF_DECK"))
         {
-            BankTradeWindow bt = new BankTradeWindow();
+            System.out.println("Player, you have more than 7 resource cards, /nplease discard half your deck rounded down.");
         }
-        if(evt.getSource() == b.trade_next)
+        else if (event.equals("PLAYER_MUST_MOVE_ROBBER"))
         {
-            PlayerEvent n = new PlayerEvent("PLAYER_TRADE_PHASE_END", GameState.getCurPlayer());
-            EventManager.callEvent(n);
+            System.out.println("Player, you must move robber.");
         }
-        if(evt.getSource() == b.build_next)
+        else if (event.equals("PLAYER_MUST_STEAL_RESOURCE"))
         {
-            PlayerEvent n = new PlayerEvent("PLAYER_TURN_END", GameState.getCurPlayer());
-            EventManager.callEvent(n);
+            System.out.println("Player, you must steal resource.");
         }
-        if(evt.getSource() == b.build_dev)
+        else if (event.equals("GAME_START"))
         {
-            BuildEvent b = new BuildEvent("BUILD_REQUEST", 4);
-            EventManager.callEvent(b);
+            System.out.println("Game is starting...");
         }
-        if(evt.getSource() == b.build_settlement)
-        {
-            BuildEvent b = new BuildEvent("BUILD_REQUEST", 1);
-            EventManager.callEvent(b);
-        }
-        if(evt.getSource() == b.build_road)
-        {
-            BuildEvent b = new BuildEvent("BUILD_REQUEST", 3);
-            EventManager.callEvent(b);
-        }
-        if(evt.getSource() == ContainerGUI.bottomPanel.startButton)
-        {
-            PlayerEvent n = new PlayerEvent("PLAYER_ROLL_PHASE_BEGIN", GameState.getCurPlayer());
-            EventManager.callEvent(n);
-        }
+        return true;
     }
+    
     
     public GamePlay()
     {
@@ -610,6 +675,39 @@ public class GamePlay extends javax.swing.JFrame implements EventListener, Actio
         EventManager.registerEvent("PLAYER_KNIGHT_PLACED", this);
         EventManager.registerEvent("PLAYER_KNIGHTED_CHOSEN", this);
         gui = ContainerGUI.settlersGUI;
+        
+        
+                ///////////////NEW EVENTS////////////////
+        EventManager.registerEvent("PLAYER_WISHESTO_START_TURN", this);
+        EventManager.registerEvent("PLAYER_WISHESTO_ROLL", this);
+        EventManager.registerEvent("PLAYER_WISHESTO_BUILD_ROAD", this);
+        EventManager.registerEvent("PLAYER_WISHESTO_BUILD_SETTLEMENT", this);
+        EventManager.registerEvent("PLAYER_WISHESTO_BUILD_CITY", this);
+        EventManager.registerEvent("PLAYER_WISHESTO_BUY_ROAD", this);
+        EventManager.registerEvent("PLAYER_WISHESTO_BUY_SETTLEMENT", this);
+        EventManager.registerEvent("PLAYER_WISHESTO_BUY_CITY", this);
+        EventManager.registerEvent("PLAYER_WISHESTO_BUY_DEV", this);
+        EventManager.registerEvent("PLAYER_WISHESTO_TRADE", this);
+
+        EventManager.registerEvent("PLAYER_WISHESTO_PLAY_DEV", this);
+        EventManager.registerEvent("PLAYER_WISHESTO_PLAY_ROAD", this);
+        EventManager.registerEvent("PLAYER_WISHESTO_PLAY_MONOPLY", this);
+        EventManager.registerEvent("PLAYER_WISHESTO_PLAY_KNIGHT", this);
+        EventManager.registerEvent("PLAYER_WISHESTO_PLAY_DISCOVERY", this);
+
+        EventManager.registerEvent("PLAYER_HAS_ROLLED_A", this);
+        
+        EventManager.registerEvent("PLAYER_MUST_START_TURN", this);
+        EventManager.registerEvent("PLAYER_MUST_ROLL", this);
+        EventManager.registerEvent("PLAYER_MUST_BUILD_ROAD", this);
+        EventManager.registerEvent("PLAYER_MUST_BUILD_SETTLEMENT", this);
+        EventManager.registerEvent("PLAYER_MUST_BUILD_CITY", this);
+
+        EventManager.registerEvent("PLAYER_MUST_DISCARD_HALF_DECK", this);
+        EventManager.registerEvent("PLAYER_MUST_MOVE_ROBBER", this);
+        EventManager.registerEvent("PLAYER_MUST_STEAL_RESOURCE", this);
+
+        EventManager.registerEvent("GAME_START", this);
                
     }
 

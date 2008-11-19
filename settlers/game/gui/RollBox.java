@@ -20,7 +20,7 @@ import settlers.game.events.EventListener;
 import settlers.game.events.EventManager;
 import settlers.game.events.PlayerEvent;
 
-public class RollBox extends JPanel implements Runnable, EventListener
+public class RollBox extends JPanel implements Runnable
 {   
     private BufferedImage anim[] = new BufferedImage[5];
     private int index;
@@ -34,7 +34,6 @@ public class RollBox extends JPanel implements Runnable, EventListener
 
     public RollBox() {
         super();
-        EventManager.registerEvent("DICE_ROLLED", this);
         initGUI();
     }
     
@@ -77,7 +76,7 @@ public class RollBox extends JPanel implements Runnable, EventListener
         System.out.println("Dice 1: " + dice.getD1() + " Dice 2: " + dice.getD2());
         
         animate();
-        
+
         return rollValue;
         
     }
@@ -121,21 +120,6 @@ public class RollBox extends JPanel implements Runnable, EventListener
         finalRoll = true;
         repaint();
         
-        PlayerEvent e = new PlayerEvent("PLAYER_ROLLED", GameState.getCurPlayer());
-        EventManager.callEvent(e);
-        
-    }
-
-    public void eventCalled(Event e) {
-
-        String event = e.getEvent();
-        
-        if(event.equals("DICE_ROLLED"))
-        {
-            int value = roll();
-            ContainerGUI.gameBoard.diceRollResources(value);
-            ContainerGUI.bottomPanel.getTabbedPanel().setRandomDiceRoll(GameState.getCurPlayer().getName() + " rolled: " + value +"\n");
-        }
     }
 
 }

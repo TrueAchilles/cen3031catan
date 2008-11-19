@@ -25,6 +25,7 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
     private boolean resized;
     int edgeLength , stepLength;
     
+    // note: this is indexed by "[y][x]".
     public Settlement[][] vertex = null;
     
     RollBox rollBox;
@@ -39,9 +40,9 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
     boolean firstTime = true;
     int map[][];
     
-    public Road tempRoad;
+    Road tempRoad;
     public Settlement tempSettlement;
-    Settlement tempRobber;
+    public Settlement tempRobber;
     
     Settlement robber;
     
@@ -476,6 +477,7 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
         }
         if (GameState.getActionState() == GlobalVar.ACTION_MOVE_ROBBER && tempRobber != null)
         {
+            GameState.setActionState(0); 
             robber.getDrawResourceHelper().removeThief();
             robber = tempRobber;
             robber.getDrawResourceHelper().placeThief();
@@ -485,7 +487,7 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
                 // first, get the tile on which the thief is placed
             Resource robberTile = robber.getDrawResourceHelper();
                 // now, create the window to remove cards. Pass the thief tile as an argument
-            RobberRemoveCardsWindow rrcw = new RobberRemoveCardsWindow(robberTile);
+            RobberTakeCardWindow rtcw = new RobberTakeCardWindow(robberTile);
 
             PlayerEvent pe = new PlayerEvent("PLAYER_ROBBER_PLACED", GameState.getCurPlayer());
             EventManager.callEvent(pe);
@@ -517,7 +519,7 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
         return (int)Math.sqrt( Math.pow( x - vertex[j][i].getXcord(),2) + Math.pow( y - vertex[j][i].getYcord(),2) );
     }
     
-    public void calculateTile(int x, int y){
+    private void calculateTile(int x, int y){
         tempSettlement = null;
         tempRoad = null;
         tempRobber = null;
@@ -640,7 +642,7 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
     public void diceRollResources(int roll)
     {
         if (roll == 7) {
-            GameState.setActionState(GlobalVar.ACTION_MOVE_ROBBER);        
+                   
         }
         else if (resource[roll] != null) {
             resource[roll].giveResources();

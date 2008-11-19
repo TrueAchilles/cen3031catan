@@ -18,6 +18,7 @@ public class GameState
     private static Player curPlayer;
     private static int actionState = 0;
     private static int gamePhase = 0;
+    public static boolean diceHasBeenRolledDuringTurn;
     
     private static GamePlay gamePlay;
     
