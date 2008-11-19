@@ -14,7 +14,6 @@ import settlers.game.events.Event;
 public class RobberRemoveCardsWindow implements ActionListener
 {
 
-    private Resource robberTile;
     private JFrame frame = new JFrame("Discard Half of All Resources - Settlers of Catan");
     private JComboBox[] resourceComboBox;
     private Integer[][] comboBoxOptions;
@@ -31,10 +30,8 @@ public class RobberRemoveCardsWindow implements ActionListener
     private int[] numberOfCardsToLose;
     private int[][] selectedBoxValues;
 
-    public RobberRemoveCardsWindow(Resource robberTile)
+    public RobberRemoveCardsWindow()
     {
-
-        this.robberTile = robberTile;
 
         int counter = 0;
         for (Player player : GameState.players)
@@ -364,8 +361,8 @@ public class RobberRemoveCardsWindow implements ActionListener
     public void closeWindow()
     {
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        RobberTakeCardWindow rtcw = new RobberTakeCardWindow(robberTile);
         frame.setVisible(false);
+        GameState.setActionState(GlobalVar.ACTION_MOVE_ROBBER); 
     }
 
     public void createDialogBox(String title, String message, int messageType)

@@ -18,7 +18,7 @@ import settlers.game.elements.*;
 
 public class ButtonPanel extends javax.swing.JPanel
 {
-    private GamePlay gamePlay;
+    private GameButtons gameButtons;
     
     private JPanel openingButtonPanel;
     private JLabel jLabel1;
@@ -68,7 +68,7 @@ public class ButtonPanel extends javax.swing.JPanel
     
     private void initGUI() {
         try {
-            gamePlay = GameState.getLogic();
+            gameButtons = ContainerGUI.gameButtons;
             
             thisLayout = new CardLayout();
             this.setLayout(thisLayout);
@@ -134,7 +134,7 @@ public class ButtonPanel extends javax.swing.JPanel
                     roll_next.setFont(new java.awt.Font("Segoe UI",0,10));
                     roll_next.setToolTipText("Move to the trade phase.");
                     roll_next.setPreferredSize(new java.awt.Dimension(86, 45));
-                    roll_next.addActionListener(gamePlay);
+                    roll_next.addActionListener(gameButtons);
                     roll_next.setEnabled(false);
 
                 }
@@ -146,7 +146,7 @@ public class ButtonPanel extends javax.swing.JPanel
                     roll_thief.setToolTipText("Move the thief.");
                     roll_thief.setPreferredSize(new java.awt.Dimension(78, 45));
                     roll_thief.setEnabled(false);
-                    roll_thief.addActionListener(gamePlay);
+                    roll_thief.addActionListener(gameButtons);
                 }
                 {
                     roll_roll = new JButton();
@@ -156,7 +156,7 @@ public class ButtonPanel extends javax.swing.JPanel
                     roll_roll.setToolTipText("Roll the dice.");
                     roll_roll.setPreferredSize(new java.awt.Dimension(83, 45));
                     roll_roll.setEnabled(true);
-                    roll_roll.addActionListener(gamePlay);
+                    roll_roll.addActionListener(gameButtons);
                 }
             }
             {
@@ -190,7 +190,7 @@ public class ButtonPanel extends javax.swing.JPanel
                     trade_bank.setToolTipText("Trade with the bank.");
                     trade_bank.setPreferredSize(new java.awt.Dimension(86,45));
                     trade_bank.setEnabled(true);
-                    trade_bank.addActionListener(gamePlay);
+                    trade_bank.addActionListener(gameButtons);
                 }
                 {
                     trade_next = new JButton();
@@ -199,7 +199,7 @@ public class ButtonPanel extends javax.swing.JPanel
                     trade_next.setFont(new java.awt.Font("Segoe UI",0,10));
                     trade_next.setToolTipText("Move on to the build phase.");
                     trade_next.setPreferredSize(new java.awt.Dimension(83, 45));
-                    trade_next.addActionListener(gamePlay);
+                    trade_next.addActionListener(gameButtons);
                 }
                 {
                     trade_player = new JButton();
@@ -209,7 +209,7 @@ public class ButtonPanel extends javax.swing.JPanel
                     trade_player.setToolTipText("Trade with another player.");
                     trade_player.setPreferredSize(new java.awt.Dimension(83, 45));
                     trade_player.setEnabled(true);
-                    trade_player.addActionListener(gamePlay);
+                    trade_player.addActionListener(gameButtons);
                 }
             }
             {
@@ -233,6 +233,8 @@ public class ButtonPanel extends javax.swing.JPanel
                     build_city.setFont(new java.awt.Font("Segoe UI",0,10));
                     build_city.setToolTipText("Make a city out of an existing settlement");
                     build_city.setPreferredSize(new java.awt.Dimension(86, 45));
+                    build_city.addActionListener(gameButtons);
+
                     //build_city.setEnabled(false);
                 }
                 {
@@ -242,7 +244,7 @@ public class ButtonPanel extends javax.swing.JPanel
                     build_settlement.setFont(new java.awt.Font("Segoe UI",0,10));
                     build_settlement.setToolTipText("Build a settlement");
                     build_settlement.setPreferredSize(new java.awt.Dimension(78, 45));
-                    build_settlement.addActionListener(gamePlay);
+                    build_settlement.addActionListener(gameButtons);
                     //build_settlement.setEnabled(false);
                 }
                 {
@@ -252,7 +254,7 @@ public class ButtonPanel extends javax.swing.JPanel
                     build_road.setFont(new java.awt.Font("Segoe UI",0,10));
                     build_road.setToolTipText("Build a road");
                     build_road.setPreferredSize(new java.awt.Dimension(83, 45));
-                    build_road.addActionListener(gamePlay);
+                    build_road.addActionListener(gameButtons);
                     //build_road.setEnabled(false);
                 }
                 {
@@ -262,7 +264,7 @@ public class ButtonPanel extends javax.swing.JPanel
                     build_next.setFont(new java.awt.Font("Segoe UI",0,10));
                     build_next.setToolTipText("End your turn");
                     build_next.setPreferredSize(new java.awt.Dimension(86, 45));
-                    build_next.addActionListener(gamePlay);
+                    build_next.addActionListener(gameButtons);
                 }
                 {
                     build_dev = new JButton();
@@ -271,7 +273,7 @@ public class ButtonPanel extends javax.swing.JPanel
                     build_dev.setFont(new java.awt.Font("Segoe UI",0,10));
                     build_dev.setToolTipText("Draw a development card");
                     build_dev.setPreferredSize(new java.awt.Dimension(78, 45));
-                    build_dev.addActionListener(gamePlay);
+                    build_dev.addActionListener(gameButtons);
                 }
                 {
                     build_play = new JButton();

@@ -5,5 +5,5 @@ package settlers.game.events;
 public interface EventListener
 {
     // called when an event you've registered is fired
-    public void eventCalled(Event e);
+    public boolean eventCalled(Event e);
 }

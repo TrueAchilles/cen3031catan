@@ -12,12 +12,22 @@ public class ContainerGUI
     public static MainBoard mainBoard;
     public static GameBoard gameBoard;
     public static BottomPanel bottomPanel;
+    public static ButtonPanel buttonPanel;
     public static SettlersGUI settlersGUI;
+    public static GameButtons gameButtons;
+    public static RollBox rollBox;
+    public static SettlersEvent settlersEvent;
 
 
     public ContainerGUI()
     {
+        gameButtons = new GameButtons();
         settlersGUI = new SettlersGUI();
+        settlersEvent = new SettlersEvent();
+        buttonPanel = bottomPanel.getButtonPanel();
+        rollBox = gameBoard.getRollBox();
+        
+        
         // by some insane cascading effects, the rest of the variables are set.
 
     }

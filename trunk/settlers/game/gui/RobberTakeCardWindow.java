@@ -38,6 +38,7 @@ public class RobberTakeCardWindow implements ActionListener
         {
             createDialogBox("No Resources Available to Take - Settlers of Catan", "No player has any resource to take.", JOptionPane.INFORMATION_MESSAGE);
             closeWindow();
+            return;
         }
 
         JRadioButton[] radioButtons = new JRadioButton[GameState.players.size() - 1];
@@ -143,7 +144,7 @@ public class RobberTakeCardWindow implements ActionListener
 
             if (!resource.equals("none"))
             {
-                frame.setVisible(false);
+                closeWindow();
             }
 
         }
@@ -229,6 +230,8 @@ public class RobberTakeCardWindow implements ActionListener
     {
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         frame.setVisible(false);
+        ContainerGUI.buttonPanel.roll_next.setEnabled(true);
+        ContainerGUI.buttonPanel.roll_next.grabFocus();
     }
 
 
@@ -244,7 +247,7 @@ public class RobberTakeCardWindow implements ActionListener
             {
                 continue;
             }
-            else if (player.getWood() > 0 && player.getBrick() > 0 && player.getWheat() > 0 && player.getSheep() > 0 && player.getOre() > 0)
+            else if (player.getWood() > 0 || player.getBrick() > 0 || player.getWheat() > 0 || player.getSheep() > 0 || player.getOre() > 0)
             {
                 if (player.getID() != curPlayer.getID())
                 {

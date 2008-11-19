@@ -7,7 +7,8 @@ import java.awt.*;
  */
 public class GlobalVar {
 
-    
+    public static final Object LOCK = new Object();
+
     // Game Modifiers
     public static final boolean DEBUG_MODE = true;
     public static final int MAX_NUMBER_PLAYERS = 8;
@@ -53,6 +54,7 @@ public class GlobalVar {
 
     public static final int BIG_RESOURCE_TYPE_ARRAY[] = { 0, 1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5,1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5  };
     public static final boolean HAS_DESERT = true;   
+    public static final boolean ROBBER = true;
     public static final int BIG_RESOURCE_NUMBER_ARRAY[] = { 2, 3, 3, 4, 4 , 5 , 5, 6 ,6 , 8 , 8, 9 , 9, 10, 10, 11, 11, 12,2, 3, 3, 4, 4 , 5 , 5, 6 ,6 , 8 , 8, 9 , 9, 10, 10, 11, 11, 12 }; 
     
     public static final int RESOURCE_TYPE_ARRAY[] = { 0, 1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5 };

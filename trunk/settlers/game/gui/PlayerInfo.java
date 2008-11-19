@@ -361,7 +361,7 @@ public class PlayerInfo extends javax.swing.JPanel implements EventListener, Act
     }
     
     
-    public void eventCalled(Event e)
+    public boolean eventCalled(Event e)
     {
         String event = e.getEvent();
 
@@ -384,6 +384,7 @@ public class PlayerInfo extends javax.swing.JPanel implements EventListener, Act
             playerInfo.repaint();
             updateUI(); 
         }
+        return true;
     }
     
 

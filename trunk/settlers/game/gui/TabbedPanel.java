@@ -107,7 +107,7 @@ public class TabbedPanel extends javax.swing.JPanel implements EventListener {
              *
              * @param e event parameter that is used to catch events that are fired
              */
-    public void eventCalled(Event e)
+    public boolean eventCalled(Event e)
     {
         String event = e.getEvent();
         
@@ -145,6 +145,7 @@ public class TabbedPanel extends javax.swing.JPanel implements EventListener {
             
             updateUI(); 
         }
+        return true;
     }
     
     private void displayDevCards()

@@ -9,7 +9,7 @@ import javax.swing.WindowConstants;
 import javax.swing.JFrame;
 
 import settlers.game.GameState;
-
+import settlers.game.*;
 
 /**
 * This code was edited or generated using CloudGarden's Jigloo
@@ -67,7 +67,7 @@ public class BottomPanel extends javax.swing.JPanel {
                 }
                 {
                     startButton = new JButton("Press to start");
-                    startButton.addActionListener(GameState.getLogic());
+                    startButton.addActionListener(ContainerGUI.gameButtons);
                     turnStartPanel.add(startButton);
                 }
                 this.add(turnStartPanel);
