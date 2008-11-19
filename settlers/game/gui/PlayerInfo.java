@@ -94,6 +94,7 @@ public class PlayerInfo extends javax.swing.JPanel implements EventListener, Act
         EventManager.registerEvent("PLAYER_INITTURN_START", this);
         EventManager.registerEvent("PLAYER_TURN_START", this);
         EventManager.registerEvent("PLAYER_ROLLED", this);
+        EventManager.registerEvent("THIEF_DISCARD_RESOURCES", this);
         EventManager.registerEvent("PLAYER_BUILT_DEV_CARD", this);
         EventManager.registerEvent("PLAYER_BUILT_SETTLEMENT", this);
         EventManager.registerEvent("PLAYER_BUILT_ROAD", this);
@@ -114,6 +115,7 @@ public class PlayerInfo extends javax.swing.JPanel implements EventListener, Act
         EventManager.registerEvent("PLAYER_INITTURN_START", this);
         EventManager.registerEvent("PLAYER_TURN_START", this);
         EventManager.registerEvent("PLAYER_ROLLED", this);
+        EventManager.registerEvent("THIEF_DISCARD_RESOURCES", this);
         EventManager.registerEvent("PLAYER_BUILT_DEV_CARD", this);
         EventManager.registerEvent("PLAYER_BUILT_SETTLEMENT", this);
         EventManager.registerEvent("PLAYER_BUILT_ROAD", this);
@@ -375,7 +377,7 @@ public class PlayerInfo extends javax.swing.JPanel implements EventListener, Act
                         * This else if will be used for when the game is actually in round robin  and the dice are rolled.  This allows the resources to update to the screen
                         * in real time.
                         */
-        else if (event.equals("PLAYER_BUILT_DEV_CARD") || event.equals("PLAYER_BUILT_SETTLEMENT") || event.equals("PLAYER_BUILT_ROAD") || event.equals("PLAYER_ROLLED") || event.equals("PLAYER_TRADED"))
+        else if (event.equals("PLAYER_BUILT_DEV_CARD") || event.equals("PLAYER_BUILT_SETTLEMENT") || event.equals("PLAYER_BUILT_ROAD") || event.equals("PLAYER_ROLLED") || event.equals("PLAYER_TRADED") || event.equals("THIEF_DISCARD_RESOURCES") || event.equals("THIEF_STEAL_RESOURCE"))
         {
             
             playerPanelRepaint();                   

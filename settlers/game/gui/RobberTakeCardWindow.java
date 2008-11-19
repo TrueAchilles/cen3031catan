@@ -11,15 +11,16 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import settlers.game.*;
 import settlers.game.elements.*;
 import settlers.game.events.EventManager;
-import settlers.game.events.PlayerEvent;
+import settlers.game.events.Event;
 
 public class RobberTakeCardWindow implements ActionListener
 {
 
-    private JFrame frame = new JFrame("Robber Window");
+    private JFrame frame = new JFrame("Steal a Resource - Settlers of Catan");
     private ButtonGroup selectUserRadioGroup = new ButtonGroup();
     private JPanel radioPanel = new JPanel(new GridLayout(4,1));
     private JPanel framePanel = new JPanel(new BorderLayout());
+    private JPanel messagePanel = new JPanel();
     private JButton accept = new JButton("Take User\'s Card");
 
     private Player curPlayer = GameState.getCurPlayer();
@@ -36,22 +37,15 @@ public class RobberTakeCardWindow implements ActionListener
         if (playerQueue.isEmpty())
         {
             createDialogBox("No Resources Available to Take - Settlers of Catan", "No player has any resource to take.", JOptionPane.INFORMATION_MESSAGE);
-            frameEnabled = false;
+            closeWindow();
         }
 
-        //ListIterator<Player> playersIterator = GameState.players.listIterator(0);
         JRadioButton[] radioButtons = new JRadioButton[GameState.players.size() - 1];
 
         int counter = 0;
         for (Player player : playerQueue)
         {
-/*            Player player = playersIterator.next();
 
-            if (curPlayer.getName() == player.getName())
-            {
-                continue;
-            }
-*/
             radioButtons[counter] = new JRadioButton(player.getName());
             selectUserRadioGroup.add(radioButtons[counter]);
             radioPanel.add(radioButtons[counter]);
@@ -61,17 +55,32 @@ public class RobberTakeCardWindow implements ActionListener
         accept.setSize(50,100);
         accept.addActionListener(this);
 
-        framePanel.add(radioPanel, BorderLayout.WEST);
-        framePanel.add(accept, BorderLayout.SOUTH);
+        JPanel acceptPanel = new JPanel();
+        acceptPanel.add(accept);
+
+        messagePanel.setLayout(new BoxLayout(messagePanel, BoxLayout.Y_AXIS));
+        JLabel messageLabel1 = new JLabel(" Please select a player from");// from which to steal arandom resource.");
+        JLabel messageLabel2 = new JLabel(" which to steal a random");
+        JLabel messageLabel3 = new JLabel(" resource.");
+
+        messagePanel.add(messageLabel1);
+        messagePanel.add(messageLabel2);
+        messagePanel.add(messageLabel3);
+        messagePanel.add(Box.createVerticalStrut(1));
+
+        framePanel.add(messagePanel, BorderLayout.NORTH);
+        framePanel.add(radioPanel, BorderLayout.CENTER);
+        framePanel.add(Box.createHorizontalStrut(5), BorderLayout.WEST);
+        framePanel.add(acceptPanel, BorderLayout.SOUTH);
         frame.getContentPane().add(framePanel);
 
-        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        frame.setVisible(frameEnabled);
+        frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        frame.setVisible(true);
         frame.setResizable(false);
         frame.requestFocus();
         frame.pack();
         frame.setLocationRelativeTo(null);
-        frame.setSize(150,150);
+        frame.setSize(175,180);
 
     }
 
@@ -143,7 +152,7 @@ public class RobberTakeCardWindow implements ActionListener
     private String diceRoll(Player player, Player curPlayer)
     {
         boolean breakLoop = false;
-        int rType = -1;
+        int rType = 1;
         String resource = " ";
 
         if (player.getWood() == 0 && player.getBrick() == 0 && player.getWheat() == 0 && player.getSheep() == 0 && player.getOre() == 0)
@@ -151,8 +160,10 @@ public class RobberTakeCardWindow implements ActionListener
             return resource = new String("none");
         }
 
+        Dice resourceDice = new Dice();
+
         do {
-            rType = dice.roll(1);
+            rType = resourceDice.roll(1);
 
             switch (rType)
             {
@@ -200,6 +211,10 @@ public class RobberTakeCardWindow implements ActionListener
 
         player.subtractResource(rType);
         curPlayer.giveResource(rType);
+
+        Event event = new Event("THIEF_STEAL_RESOURCE");
+        EventManager.callEvent(event);
+
         return resource;
 
     }
@@ -210,6 +225,13 @@ public class RobberTakeCardWindow implements ActionListener
         dialog.showMessageDialog(frame, message, title, messageType);
     }
 
+    private void closeWindow()
+    {
+        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        frame.setVisible(false);
+    }
+
+
     private void setPlayerQueue(Resource robberTile)
     {
         Settlement[] settlements = robberTile.getSettlements();
@@ -218,18 +240,18 @@ public class RobberTakeCardWindow implements ActionListener
         {
             Player player = settlements[i].getOwner();
 
-            if (player == null)
+            if (player == null || playerQueue.contains(player))
             {
                 continue;
             }
-            else if (!playerQueue.contains(player))
+            else if (player.getWood() > 0 && player.getBrick() > 0 && player.getWheat() > 0 && player.getSheep() > 0 && player.getOre() > 0)
             {
-                if (player.getWood() > 0 && player.getBrick() > 0 && player.getWheat() > 0 && player.getSheep() > 0 && player.getOre() > 0)
+                if (player.getID() != curPlayer.getID())
                 {
                     playerQueue.add(player);
                 }
             }
+
         }
     }
-
 }
