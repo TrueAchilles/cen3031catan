@@ -137,7 +137,8 @@ public class Deck implements Runnable
 		return false;
 	}
 	
-	//returns true if the deck contains a certain development card as given by it's type
+	//returns the number of development cards of "type"
+	//if the deck holds no development cards of type "type then it returns a zero
 	public int hasType(int type)
 	{
 		int counter = 0;
