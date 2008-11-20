@@ -189,7 +189,7 @@ public class BankTradeWindow implements ActionListener {
         if (event.getActionCommand().equals("Confirm")) {
             
             if (offBrick.getClicked() == true) {
-                if (curPlayer.getBrick() < 4) {
+                if (curPlayer.getBrick() < 3) {
                     JOptionPane.showMessageDialog(frame, "You must have at least 4 of a resource to trade with the bank.");
                     frame.dispose();
                 }
@@ -218,7 +218,7 @@ public class BankTradeWindow implements ActionListener {
                 }
             }
             else if (offOre.getClicked() == true) {
-                if (curPlayer.getOre() < 4) {
+                if (curPlayer.getOre() < 3) {
                     JOptionPane.showMessageDialog(frame, "You must have at least 4 of a resource to trade with the bank.");
                     frame.dispose();
                 }
@@ -247,7 +247,7 @@ public class BankTradeWindow implements ActionListener {
                     }
             }
             else if (offSheep.getClicked() == true) {
-                if (curPlayer.getSheep() < 4) {
+                if (curPlayer.getSheep() < 3) {
                     JOptionPane.showMessageDialog(frame, "You must have at least 4 of a resource to trade with the bank.");
                     frame.dispose();
                 }
@@ -276,7 +276,7 @@ public class BankTradeWindow implements ActionListener {
                     }
             }
             else if (offWheat.getClicked() == true) {
-                if (curPlayer.getWheat() < 4) {
+                if (curPlayer.getWheat() < 3) {
                     JOptionPane.showMessageDialog(frame, "You must have at least 4 of a resource to trade with the bank.");
                     frame.dispose();
                 }
@@ -305,7 +305,7 @@ public class BankTradeWindow implements ActionListener {
                 }
             }
             else if (offWood.getClicked() == true) {
-                if (curPlayer.getWood() < 4) {
+                if (curPlayer.getWood() < 3) {
                     JOptionPane.showMessageDialog(frame, "You must have at least 4 of a resource to trade with the bank.");
                     frame.dispose();
                 }
