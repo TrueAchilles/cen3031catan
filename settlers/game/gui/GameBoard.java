@@ -43,6 +43,7 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
     Road tempRoad;
     public Settlement tempSettlement;
     public Settlement tempRobber;
+    public Settlement tempCity;
     
     Settlement robber;
     
@@ -326,6 +327,10 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
                     big.setPaint(currentNode.getOwner().getColor());
                     big.fillOval(currentNode.getXcord()-7,currentNode.getYcord()-7,14,14);
                 }
+                if (currentNode.hasCity()) {
+                    big.setPaint(currentNode.getOwner().getColor());
+                    big.fillRect(currentNode.getXcord()-9,currentNode.getYcord()-9,18,18);
+                }
                 
                 
                 
@@ -342,6 +347,13 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
             big.setPaint(GameState.getCurPlayer().getColor());
             big.setStroke(new BasicStroke(5f));
             big.drawOval( tempSettlement.getXcord()-10, tempSettlement.getYcord()-10, 20, 20 );
+            big.setStroke(new BasicStroke(0.7f));
+        }  
+
+        if (tempCity != null) {
+            big.setPaint(GameState.getCurPlayer().getColor());
+            big.setStroke(new BasicStroke(5f));
+            big.drawRect( tempCity.getXcord()-15, tempCity.getYcord()-15, 30, 30 );
             big.setStroke(new BasicStroke(0.7f));
         }        
         
@@ -510,6 +522,13 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
             tempRoad = null;
 
         }
+        if (GameState.getActionState() == GlobalVar.ACTION_ADD_CITY && tempCity != null)
+        {
+            tempCity.buildCity();
+            PlayerEvent pe = new PlayerEvent("PLAYER_BUILD_CITY", GameState.getCurPlayer());
+            EventManager.callEvent(pe);
+            tempCity = null;
+        }
         repaint();
         
     }
@@ -557,6 +576,22 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
                 tempSettlement = vertex[n][m];
         }
         
+        if (GameState.getActionState() == GlobalVar.ACTION_ADD_CITY){
+            int m=0, n=0; 
+            int min=1000, tempMin;
+            for (int j = lowEstimateY; j < lowEstimateY+3; j++) {
+                for (int i = lowEstimateX; i < lowEstimateX + 2; i++) {
+                    if (j < vertex.length && i < vertex[0].length && (tempMin = calculateDistance(x,y,i,j)) < min)
+                    {
+                        min = tempMin;
+                        m = i;
+                        n = j;
+                    }
+                }
+            }
+            if (vertex[n][m].canBuildCity())
+                tempCity = vertex[n][m];
+        }
         //Locates the edge clicked on if current ActionState is ADD_ROAD,
         //it will check for canBuildRoad() set to true.
         if(GameState.getActionState() == GlobalVar.ACTION_ADD_ROAD)

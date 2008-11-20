@@ -129,7 +129,7 @@ public class Settlement
             return false; // if there is an adjacent settlement then return false.
         if ( GameState.getGamePhase() == GlobalVar.GAME_INIT )
             return true;
-        if ( ( topRoad == null ? false : topRoad.getOwner() == p ) || ( bottomRoad == null ? false : bottomRoad.getOwner() == p ) ||  ( sideRoad == null ? false : sideRoad.getOwner() == p ) )
+        if ( p.canBuySettlement() && ( ( topRoad == null ? false : topRoad.getOwner() == p ) || ( bottomRoad == null ? false : bottomRoad.getOwner() == p ) ||  ( sideRoad == null ? false : sideRoad.getOwner() == p ) ) )
             return true;
         return false;
     }
@@ -167,6 +167,8 @@ public class Settlement
     
     public boolean canBuildCity(Player p)
     {
+        if ( p.canBuyCity() == false)
+            return false;
         if ( hasSettlement && owner == p )
             return true;
         return false;

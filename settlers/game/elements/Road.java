@@ -1,5 +1,6 @@
 package settlers.game.elements;
 import settlers.game.GameState;
+import settlers.game.*;
 
 public class Road
 {
@@ -49,6 +50,8 @@ public class Road
     public boolean canBuildRoad(Player p)
     {
         if (hasRoad)
+            return false;
+        if (GameState.getGamePhase() != GlobalVar.GAME_INIT && p.canBuyRoad() == false )
             return false;
         if (s1 != null && (p == s1.getOwner() || s1.checkRoadExtension(p) ) )
             return true;

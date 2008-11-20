@@ -439,6 +439,17 @@ public class GamePlay implements EventListener
             PlayerEvent E = new PlayerEvent("PLAYER_BUILT_SETTLEMENT", GameState.getCurPlayer());
             EventManager.callEvent(E);
         }
+        else if(event.equals("PLAYER_BUILD_CITY"))
+        {
+            PlayerEvent pe = (PlayerEvent) e;
+            
+            pe.player.buildCity();
+            
+            GameState.setActionState(-1);
+            
+            PlayerEvent E = new PlayerEvent("PLAYER_BUILT_CITY", GameState.getCurPlayer());
+            EventManager.callEvent(E);
+        }
         else if(event.equals("PLAYER_BUILD_ROAD"))
         {
             PlayerEvent pe = (PlayerEvent) e;
