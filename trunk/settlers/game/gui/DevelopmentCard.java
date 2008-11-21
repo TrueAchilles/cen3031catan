@@ -66,15 +66,15 @@ public class DevelopmentCard
 			faceUp = true;
 			
 			if (cardType == 1)
-				System.out.println("Player ??? has turned over a soldier card");
+				System.out.println("Player " + GameState.getCurPlayer().getID() + " has turned over a soldier card");
 			else if (cardType == 2)
-				System.out.println("Player ??? has turned over a 2 free roads card");
+				System.out.println("Player " + GameState.getCurPlayer().getID() + " has turned over a build 2 roads card");
 			else if (cardType == 3)
-				System.out.println("Player ??? has turned over a monopoly card");
+				System.out.println("Player " + GameState.getCurPlayer().getID() + " has turned over a monopoly card");
 			else if (cardType == 4)
-				System.out.println("Player ??? has turned over a year of plenty card");
+				System.out.println("Player " + GameState.getCurPlayer().getID() + " has turned over a year of plenty card");
 			else if (cardType == 5)
-				System.out.println("Player ??? has turned over a victory point card");
+				System.out.println("Player " + GameState.getCurPlayer().getID() + " has turned over a victory point card");
 		}
 	}
 	
