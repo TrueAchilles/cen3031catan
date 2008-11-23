@@ -37,7 +37,7 @@ public class ButtonPanel extends javax.swing.JPanel
     private JLabel jLabel2;
     public JButton trade_player;
     public JButton trade_next;
-    public JButton jButton2;
+    public JButton trade_port;
     public JButton trade_bank;
     private JLabel openingLabel;
     private JPanel buildButtonPanel;
@@ -174,13 +174,14 @@ public class ButtonPanel extends javax.swing.JPanel
                     jLabel1.setPreferredSize(new java.awt.Dimension(103, 16));
                 }
                 {
-                    jButton2 = new JButton();
-                    tradeButtonPanel.add(jButton2, new AnchorConstraint(303, 755, 603, 532, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
-                    jButton2.setText("TRADE: PORT");
-                    jButton2.setFont(new java.awt.Font("Segoe UI",0,10));
-                    jButton2.setToolTipText("Trade with a port.");
-                    jButton2.setPreferredSize(new java.awt.Dimension(78,45));
-                    jButton2.setEnabled(false);
+                    trade_port = new JButton();
+                    tradeButtonPanel.add(trade_port, new AnchorConstraint(303, 755, 603, 532, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
+                    trade_port.setText("TRADE: PORT");
+                    trade_port.setFont(new java.awt.Font("Segoe UI",0,10));
+                    trade_port.setToolTipText("Trade with a port.");
+                    trade_port.setPreferredSize(new java.awt.Dimension(78,45));
+                    trade_port.setEnabled(true);
+                    trade_port.addActionListener(gameButtons);
                 }
                 {
                     trade_bank = new JButton();

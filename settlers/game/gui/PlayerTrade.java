@@ -10,27 +10,27 @@ import settlers.game.events.*;
 
 public class PlayerTrade implements ActionListener
 {
-    JFrame queryFrame, tradeFrame;
-    JButton offer;
-    JPanel buttonPanel, addPanel, removePanel, offerPanel;
-    JLabel status = new JLabel(GameState.getCurPlayer().getName() + ": Select resources to add or remove from trade", JLabel.CENTER);
-    TradeImage p1BrickImage = new TradeImage(GlobalVar.BRICK);
-    TradeImage p1OreImage = new TradeImage(GlobalVar.ORE);
-    TradeImage p1SheepImage = new TradeImage(GlobalVar.SHEEP);
-    TradeImage p1WheatImage = new TradeImage(GlobalVar.WHEAT);
-    TradeImage p1WoodImage = new TradeImage(GlobalVar.WOOD);
-    TradeImage p2BrickImage = new TradeImage(GlobalVar.BRICK);
-    TradeImage p2OreImage = new TradeImage(GlobalVar.ORE);
-    TradeImage p2SheepImage = new TradeImage(GlobalVar.SHEEP);
-    TradeImage p2WheatImage = new TradeImage(GlobalVar.WHEAT);
-    TradeImage p2WoodImage = new TradeImage(GlobalVar.WOOD);
+    private JFrame queryFrame, tradeFrame;
+    private JButton offer;
+    private JPanel buttonPanel, addPanel, removePanel, offerPanel;
+    private JLabel status = new JLabel(GameState.getCurPlayer().getName() + ": Select resources to add or remove from trade", JLabel.CENTER);
+    private TradeImage p1BrickImage = new TradeImage(GlobalVar.BRICK);
+    private TradeImage p1OreImage = new TradeImage(GlobalVar.ORE);
+    private TradeImage p1SheepImage = new TradeImage(GlobalVar.SHEEP);
+    private TradeImage p1WheatImage = new TradeImage(GlobalVar.WHEAT);
+    private TradeImage p1WoodImage = new TradeImage(GlobalVar.WOOD);
+    private TradeImage p2BrickImage = new TradeImage(GlobalVar.BRICK);
+    private TradeImage p2OreImage = new TradeImage(GlobalVar.ORE);
+    private TradeImage p2SheepImage = new TradeImage(GlobalVar.SHEEP);
+    private TradeImage p2WheatImage = new TradeImage(GlobalVar.WHEAT);
+    private TradeImage p2WoodImage = new TradeImage(GlobalVar.WOOD);
     
-    int size, tradeID;
-    int p1Brick, p2Brick = 0;
-    int p1Ore, p2Ore = 0;
-    int p1Sheep, p2Sheep = 0;
-    int p1Wheat, p2Wheat = 0;
-    int p1Wood, p2Wood = 0;
+    private int size, tradeID;
+    private int p1Brick, p2Brick = 0;
+    private int p1Ore, p2Ore = 0;
+    private int p1Sheep, p2Sheep = 0;
+    private int p1Wheat, p2Wheat = 0;
+    private int p1Wood, p2Wood = 0;
 
     public PlayerTrade(int size)
     {
@@ -367,7 +367,7 @@ public class PlayerTrade implements ActionListener
             
             if (p1Brick > temp.getBrick() || p1Ore > temp.getOre() || p1Sheep > temp.getSheep() || p1Wheat > temp.getWheat() || p1Wood > temp.getWood())
             {
-                JOptionPane.showMessageDialog(tradeFrame, "You cannot offer more resources than you own!");
+                JOptionPane.showMessageDialog(null, "You cannot offer more resources than you own!");
             }
             else
             {
