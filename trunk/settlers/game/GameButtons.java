@@ -61,7 +61,10 @@ public class GameButtons implements ActionListener
         {
             PlayerTrade pt = new PlayerTrade(GameState.players.size());
         }
-        
+        if(evt.getSource() == ContainerGUI.buttonPanel.trade_port)
+        {
+            PortTrade pt = new PortTrade();
+        }
         if(evt.getSource() == ContainerGUI.buttonPanel.trade_bank)
         {
             BankTradeWindow bt = new BankTradeWindow();
