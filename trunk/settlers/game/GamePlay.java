@@ -538,8 +538,22 @@ public class GamePlay implements EventListener
             GameState.diceHasBeenRolledDuringTurn = true;
             int value = ContainerGUI.rollBox.roll();
 
+            
+            
+            
+            return true;
+            
+        }
+        else if ( event.equals("PLAYER_ROLLED_SUCCESSFULLY") )
+        {
+            System.out.println("Player has successfully finished rolling dice");
+            PlayerEvent pe = (PlayerEvent) e;
+            Player p = pe.player;
+            int value = (Integer)pe.object;
+            
             ContainerGUI.gameBoard.diceRollResources(value);
             ContainerGUI.bottomPanel.getTabbedPanel().setRandomDiceRoll(GameState.getCurPlayer().getName() + " rolled: " + value +"\n");
+            
             
             if (value == 7 && GlobalVar.ROBBER == true) 
             {
@@ -547,12 +561,9 @@ public class GamePlay implements EventListener
                 RobberRemoveCardsWindow rrcw = new RobberRemoveCardsWindow();
             }
             else {
-            b.roll_next.setEnabled(true);
-            b.roll_next.grabFocus();
+                b.roll_next.setEnabled(true);
+                b.roll_next.grabFocus();
             }
-            System.out.println("Player has successfully finished rolling dice");
-            return true;
-            
         }
         else if (event.equals("PLAYER_WISHESTO_BUILD_ROAD"))
         {
@@ -691,6 +702,8 @@ public class GamePlay implements EventListener
                 ///////////////NEW EVENTS////////////////
         EventManager.registerEvent("PLAYER_WISHESTO_START_TURN", this);
         EventManager.registerEvent("PLAYER_WISHESTO_ROLL", this);
+        EventManager.registerEvent("PLAYER_ROLLED_SUCCESSFULLY", this);
+        
         EventManager.registerEvent("PLAYER_WISHESTO_BUILD_ROAD", this);
         EventManager.registerEvent("PLAYER_WISHESTO_BUILD_SETTLEMENT", this);
         EventManager.registerEvent("PLAYER_WISHESTO_BUILD_CITY", this);

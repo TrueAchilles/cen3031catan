@@ -61,10 +61,7 @@ public class GameButtons implements ActionListener
         {
             PlayerTrade pt = new PlayerTrade(GameState.players.size());
         }
-        if(evt.getSource() == ContainerGUI.buttonPanel.trade_port)
-        {
-            PortTrade pt = new PortTrade();
-        }
+        
         if(evt.getSource() == ContainerGUI.buttonPanel.trade_bank)
         {
             BankTradeWindow bt = new BankTradeWindow();
@@ -144,6 +141,36 @@ System.out.println(aboutNotice);
         if(evt.getSource() == ContainerGUI.settlersGUI.debug_showMeTheMoney)
         {
             ContainerGUI.settlersEvent.muchMoney();
+        }
+        if(evt.getSource() == ContainerGUI.settlersGUI.debug_rollaSeven)
+        {
+            if (ContainerGUI.settlersGUI.debug_dontRollaSeven.isSelected())
+                return;
+            //ContainerGUI.settlersGUI.debug_rollaSeven.setSelected(!ContainerGUI.settlersGUI.debug_rollaSeven.isSelected());
+            if (ContainerGUI.settlersGUI.debug_rollaSeven.isSelected())
+            {
+                GameState.rollHax = 1;
+                System.out.println("RollHax: 1");
+            }
+            else {
+                GameState.rollHax = 0;
+                System.out.println("RollHax: 0");
+            }
+        }
+        if(evt.getSource() == ContainerGUI.settlersGUI.debug_dontRollaSeven)
+        {
+            if (ContainerGUI.settlersGUI.debug_rollaSeven.isSelected())
+                return;
+            //ContainerGUI.settlersGUI.debug_dontRollaSeven.setSelected(!ContainerGUI.settlersGUI.debug_dontRollaSeven.isSelected());
+            if (ContainerGUI.settlersGUI.debug_dontRollaSeven.isSelected())
+            {
+                GameState.rollHax = 2;
+                System.out.println("RollHax: 2");
+            }
+            else {
+                GameState.rollHax = 0;
+                System.out.println("RollHax: 0");
+            }
         }
         
         if(evt.getSource() == ContainerGUI.settlersGUI.standard)

@@ -36,7 +36,8 @@ public class SettlersGUI extends javax.swing.JFrame
 
     public SettlersEvent event_manager;
     public JMenu gameMenu;
-    public JMenuItem debug_rollaSeven;
+    public JCheckBoxMenuItem debug_rollaSeven;
+    public JCheckBoxMenuItem debug_dontRollaSeven;
     public JMenuItem debug_showMeTheMoney;
     public JMenuItem debug_quickStart;
     public JMenuItem debug_bigQuickStart;
@@ -295,12 +296,22 @@ public class SettlersGUI extends javax.swing.JFrame
                         debug_showMeTheMoney.addActionListener(ContainerGUI.gameButtons);
                     }
                     {
-                        debug_rollaSeven = new JMenuItem();
+                        debug_rollaSeven = new JCheckBoxMenuItem();
                         debug_menu.add(debug_rollaSeven);
-                        debug_rollaSeven.setText("Roll a Seven");
+                        debug_rollaSeven.setText("Only Roll a Seven");
                         debug_rollaSeven.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_7, ActionEvent.SHIFT_MASK));
+                        debug_rollaSeven.setState(false);
                         debug_rollaSeven.addActionListener(ContainerGUI.gameButtons);
                     }
+                    {
+                        debug_dontRollaSeven = new JCheckBoxMenuItem();
+                        debug_menu.add(debug_dontRollaSeven);
+                        debug_dontRollaSeven.setText("Never Roll a Seven");
+                        debug_dontRollaSeven.setState(false);
+                        debug_dontRollaSeven.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_7, ActionEvent.SHIFT_MASK));
+                        debug_dontRollaSeven.addActionListener(ContainerGUI.gameButtons);
+                    }
+                        
                         /*{
                             connectLan = new JMenuItem();
                             connectTo.add(connectLan);
