@@ -600,6 +600,12 @@ public class PortTrade implements ActionListener
                                 }
                                 else
                                 {
+                                    if (resourceTotal > temp.getBrick())
+                                    {
+                                        JOptionPane.showMessageDialog(null, "You don't have enough brick resource to trade for the selected resource(s)!");
+                                    }
+                                    else
+                                    {
                                     for (int i = 0; i < resourceTotal; i++)
                                     {
                                         temp.subtractResource(GlobalVar.BRICK);
@@ -628,6 +634,7 @@ public class PortTrade implements ActionListener
                                     PlayerEvent n = new PlayerEvent("PLAYER_TRADED", GameState.getCurPlayer());
                                     EventManager.callEvent(n);
                                     tradeFrame.dispose();
+                                    }
                                 }
                             }
                             else if (oreInImage.getClicked() == true)
@@ -638,6 +645,12 @@ public class PortTrade implements ActionListener
                                 }
                                 else
                                 {
+                                    if (resourceTotal > temp.getOre())
+                                    {
+                                        JOptionPane.showMessageDialog(null, "You don't have enough ore resource to trade for the selected resource(s)!");
+                                    }
+                                    else
+                                    {
                                     for (int i = 0; i < resourceTotal; i++)
                                     {
                                         temp.subtractResource(GlobalVar.ORE);
@@ -666,6 +679,7 @@ public class PortTrade implements ActionListener
                                     PlayerEvent n = new PlayerEvent("PLAYER_TRADED", GameState.getCurPlayer());
                                     EventManager.callEvent(n);
                                     tradeFrame.dispose();
+                                    }
                                 }
                             }
                             else if (sheepInImage.getClicked() == true)
@@ -676,6 +690,12 @@ public class PortTrade implements ActionListener
                                 }
                                 else
                                 {
+                                    if (resourceTotal > temp.getSheep())
+                                    {
+                                        JOptionPane.showMessageDialog(null, "You don't have enough sheep resource to trade for the selected resource(s)!");
+                                    }
+                                    else
+                                    {
                                     for (int i = 0; i < resourceTotal; i++)
                                     {
                                         temp.subtractResource(GlobalVar.SHEEP);
@@ -704,6 +724,7 @@ public class PortTrade implements ActionListener
                                     PlayerEvent n = new PlayerEvent("PLAYER_TRADED", GameState.getCurPlayer());
                                     EventManager.callEvent(n);
                                     tradeFrame.dispose();
+                                    }
                                 }
                             }
                             else if (wheatInImage.getClicked() == true)
@@ -714,6 +735,12 @@ public class PortTrade implements ActionListener
                                 }
                                 else
                                 {
+                                    if (resourceTotal > temp.getWheat())
+                                    {
+                                        JOptionPane.showMessageDialog(null, "You don't have enough wheat resource to trade for the selected resource(s)!");
+                                    }
+                                    else
+                                    {
                                     for (int i = 0; i < resourceTotal; i++)
                                     {
                                         temp.subtractResource(GlobalVar.WHEAT);
@@ -742,6 +769,7 @@ public class PortTrade implements ActionListener
                                     PlayerEvent n = new PlayerEvent("PLAYER_TRADED", GameState.getCurPlayer());
                                     EventManager.callEvent(n);
                                     tradeFrame.dispose();
+                                    }
                                 }
                             }
                             else if (woodInImage.getClicked() == false)
@@ -752,6 +780,12 @@ public class PortTrade implements ActionListener
                                 }
                                 else
                                 {
+                                    if (resourceTotal > temp.getWood())
+                                    {
+                                        JOptionPane.showMessageDialog(null, "You don't have enough wood resource to trade for the selected resource(s)!");
+                                    }
+                                    else
+                                    {
                                     for (int i = 0; i < resourceTotal; i++)
                                     {
                                         temp.subtractResource(GlobalVar.WOOD);
@@ -780,6 +814,7 @@ public class PortTrade implements ActionListener
                                     PlayerEvent n = new PlayerEvent("PLAYER_TRADED", GameState.getCurPlayer());
                                     EventManager.callEvent(n);
                                     tradeFrame.dispose();
+                                    }
                                 }
                             }
                         }
