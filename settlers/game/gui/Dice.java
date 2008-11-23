@@ -1,6 +1,7 @@
 package settlers.game.gui;
 
 import java.util.*;
+import settlers.game.*;
 
 public class Dice{
 
@@ -50,10 +51,16 @@ public class Dice{
         else if (numDice == 2) {
             D1 = r.nextInt(5) + 1;
 
-            if (rollSeven == true) {
+            if (GameState.rollHax == 1) {
                 D2 = 7 - D1;
-                rollSeven = false;
             }
+            else if(GameState.rollHax ==2 )
+            {
+                do {
+                D2 = r.nextInt(5) + 1;
+                
+                } while (D1+D2 == 7);
+            }   
             else {
                 D2 = r.nextInt(5) + 1;
             }

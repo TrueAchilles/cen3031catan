@@ -118,6 +118,10 @@ public class RollBox extends JPanel implements Runnable
         }
         rolling = false;
         finalRoll = true;
+        
+        PlayerEvent n = new PlayerEvent("PLAYER_ROLLED_SUCCESSFULLY", GameState.getCurPlayer(), new Integer(dice.getD1() + dice.getD2()));
+        EventManager.callEvent(n); 
+        
         repaint();
         
     }
