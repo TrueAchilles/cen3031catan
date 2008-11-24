@@ -1,4 +1,4 @@
-#Bugs found in Current Edition of the Player Info Panel (Code not Committed)
+Bugs found in Current Edition of the Player Info Panel (Code not Committed)
 
 = Introduction =
 
@@ -19,5 +19,3 @@ This page is to describe bugs that I have found in my code for the Player Info P
 || 9 || There is a concurrent modification exception thrown when the player information panel starts up.  May not be because of the player information panel || 5 || No || No ||
 || 10 || Location of Player Information Panel does is set to initialize over the game board. While not a major problem it is very annoying to have to move it all the time || 4 || No || No ||
 || 11 || If the Player Information Panel is closed, while it appears to hide on exit, there is not current method to get the panel back. || 8 || Maybe || No ||
-
-
