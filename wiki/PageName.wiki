@@ -8,7 +8,7 @@ This page is to describe bugs that I have found in my code for the Player Info P
 = Details =
 
 || *Bug Number* || *Bug Description* || *Severity (10 is high)* || *Solution known?* || *Fixed?* ||
-|| 1 || Development Card will not disappear from main GUI board if you click the button to purchase a development card twice. || 9 || No || No ||
+|| 1 || Development Card will not disappear from main GUI board if you click the button to purchase a development card button while the current development card is still on the screen. || 9 || No || No ||
 || 2 || When development card deck is empty it throws an exception rather then disallowing the user to purchase a new development card || 5 || Yes || No||
 || 3 || Development Card panel does not scroll as the window is resizable, thusly if you have more than 4 development cards in your hand, it is difficult to see the 5th and so on. || 5 || Yes || No ||
 || 4 || Resource card counts to not accurately reflect the amount of resource cards held by each player. || 10 || Yes || *_Yes_* ||
