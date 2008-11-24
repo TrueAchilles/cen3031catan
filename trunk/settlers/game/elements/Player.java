@@ -12,6 +12,7 @@ import settlers.game.events.EventManager;
 import settlers.game.events.PlayerEvent;
 import settlers.game.events.SettlementEvent;
 
+import settlers.game.gui.PlayerAvatar;
 import settlers.game.gui.Deck;
 import settlers.game.gui.DevelopmentCard;
 
@@ -31,6 +32,8 @@ public class Player
     private int numberOfResourceCards = 12;
     private int numberOfDevCards = 0;
     private boolean isAI = false;
+    private PlayerAvatar playerAvatar = null;
+    private PlayerProfile playerProfile = null;
 
     private Deck devCards;
     
@@ -43,7 +46,18 @@ public class Player
         longRoad = new LongestRoad(this);
         devCards = new Deck("player", ContainerGUI.gameBoard);
     }
-    
+
+    public Player(String _name, Color _color, PlayerAvatar _playerAvatar)
+    {
+        name = _name;
+        id = ++totalNum;
+        playerColor = _color;
+        victoryPointTotal = 0;     
+        longRoad = new LongestRoad(this);
+        devCards = new Deck("player", ContainerGUI.gameBoard);
+        playerAvatar = _playerAvatar;
+    }
+
     public void setasAI()
     {
         isAI = true;
@@ -62,6 +76,11 @@ public class Player
     public int getID()
     {
         return id;
+    }
+
+    public PlayerAvatar getPlayerAvatar()
+    {
+        return playerAvatar;
     }
 
     public int getVictoryPointTotal()
@@ -249,8 +268,17 @@ public class Player
     {
         return nextPlayer;
     }
-    
-    
+
+    public void setPlayerProfile(PlayerProfile playerProfile)
+    {
+        this.playerProfile = playerProfile;
+    }
+
+    public PlayerProfile getPlayerProfile()
+    {
+        return playerProfile;
+    }
+
     public void addRoad(Road r)
     {
         int len = longRoad.addRoad(r);
@@ -281,9 +309,6 @@ public class Player
 		
 	public void actBuild() 
 	{}
-     
-    
-        
     
     public String toString()
     {

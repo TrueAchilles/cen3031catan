@@ -12,9 +12,13 @@ import javax.swing.JPanel;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingConstants;
+import java.awt.BorderLayout;
+import javax.swing.BoxLayout;
+import java.awt.Graphics;
 
 import settlers.game.GameState;
 import settlers.game.elements.Player;
+import settlers.game.gui.PlayerAvatar;
 
 public class PlayerPanel extends JPanel {
     private ArrayList<PlayerIcon> playerIcons = new ArrayList<PlayerIcon>();
@@ -37,16 +41,8 @@ public class PlayerPanel extends JPanel {
         this.setPreferredSize(new java.awt.Dimension(65, 525));
         this.setSize(65, 525);
         this.setVisible(true);
-        this.setLayout(new GridLayout(16, 1));
-
-        for (int i = 0; i < 8; i++)
-        {
-            array1[i] = new PlayerIcon(Color.RED);
-            array1[i].setVisible(false);
-            array2[i] = new JLabel("Player " + (i + 1));
-            array2[i].setVisible(false);
-        }
-
+//        this.setLayout(new GridLayout(16, 1));
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     }
     
     /**
@@ -68,29 +64,36 @@ public class PlayerPanel extends JPanel {
 
     public void addPlayer(Player newPlayer)
     {
+        JPanel playerInfoPanel = new JPanel();
+//        playerInfoPanel.setLayout(new BoxLayout(playerInfoPanel, BoxLayout.Y_AXIS));
+
         JLabel playerLabel = new JLabel(newPlayer.getName());
         playerLabel.setPreferredSize(new java.awt.Dimension(65, 16));
         playerLabel.setHorizontalAlignment(SwingConstants.CENTER);
         playerLabel.setHorizontalTextPosition(SwingConstants.CENTER);
+        JPanel playerLabelPanel = new JPanel();
+        playerLabelPanel.add(playerLabel);
+        playerInfoPanel.add(playerLabelPanel);
 
         PlayerIcon playerIcon = new PlayerIcon(newPlayer.getColor());
         playerIcon.setSize(65,65);
+        playerIcon.setPreferredSize(new java.awt.Dimension(65,65));
         playerIcon.setBackground(new Color(newPlayer.getColor().getRGB()));
+        JPanel playerIconPanel = new JPanel();
+        playerIconPanel.setSize(65,65);
+        playerIconPanel.add(playerIcon);
+        playerInfoPanel.add(playerIconPanel);
 
-        array1[index].setColor(newPlayer.getColor());
-        array1[index].setSize(65,65);
-        array2[index].setText(newPlayer.getName());
-        array2[index].setSize(65,16);
-        array2[index].setHorizontalAlignment(SwingConstants.CENTER);
-        array2[index].setHorizontalTextPosition(SwingConstants.CENTER);
+        if (newPlayer.getPlayerAvatar() != null)
+        {
+            playerIcon.setLayout(new BorderLayout());
+            JLabel image = new JLabel(newPlayer.getPlayerAvatar());
+            playerIcon.add(image, BorderLayout.CENTER);
 
-        array1[index].setVisible(true);
-        array2[index].setVisible(true);
+        }
 
-        this.add(array2[index]);
-        this.add(array1[index]);
+        this.add(playerInfoPanel);
 
-        index++;
 
         playerLabels.add(playerLabel);
         playerIcons.add(playerIcon);
@@ -112,8 +115,8 @@ public class PlayerPanel extends JPanel {
         playerLabel.setVisible(true);
         playerIcon.setVisible(true);
 
-//        this.add(playerLabel);
-//        this.add(playerIcon);
+        Graphics g = this.getGraphics();
+        this.paintAll(g);
 
     }
 

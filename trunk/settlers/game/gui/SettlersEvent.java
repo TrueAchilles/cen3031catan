@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.util.Random;
 import settlers.game.*;
 import settlers.game.elements.Player;
+import settlers.game.elements.Profile;
 import settlers.game.events.Event;
 import settlers.game.events.EventListener;
 import settlers.game.events.EventManager;
@@ -36,6 +37,7 @@ public class SettlersEvent implements EventListener
     
     private void init()
     {
+        //Profile.loadProfile("C:\\Users\\Nick Antonelli\\Desktop\\nick.scp");
         mainBoard = ContainerGUI.mainBoard;
         bottomPanel = ContainerGUI.bottomPanel;
     }
@@ -134,11 +136,7 @@ public class SettlersEvent implements EventListener
             }
             if(GameState.players.size() < GlobalVar.MAX_NUMBER_PLAYERS)
             {
-                String name = JOptionPane.showInputDialog("Please enter the name of Player " + (GameState.players.size() + 1) + ".");
-                Color color = JColorChooser.showDialog(ContainerGUI.settlersGUI,"Choose Background Color for " + name.toString(),Color.black);
-                Player newPlayer = new Player(name, color);
-                GameState.players.add(newPlayer);
-                mainBoard.getPlayerPanel().addPlayer(newPlayer);
+                Profile.createPlayerDialog((GameState.players.size() + 1));
             }
             else
             {
