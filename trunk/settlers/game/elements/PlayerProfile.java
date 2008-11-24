@@ -16,6 +16,7 @@ public class PlayerProfile
     private int numberOfLosses;
     private Color color;
     private PlayerAvatar playerAvatar;
+    private String filepath;
 
 
     public PlayerProfile()
@@ -24,6 +25,7 @@ public class PlayerProfile
         numberOfWins = 0;
         numberOfLosses = 0;
         color = new Color(0,0,0);
+        filepath = new String();
     }
 
     public PlayerProfile(String name, Color color)
@@ -32,6 +34,7 @@ public class PlayerProfile
         this.color = color;
         numberOfWins = 0;
         numberOfLosses = 0;
+        filepath = new String();
     }
 
     public PlayerProfile(String name, Color color, PlayerAvatar playerAvatar)
@@ -68,6 +71,11 @@ public class PlayerProfile
         return name;
     }
 
+    public String getFilepath()
+    {
+        return filepath;
+    }
+
     public PlayerAvatar getPlayerAvatar()
     {
         return playerAvatar;
@@ -81,6 +89,11 @@ public class PlayerProfile
     public void setPlayerAvatar(PlayerAvatar playerAvatar)
     {
         this.playerAvatar = playerAvatar;
+    }
+
+    public void setFilepath(String filepath)
+    {
+        this.filepath = filepath;
     }
 
 }

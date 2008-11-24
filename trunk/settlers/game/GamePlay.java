@@ -349,7 +349,29 @@ public class GamePlay implements EventListener
         else if(event.equals("GAME_END"))
         {
             System.out.println("Game is ending...");
-            JOptionPane.showMessageDialog(ContainerGUI.settlersGUI, GameState.getCurPlayer().getName() + " wins!");
+            Player curPlayer = GameState.getCurPlayer();
+            JOptionPane.showMessageDialog(ContainerGUI.settlersGUI, curPlayer.getName() + " wins!");
+
+            if (curPlayer.getPlayerProfile() != null)
+            {
+                curPlayer.getPlayerProfile().addWin();
+                Profile.saveProfile(curPlayer.getPlayerProfile().getFilepath(), curPlayer.getPlayerProfile());
+            }
+
+            for (Player player : GameState.players)
+            {
+                if (player == curPlayer)
+                {
+                    continue;
+                }
+
+                if (player.getPlayerProfile() == null)
+                {
+                    player.getPlayerProfile().addLoss();
+                    Profile.saveProfile(player.getPlayerProfile().getFilepath(), player.getPlayerProfile());
+                }
+            }
+
             System.exit(0);            
         }
         else if (event.equals("PLAYER_INITTURN_END"))

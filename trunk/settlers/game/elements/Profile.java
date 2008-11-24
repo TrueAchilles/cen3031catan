@@ -9,8 +9,9 @@ import javax.swing.border.*;
 import javax.swing.filechooser.*;
 import java.io.*;
 
-
 import settlers.game.*;
+//import settlers.game.events.ProfileEvent;
+import settlers.game.events.EventManager;
 import settlers.game.gui.PlayerAvatar;
 
 public class Profile
@@ -59,6 +60,7 @@ public class Profile
             System.out.println("WAKA WAKA");
         }
 
+        playerProfile.setFilepath(pathName);
         playerProfiles.add(playerProfile);
 
     }
@@ -147,11 +149,12 @@ public class Profile
         private JPanel colorPanel = new JPanel();
         private JPanel imagePanel = new JPanel();
         private JPanel basicOptions = new JPanel(new GridLayout(3,2));
+        private JPanel addPlayerButtonPanel = new JPanel();
         private JPanel profileOptions = new JPanel();
 
         private JLabel nameLabel = new JLabel("Name:");
         private JLabel colorLabel = new JLabel("Color:");
-        private JLabel saveUserLabel = new JLabel("Save User:");
+        private JLabel saveUserLabel = new JLabel("Save User");
         private JLabel profileNameLabel = new JLabel("Profile Name:");
         private JLabel imageLabel = new JLabel("Image:");
         private JLabel customImageLabel = new JLabel();
@@ -184,7 +187,7 @@ public class Profile
             dialog.setAlwaysOnTop(true);
             dialog.addWindowListener(this);
             dialog.setTitle("Edit Player " + playerNumber);
-            dialog.setSize(300,350);
+            dialog.setSize(300,380);
             dialog.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             dialog.setResizable(true);
             dialog.setVisible(true);
@@ -193,6 +196,14 @@ public class Profile
 
         public void setCreatePlayerTab()
         {
+            JPanel checkboxPanel = new JPanel(), selectSavePlayerPanel = new JPanel();
+            checkboxPanel.add(saveProfileCheckbox);
+            checkboxPanel.add(saveUserLabel);
+            selectSavePlayerPanel.setLayout(new BorderLayout());
+            selectSavePlayerPanel.add(checkboxPanel, BorderLayout.WEST);
+
+            createPlayer.add(selectSavePlayerPanel);
+
             createPlayer.setLayout(new BoxLayout(createPlayer, BoxLayout.Y_AXIS));
             basicOptions.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(0,0,0)), "Basic Options", TitledBorder.LEFT, TitledBorder.DEFAULT_POSITION));
 
@@ -255,10 +266,10 @@ public class Profile
 
             savePlayerPanel.add(cancelAddPlayerButton);
             cancelAddPlayerButton.addActionListener(this);
-            profileOptions.setLayout(new BorderLayout());
-            profileOptions.add(savePlayerPanel, BorderLayout.EAST);
+            addPlayerButtonPanel.setLayout(new BorderLayout());
+            addPlayerButtonPanel.add(savePlayerPanel, BorderLayout.EAST);
 
-            createPlayer.add(profileOptions);
+            createPlayer.add(addPlayerButtonPanel);
 
             tabbedPane.addTab("Create Player", null, createPlayer);
         }
@@ -279,7 +290,6 @@ public class Profile
             listButtonPanel.setLayout(new BoxLayout(listButtonPanel, BoxLayout.Y_AXIS));
 
             listOptionsPanel.add(listProfileOptions);
-//            listOptionsPanel.setPreferredSize(new Dimension(250, 100));
             listProfileOptions.setPreferredSize(new Dimension(167, 100));
             listPanel.add(listOptionsPanel, BorderLayout.CENTER);
 
@@ -346,8 +356,6 @@ public class Profile
                 catch(NullPointerException error)
                 {
                 }
-
-                // Th1a90@ufl.edu
 
             }
             else if (e.getSource() == addPlayerButton)
