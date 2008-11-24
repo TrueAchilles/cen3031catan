@@ -1,5 +1,5 @@
+#summary Bugs found in Current Edition of the Player Info Panel (Code not Committed).
 #labels Phase-Design
-#Bugs found in Current Edition of the Player Info Panel (Code not Committed) .
 
 = Introduction =
 
