@@ -15,7 +15,7 @@ This page is to describe bugs that I have found in my code for the Player Info P
 || 4 || Resource card counts to not accurately reflect the amount of resource cards held by each player. || 10 || Yes || *_Yes_* ||
 || 5 || Resource card counts and resource counts do not update when the dice are rolled. || 10 || Yes || *_Yes_* ||
 || 6 || Initial titled border of development card panel for player 1 is messed up.  It does not properly outline then entire box.  However, this is fixed on the next turn and does not seem to reappear. || 2 || No || No ||
-|| 7 || GridLayout for Development cards is static and needs to be set dependent upon the amount of cards held by each player.  However the look and feel should be the same player to player. || 6 || No || No ||
+|| ~~7~~ || ~~GridLayout for Development cards is static and needs to be set dependent upon the amount of cards held by each player.  However the look and feel should be the same player to player.~~ || ~~6~~ || ~~No~~ || ~~No~~ ||
 || 8 || Current player titled border for current individual resources is does not accurately reflect the players color || 3 || Yes || No ||
 || 9 || There is a concurrent modification exception thrown when the player information panel starts up.  May not be because of the player information panel || 5 || No || No ||
 || 10 || Location of Player Information Panel does is set to initialize over the game board. While not a major problem it is very annoying to have to move it all the time || 4 || No || No ||
