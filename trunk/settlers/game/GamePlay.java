@@ -153,6 +153,7 @@ public class GamePlay implements EventListener
         {
             
             PlayerEvent pe = (PlayerEvent) e;
+			
         	if(pe.player.getName() != "AIVeryEasy")
             {
         		System.out.println("Player turn: " + pe.player.getID());
@@ -178,11 +179,10 @@ public class GamePlay implements EventListener
                 ContainerGUI.settlersGUI.getBottomPanel().getButtonPanel().roll_next.setEnabled(false);
                 
                 //If Player has a development Card, allows him to play it if he so chooses to.
-                if (GameState.getCurPlayer().getDevCards().getSize() > 0)
+                if (GameState.getCurPlayer().getDevCards().hasType(1) > 0)
                     ContainerGUI.settlersGUI.getBottomPanel().getButtonPanel().roll_thief.setEnabled(true);
                 else
                     ContainerGUI.settlersGUI.getBottomPanel().getButtonPanel().roll_thief.setEnabled(false);
-                
 
                 ContainerGUI.settlersGUI.getBottomPanel().getButtonPanel().roll_roll.setEnabled(true);
                 ContainerGUI.settlersGUI.getBottomPanel().getButtonPanel().roll_roll.grabFocus();
@@ -227,21 +227,8 @@ public class GamePlay implements EventListener
             //Player requests to build an object on to the board
             if(pe.player.getName() != "AIVeryEasy")
             {
-                if (pe.player.canBuySettlement() == false)
-                {
-                    ContainerGUI.settlersGUI.getBottomPanel().getButtonPanel().build_road.setEnabled(false);
-                }
-
-                if (pe.player.canBuyCity() == false)
-                {
-                    ContainerGUI.settlersGUI.getBottomPanel().getButtonPanel().build_city.setEnabled(false);
-                }
-
-                if (pe.player.canBuyDevCard() == false)
-                {
-                    ContainerGUI.settlersGUI.getBottomPanel().getButtonPanel().build_dev.setEnabled(false);
-                }
-            
+				updateBuildButtons();
+				
                 //Talk to ButtonPanel and tell it to switch
                 ContainerGUI.settlersGUI.getBottomPanel().getButtonPanel().switchPanel("BUILD");
                 ContainerGUI.settlersGUI.getBottomPanel().getButtonPanel().build_next.grabFocus();
@@ -306,6 +293,8 @@ public class GamePlay implements EventListener
                     break;
                 }
             }
+			
+			updateBuildButtons();
         }
         else if(event.equals("PLAYER_REQUEST_BUILD_SUCCESS")) 
         {
@@ -455,6 +444,8 @@ public class GamePlay implements EventListener
             PlayerEvent pe = (PlayerEvent) e;
             
             pe.player.buildSettlement();
+			
+			updateBuildButtons();
             
             GameState.setActionState(-1);
             
@@ -466,6 +457,8 @@ public class GamePlay implements EventListener
             PlayerEvent pe = (PlayerEvent) e;
             
             pe.player.buildCity();
+			
+			updateBuildButtons();
             
             GameState.setActionState(-1);
             
@@ -477,6 +470,8 @@ public class GamePlay implements EventListener
             PlayerEvent pe = (PlayerEvent) e;
             
             pe.player.buildRoad();
+			
+			updateBuildButtons();
             
             GameState.setActionState(-1);
             
@@ -491,6 +486,8 @@ public class GamePlay implements EventListener
             pe.player.buildDevCard();
             
 			pe.player.getDevCards().addCard(ContainerGUI.gameBoard.getBoardDevCards().drawCard());
+			
+			updateBuildButtons();
 			
             GameState.setActionState(-1);
         }
@@ -560,9 +557,6 @@ public class GamePlay implements EventListener
             GameState.diceHasBeenRolledDuringTurn = true;
             int value = ContainerGUI.rollBox.roll();
 
-            
-            
-            
             return true;
             
         }
@@ -660,7 +654,6 @@ public class GamePlay implements EventListener
             System.out.println("Player, you must build city.");
         }
         
-        
         else if (event.equals("PLAYER_MUST_DISCARD_HALF_DECK"))
         {
             System.out.println("Player, you have more than 7 resource cards, /nplease discard half your deck rounded down.");
@@ -756,5 +749,33 @@ public class GamePlay implements EventListener
         EventManager.registerEvent("GAME_START", this);
                
     }
+	
+	//updates the buttons on the build screen to keep available options updated for the player
+	public void updateBuildButtons()
+	{
+		if (GameState.getCurPlayer().canBuyRoad() == false)
+			ContainerGUI.settlersGUI.getBottomPanel().getButtonPanel().build_road.setEnabled(false);
+		else
+			ContainerGUI.settlersGUI.getBottomPanel().getButtonPanel().build_road.setEnabled(true);
 
+		if (GameState.getCurPlayer().canBuyCity() == false)
+			ContainerGUI.settlersGUI.getBottomPanel().getButtonPanel().build_city.setEnabled(false);
+		else
+			ContainerGUI.settlersGUI.getBottomPanel().getButtonPanel().build_city.setEnabled(true);
+
+		if (GameState.getCurPlayer().canBuyDevCard() == false)
+			ContainerGUI.settlersGUI.getBottomPanel().getButtonPanel().build_dev.setEnabled(false);
+		else
+			ContainerGUI.settlersGUI.getBottomPanel().getButtonPanel().build_dev.setEnabled(true);
+		
+		if (GameState.getCurPlayer().canBuySettlement() == false)
+			ContainerGUI.settlersGUI.getBottomPanel().getButtonPanel().build_settlement.setEnabled(false);
+		else
+			ContainerGUI.settlersGUI.getBottomPanel().getButtonPanel().build_settlement.setEnabled(true);
+		
+		if (GameState.getCurPlayer().getDevCards().getSize() > 0)
+			ContainerGUI.settlersGUI.getBottomPanel().getButtonPanel().build_play.setEnabled(true);
+		else
+			ContainerGUI.settlersGUI.getBottomPanel().getButtonPanel().build_play.setEnabled(false);
+	}
 }
