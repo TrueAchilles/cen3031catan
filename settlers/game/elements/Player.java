@@ -23,7 +23,6 @@ public class Player
     private int id = 0;
     String name = null;
     private int resource[] = { 2, 2, 2, 2, 2, 2 }; 
-    //private int devCards[] = {0, 0, 0, 0, 0};
     private int victoryPointTotal;
     boolean isComputer = false;
     private Player nextPlayer;
