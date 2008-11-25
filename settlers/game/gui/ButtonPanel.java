@@ -176,7 +176,7 @@ public class ButtonPanel extends javax.swing.JPanel
                 {
                     trade_port = new JButton();
                     tradeButtonPanel.add(trade_port, new AnchorConstraint(303, 755, 603, 532, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
-                    trade_port.setText("TRADE: PORT");
+                    trade_port.setText("PORT");
                     trade_port.setFont(new java.awt.Font("Segoe UI",0,10));
                     trade_port.setToolTipText("Trade with a port.");
                     trade_port.setPreferredSize(new java.awt.Dimension(78,45));
@@ -186,7 +186,7 @@ public class ButtonPanel extends javax.swing.JPanel
                 {
                     trade_bank = new JButton();
                     tradeButtonPanel.add(trade_bank, new AnchorConstraint(303, 0, 603, 755, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_ABS, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
-                    trade_bank.setText("TRADE: BANK");
+                    trade_bank.setText("BANK");
                     trade_bank.setFont(new java.awt.Font("Segoe UI",0,10));
                     trade_bank.setToolTipText("Trade with the bank.");
                     trade_bank.setPreferredSize(new java.awt.Dimension(86,45));
@@ -205,7 +205,7 @@ public class ButtonPanel extends javax.swing.JPanel
                 {
                     trade_player = new JButton();
                     tradeButtonPanel.add(trade_player, new AnchorConstraint(303, 527, 603, 290, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
-                    trade_player.setText("TRADE: PLAYER");
+                    trade_player.setText("PLAYER");
                     trade_player.setFont(new java.awt.Font("Segoe UI",0,10));
                     trade_player.setToolTipText("Trade with another player.");
                     trade_player.setPreferredSize(new java.awt.Dimension(83, 45));
