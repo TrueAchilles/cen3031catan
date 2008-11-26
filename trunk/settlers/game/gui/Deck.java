@@ -128,6 +128,14 @@ public class Deck implements Runnable
 		cards.add(tempCard);
 		makeDeck();
 	}
+    
+    public void removeCard()
+    {
+    
+        //cards.remove(0);
+        //cards.trimToSize();
+    
+    }
 	
 	//checks to see whether the deck has any cards in it.  If the deck is empty this method returns true.
 	public boolean deckIsEmpty()
@@ -214,6 +222,13 @@ public class Deck implements Runnable
 		else
 			return cards.size();
 	}
+    
+    public DevelopmentCard getCard(int cardIndex)
+    {
+    
+        return (DevelopmentCard) cards.get(cardIndex);
+    
+    }
 	
 	//prints all the development cards in the deck to the screen.
 	public void print()

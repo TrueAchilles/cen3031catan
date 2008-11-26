@@ -28,7 +28,7 @@ public class Player
     private Player nextPlayer;
     private Player prevPlayer;
     private LongestRoad longRoad;
-    private int numberOfResourceCards = 12;
+    private int numberOfResourceCards = 10;
     private int numberOfDevCards = 0;
     private boolean isAI = false;
     private PlayerAvatar playerAvatar = null;
@@ -114,24 +114,30 @@ public class Player
     
     public int getNumberOfResCards()
     {
-        return numberOfResourceCards;
+        return resource[GlobalVar.WHEAT] + resource[GlobalVar.SHEEP] + resource[GlobalVar.BRICK] + resource[GlobalVar.ORE] + resource[GlobalVar.WOOD];
+         
     }
     
     public int getNumberOfDevCards()
     {
-        return numberOfDevCards;
+        return devCards.getSize();
+    }
+    
+    public void setNumberOfDevCards(int numOfDevCards)
+    {
+    
+        numberOfDevCards = numOfDevCards;
+    
     }
     
     public void giveResource(int rType)
     {
         resource[rType]++;
-        numberOfResourceCards++;
     }
     
     public void subtractResource(int rType)
     {
         resource[rType]--;
-        numberOfResourceCards--;
     }
 
         // works like previous two functions, but permits a greater
@@ -223,21 +229,21 @@ public class Player
         resource[GlobalVar.WHEAT]--;
         resource[GlobalVar.WOOD]--;
         resource[GlobalVar.SHEEP]--;
-        numberOfResourceCards -= 4;
+
     }
     
     public void buildRoad()
     {
         resource[GlobalVar.BRICK]--;
         resource[GlobalVar.WOOD]--;
-        numberOfResourceCards -= 2;
+
     }
     
     public void buildCity()
     {
         resource[GlobalVar.ORE] -= 3;
         resource[GlobalVar.WHEAT] -= 2;
-        numberOfResourceCards -= 5;
+
     }
     
     public void buildDevCard()
@@ -245,7 +251,7 @@ public class Player
         resource[GlobalVar.ORE]--;
         resource[GlobalVar.WHEAT]--;
         resource[GlobalVar.SHEEP]--;
-        numberOfResourceCards -= 3;
+
     }
     
     public void setPreviousPlayer(Player p)
@@ -281,7 +287,7 @@ public class Player
     public void addRoad(Road r)
     {
         int len = longRoad.addRoad(r);
-           System.out.println("Biggest length is "+len);
+           System.out.println("Biggest length is " + len);
     
     }
     //These are for the AI

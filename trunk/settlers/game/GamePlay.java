@@ -71,7 +71,7 @@ public class GamePlay implements EventListener
                 System.out.println("Player init turn: " + pe.player.getID());
                 System.out.println("	Player " + pe.player.getID() + " attempting to place settlement");
                 GameState.setActionState(GlobalVar.ACTION_ADD_SETTLEMENT);
-                 MainBoard.getStatusBar().setText(GameState.getCurPlayer().getName() + ": INITIAL SETTLEMENT BUILD PHASE");
+                MainBoard.getStatusBar().setText(GameState.getCurPlayer().getName() + ": INITIAL SETTLEMENT BUILD PHASE");
             }
             else
             {
@@ -82,14 +82,14 @@ public class GamePlay implements EventListener
             }
 
             //Once the first "PLAYER_INITTURN_START" has been thrown, initialize the player information panel
+            
             if (!(playerInfoInitialized))
             {
             
-                playerInfo = new PlayerInfo();
+                playerInfo = new PlayerInfo(gui);
                 playerInfo.setPlayerInfoInitialized(true);
                 playerInfoInitialized = true;
-                playerInfo.setLocation(800, 0);
-                System.out.println("The location of the window is: " + playerInfo.getLocation());
+                playerInfo.setLocationRelativeTo(ContainerGUI.settlersGUI);
             
             }
             
@@ -670,7 +670,48 @@ public class GamePlay implements EventListener
         {
             System.out.println("Game is starting...");
         }
+        
+        /*
+                       *These may need to be integrated into the above events but for now they are used to update the player Information panel.  They were taken out of the playerInfo class as they were the results of the concurrentmodifcation exception.
+                       */
+        if (event.equals("PLAYER_INITTURN_START") || event.equals("PLAYER_TURN_START"))
+        {
+
+            playerInfo.cardTabs.removeTabAt(2);
+            playerInfo.cardTabs.addTab("Development Cards", playerInfo.playerDevelopmentPanels[GameState.getCurPlayer().getID() - 1]);
+            
+            playerInfo.playerPanelRepaint();
+            playerInfo.repaint();
+            //updateUI();
+            
+        }
+        if (event.equals("PLAYER_BUILT_SETTLEMENT") || event.equals("PLAYER_BUILT_ROAD") || event.equals("PLAYER_ROLLED_SUCCESSFULLY") || event.equals("PLAYER_TRADED") || event.equals("THIEF_DISCARD_RESOURCES") || event.equals("THIEF_STEAL_RESOURCE"))
+        {
+        
+            playerInfo.playerPanelRepaint();
+            playerInfo.repaint();
+            //updateUI(); 
+        }
+        
+        if (event.equals("PLAYER_BUILD_DEV_CARD"))
+        {
+        
+            playerInfo.playerPanelRepaint();
+            playerInfo.displayDevCards();
+            playerInfo.repaint();
+            //updateUI();
+        
+        }
+        
         return true;
+
+    }
+    
+    public PlayerInfo getPlayerInfo()
+    {
+    
+        return playerInfo;
+    
     }
     
     
