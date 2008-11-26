@@ -22,6 +22,9 @@ public class DevelopmentCard
 	
 	//tells whether this card is visible to other players or not
 	private boolean faceUp;
+    
+    //tells whether card is visible to the user via the GUI
+    private boolean isShown = false; 
 	
 	//creates a development card with type of -1 to show that this development card was initialized incorrectly
 	public DevelopmentCard()
@@ -83,6 +86,20 @@ public class DevelopmentCard
 	{
 		return cardType;
 	}
+    
+    public void setIsShown(boolean toSet)
+    {
+    
+        isShown = toSet;
+    
+    }
+    
+    public boolean getIsShown()
+    {
+    
+        return isShown;
+    
+    }
 	
 	//returns a string holding the location of the card image
 	public String getFileLocation()
