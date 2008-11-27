@@ -41,6 +41,7 @@ public class SettlersGUI extends javax.swing.JFrame
     public JMenuItem debug_showMeTheMoney;
     public JMenuItem debug_quickStart;
     public JMenuItem debug_bigQuickStart;
+    public JMenuItem debug_compQuickStart;
     public JMenu debug_menu;
     public JMenuItem connectLan;
     public JCheckBoxMenuItem hideRollBox;
@@ -204,8 +205,7 @@ public class SettlersGUI extends javax.swing.JFrame
                             computerPlayer = new JMenuItem();
                             addPlayer.add(computerPlayer);
                             computerPlayer.setText("Add Computer Player");
-                            computerPlayer.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.CTRL_MASK));
-                            computerPlayer.setEnabled(false);
+                            computerPlayer.addActionListener(ContainerGUI.gameButtons);
                         }
                     }
                     {
@@ -280,6 +280,13 @@ public class SettlersGUI extends javax.swing.JFrame
                         debug_quickStart.setText("Quick Start");
                         debug_quickStart.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
                         debug_quickStart.addActionListener(ContainerGUI.gameButtons);
+                    }
+                    {
+                        debug_compQuickStart = new JMenuItem();
+                        debug_menu.add(debug_compQuickStart);
+                        debug_compQuickStart.setText("Computer Quick Start");
+                        debug_compQuickStart.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.CTRL_MASK));
+                        debug_compQuickStart.addActionListener(ContainerGUI.gameButtons);
                     }
                     {
                         debug_bigQuickStart = new JMenuItem();

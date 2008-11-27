@@ -3,11 +3,7 @@ package settlers.game.elements;
 import java.awt.*;
 import java.util.*;
 import settlers.game.*;
-import settlers.game.events.Event;
-import settlers.game.events.EventManager;
-import settlers.game.events.PlayerEvent;
-import settlers.game.events.RoadEvent;
-import settlers.game.events.SettlementEvent;
+import settlers.game.events.*;
 import settlers.game.gui.*;
 
 
@@ -47,12 +43,12 @@ public class AIVeryEasy extends Player
 	//main controller for how the computer will play its turn 
 	public void initSettlementPlacement()
 	{
-		int x = 0;
-		int y = 0;
+		int x = 1;
+		int y = 1;
 		boolean acted = false;
 		int debug = 0;
 		
-		tempBuild = GameState.getGui().gui.getMainBoard().getGameBoard().vertex[x][y];
+		tempBuild = ContainerGUI.mainBoard.getGameBoard().vertex[x][y];
 		Random nodeGen = new Random();
 		
 		while(acted == false)
@@ -60,7 +56,7 @@ public class AIVeryEasy extends Player
 			y = nodeGen.nextInt(5)+1;
 			x = (nodeGen.nextInt(10))+1;
 
-			tempBuild = GameState.getGui().gui.getMainBoard().getGameBoard().vertex[x][y];
+			tempBuild = ContainerGUI.mainBoard.getGameBoard().vertex[x][y];
 			
 			if(tempBuild.canBuildSettlement() == true)
 			{
@@ -111,12 +107,14 @@ public class AIVeryEasy extends Player
 	
 	public void roll()
 	{
-        Event n = new Event("DICE_ROLLED");
+		GameState.diceHasBeenRolledDuringTurn = false;
+		PlayerEvent n = new PlayerEvent("PLAYER_WISHESTO_ROLL", GameState.getCurPlayer());
         EventManager.callEvent(n);
 	}
 	
 	public void rollToTrade()
 	{
+		GameState.diceHasBeenRolledDuringTurn = true;
 		PlayerEvent n = new PlayerEvent("PLAYER_TRADE_PHASE_BEGIN", GameState.getCurPlayer());
         EventManager.callEvent(n); 
 	}
@@ -135,91 +133,73 @@ public class AIVeryEasy extends Player
 		
 	public void actBuild() 
 	{
+		tempBuild = null;
 		boolean acted = false;
 
 		for(int y = 1; y <= 6; y++)
 		{
 			for(int x = 1; x <= 11; x++)
 			{
-				tempBuild = GameState.getGui().gui.getMainBoard().getGameBoard().vertex[x][y];
+				tempBuild = ContainerGUI.mainBoard.getGameBoard().vertex[x][y];
 				
-				if(tempBuild.canBuildSettlement() == true)
+				if(tempBuild.canBuildSettlement() == true && tempBuild != null)
 				{
-					SettlementEvent se = new SettlementEvent("PLAYER_ATTEMPT_SETTLEMENT", tempBuild);
+					System.out.println("settlementAttempt");
+					BuildEvent se = new BuildEvent("PLAYER_BUILD_REQUEST", 5);
 		            EventManager.callEvent(se);
+		            if (GameState.getActionState() == GlobalVar.COMP_ACTION_ADD_SETTLEMENT) 
+		            {
+		            	System.out.println("building");
+		            	SettlementEvent sse = new SettlementEvent("PLAYER_ATTEMPT_SETTLEMENT", tempBuild);
+						EventManager.callEvent(sse);
+		                PlayerEvent pe = new PlayerEvent("PLAYER_BUILD_SETTLEMENT", GameState.getCurPlayer());
+		                EventManager.callEvent(pe);
+		            }
 					settlements[settlementCounter++] = tempBuild;
 					
 					acted = true;
 				}
 			}
 		}
-		if(acted == false)
+		while(acted == false)
 		{
 			Random nodeGen = new Random();
-			boolean bottomFail = false;
-			boolean sideFail = false;
-			boolean topFail = false;
-			
+			tempBuild = null;
+			tempRoad = null;
 			for(int y = 1; y <= 6; y++)
 			{
 				for(int x = 1; x <= 11; x++)
-				{
-					bottomFail = false;
-					sideFail = false;
-					topFail = false;
+				{	
+					tempBuild = ContainerGUI.mainBoard.getGameBoard().vertex[x][y];
 					
-					tempBuild = GameState.getGui().gui.getMainBoard().getGameBoard().vertex[x][y];
-					
-					if(tempBuild.canBuildSettlement() == true)
-					{
-						System.out.println("settlementAttempt");
-						SettlementEvent se = new SettlementEvent("PLAYER_ATTEMPT_SETTLEMENT", tempBuild);
-			            EventManager.callEvent(se);
-						settlements[settlementCounter++] = tempBuild;
-						
-						acted = true;
-					}
 					tempRoad = tempBuild.getBottomRoad();
 					int choice = nodeGen.nextInt(2);
 					if(choice == 0)
 					{
-						if(tempBuild.getBottomRoad() != null)
-						{
-							tempRoad = tempBuild.getBottomRoad();
-						}
-						else
-						{
-							bottomFail = true;
-						}
+						tempRoad = tempBuild.getBottomRoad();
 					}
-					else if(choice == 1 || bottomFail == true)
+					else if(choice == 1)
 					{
-						if(tempBuild.getSideRoad() != null)
-						{
-							tempRoad = tempBuild.getSideRoad();
-						}
-						else
-						{
-							sideFail = true;
-						}
+						tempRoad = tempBuild.getSideRoad();
 					}
-					else if(choice == 2 || (bottomFail == true && sideFail == true))
+					else if(choice == 2)
 					{
-						if(tempBuild.getTopRoad() != null)
-						{
-							tempRoad = tempBuild.getTopRoad();
-						}
-						else
-						{
-							topFail = true;
-						}
+						tempRoad = tempBuild.getTopRoad();
 					}
 					
-					if(topFail != true || sideFail != true || bottomFail != true)
+					if(tempRoad != null && tempRoad.canBuildRoad())
 					{
 						System.out.println("roadAttempt");
-						RoadEvent se = new RoadEvent("PLAYER_ATTEMPT_ROAD", tempRoad);
+						BuildEvent se = new BuildEvent("PLAYER_BUILD_REQUEST", 7);
 						EventManager.callEvent(se);
+						if (GameState.getActionState() == GlobalVar.COMP_ACTION_ADD_ROAD)
+						{
+							System.out.println("building");
+							RoadEvent sre = new RoadEvent("PLAYER_ATTEMPT_ROAD", tempRoad);
+							EventManager.callEvent(sre);
+							PlayerEvent pe = new PlayerEvent("PLAYER_BUILD_ROAD", GameState.getCurPlayer());
+							EventManager.callEvent(pe);
+						}
 						roads[roadCounter++] = tempRoad;
 						acted = true;
 						break;

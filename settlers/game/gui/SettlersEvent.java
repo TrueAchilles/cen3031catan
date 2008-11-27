@@ -5,8 +5,7 @@ import java.awt.event.ActionEvent;
 
 import java.util.Random;
 import settlers.game.*;
-import settlers.game.elements.Player;
-import settlers.game.elements.Profile;
+import settlers.game.elements.*;
 import settlers.game.events.Event;
 import settlers.game.events.EventListener;
 import settlers.game.events.EventManager;
@@ -27,6 +26,7 @@ public class SettlersEvent implements EventListener
     
     MainBoard mainBoard;
     BottomPanel bottomPanel;
+    int choice = 0;
     
     public SettlersEvent()
     {
@@ -94,6 +94,19 @@ public class SettlersEvent implements EventListener
      
         mainBoard.getPlayerPanel().addPlayer(newPlayer);
     }
+    
+    private void createCompPlayer(Color _color) {
+        // TODO Auto-generated method stub
+        if(mainBoard.isPlayerPanel() == false)
+        {
+            //Then we haven't made a game board yet...do so
+            mainBoard.makePlayerPanel();
+        }
+        AIVeryEasy newPlayer = new AIVeryEasy("AIVeryEasy", _color);
+        GameState.players.add(newPlayer);
+     
+        mainBoard.getPlayerPanel().addPlayer(newPlayer);
+    }
 
     public void remakeBoard() {
         // TODO Auto-generated method stub
@@ -149,6 +162,66 @@ public class SettlersEvent implements EventListener
         }
     }
     
+    public void addCompPlayer()
+    {
+        if(GameState.getGamePhase() == GlobalVar.GAME_LOADING)
+        {
+            if(mainBoard.isPlayerPanel() == false)
+            {
+                //Then we haven't made a game board yet...do so
+                mainBoard.makePlayerPanel();
+            }
+            if(GameState.players.size() < GlobalVar.MAX_NUMBER_PLAYERS)
+            {
+                if(choice == 0)
+                {
+                	createCompPlayer(Color.black);
+                }
+                else if(choice == 1)
+                {
+                	createCompPlayer(Color.blue);
+                }
+                else if(choice == 2)
+                {
+                	createCompPlayer(Color.cyan);
+                }
+                else if(choice == 3)
+                {
+                	createCompPlayer(Color.yellow);
+                }
+                else if(choice == 4)
+                {
+                	createCompPlayer(Color.gray);
+                }
+                else if(choice == 5)
+                {
+                	createCompPlayer(Color.green);
+                }
+                else if(choice == 6)
+                {
+                	createCompPlayer(Color.pink);
+                }
+                else if(choice == 7)
+                {
+                	createCompPlayer(Color.magenta);
+                }
+                else if(choice == 8)
+                {
+                	createCompPlayer(Color.orange);
+                }
+                choice++;
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(ContainerGUI.settlersGUI, "There are already 8 players, more cannot be added!");
+            }
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(ContainerGUI.settlersGUI, "Cannot add players after a game has started!");
+        }
+    }
+    
     
     // combines 3 add player and start new game, with no error checking (so don't use in the middle of a game!)
     public void quickStart(boolean big)
@@ -167,6 +240,29 @@ public class SettlersEvent implements EventListener
             createPlayer("Player Blue", Color.blue);
             createPlayer("Player Magenta", Color.magenta);
         }
+        bottomPanel.getButtonPanel().startNewGame();
+        bottomPanel.getTabbedPanel().startNewGame();
+        
+        GameState.setGamePhase(GlobalVar.GAME_INIT);
+        this.bottomPanel.getButtonPanel().setEvent(this);
+        mainBoard.getGameBoard().initialize();
+        
+        PlayerEvent e = new PlayerEvent("GAME_START", GameState.players.getFirst()); // this event is registered by logic to begin players' turns
+        GameState.setCurPlayer(GameState.players.getFirst());
+        EventManager.callEvent(e);                    
+    }
+    
+    public void compQuickStart()
+    {
+        if(GameState.getGamePhase() == GlobalVar.GAME_STARTED)
+        {
+            JOptionPane.showMessageDialog(ContainerGUI.settlersGUI, "Can't do this since the game has started.");
+            return;
+        }
+        createPlayer("Player Red", Color.red);
+        createCompPlayer(Color.black);
+        createCompPlayer(Color.green);
+ 
         bottomPanel.getButtonPanel().startNewGame();
         bottomPanel.getTabbedPanel().startNewGame();
         
