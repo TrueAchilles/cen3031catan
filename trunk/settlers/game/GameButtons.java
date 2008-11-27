@@ -122,6 +122,10 @@ public class GameButtons implements ActionListener
         {
             ContainerGUI.settlersEvent.addPlayer();
         }
+        if(evt.getSource() == ContainerGUI.settlersGUI.computerPlayer)
+        {
+            ContainerGUI.settlersEvent.addCompPlayer();
+        }
         if(evt.getSource() == ContainerGUI.settlersGUI.about)
         {
             String aboutNotice = new String(
@@ -136,6 +140,10 @@ System.out.println(aboutNotice);
         if(evt.getSource() == ContainerGUI.settlersGUI.debug_quickStart)
         {
             ContainerGUI.settlersEvent.quickStart(false);
+        }
+        if(evt.getSource() == ContainerGUI.settlersGUI.debug_compQuickStart)
+        {
+            ContainerGUI.settlersEvent.compQuickStart();
         }
         if(evt.getSource() == ContainerGUI.settlersGUI.debug_bigQuickStart)
         {

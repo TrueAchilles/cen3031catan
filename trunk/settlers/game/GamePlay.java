@@ -77,6 +77,7 @@ public class GamePlay implements EventListener
             {
             	System.out.println("Comp Player init turn: " + pe.player.getID());
                 System.out.println("	Comp Player " + pe.player.getID() + " attempting to place settlement");
+                GameState.setActionState(GlobalVar.ACTION_ADD_SETTLEMENT);
                 pe.player.initSettlementPlacement();
                 PlayerEvent n = new PlayerEvent("PLAYER_INITTURN_END", pe.player);
             }
@@ -119,6 +120,7 @@ public class GamePlay implements EventListener
         	{
         		System.out.println("Comp Player init turn: " + pe.player.getID());
                 System.out.println("	Comp Player " + pe.player.getID() + " attempting to place road");
+                GameState.setActionState(GlobalVar.ACTION_ADD_ROAD);
                 pe.player.initRoadPlacement();
         	}
         }
@@ -166,6 +168,7 @@ public class GamePlay implements EventListener
         	{
         		System.out.println("Comp Player turn: " + pe.player.getID());
         		pe.player.startTurn();
+        		ContainerGUI.bottomPanel.turnStart();
         	}
             
         }
@@ -284,6 +287,50 @@ public class GamePlay implements EventListener
                 case 4:
                 {
                     System.out.println("Trying to build a dev card");
+                    if(GameState.getCurPlayer().canBuyDevCard())
+                    {
+                        System.out.println("Making a dev card...");
+                        PlayerEvent pe = new PlayerEvent("PLAYER_BUILD_DEV_CARD", GameState.getCurPlayer());
+                        EventManager.callEvent(pe);
+                    }    
+                    break;
+                }
+                case 5:
+                {
+                    System.out.println("Trying to build a comp settlement");
+                    if(GameState.getCurPlayer().canBuySettlement())
+                    {
+                        System.out.println("Making the settlement...");
+                        GameState.setActionState(GlobalVar.COMP_ACTION_ADD_SETTLEMENT);
+                    }
+                    break;
+
+                }
+                case 6:
+                {
+                    System.out.println("Trying to build a comp city");
+                    if(GameState.getCurPlayer().canBuyCity())
+                    {
+                        System.out.println("Making the city...");
+                        GameState.setActionState(GlobalVar.COMP_ACTION_ADD_CITY);
+                    }
+                    break;
+
+                }
+                case 7:
+                {
+                    System.out.println("Trying to build a comp road");
+                    if(GameState.getCurPlayer().canBuyRoad())
+                    {
+                        System.out.println("Making the road...");
+                        GameState.setActionState(GlobalVar.COMP_ACTION_ADD_ROAD);
+                    }
+                    break;
+
+                }
+                case 8:
+                {
+                    System.out.println("Trying to build a comp dev card");
                     if(GameState.getCurPlayer().canBuyDevCard())
                     {
                         System.out.println("Making a dev card...");
@@ -419,6 +466,19 @@ public class GamePlay implements EventListener
             se.road.buildRoad();
             PlayerEvent n = new PlayerEvent("PLAYER_INIT_ROAD_SUCCESS", GameState.getCurPlayer());
             EventManager.callEvent(n);
+        }
+        else if (event.equals("PLAYER_ATTEMPT_ROAD"))
+        {
+            RoadEvent se = (RoadEvent) e;
+            //re.road.
+            se.road.buildRoad();
+
+        }
+        else if (event.equals("PLAYER_ATTEMPT_SETTLEMENT"))
+        {
+            SettlementEvent se = (SettlementEvent) e;
+            //re.road.
+            se.settlement.buildSettlement();
         }
         
         else if (event.equals("PLAYER_ROLLED"))
