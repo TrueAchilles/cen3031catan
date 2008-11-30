@@ -1,4 +1,3 @@
-
 package settlers.game;
 
 import javax.swing.JOptionPane;

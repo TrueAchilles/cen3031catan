@@ -46,7 +46,7 @@ public class SettlersEvent implements EventListener
     {
         if(GameState.getGamePhase() == GlobalVar.GAME_LOADING)
         {
-            if(GameState.players.size() > 1)
+            if(GameState.players.size() > 2)
             {
                 bottomPanel.getButtonPanel().startNewGame();
                 bottomPanel.getTabbedPanel().startNewGame();
@@ -61,7 +61,7 @@ public class SettlersEvent implements EventListener
             }
             else
             {
-                JOptionPane.showMessageDialog(ContainerGUI.settlersGUI, "There aren't enought players...add some!");
+                JOptionPane.showMessageDialog(ContainerGUI.settlersGUI, "There aren't enought players...add some!  You need three or more.");
             }
         }
         else
