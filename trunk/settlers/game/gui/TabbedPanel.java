@@ -1,16 +1,20 @@
 package settlers.game.gui;
 
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextArea;
+import java.io.*;
+import javax.swing.event.*;
+import javax.swing.*;
+import java.net.*;
+import java.awt.event.*;
+import java.awt.*;
+import java.util.Stack;
+
 
 import settlers.game.GameState;
 import settlers.game.events.*;
 import settlers.game.gui.Deck;
 import settlers.game.gui.DevelopmentCard;
 
-public class TabbedPanel extends javax.swing.JPanel implements EventListener {
+public class TabbedPanel extends JPanel implements ActionListener, EventListener {
     private JScrollPane gameTextSP;
     private JScrollPane rollSP;
     private JScrollPane resourcesSP;
@@ -23,6 +27,10 @@ public class TabbedPanel extends javax.swing.JPanel implements EventListener {
     private JTextArea resourcesText;
     private JTextArea gameText;
     private JTextArea credits;
+
+    private JTextArea chatBox;
+    private JTextField enterChatField;
+    private JButton enterChatButton;
     
     public TabbedPanel() {
         super();
@@ -57,14 +65,30 @@ public class TabbedPanel extends javax.swing.JPanel implements EventListener {
                     tabbedPanel.setEnabledAt(0, false);
                 }
                 {
-                    resourcesText = new JTextArea();
-                    resourcesText.setEditable(false);
-                    resourcesSP = new javax.swing.JScrollPane(resourcesText);
-                    tabbedPanel.addTab("Resources", null, resourcesSP, null);
-                    resourcesSP.setPreferredSize(new java.awt.Dimension(378,140));
+                    chatBox = new JTextArea();
+                    chatBox.setEditable(false);
+                    enterChatField = new JTextField();
+                    enterChatField.setPreferredSize(new java.awt.Dimension(200, 20));
+                    enterChatButton = new JButton("Enter");
+                    enterChatButton.setActionCommand("Chat");
+                    enterChatButton.addActionListener(this);
+
+                    JPanel chatPanel = new JPanel();
+                    chatPanel.setLayout(new BoxLayout(chatPanel, BoxLayout.Y_AXIS));
+                    JPanel enterChatPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+
+                    JScrollPane chatSP = new JScrollPane(chatBox);
+
+                    enterChatPanel.add(enterChatField);
+                    enterChatPanel.add(enterChatButton);
+                    chatPanel.add(chatSP);
+                    chatPanel.add(enterChatPanel);
+
+                    tabbedPanel.addTab("Chat", null, chatPanel, null);
+                    chatSP.setPreferredSize(new Dimension(378,140));
                     tabbedPanel.setEnabledAt(1,false);
                 }
-                {
+/*                {
                     rollText = new JTextArea();
                     rollText.setEditable(false);
                     rollSP = new javax.swing.JScrollPane(rollText);
@@ -95,7 +119,7 @@ public class TabbedPanel extends javax.swing.JPanel implements EventListener {
                     credits.setEditable(false);
                     makeCredits();
                 }
-                tabbedPanel.setSelectedIndex(5);
+*/                tabbedPanel.setSelectedIndex(0);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -107,11 +131,11 @@ public class TabbedPanel extends javax.swing.JPanel implements EventListener {
              *
              * @param e event parameter that is used to catch events that are fired
              */
-    public boolean eventCalled(Event e)
+    public boolean eventCalled(settlers.game.events.Event e)
     {
         String event = e.getEvent();
         
-        if (event.equals("PLAYER_INITTURN_START") || event.equals("PLAYER_TURN_START"))
+/*        if (event.equals("PLAYER_INITTURN_START") || event.equals("PLAYER_TURN_START"))
         {
             resourcesText.setText(settlers.game.GameState.getCurPlayer().getName() + "'s Resources\n");
             //resourcesText.append("Current Resources are unavailable during \ninitialization turns");
@@ -127,11 +151,11 @@ public class TabbedPanel extends javax.swing.JPanel implements EventListener {
             updateUI();
             
         }
-        /**
+*/       /**
         * This else if will be used for when the game is actually in round robin  and the dice are rolled.  This allows the resources to update to the screen
         * in real time.
         */
-        else if (event.equals("PLAYER_BUILT_DEV_CARD") || event.equals("PLAYER_BUILT_SETTLEMENT") || event.equals("PLAYER_BUILT_ROAD") || event.equals("PLAYER_ROLLED") || event.equals("PLAYER_TRADED"))
+/*        else if (event.equals("PLAYER_BUILT_DEV_CARD") || event.equals("PLAYER_BUILT_SETTLEMENT") || event.equals("PLAYER_BUILT_ROAD") || event.equals("PLAYER_ROLLED") || event.equals("PLAYER_TRADED"))
         {
             resourcesText.setText(settlers.game.GameState.getCurPlayer().getName() + "'s Resources\n");
             resourcesText.append("Wood:  " + settlers.game.GameState.getCurPlayer().getWood() + "\n");
@@ -144,7 +168,7 @@ public class TabbedPanel extends javax.swing.JPanel implements EventListener {
             displayDevCards();
             
             updateUI(); 
-        }
+        }*/
         return true;
     }
     
@@ -248,12 +272,12 @@ public class TabbedPanel extends javax.swing.JPanel implements EventListener {
         tabbedPanel.setTitleAt(0, "Game Text");
         tabbedPanel.setEnabledAt(0, true);
         tabbedPanel.setEnabledAt(1, true);
-        tabbedPanel.setEnabledAt(2, true);
+/*        tabbedPanel.setEnabledAt(2, true);
         tabbedPanel.setEnabledAt(3, true);
         tabbedPanel.setEnabledAt(4, true);
         tabbedPanel.setEnabledAt(5, false);
-        tabbedPanel.setSelectedIndex(0);
-        tabbedPanel.remove(5);
+*/        tabbedPanel.setSelectedIndex(0);
+//        tabbedPanel.remove(5);
     }
 
     public JTextArea getGameText() {
@@ -283,5 +307,14 @@ public class TabbedPanel extends javax.swing.JPanel implements EventListener {
         updateUI();
     }
     
+    public void actionPerformed(ActionEvent evt)
+    {
+        if (evt.getSource() == enterChatButton)
+        {
+            settlers.game.elements.Player player = GameState.getCurPlayer();
+            chatBox.append(player.getName() + ": " + enterChatField.getText() + "\n");
+            enterChatField.setText("");
+        }
+    }
 
 }

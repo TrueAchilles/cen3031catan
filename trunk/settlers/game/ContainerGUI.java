@@ -17,6 +17,7 @@ public class ContainerGUI
     public static GameButtons gameButtons;
     public static RollBox rollBox;
     public static SettlersEvent settlersEvent;
+    public static PlayerInfo playerInfo;
 
 
     public ContainerGUI()
@@ -26,7 +27,6 @@ public class ContainerGUI
         settlersEvent = new SettlersEvent();
         buttonPanel = bottomPanel.getButtonPanel();
         rollBox = gameBoard.getRollBox();
-        
         
         // by some insane cascading effects, the rest of the variables are set.
 

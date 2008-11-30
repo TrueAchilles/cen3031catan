@@ -113,8 +113,27 @@ public class GameButtons implements ActionListener
         {
             ContainerGUI.settlersEvent.remakeBoard();
         }
+        if(evt.getSource() == ContainerGUI.settlersGUI.hidePlayerInfo)
+        {
+            if (ContainerGUI.settlersGUI.hidePlayerInfo.isSelected())
+            {
+                ContainerGUI.playerInfo.playerInfo.setVisible(false);
+            }
+            else
+            {
+                ContainerGUI.playerInfo.playerInfo.setVisible(true);
+            }
+        }
         if(evt.getSource() == ContainerGUI.settlersGUI.hideRollBox)
         {
+            if (ContainerGUI.settlersGUI.hideRollBox.isSelected())
+            {
+                ContainerGUI.rollBox.setVisible(false);
+            }
+            else
+            {
+                ContainerGUI.rollBox.setVisible(true);
+            }
             //ContainerGUI.mainBoard.getGameBoard().hideBox(hideRollBox.isSelected());
         }
         if(evt.getSource() == ContainerGUI.settlersGUI.humanPlayer)
@@ -132,9 +151,13 @@ public class GameButtons implements ActionListener
 
             aboutNotice = aboutNotice.concat("GUI Team:\n* Nick Antonelli (GUI Team Lead)\n* Spencer Gall\n* Eric Hernandez\n* Andrew Stroizer\n* Paul Marks\n\n");
             aboutNotice = aboutNotice.concat("Logic Team\n* Eric Mudge\n* Alvaro Salkeld\n* Patrick Meyer\n* Francesca Ramadori\n* Edward Brotz\n* Naveen Dhawan\n* Carlos Estevez\n* Scott Savino\n* Nick Dunlap\n");
-System.out.println(aboutNotice);
+
             javax.swing.JOptionPane.showMessageDialog(ContainerGUI.mainBoard, aboutNotice, "About Java Settlers of Catan", javax.swing.JOptionPane.INFORMATION_MESSAGE);
 
+        }
+        if(evt.getSource() == ContainerGUI.settlersGUI.howToPlay)
+        {
+            HelpWindow jHelp = new HelpWindow();
         }
         if(evt.getSource() == ContainerGUI.settlersGUI.debug_quickStart)
         {
