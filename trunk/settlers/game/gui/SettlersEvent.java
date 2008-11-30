@@ -37,9 +37,9 @@ public class SettlersEvent implements EventListener
     
     private void init()
     {
-        //Profile.loadProfile("C:\\Users\\Nick Antonelli\\Desktop\\nick.scp");
         mainBoard = ContainerGUI.mainBoard;
         bottomPanel = ContainerGUI.bottomPanel;
+        Profile.loadDefaultProfiles();
     }
     
     public void startNewGame()

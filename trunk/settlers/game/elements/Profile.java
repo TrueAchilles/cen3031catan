@@ -8,9 +8,9 @@ import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.filechooser.*;
 import java.io.*;
+import java.net.URL;
 
 import settlers.game.*;
-//import settlers.game.events.ProfileEvent;
 import settlers.game.events.EventManager;
 import settlers.game.gui.PlayerAvatar;
 
@@ -28,9 +28,15 @@ public class Profile
         newPlayer.setPlayerProfile(playerProfile);
     }
 
-    public static void deleteProfile(String pathName)
+
+    public static void loadDefaultProfiles()
     {
-        
+        loadProfile(ClassLoader.getSystemResource("settlers/game/default_profiles/nicka.scp").getPath());
+        loadProfile(ClassLoader.getSystemResource("settlers/game/default_profiles/dobbins.scp").getPath());
+        loadProfile(ClassLoader.getSystemResource("settlers/game/default_profiles/edward_brotz.scp").getPath());
+        loadProfile(ClassLoader.getSystemResource("settlers/game/default_profiles/patrick_meyer.scp").getPath());
+        loadProfile(ClassLoader.getSystemResource("settlers/game/default_profiles/ryan.scp").getPath());
+        loadProfile(ClassLoader.getSystemResource("settlers/game/default_profiles/esen.scp").getPath());
     }
 
     public static void loadProfile(String pathName)
@@ -53,11 +59,13 @@ public class Profile
         }
         catch(FileNotFoundException e)
         {
-            System.out.println("oogdpjgd");
+            String message = new String("The profile requested was not found. Please choose a valid file.");
+            JOptionPane.showMessageDialog(ContainerGUI.mainBoard, message, "Profile Could Not Be Loaded - Settlers of Catan", JOptionPane.ERROR_MESSAGE);
         }
         catch(IOException e)
         {
-            System.out.println("WAKA WAKA");
+            String message = new String("There has been an error while trying to load a profile. Please try to select the profile again.");
+            JOptionPane.showMessageDialog(ContainerGUI.mainBoard, message, "I/O Exception - Settlers of Catan", JOptionPane.ERROR_MESSAGE);
         }
 
         playerProfile.setFilepath(pathName);
@@ -122,8 +130,19 @@ public class Profile
 
         if (!array[4].equals("img"))
         {
-            playerAvatar = new PlayerAvatar(array[4]);
+            if (array.length == 6 && array[5].equals("1"))
+            {
+                URL imageURL = ClassLoader.getSystemResource("settlers/game/images/profile/" + array[4]);
+                playerAvatar = new PlayerAvatar(imageURL.getPath());
+            }
+            else
+            {
+                playerAvatar = new PlayerAvatar(array[4]);
+            }
         }
+
+        
+
 
         if (playerAvatar != null && playerAvatar.getImageLoadStatus() != MediaTracker.COMPLETE)
         {
@@ -172,17 +191,19 @@ public class Profile
 
         private JCheckBox saveProfileCheckbox = new JCheckBox();
         private JList listProfileOptions = new JList(new DefaultListModel());
+        private static ArrayList<Boolean> usedOptionList = new ArrayList<Boolean>();
 
         private JFileChooser fileChooser = new JFileChooser();
 
         private Color playerColor = new Color(0,0,0);
-        private String name = new String();
+        private Color randomColor;
 
         public ProfileDialog(int playerNumber)
         {
 
             setCreatePlayerTab();
             setLoadPlayerTab();
+            setUsedOptionList();
 
             dialog.setAlwaysOnTop(true);
             dialog.addWindowListener(this);
@@ -221,15 +242,17 @@ public class Profile
             namePanel.add(nameFieldPanel, BorderLayout.CENTER);
             basicOptions.add(namePanel);
 
+            randomColor = createRandomColor();
+            playerColor = randomColor;
+
             colorPanel.setLayout(new BorderLayout());
             JPanel colorLabelPanel = new JPanel();
             colorLabelPanel.add(colorLabel);
             colorPanel.add(colorLabelPanel, BorderLayout.WEST);
             JPanel colorPreviewPanel = new JPanel(), colorPreviewColor = new JPanel(), colorChooserButtonPanel = new JPanel();
 
-
             colorPreviewColor.setPreferredSize(new Dimension(30,30));
-            colorPreviewColor.setBackground(new Color(255,0,0));
+            colorPreviewColor.setBackground(randomColor);
             colorPreviewPanel.add(colorPreviewColor);
             colorChooserButtonPanel.add(colorChooserButton);
             colorPreviewPanel.add(colorChooserButtonPanel);
@@ -276,7 +299,6 @@ public class Profile
 
         public void setLoadPlayerTab()
         {
-                // now the "Load Player" tab
 
             DefaultListModel listModel = (DefaultListModel) listProfileOptions.getModel();
 
@@ -318,12 +340,23 @@ public class Profile
             dialog.add(tabbedPane);
         }
 
+        public void setUsedOptionList()
+        {
+            if (usedOptionList.size() == 0)
+            {
+                for (PlayerProfile profile : Profile.playerProfiles)
+                {
+                    usedOptionList.add(new Boolean(false));
+                }
+            }
+        }
+
         public void actionPerformed(ActionEvent e)
         {
             if (e.getSource() == colorChooserButton)
             {
-                Color color = new Color(0,0,0);
-                color = JColorChooser.showDialog(colorChooserButton,"Choose Background Color",Color.RED);
+                Color color = new Color(randomColor.getRGB());
+                color = JColorChooser.showDialog(colorChooserButton,"Choose Background Color",randomColor);
 
                 if (color != null)
                 {
@@ -425,21 +458,29 @@ public class Profile
                 DefaultListModel listModel = (DefaultListModel) listProfileOptions.getModel();
                 PlayerProfile lastInsertedProfile = Profile.playerProfiles.get(Profile.playerProfiles.size() - 1);
                 listModel.addElement(lastInsertedProfile.getName());
+                usedOptionList.add(new Boolean(false));
 
                 listProfileOptions.repaint();
             }
             else if (e.getSource() == useProfileButton)
             {
-
                 int index = listProfileOptions.getSelectedIndex();
+
                 if (index < 0)
                 {
+                    return;
+                }
+                else if (index >= 0 && usedOptionList.get(index).booleanValue() == true)
+                {
+                    String message = new String("The profile '" + playerProfiles.get(index).getName() + "' is already in use. Select a different profile, or create a new player.");
+                    JOptionPane.showMessageDialog(dialog, message, "Profile in Use - Settlers of Catan", JOptionPane.INFORMATION_MESSAGE);
                     return;
                 }
 
                 PlayerProfile playerProfile = Profile.playerProfiles.get(index);
                 Player newPlayer = new Player(playerProfile.getName(), playerProfile.getColor(), playerProfile.getPlayerAvatar());
                 Profile.addPlayer(newPlayer, playerProfile);
+                usedOptionList.set(index, new Boolean(true));
                 closeDialog();
             }
             else if (e.getSource() == cancelAddPlayerButton)
@@ -475,9 +516,24 @@ public class Profile
 
         }
 
-        public void closeDialog()
+        private Color createRandomColor()
+        {
+            Random random = new Random();
+            int r = random.nextInt(255);
+            int g = random.nextInt(255);
+            int b = random.nextInt(255);
+
+            return new Color(r,g,b);
+        }
+
+        private void closeDialog()
         {
             dialog.setVisible(false);
+        }
+
+        public void resetUsedOptionList()
+        {
+            usedOptionList = new ArrayList<Boolean>();
         }
 
         public void modifyProfile()
