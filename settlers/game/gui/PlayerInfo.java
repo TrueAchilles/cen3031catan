@@ -277,9 +277,10 @@ public class PlayerInfo extends javax.swing.JFrame implements ActionListener
         //Set visibility, resizability, and default close operation
 		playerInfo.setVisible(true);
 		playerInfo.setResizable(true);
-        playerInfo.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+        playerInfo.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         playerInfo.repaint();
-        
+
+        ContainerGUI.playerInfo = this;
         
     }   catch (Exception e) 
         {
