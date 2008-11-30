@@ -280,9 +280,17 @@ public class PlayerInfo extends javax.swing.JFrame implements ActionListener
         playerInfo.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         playerInfo.repaint();
 
+            // add this entire window to ContainerGUI
         ContainerGUI.playerInfo = this;
+
+            // set the location of the window
+            // the x coordinate is (width of MainBoard) + 10 pixels
+            // the y coordinate is a constant 200 pixels
+        int x = ContainerGUI.mainBoard.getWidth();
+        int y = 200;
+        playerInfo.setLocation(x + 10,y);
         
-    }   catch (Exception e) 
+    }   catch (Exception e)
         {
              e.printStackTrace();
         }
