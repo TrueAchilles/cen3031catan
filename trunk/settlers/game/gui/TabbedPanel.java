@@ -297,7 +297,7 @@ public class TabbedPanel extends JPanel implements ActionListener, EventListener
     
     public void setRandomDiceRoll(String s)
     {
-        rollText.append(s);
+        //rollText.append(s);
         updateUI();
     }
     
