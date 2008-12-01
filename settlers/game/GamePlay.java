@@ -737,9 +737,9 @@ public class GamePlay implements EventListener
         if (event.equals("PLAYER_INITTURN_START") || event.equals("PLAYER_TURN_START"))
         {
 
-            playerInfo.cardTabs.removeTabAt(2);
-            playerInfo.cardTabs.addTab("Development Cards", playerInfo.playerDevelopmentPanels[GameState.getCurPlayer().getID() - 1]);
-            
+            //playerInfo.cardTabs.removeTabAt(2);
+            //playerInfo.cardTabs.addTab("Development Cards", playerInfo.playerDevelopmentPanels[GameState.getCurPlayer().getID() - 1]);
+            playerInfo.changeDevelopmentCardPanel(GameState.getCurPlayer().getID(), GameState.getGamePhase());
             playerInfo.playerPanelRepaint();
             playerInfo.repaint();
             //updateUI();

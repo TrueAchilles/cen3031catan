@@ -7,6 +7,7 @@ import javax.swing.JTextArea;
 
 import javax.swing.*;
 import javax.swing.border.*;
+import java.awt.Adjustable;
 import java.awt.GridLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -40,9 +41,9 @@ public class PlayerInfo extends javax.swing.JFrame implements ActionListener
      //Tab pane container for each of the player information areas
      public JTabbedPane cardTabs = new JTabbedPane(JTabbedPane.TOP, JTabbedPane.SCROLL_TAB_LAYOUT);
      // Create three new panels, onr for development cards, one for resources and one for the over all player view
-     JPanel resourcesPanel          = new JPanel();
-     JTextArea playersPanel         = new JTextArea();
-     JPanel developmentPanel        = new JPanel();
+     private JPanel resourcesPanel          = new JPanel();
+     private JTextArea playersPanel         = new JTextArea();
+     private JPanel developmentPanel        = new JPanel();
      //Titled boarders for two of the three Panels.  They are placed up here to they can me modified on repaint calls.
      //playersPanel is currently not on here as it needs to be written in a special manner to account for all of the players
      //Though I believe it can be placed here as well if I have enough time to rework this code, but it works at the moment
@@ -91,6 +92,10 @@ public class PlayerInfo extends javax.swing.JFrame implements ActionListener
      //Counters
      int playerCounter = 0;
      int repaintPlayerCounter = 0;
+     int rows = 2;
+     int newRow = 8;
+     
+     boolean initReverse;
      
      
 
@@ -138,6 +143,13 @@ public class PlayerInfo extends javax.swing.JFrame implements ActionListener
         
     }
     
+    public JPanel getDevelopmentPanel()
+    {
+    
+        return developmentPanel;
+    
+    }
+    
     /**
             *Initializes the arrays to match the amount of players in the game currently from 2 - 8
             *
@@ -154,6 +166,7 @@ public class PlayerInfo extends javax.swing.JFrame implements ActionListener
         {
             playerPanels[i] = new JTextArea();
             playerDevelopmentPanels[i] = new JPanel();
+            playerDevelopmentPanels[i].setLayout(new GridLayout(2, 4, 10, 10));
             playerCards[i][0] = new LinkedList<JButton>();
             playerCards[i][1] = new LinkedList<JButton>();
             playerCards[i][2] = new LinkedList<JButton>();
@@ -172,7 +185,6 @@ public class PlayerInfo extends javax.swing.JFrame implements ActionListener
         try
         {
         
-        developmentScroll.createVerticalScrollBar();
         // Add the three different tabs to the cardTabs frame    
 		cardTabs.addTab("Player Hands", playersScroll);
 		cardTabs.addTab("Current Resources", resourcesScroll);
@@ -199,7 +211,7 @@ public class PlayerInfo extends javax.swing.JFrame implements ActionListener
             TitledBorder currPlayerBorder = new TitledBorder(new LineBorder(currPlayer.getColor()), currPlayer.getName());
             currPlayerBorder.setTitleColor(currPlayer.getColor());
             playerPanels[playerCounter].setBorder(currPlayerBorder);
-            playerDevelopmentPanels[playerCounter].setBorder(currPlayerBorder);
+
             //Create a grid and add the text to the JTextArea
             playerPanels[playerCounter].setLayout(new GridLayout(2,1));
             playerPanels[playerCounter].setText("Resource Cards:    x" + currPlayer.getNumberOfResCards() + "\n");
@@ -214,7 +226,6 @@ public class PlayerInfo extends javax.swing.JFrame implements ActionListener
         }
         
         //Add the current player's Development card panel to the screen.
-        developmentPanel.add(playerDevelopmentPanels[0]);
 		
 		//We are only going to run this code once and that is upon initialization.  Otherwhise we just want to set the text to the current information
         /*
@@ -229,6 +240,14 @@ public class PlayerInfo extends javax.swing.JFrame implements ActionListener
             //Create a new Titled border with the first players name set as the title
             resourceBorder = new TitledBorder(new LineBorder(Color.black), currPlayer.getName());
             resourceBorder.setTitleColor(Color.black);
+            
+            developmentBorder = new TitledBorder(new LineBorder(currPlayer.getColor()), currPlayer.getName());
+            developmentBorder.setTitleColor(currPlayer.getColor());
+            
+            developmentPanel.setBorder(developmentBorder);
+            developmentPanel.add(playerDevelopmentPanels[0]);
+
+            
             resourcesPanel.setBorder(resourceBorder);
             resourcesPanel.setLayout(new GridLayout(3,2,5,5));
             
@@ -318,6 +337,11 @@ public class PlayerInfo extends javax.swing.JFrame implements ActionListener
         
             //This will update the individual player panel
             resourceBorder.setTitle(currPlayer.getName());
+            
+            developmentBorder.setTitle(currPlayer.getName());
+            developmentBorder.setTitleColor(currPlayer.getColor());
+            developmentBorder.setBorder(new LineBorder(currPlayer.getColor()));
+            
             lblBrick.setText("Brick: x" + currPlayer.getBrick());
             lblOre.setText("Ore: x" + currPlayer.getOre());
             lblWheat.setText("Wheat: x" + currPlayer.getWheat());
@@ -356,6 +380,17 @@ public class PlayerInfo extends javax.swing.JFrame implements ActionListener
 		GameState.getCurPlayer().setNumberOfDevCards(dev.getSize());
         //Get the current player.
         Player currPlayer = GameState.getCurPlayer();
+
+
+        if (dev.getSize() % newRow  == 0)
+        {
+        
+            rows++;
+            newRow += 4;
+            playerDevelopmentPanels[currPlayer.getID() - 1].setLayout(new GridLayout (rows, 4, 10, 10));
+        
+        }
+        
         
         //We are going to iterate through all of the players development card, however we will only execute code that is on cards that are not shown
         for(int i = 0; i < dev.getSize(); i++)
@@ -429,6 +464,35 @@ public class PlayerInfo extends javax.swing.JFrame implements ActionListener
         }
         
     }
+    
+    /**
+             *Each Player will have his/her own individual development card panel, this method is in charge of changing it properly after each players turn/
+             *
+             *@param playerID The current player ID.
+             *@param gameState The state that the game is in 2 = Normal game mode
+             */
+    
+    public void changeDevelopmentCardPanel(int playerID, int gameState)
+    {
+        System.out.println(gameState);
+    
+        if (playerID == 1 && gameState == 2)
+        {
+    
+            developmentPanel.remove(playerDevelopmentPanels[gameSize - 1]);
+            developmentPanel.add(playerDevelopmentPanels[playerID - 1]);
+    
+        }
+        else if (playerID != 1 && gameState == 2)
+        {
+        
+            developmentPanel.remove(playerDevelopmentPanels[playerID - 2]);
+            developmentPanel.add(playerDevelopmentPanels[playerID - 1]);
+        
+        }
+    }
+    
+
     
     /**
             * Implementation of the actionPerformed interface for tha action listener added to the development card buttons.
