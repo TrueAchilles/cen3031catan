@@ -113,6 +113,9 @@ public class RollBox extends JPanel implements Runnable
             } catch (InterruptedException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
+            } catch (NullPointerException npe) {
+                // TODO Auto-generated catch block
+                npe.printStackTrace();
             }
             repaint();
         }

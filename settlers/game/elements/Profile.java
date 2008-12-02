@@ -116,7 +116,7 @@ public class Profile
             avatarPath = profile.getPlayerAvatar().getPathname();
         }
 
-        return name + "*" + numberOfWins + "*" + numberOfLosses + "*" + sRGB + "*" + avatarPath;
+        return name + "*" + numberOfWins + "*" + numberOfLosses + "*" + sRGB + "*" + avatarPath + "*" + 0;
     }
 
     public static PlayerProfile unserializeProfile(String[] array)
@@ -154,10 +154,9 @@ public class Profile
         return new PlayerProfile(name, color, playerAvatar);
     }
 
-    private static class ProfileDialog implements ActionListener, WindowListener
+    private static class ProfileDialog extends JDialog implements ActionListener
     {
-
-        private JFrame dialog = new JFrame();
+//        private JFrame dialog = new JFrame();
         private JTabbedPane tabbedPane = new JTabbedPane();
 
         private JPanel dialogPanel = new JPanel();
@@ -200,18 +199,17 @@ public class Profile
 
         public ProfileDialog(int playerNumber)
         {
-
+            super();
             setCreatePlayerTab();
             setLoadPlayerTab();
             setUsedOptionList();
 
-            dialog.setAlwaysOnTop(true);
-            dialog.addWindowListener(this);
-            dialog.setTitle("Edit Player " + playerNumber);
-            dialog.setSize(300,380);
-            dialog.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-            dialog.setResizable(true);
-            dialog.setVisible(true);
+            this.add(tabbedPane);
+            this.setModal(true);
+            this.setTitle("Edit Player " + playerNumber);
+            this.setSize(300,380);
+            this.setResizable(true);
+            this.setVisible(true);
 
         }
 
@@ -282,7 +280,6 @@ public class Profile
 
             createPlayer.add(basicOptions);
 
-
             JPanel savePlayerPanel = new JPanel();
             savePlayerPanel.add(addPlayerButton);
             addPlayerButton.addActionListener(this);
@@ -324,20 +321,45 @@ public class Profile
 
             useProfileButton.addActionListener(this);
             loadProfileButton.addActionListener(this);
+            modifyProfileButton.addActionListener(this);
 
             loadPlayer.add(listPanel);
 
-//            profileDesc.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(0,0,0)), "Profile Description", TitledBorder.LEFT, TitledBorder.DEFAULT_POSITION));
+            JPanel profileDesc = new JPanel();
+            profileDesc.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(0,0,0)), "Profile Description", TitledBorder.LEFT, TitledBorder.DEFAULT_POSITION));
+            profileDesc.setLayout(new BoxLayout(profileDesc, BoxLayout.Y_AXIS));
 
             JLabel playerProfileNameLabel = new JLabel("Name: ");
             JLabel playerProfileColorLabel = new JLabel("Color: ");
             JLabel playerProfileImageLabel = new JLabel("Image: ");
-            JLabel playerProfileName = new JLabel("");
+            JLabel playerProfileName = new JLabel("Name");
             JPanel playerProfileColor = new JPanel();
             JPanel playerProfileImage = new JPanel();
 
+            JPanel playerName = new JPanel();
+            playerName.add(playerProfileNameLabel);
+            playerName.add(playerProfileName);
+            profileDesc.add(playerName);
+
+            JPanel playerColor = new JPanel(new BorderLayout());
+            playerProfileColor.setBorder(BorderFactory.createLineBorder(new Color(0,0,0)));
+            playerProfileColor.setPreferredSize(new Dimension(30,30));
+
+            playerColor.add(playerProfileColorLabel, BorderLayout.WEST);
+            playerColor.add(playerProfileColor, BorderLayout.EAST);
+            profileDesc.add(playerColor);
+
+            JPanel playerImage = new JPanel();
+            playerProfileImage.setBorder(BorderFactory.createLineBorder(new Color(0,0,0)));
+            playerProfileImage.setPreferredSize(new Dimension(65,65));
+
+            playerImage.add(playerProfileImageLabel);
+            playerImage.add(playerProfileImage);
+            profileDesc.add(playerImage);
+
+            loadPlayer.add(profileDesc);
+
             tabbedPane.addTab("Load Player", null, loadPlayer);
-            dialog.add(tabbedPane);
         }
 
         public void setUsedOptionList()
@@ -401,8 +423,7 @@ public class Profile
 
                 if (name.length() == 0)
                 {
-                    JOptionPane dialog = new JOptionPane();
-                    JOptionPane.showMessageDialog(dialog, "You must give the player a name.", "Need Player Name", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "You must give the player a name.", "Need Player Name", JOptionPane.INFORMATION_MESSAGE);
                     return;
                 }
 
@@ -435,7 +456,7 @@ public class Profile
                 }
 
                 Profile.addPlayer(new Player(name, playerColor, icon), playerProfile);
-                closeDialog();
+                this.closeDialog();
             }
             else if (e.getSource() == loadProfileButton)
             {
@@ -473,7 +494,7 @@ public class Profile
                 else if (index >= 0 && usedOptionList.get(index).booleanValue() == true)
                 {
                     String message = new String("The profile '" + playerProfiles.get(index).getName() + "' is already in use. Select a different profile, or create a new player.");
-                    JOptionPane.showMessageDialog(dialog, message, "Profile in Use - Settlers of Catan", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(this, message, "Profile in Use - Settlers of Catan", JOptionPane.INFORMATION_MESSAGE);
                     return;
                 }
 
@@ -483,30 +504,25 @@ public class Profile
                 usedOptionList.set(index, new Boolean(true));
                 closeDialog();
             }
+            else if(e.getSource() == modifyProfileButton)
+            {
+                int index = listProfileOptions.getSelectedIndex();
+
+                if (index < 0)
+                {
+                    return;
+                }
+
+//                DefaultListModel listModel = (DefaultListModel) listProfileOptions.getModel();
+                PlayerProfile playerProfile = Profile.playerProfiles.get(index);
+
+                this.modifyProfile(playerProfile);
+
+            }
             else if (e.getSource() == cancelAddPlayerButton)
             {
-                dialog.setVisible(false);
+                closeDialog();
             }
-        }
-
-        public void windowActivated(WindowEvent e){}
-
-        public void windowClosed(WindowEvent e)
-        {
-            //ContainerGUI.settlersGUI.setEnabled(true);
-        }
-
-        public void windowClosing(WindowEvent e){}
-
-        public void windowDeactivated(WindowEvent e){}
-
-        public void windowDeiconified(WindowEvent e){}
-
-        public void windowIconified(WindowEvent e){}
-
-        public void windowOpened(WindowEvent e)
-        {
-            //ContainerGUI.settlersGUI.setEnabled(false);
         }
 
         private void initFileDialog()
@@ -528,7 +544,7 @@ public class Profile
 
         private void closeDialog()
         {
-            dialog.setVisible(false);
+            this.setVisible(false);
         }
 
         public void resetUsedOptionList()
@@ -536,9 +552,152 @@ public class Profile
             usedOptionList = new ArrayList<Boolean>();
         }
 
-        public void modifyProfile()
+        public void modifyProfile(PlayerProfile playerProfile)
         {
-            
+  
+            final JDialog modifyProfileDialog = new JDialog(this, "Modify " + playerProfile.getName() + "'s Profile", true);
+            modifyProfileDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+
+            final JButton colorButton = new JButton("Color..."), fileButton = new JButton("Image..."), saveButton = new JButton("Save"), cancelButton = new JButton("Cancel");
+            final PlayerProfile curPlayerProfile = playerProfile;
+
+            JLabel nameLabel = new JLabel("Name:");
+            final JTextField editNameField = new JTextField();
+            editNameField.setText(playerProfile.getName());
+            JPanel nameLabelPanel = new JPanel(), editNameFieldPanel = new JPanel();
+            nameLabelPanel.add(nameLabel);
+            editNameFieldPanel.add(editNameField);
+            editNameField.setPreferredSize(new Dimension(150, 20));
+
+            JLabel colorLabel = new JLabel("Color:");
+            final JPanel colorPreview = new JPanel();
+            colorPreview.setPreferredSize(new Dimension(30,30));
+            colorPreview.setBackground(playerProfile.getColor());
+            JPanel colorLabelPanel = new JPanel();
+            colorLabelPanel.add(colorLabel);
+
+            JLabel imageLabel = new JLabel("Image:");
+            final JLabel image = new JLabel(playerProfile.getPlayerAvatar());
+            JPanel imagePreview = new JPanel();
+            imagePreview.setPreferredSize(new Dimension(65,70));
+            imagePreview.setBorder(BorderFactory.createLineBorder(new Color(0,0,0)));
+            imagePreview.add(image);
+            JPanel imageLabelPanel = new JPanel();
+            imageLabelPanel.add(imageLabel);
+
+            JPanel nameWrapper = new JPanel(new BorderLayout()), nameWrapper2 = new JPanel();
+            nameWrapper.add(nameLabelPanel, BorderLayout.WEST);
+            nameWrapper.add(editNameFieldPanel, BorderLayout.CENTER);
+
+            JPanel colorWrapper = new JPanel(new BorderLayout()), colorPreviewWrapper = new JPanel();
+            colorWrapper.add(colorLabelPanel, BorderLayout.WEST);
+            colorPreviewWrapper.add(colorPreview);
+            colorPreviewWrapper.add(colorButton);
+            colorWrapper.add(colorPreviewWrapper, BorderLayout.CENTER);
+
+            JPanel imageWrapper = new JPanel(new BorderLayout()), imagePreviewWrapper = new JPanel();
+            imageWrapper.add(imageLabelPanel, BorderLayout.WEST);
+            imagePreviewWrapper.add(imagePreview);
+            imagePreviewWrapper.add(fileButton);
+            imageWrapper.add(imagePreviewWrapper, BorderLayout.CENTER);
+
+            JPanel innerButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+            innerButtonPanel.add(saveButton);
+            innerButtonPanel.add(cancelButton);
+
+            JPanel saveSessionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            final JCheckBox saveFile = new JCheckBox();
+            JLabel saveFileLabel = new JLabel("Save Changes to File");
+            saveSessionPanel.add(saveFile);
+            saveSessionPanel.add(saveFileLabel);
+
+            JPanel dialogWrapper = new JPanel(new BorderLayout()), fieldsWrapper = new JPanel();
+
+            fieldsWrapper.setLayout(new GridLayout(3,1));
+            fieldsWrapper.add(nameWrapper);
+            fieldsWrapper.add(colorWrapper);
+            fieldsWrapper.add(imageWrapper);
+
+            dialogWrapper.add(saveSessionPanel, BorderLayout.NORTH);
+            dialogWrapper.add(fieldsWrapper, BorderLayout.CENTER);
+            dialogWrapper.add(innerButtonPanel, BorderLayout.SOUTH);
+
+            modifyProfileDialog.add(dialogWrapper);
+
+            modifyProfileDialog.setSize(230,360);
+
+            colorButton.addActionListener(new ActionListener()
+            {
+                public void actionPerformed(ActionEvent evt)
+                {
+                    Color color = curPlayerProfile.getColor();
+                    color = JColorChooser.showDialog(colorButton, "Choose " + curPlayerProfile.getName() + "'s Color", color);
+                    if (color != null)
+                    {
+                        colorPreview.setBackground(color);
+                        colorPreview.repaint();
+                    }
+                }
+            });
+
+            fileButton.addActionListener(new ActionListener()
+            {
+                public void actionPerformed(ActionEvent evt)
+                {
+                    JFileChooser imageChooser = new JFileChooser();
+                    imageChooser.setFileFilter(new FileNameExtensionFilter("Images (*.gif, *.png, *.jpg)", "gif", "png", "jpg"));
+
+                    int response = fileChooser.showOpenDialog(imageChooserButton);
+
+                    try
+                    {
+                        File selectedImage = fileChooser.getSelectedFile();
+                        String pathName = selectedImage.getPath();
+
+                        PlayerAvatar icon = new PlayerAvatar(pathName);
+                        image.setIcon(icon);
+                        image.repaint();
+                    }
+                    catch(NullPointerException error)
+                    {
+                    }
+                }
+            });
+
+            cancelButton.addActionListener(new ActionListener()
+            {
+                public void actionPerformed(ActionEvent evt)
+                {
+                    modifyProfileDialog.setVisible(false);
+                }
+            });
+
+            saveButton.addActionListener(new ActionListener()
+            {
+                public void actionPerformed(ActionEvent evt)
+                {
+                    PlayerAvatar icon = (PlayerAvatar) image.getIcon();
+                    Color color = colorPreview.getBackground();
+
+                    if (!editNameField.getText().equals(""))
+                    {
+                        curPlayerProfile.setColor(color);
+                        curPlayerProfile.setPlayerAvatar(icon);
+
+                        if (saveFile.isSelected())
+                        {
+                            Profile.saveProfile(curPlayerProfile.getFilepath(), curPlayerProfile);
+                        }
+
+                        modifyProfileDialog.setVisible(false);
+                    }
+
+                }
+            });
+
+            modifyProfileDialog.setVisible(true);
+
+//            return 0;
         }
 
     } // end private class

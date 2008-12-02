@@ -60,6 +60,7 @@ public class HelpWindow extends JFrame implements ActionListener, HyperlinkListe
         scrollTopicPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollTopicPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrollContentPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollContentPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         scrollTopicPane.setPreferredSize(new Dimension(150,600));
         scrollContentPane.setPreferredSize(new Dimension(550,600));

@@ -86,6 +86,11 @@ public class PlayerProfile
         return color;
     }
 
+    public void setColor(Color color)
+    {
+        this.color = color;
+    }
+
     public void setPlayerAvatar(PlayerAvatar playerAvatar)
     {
         this.playerAvatar = playerAvatar;
