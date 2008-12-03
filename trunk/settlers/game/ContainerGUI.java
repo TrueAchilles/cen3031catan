@@ -27,6 +27,7 @@ public class ContainerGUI
         settlersEvent = new SettlersEvent();
         buttonPanel = bottomPanel.getButtonPanel();
         rollBox = gameBoard.getRollBox();
+        playerInfo = GameState.getLogic().getPlayerInfo();
         
         // by some insane cascading effects, the rest of the variables are set.
 
