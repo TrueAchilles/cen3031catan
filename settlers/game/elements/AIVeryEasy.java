@@ -27,11 +27,13 @@ public class AIVeryEasy extends Player
 	
 	int settlementCounter = 0;
 	int roadCounter = 0;
+	int cityCounter = 0;
 	
 	//These are ArrayLists so that we can store Rectangle2D objects
 	//in them. These objects will represent the roads/settlements/cities
 	Settlement settlements[] = new Settlement[10];
 	Road roads[] = new Road[50];
+	Settlement cities[] = new Settlement[10];
 	
 	//Constructor which declares the Player values
 	public AIVeryEasy(String _name, Color _color) 
@@ -142,27 +144,36 @@ public class AIVeryEasy extends Player
 			{
 				tempBuild = ContainerGUI.mainBoard.getGameBoard().vertex[x][y];
 				
-				if(tempBuild.canBuildSettlement() == true && tempBuild != null)
+				if(tempBuild != null && tempBuild.canBuildSettlement(this))
 				{
 					System.out.println("settlementAttempt");
-					BuildEvent se = new BuildEvent("PLAYER_BUILD_REQUEST", 5);
-		            EventManager.callEvent(se);
+					System.out.println("Trying to build a comp settlement");
+                    if(GameState.getCurPlayer().canBuySettlement())
+                    {
+                        System.out.println("Making the settlement...");
+                        GameState.setActionState(GlobalVar.COMP_ACTION_ADD_SETTLEMENT);
+                    }
 		            if (GameState.getActionState() == GlobalVar.COMP_ACTION_ADD_SETTLEMENT) 
 		            {
 		            	System.out.println("building");
-		            	SettlementEvent sse = new SettlementEvent("PLAYER_ATTEMPT_SETTLEMENT", tempBuild);
-						EventManager.callEvent(sse);
-		                PlayerEvent pe = new PlayerEvent("PLAYER_BUILD_SETTLEMENT", GameState.getCurPlayer());
-		                EventManager.callEvent(pe);
+		                tempBuild.buildSettlement();
+		                this.buildSettlement();		                
+		                GameState.setActionState(-1);
+		                settlements[settlementCounter++] = tempBuild;
+						ContainerGUI.mainBoard.getGameBoard().repaint();
+						acted = true;
 		            }
-					settlements[settlementCounter++] = tempBuild;
-					
-					acted = true;
 				}
 			}
 		}
 		while(acted == false)
 		{
+			if(this.canBuyRoad() == false)
+			{
+				break;
+			}
+			
+			int breakCounter = 0;
 			Random nodeGen = new Random();
 			tempBuild = null;
 			tempRoad = null;
@@ -187,29 +198,81 @@ public class AIVeryEasy extends Player
 						tempRoad = tempBuild.getTopRoad();
 					}
 					
-					if(tempRoad != null && tempRoad.canBuildRoad())
+					System.out.println("x-cord: " + x + " y-cord: " + y);
+					
+					if(tempRoad != null && tempRoad.canBuildRoad(this) == false)
+					{
+						breakCounter++;
+					}
+					
+					if(tempRoad != null && tempRoad.canBuildRoad(this))
 					{
 						System.out.println("roadAttempt");
-						BuildEvent se = new BuildEvent("PLAYER_BUILD_REQUEST", 7);
-						EventManager.callEvent(se);
+						System.out.println("Trying to build a comp road");
+	                    if(GameState.getCurPlayer().canBuyRoad())
+	                    {
+	                        System.out.println("Making the road...");
+	                        GameState.setActionState(GlobalVar.COMP_ACTION_ADD_ROAD);
+	                    }
 						if (GameState.getActionState() == GlobalVar.COMP_ACTION_ADD_ROAD)
 						{
 							System.out.println("building");
-							RoadEvent sre = new RoadEvent("PLAYER_ATTEMPT_ROAD", tempRoad);
-							EventManager.callEvent(sre);
-							PlayerEvent pe = new PlayerEvent("PLAYER_BUILD_ROAD", GameState.getCurPlayer());
-							EventManager.callEvent(pe);
+							tempRoad.buildRoad();
+							this.buildRoad();
+				            GameState.setActionState(-1);
+							roads[roadCounter++] = tempRoad;
+							ContainerGUI.mainBoard.getGameBoard().repaint();
+							GameState.setActionState(-1);
+							acted = true;
+							System.out.println(roadCounter + " x-cord" + x + " y-cord" + y);
+							break;
 						}
-						roads[roadCounter++] = tempRoad;
-						acted = true;
-						break;
 					}
 				}
-				if(acted = true)
+				if(acted == true)
 				{
 					break;
 				}
 			}
+			
+			if(breakCounter == 200)
+			{
+				break;
+			}
 		}
+		
+		tempBuild = null;
+		
+		for(int y = 1; y <= 6; y++)
+		{
+			for(int x = 1; x <= 11; x++)
+			{
+				tempBuild = ContainerGUI.mainBoard.getGameBoard().vertex[x][y];
+				
+				if(tempBuild != null && tempBuild.canBuildCity(this))
+				{
+					System.out.println("cityAttempt");
+					System.out.println("Trying to build a comp city");
+                    if(GameState.getCurPlayer().canBuyCity())
+                    {
+                        System.out.println("Making the settlement...");
+                        GameState.setActionState(GlobalVar.COMP_ACTION_ADD_CITY);
+                    }
+		            if (GameState.getActionState() == GlobalVar.COMP_ACTION_ADD_CITY) 
+		            {
+		            	System.out.println("building");
+		                tempBuild.buildCity();
+		                this.buildCity();		                
+		                GameState.setActionState(-1);
+		                cities[cityCounter++] = tempBuild;
+						ContainerGUI.mainBoard.getGameBoard().repaint();
+						acted = true;
+		            }
+				}
+			}
+		}
+        
+        PlayerEvent E = new PlayerEvent("PLAYER_BUILT_SETTLEMENT", GameState.getCurPlayer());
+        EventManager.callEvent(E);
 	}
 }
