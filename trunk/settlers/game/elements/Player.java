@@ -35,6 +35,10 @@ public class Player
     private PlayerProfile playerProfile = null;
 
     private Deck devCards;
+	
+	private int playerArmy;
+	
+	private boolean hasLargestArmy;
     
     public Player(String _name, Color _color)
     {
@@ -44,6 +48,7 @@ public class Player
         victoryPointTotal = 0;     
         longRoad = new LongestRoad(this);
         devCards = new Deck("player", ContainerGUI.gameBoard);
+		playerArmy = 0;
     }
 
     public Player(String _name, Color _color, PlayerAvatar _playerAvatar)
@@ -55,8 +60,25 @@ public class Player
         longRoad = new LongestRoad(this);
         devCards = new Deck("player", ContainerGUI.gameBoard);
         playerAvatar = _playerAvatar;
+		playerArmy = 0;
     }
 
+	
+	public void setLargestArmy(boolean temp)
+	{
+		hasLargestArmy = temp;
+	}
+	
+	public void addKnightToArmy()
+	{
+		playerArmy++;
+	}
+	
+	public int getPlayerArmySize()
+	{
+		return playerArmy;
+	}
+	
     public void setasAI()
     {
         isAI = true;
