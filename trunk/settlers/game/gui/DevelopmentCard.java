@@ -73,6 +73,8 @@ public class DevelopmentCard
 				System.out.println("Player " + GameState.getCurPlayer().getID() + " has turned over a soldier card");
 				GameState.getCurPlayer().addKnightToArmy();
 				
+				boolean temp = false;
+				
 				if (GameState.getCurPlayer().getPlayerArmySize() >= 3)
 				{
 					for (int x = 0; x < GameState.players.size(); x++)
@@ -82,8 +84,11 @@ public class DevelopmentCard
 							GameState.getCurPlayer().setLargestArmy(true);
 							JOptionPane.showMessageDialog(null,"YOU HAVE THE LARGEST ARMY\nNOW GO SCHOOL EVERYONE!");
 							GameState.players.get(x).setLargestArmy(false);
+							temp = true;
 						}
 					}
+					if (temp)
+						GameState.getCurPlayer().incrementVictoryPointTotal();
 				}
 				
 				//linked list of players to check to see who has the largest army
