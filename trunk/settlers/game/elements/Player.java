@@ -5,6 +5,8 @@ package settlers.game.elements;
 import java.awt.Color;
 import java.util.Random;
 
+import javax.swing.JOptionPane;
+
 import settlers.game.*;
 import settlers.game.events.Event;
 import settlers.game.elements.LongestRoad;
@@ -77,6 +79,11 @@ public class Player
 	public int getPlayerArmySize()
 	{
 		return playerArmy;
+	}
+	
+	public boolean hasLargestArmy()
+	{
+		return hasLargestArmy;
 	}
 	
     public void setasAI()
@@ -192,6 +199,13 @@ public class Player
             EventManager.callEvent(n);
         }
     }
+	
+	public void decrementVictoryPointTotal()
+	{
+		victoryPointTotal--;
+		if (victoryPointTotal < 0)
+			JOptionPane.showMessageDialog(null,"SOMETHING WENT WRONG\nOH NOES!!");
+	}
     
     /*
     public void addDevCard(int dType)
