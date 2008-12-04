@@ -69,7 +69,26 @@ public class DevelopmentCard
 			faceUp = true;
 			
 			if (cardType == 1)
+			{
 				System.out.println("Player " + GameState.getCurPlayer().getID() + " has turned over a soldier card");
+				GameState.getCurPlayer().addKnightToArmy();
+				
+				if (GameState.getCurPlayer().getPlayerArmySize() >= 3)
+				{
+					for (int x = 0; x < GameState.players.size(); x++)
+					{
+						if (GameState.getCurPlayer().getPlayerArmySize() > GameState.players.get(x).getPlayerArmySize())
+						{
+							GameState.getCurPlayer().setLargestArmy(true);
+							JOptionPane.showMessageDialog(null,"YOU HAVE THE LARGEST ARMY\nNOW GO SCHOOL EVERYONE!");
+							GameState.players.get(x).setLargestArmy(false);
+						}
+					}
+				}
+				
+				//linked list of players to check to see who has the largest army
+				//GameState.players
+			}
 			else if (cardType == 2)
 				System.out.println("Player " + GameState.getCurPlayer().getID() + " has turned over a build 2 roads card");
 			else if (cardType == 3)
