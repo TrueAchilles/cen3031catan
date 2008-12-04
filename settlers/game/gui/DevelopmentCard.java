@@ -74,21 +74,26 @@ public class DevelopmentCard
 				GameState.getCurPlayer().addKnightToArmy();
 				
 				boolean temp = false;
+				int placeholder = 0;
 				
-				if (GameState.getCurPlayer().getPlayerArmySize() >= 3)
+				if (GameState.getCurPlayer().getPlayerArmySize() >= 3 && !GameState.getCurPlayer().hasLargestArmy())
 				{
 					for (int x = 0; x < GameState.players.size(); x++)
 					{
 						if (GameState.getCurPlayer().getPlayerArmySize() > GameState.players.get(x).getPlayerArmySize())
 						{
-							GameState.getCurPlayer().setLargestArmy(true);
-							JOptionPane.showMessageDialog(null,"YOU HAVE THE LARGEST ARMY\nNOW GO SCHOOL EVERYONE!");
-							GameState.players.get(x).setLargestArmy(false);
+							placeholder = x;
 							temp = true;
 						}
 					}
 					if (temp)
+					{
+						JOptionPane.showMessageDialog(null,"YOU HAVE THE LARGEST ARMY\nNOW GO SCHOOL EVERYONE!");
+						GameState.players.get(placeholder).setLargestArmy(false);
+						GameState.getCurPlayer().setLargestArmy(true);
 						GameState.getCurPlayer().incrementVictoryPointTotal();
+						GameState.players.get(placeholder).decrementVictoryPointTotal();
+					}
 				}
 				
 				//linked list of players to check to see who has the largest army
