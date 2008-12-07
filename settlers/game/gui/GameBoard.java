@@ -6,6 +6,7 @@ import settlers.game.events.EventManager;
 import settlers.game.events.PlayerEvent;
 import settlers.game.events.SettlementEvent;
 import settlers.game.events.RoadEvent;
+import settlers.game.events.Event;
 import settlers.game.*;
 
 import settlers.game.gui.Deck;
@@ -20,10 +21,12 @@ import java.awt.image.BufferedImage;
 public class GameBoard extends JPanel implements MouseListener, MouseMotionListener{
 
     
-    Random r = new Random();
+    Random r = new Random(); 
     private int xPadding, yPadding;
     private boolean resized;
     int edgeLength , stepLength;
+    
+    private int rMin = 0;
     
     // note: this is indexed by "[y][x]".
     public Settlement[][] vertex = null;
@@ -529,6 +532,26 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
             EventManager.callEvent(pe);
             tempCity = null;
         }
+        if (GameState.getActionState() == GlobalVar.ACTION_RBDEV_CARD && tempRoad != null)
+        {
+            if (rMin < 1)
+            {
+            rMin++;
+            tempRoad.buildRoad();
+            tempRoad = null;
+            Event e = new Event("PLAYER_BUILD_2ROAD");
+            EventManager.callEvent(e);
+            }
+            else
+            {
+            rMin = 0;
+            tempRoad.buildRoad();
+            tempRoad = null;
+            Event e = new Event("PLAYER_RBDEV_SUCCESS");
+            EventManager.callEvent(e);
+            }
+            
+        }
         repaint();
         
     }
@@ -620,6 +643,39 @@ public class GameBoard extends JPanel implements MouseListener, MouseMotionListe
             if ( tRoad != null && tRoad.canBuildRoad())
                 tempRoad = tRoad;
         }
+        
+        if(GameState.getActionState() == GlobalVar.ACTION_RBDEV_CARD)
+        {
+            Road tRoad = null;
+            int min=1000, tempMin;
+            for (int j = lowEstimateY; j < lowEstimateY+3; j++) {
+                for (int i = lowEstimateX; i < lowEstimateX + 2; i++) {
+                    if (j < vertex.length && i < vertex[0].length && vertex[j][i].checkIfOcean() == false && (tempMin = calculateDistance(x,y,i,j)) < min)
+                    {
+                        min = tempMin;
+                        int distanceSide = calculateDistance(x,y,i-1,j);
+                        int distanceNorth = calculateDistance(x,y,i,j-1);
+                        int distanceSouth = calculateDistance(x,y,i,j+1);
+                        if (distanceSide < distanceNorth && distanceSide < distanceSouth)
+                        {
+                            tRoad = vertex[j][i].getSideRoad();
+                        } else if (distanceNorth < distanceSide && distanceNorth < distanceSouth) {
+                            tRoad = vertex[j][i].getTopRoad();
+                        } else {
+                            tRoad = vertex[j][i].getBottomRoad();
+                        }
+                    }
+                }
+            }
+            
+                if ( tRoad != null && tRoad.canBuildRoad() )
+                {
+            
+                    tempRoad = tRoad;
+                }
+        }
+        
+        
         
         if(GameState.getActionState() == GlobalVar.ACTION_MOVE_ROBBER)
         {   

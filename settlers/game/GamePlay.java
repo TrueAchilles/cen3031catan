@@ -15,10 +15,6 @@ import settlers.game.events.*;
 import settlers.game.*;
 import settlers.game.elements.*;
 
-import settlers.game.*;
-import settlers.game.events.*;
-
-
 import java.awt.event.ActionEvent;
 
 import javax.swing.JOptionPane;
@@ -36,7 +32,9 @@ public class GamePlay implements EventListener
     public SettlersGUI gui;
     //This is used to initially set up the player info panel
     private boolean playerInfoInitialized = false;
+    private boolean secondRoad ;
     private PlayerInfo playerInfo;
+    private MonopolyPanel monopolyPanel;
     public int iteration;
     private ButtonPanel b;
 
@@ -91,6 +89,7 @@ public class GamePlay implements EventListener
                 playerInfo.setPlayerInfoInitialized(true);
                 playerInfoInitialized = true;
                 playerInfo.setLocationRelativeTo(ContainerGUI.settlersGUI);
+                //YearOfPlentyPanel yearPanel = new YearOfPlentyPanel();
             
             }
             
@@ -377,6 +376,13 @@ public class GamePlay implements EventListener
             GameState.getCurPlayer().getDevCards().turnOver(1);
             
             //Checks to see if Player rolled or not, if roll has not yet executed then the player will still be able to roll but not go to the next phase
+            if (ContainerGUI.settlersGUI.getBottomPanel().getButtonPanel().roll_roll.isEnabled() == true)
+                ContainerGUI.settlersGUI.getBottomPanel().getButtonPanel().roll_next.setEnabled(false);
+            else 
+                ContainerGUI.settlersGUI.getBottomPanel().getButtonPanel().roll_next.setEnabled(true);
+        }
+        else if (event.equals("PLAYER_ROADBULDING_SUCCESS"))
+        {
             if (ContainerGUI.settlersGUI.getBottomPanel().getButtonPanel().roll_roll.isEnabled() == true)
                 ContainerGUI.settlersGUI.getBottomPanel().getButtonPanel().roll_next.setEnabled(false);
             else 
@@ -730,6 +736,59 @@ public class GamePlay implements EventListener
         {
             System.out.println("Game is starting...");
         }
+        else if (event.equals("PLAYER_PLAY_ROADBUILDING"))
+        {
+            GameState.setActionState(GlobalVar.ACTION_RBDEV_CARD);           
+        }
+        else if (event.equals("PLAYER_BUILD_2ROAD"))
+        {
+
+            GameState.setActionState(GlobalVar.ACTION_RBDEV_CARD);
+
+        }
+        else if (event.equals("PLAYER_RBDEV_SUCCESS"))
+        {
+            GameState.setActionState(-1);
+            System.out.println("Road Building Dev Card Successfully Played");
+        }
+        else if (event.equals("PLAYER_PLAY_MONOPOLY"))
+        {
+            monopolyPanel = new MonopolyPanel();
+        }
+        else if (event.equals("PLAYER_ACCEPT_MONOPOLY"))
+        {
+            GameState.getCurPlayer().alterResource(monopolyPanel.getResourceType(),monopolyPanel.getTotalOneTypeCards(), 0);
+            for (Player player : GameState.players)
+            {
+                if (player.getID() != GameState.getCurPlayer().getID())
+                {
+                    System.out.println("Amount being removed: " + player.getResource(monopolyPanel.getResourceType()));
+                    player.alterResource(monopolyPanel.getResourceType(),player.getResource(monopolyPanel.getResourceType()), 1);
+                }
+            }
+            monopolyPanel.closeWindow();
+        }
+        else if (event.equals("PLAYER_CANCEL_MONOPOLY"))
+        {
+            DevelopmentCard monopolyToAdd = new DevelopmentCard(3);
+            GameState.getCurPlayer().getDevCards().addCard(monopolyToAdd);
+            monopolyPanel.closeWindow();
+        }
+        else if (event.equals("DEBUG_GIVE_MONOPOLY"))
+        {
+            DevelopmentCard monopolyToAdd = new DevelopmentCard(3);
+            GameState.getCurPlayer().getDevCards().addCard(monopolyToAdd);
+        }
+        else if (event.equals("DEBUG_GIVE_ROAD"))
+        {
+            DevelopmentCard roadToAdd = new DevelopmentCard(2);
+            GameState.getCurPlayer().getDevCards().addCard(roadToAdd); 
+        }
+        else if (event.equals("DEBUG_GIVE_YEAR"))
+        {
+            DevelopmentCard yearToAdd = new DevelopmentCard(4);
+            GameState.getCurPlayer().getDevCards().addCard(yearToAdd);
+        }
         
         /*
                        *These may need to be integrated into the above events but for now they are used to update the player Information panel.  They were taken out of the playerInfo class as they were the results of the concurrentmodifcation exception.
@@ -745,7 +804,7 @@ public class GamePlay implements EventListener
             //updateUI();
             
         }
-        if (event.equals("PLAYER_BUILT_SETTLEMENT") || event.equals("PLAYER_BUILT_ROAD") || event.equals("PLAYER_ROLLED_SUCCESSFULLY") || event.equals("PLAYER_TRADED") || event.equals("THIEF_DISCARD_RESOURCES") || event.equals("THIEF_STEAL_RESOURCE"))
+        if (event.equals("PLAYER_BUILT_SETTLEMENT") || event.equals("PLAYER_BUILT_ROAD") || event.equals("PLAYER_ROLLED_SUCCESSFULLY") || event.equals("PLAYER_TRADED") || event.equals("THIEF_DISCARD_RESOURCES") || event.equals("THIEF_STEAL_RESOURCE") || event.equals("PLAYER_ACCEPT_MONOPOLY"))
         {
         
             playerInfo.playerPanelRepaint();
@@ -753,7 +812,7 @@ public class GamePlay implements EventListener
             //updateUI(); 
         }
         
-        if (event.equals("PLAYER_BUILD_DEV_CARD"))
+        if (event.equals("PLAYER_BUILD_DEV_CARD") || event.equals("PLAYER_PLAY_VPCARD") || event.equals("PLAYER_CANCEL_MONOPOLY") || event.equals("DEBUG_GIVE_MONOPOLY") || event.equals("DEBUG_GIVE_ROAD") || event.equals("DEBUG_GIVE_YEAR"))
         {
         
             playerInfo.playerPanelRepaint();
@@ -762,6 +821,8 @@ public class GamePlay implements EventListener
             //updateUI();
         
         }
+
+        
         
         return true;
 
@@ -795,6 +856,19 @@ public class GamePlay implements EventListener
         EventManager.registerEvent("PLAYER_CHOOSE_KNIGHTED", this);
         EventManager.registerEvent("PLAYER_KNIGHT_SUCCESS", this);
         
+        //Victory Point Cord Events
+        EventManager.registerEvent("PLAYER_PLAY_VPCARD", this);
+        
+        //Monopoly Card Events
+        EventManager.registerEvent("PLAYER_PLAY_MONOPOLY", this);
+        EventManager.registerEvent("PLAYER_ACCEPT_MONOPOLY", this);
+        EventManager.registerEvent("PLAYER_CANCEL_MONOPOLY", this);
+        
+        //Road Building Card Events
+        EventManager.registerEvent("PLAYER_PLAY_ROADBUILDING", this);
+        EventManager.registerEvent("PLAYER_BUILD_2ROAD", this);
+        EventManager.registerEvent("PLAYER_RBDEV_SUCCESS", this);
+        
         EventManager.registerEvent("GAME_START", this);
         EventManager.registerEvent("PLAYER_INITTURN_END", this);
         EventManager.registerEvent("PLAYER_TURN_END", this);
@@ -802,6 +876,7 @@ public class GamePlay implements EventListener
         EventManager.registerEvent("PLAYER_INIT_ATTEMPT_ROAD", this);
         EventManager.registerEvent("PLAYER_ROLL", this);
         EventManager.registerEvent("PLAYER_ROLLED", this);
+        EventManager.registerEvent("PLAYER_TRADED", this);
         EventManager.registerEvent("PLAYER_TRADE_PHASE_END", this);
         EventManager.registerEvent("PLAYER_BUILD_DEV_CARD", this);
         EventManager.registerEvent("PLAYER_BUILD_ROAD", this);
@@ -813,6 +888,11 @@ public class GamePlay implements EventListener
         EventManager.registerEvent("PLAYER_KNIGHT_PLACED", this);
         EventManager.registerEvent("PLAYER_KNIGHTED_CHOSEN", this);
         gui = ContainerGUI.settlersGUI;
+        
+        //Debug events
+        EventManager.registerEvent("DEBUG_GIVE_MONOPOLY", this);
+        EventManager.registerEvent("DEBUG_GIVE_ROAD", this);
+        EventManager.registerEvent("DEBUG_GIVE_YEAR", this);
         
         
                 ///////////////NEW EVENTS////////////////
@@ -879,4 +959,5 @@ public class GamePlay implements EventListener
 		else
 			ContainerGUI.settlersGUI.getBottomPanel().getButtonPanel().build_play.setEnabled(false);
 	}
+    
 }

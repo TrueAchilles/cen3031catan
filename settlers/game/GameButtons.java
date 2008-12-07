@@ -202,7 +202,7 @@ public class GameButtons implements ActionListener
             }
             else {
                 GameState.rollHax = 0;
-                System.out.println("RollHax: 0");
+                System.out.println("RollHax: 0"); 
             }
         }
         
@@ -218,6 +218,22 @@ public class GameButtons implements ActionListener
             if(ContainerGUI.settlersGUI.smaller.isSelected())
                 ContainerGUI.settlersGUI.setSizeSmaller();
         }
+        if (evt.getSource() == ContainerGUI.settlersGUI.debug_giveMonopolyCard)
+        {
+            Event debug_e = new Event("DEBUG_GIVE_MONOPOLY");
+            EventManager.callEvent(debug_e);
+        }
+        if (evt.getSource() == ContainerGUI.settlersGUI.debug_giveRoadCard)
+        {
+            Event debug_e = new Event("DEBUG_GIVE_ROAD");
+            EventManager.callEvent(debug_e);
+        }
+        if (evt.getSource() == ContainerGUI.settlersGUI.debug_giveYearCard)
+        {
+            Event debug_e = new Event("DEBUG_GIVE_YEAR"); 
+            EventManager.callEvent(debug_e);
+        }
+
         if(evt.getSource() == ContainerGUI.settlersGUI.hidePlayerInfo)
         {
             //Gui.playerInfo.setVisible(true);

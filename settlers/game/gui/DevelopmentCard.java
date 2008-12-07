@@ -6,9 +6,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.SpringLayout;
 
+import settlers.game.elements.*;
 import settlers.game.GameState;
 import settlers.game.events.EventManager;
 import settlers.game.events.PlayerEvent;
+import settlers.game.events.RoadEvent;
+import settlers.game.events.Event;
 
 public class DevelopmentCard
 {
@@ -49,6 +52,7 @@ public class DevelopmentCard
 	//displays the card to the other players
 	public void showCard()
 	{
+        Player currPlayer = GameState.getCurPlayer();
 		//if the card is already face up then display a message dialog that tells the user the card is already face up
 		if (faceUp)
 		{
@@ -75,7 +79,7 @@ public class DevelopmentCard
 				
 				boolean temp = false;
 				int placeholder = 0;
-				
+				//This is keeping track of who has the largest army.
 				if (GameState.getCurPlayer().getPlayerArmySize() >= 3 && !GameState.getCurPlayer().hasLargestArmy())
 				{
 					for (int x = 0; x < GameState.players.size(); x++)
@@ -89,24 +93,36 @@ public class DevelopmentCard
 					if (temp)
 					{
 						JOptionPane.showMessageDialog(null,"YOU HAVE THE LARGEST ARMY\nNOW GO SCHOOL EVERYONE!");
-						GameState.players.get(placeholder).setLargestArmy(false);
+						GameState.players.get(placeholder).setLargestArmy(false); 
 						GameState.getCurPlayer().setLargestArmy(true);
 						GameState.getCurPlayer().incrementVictoryPointTotal();
 						GameState.players.get(placeholder).decrementVictoryPointTotal();
 					}
 				}
-				
-				//linked list of players to check to see who has the largest army
-				//GameState.players
+                //This will invoke the Move Robber and Stealing of 1 resource card events.
+				Event e = new Event("PLAYER_PLAY_KNIGHT");
+                EventManager.callEvent(e);
 			}
 			else if (cardType == 2)
-				System.out.println("Player " + GameState.getCurPlayer().getID() + " has turned over a build 2 roads card");
+            {
+                Event e = new Event("PLAYER_PLAY_ROADBUILDING");
+                EventManager.callEvent(e);
+            }
 			else if (cardType == 3)
+            {
+                Event e = new Event("PLAYER_PLAY_MONOPOLY");
+                EventManager.callEvent(e);
 				System.out.println("Player " + GameState.getCurPlayer().getID() + " has turned over a monopoly card");
+            }
 			else if (cardType == 4)
 				System.out.println("Player " + GameState.getCurPlayer().getID() + " has turned over a year of plenty card");
 			else if (cardType == 5)
-				System.out.println("Player " + GameState.getCurPlayer().getID() + " has turned over a victory point card");
+            {
+                currPlayer.incrementVictoryPointTotal();
+                Event e = new Event("PLAYER_PLAY_VPCARD");
+                EventManager.callEvent(e);
+				System.out.println("Player " + currPlayer.getID() + " has turned over a victory point card");
+            }
 		}
 	}
 	

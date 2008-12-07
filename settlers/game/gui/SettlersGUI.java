@@ -38,6 +38,9 @@ public class SettlersGUI extends javax.swing.JFrame
     public JMenu gameMenu;
     public JCheckBoxMenuItem debug_rollaSeven;
     public JCheckBoxMenuItem debug_dontRollaSeven;
+    public JMenuItem debug_giveMonopolyCard;
+    public JMenuItem debug_giveRoadCard;
+    public JMenuItem debug_giveYearCard;
     public JMenuItem debug_showMeTheMoney;
     public JMenuItem debug_quickStart;
     public JMenuItem debug_bigQuickStart;
@@ -317,6 +320,27 @@ public class SettlersGUI extends javax.swing.JFrame
                         debug_dontRollaSeven.setState(false);
                         debug_dontRollaSeven.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_7, ActionEvent.SHIFT_MASK));
                         debug_dontRollaSeven.addActionListener(ContainerGUI.gameButtons);
+                    }                    
+                    {
+                        debug_giveMonopolyCard = new JMenuItem();
+                        debug_menu.add(debug_giveMonopolyCard);
+                        debug_giveMonopolyCard.setText("Give Monopoly Card");
+                        debug_giveMonopolyCard.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, ActionEvent.SHIFT_MASK));
+                        debug_giveMonopolyCard.addActionListener(ContainerGUI.gameButtons);
+                    }
+                    {
+                        debug_giveRoadCard = new JMenuItem();
+                        debug_menu.add(debug_giveRoadCard); 
+                        debug_giveRoadCard.setText("Give Road Card");
+                        debug_giveRoadCard.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.SHIFT_MASK));
+                        debug_giveRoadCard.addActionListener(ContainerGUI.gameButtons);
+                    }
+                    {
+                        debug_giveYearCard = new JMenuItem();
+                        debug_menu.add(debug_giveYearCard);
+                        debug_giveYearCard.setText("Give Year of Plenty Card");
+                        debug_giveYearCard.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y, ActionEvent.SHIFT_MASK));
+                        debug_giveYearCard.addActionListener(ContainerGUI.gameButtons);
                     }
                         
                         /*{
