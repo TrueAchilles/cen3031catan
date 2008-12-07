@@ -220,38 +220,39 @@ public class BankTradeWindow implements ActionListener
                         {
                             if (resourceTotal > temp.getBrick())
                             {
-                                JOptionPane.showMessageDialog(null, "You don't have enough brick resource to trade for the selected resource(s)!");
+                                JOptionPane.showMessageDialog(null, "You don't have enough brick to trade for the selected resource(s)!");
                             }
                             else
                             {
-                            for (int i = 0; i < resourceTotal; i++)
-                            {
-                                temp.subtractResource(GlobalVar.BRICK);
-                            }
-                            for (int i = 0; i < brick; i++)
-                            {
-                                temp.giveResource(GlobalVar.BRICK);
-                            }
-                            for (int i = 0; i < ore; i++)
-                            {
-                                temp.giveResource(GlobalVar.ORE);
-                            }
-                            for (int i = 0; i < sheep; i++)
-                            {
-                                temp.giveResource(GlobalVar.SHEEP);
-                            }
-                            for (int i = 0; i < wheat; i++)
-                            {
-                                temp.giveResource(GlobalVar.WHEAT);
-                            }
-                            for (int i = 0; i < wood; i++)
-                            {
-                                temp.giveResource(GlobalVar.WOOD);
-                            }
-                    
-                            PlayerEvent n = new PlayerEvent("PLAYER_TRADED", GameState.getCurPlayer());
-                            EventManager.callEvent(n);
-                            tradeFrame.dispose();
+                                int i;
+                                for (i = 0; i < resourceTotal; i++)
+                                {
+                                    temp.subtractResource(GlobalVar.BRICK);
+                                }
+                                for (i = 0; i < brick; i++)
+                                {
+                                    temp.giveResource(GlobalVar.BRICK);
+                                }
+                                for (i = 0; i < ore; i++)
+                                {
+                                    temp.giveResource(GlobalVar.ORE);
+                                }
+                                for (i = 0; i < sheep; i++)
+                                {
+                                    temp.giveResource(GlobalVar.SHEEP);
+                                }
+                                for (i = 0; i < wheat; i++)
+                                {
+                                    temp.giveResource(GlobalVar.WHEAT);
+                                }
+                                for (i = 0; i < wood; i++)
+                                {
+                                    temp.giveResource(GlobalVar.WOOD);
+                                }
+                                
+                                PlayerEvent n = new PlayerEvent("PLAYER_TRADED", GameState.getCurPlayer());
+                                EventManager.callEvent(n);
+                                tradeFrame.dispose();
                             }
                         }
                     }
@@ -265,38 +266,39 @@ public class BankTradeWindow implements ActionListener
                         {
                             if (resourceTotal > temp.getOre())
                             {
-                                JOptionPane.showMessageDialog(null, "You don't have enough ore resource to trade for the selected resource(s)!");
+                                JOptionPane.showMessageDialog(null, "You don't have enough ore  to trade for the selected resource(s)!");
                             }
                             else
                             {
-                            for (int i = 0; i < resourceTotal; i++)
-                            {
-                                temp.subtractResource(GlobalVar.ORE);
-                            }
-                            for (int i = 0; i < brick; i++)
-                            {
-                                temp.giveResource(GlobalVar.BRICK);
-                            }
-                            for (int i = 0; i < ore; i++)
-                            {
-                                temp.giveResource(GlobalVar.ORE);
-                            }
-                            for (int i = 0; i < sheep; i++)
-                            {
-                                temp.giveResource(GlobalVar.SHEEP);
-                            }
-                            for (int i = 0; i < wheat; i++)
-                            {
-                                temp.giveResource(GlobalVar.WHEAT);
-                            }
-                            for (int i = 0; i < wood; i++)
-                            {
-                                temp.giveResource(GlobalVar.WOOD);
-                            }
+                                int i;
+                                for (i = 0; i < resourceTotal; i++)
+                                {
+                                    temp.subtractResource(GlobalVar.ORE);
+                                }
+                                for (i = 0; i < brick; i++)
+                                {
+                                    temp.giveResource(GlobalVar.BRICK);
+                                }
+                                for (i = 0; i < ore; i++)
+                                {
+                                    temp.giveResource(GlobalVar.ORE);
+                                }
+                                for (i = 0; i < sheep; i++)
+                                {
+                                    temp.giveResource(GlobalVar.SHEEP);
+                                }
+                                for (i = 0; i < wheat; i++)
+                                {
+                                    temp.giveResource(GlobalVar.WHEAT);
+                                }
+                                for (i = 0; i < wood; i++)
+                                {
+                                    temp.giveResource(GlobalVar.WOOD);
+                                }
                     
-                            PlayerEvent n = new PlayerEvent("PLAYER_TRADED", GameState.getCurPlayer());
-                            EventManager.callEvent(n);
-                            tradeFrame.dispose();
+                                PlayerEvent n = new PlayerEvent("PLAYER_TRADED", GameState.getCurPlayer());
+                                EventManager.callEvent(n);
+                                tradeFrame.dispose();
                             }
                         }
                     }
@@ -310,38 +312,39 @@ public class BankTradeWindow implements ActionListener
                         {
                             if (resourceTotal > temp.getSheep())
                             {
-                                JOptionPane.showMessageDialog(null, "You don't have enough sheep resource to trade for the selected resource(s)!");
+                                JOptionPane.showMessageDialog(null, "You don't have enough sheep to trade for the selected resource(s)!");
                             }
                             else
                             {
-                            for (int i = 0; i < resourceTotal; i++)
-                            {
-                                temp.subtractResource(GlobalVar.SHEEP);
-                            }
-                            for (int i = 0; i < brick; i++)
-                            {
-                                temp.giveResource(GlobalVar.BRICK);
-                            }
-                            for (int i = 0; i < ore; i++)
-                            {
-                                temp.giveResource(GlobalVar.ORE);
-                            }
-                            for (int i = 0; i < sheep; i++)
-                            {
-                                temp.giveResource(GlobalVar.SHEEP);
-                            }
-                            for (int i = 0; i < wheat; i++)
-                            {
-                                temp.giveResource(GlobalVar.WHEAT);
-                            }
-                            for (int i = 0; i < wood; i++)
-                            {
-                                temp.giveResource(GlobalVar.WOOD);
-                            }
+                                int i;
+                                for (i = 0; i < resourceTotal; i++)
+                                {
+                                    temp.subtractResource(GlobalVar.SHEEP);
+                                }
+                                for (i = 0; i < brick; i++)
+                                {
+                                    temp.giveResource(GlobalVar.BRICK);
+                                }
+                                for (i = 0; i < ore; i++)
+                                {
+                                    temp.giveResource(GlobalVar.ORE);
+                                }
+                                for (i = 0; i < sheep; i++)
+                                {
+                                    temp.giveResource(GlobalVar.SHEEP);
+                                }
+                                for (i = 0; i < wheat; i++)
+                                {
+                                    temp.giveResource(GlobalVar.WHEAT);
+                                }
+                                for (i = 0; i < wood; i++)
+                                {
+                                    temp.giveResource(GlobalVar.WOOD);
+                                }
                     
-                            PlayerEvent n = new PlayerEvent("PLAYER_TRADED", GameState.getCurPlayer());
-                            EventManager.callEvent(n);
-                            tradeFrame.dispose();
+                                PlayerEvent n = new PlayerEvent("PLAYER_TRADED", GameState.getCurPlayer());
+                                EventManager.callEvent(n);
+                                tradeFrame.dispose();
                             }
                         }
                     }
@@ -359,34 +362,35 @@ public class BankTradeWindow implements ActionListener
                             }
                             else
                             {
-                            for (int i = 0; i < resourceTotal; i++)
-                            {
-                                temp.subtractResource(GlobalVar.WHEAT);
-                            }
-                            for (int i = 0; i < brick; i++)
-                            {
-                                temp.giveResource(GlobalVar.BRICK);
-                            }
-                            for (int i = 0; i < ore; i++)
-                            {
-                                temp.giveResource(GlobalVar.ORE);
-                            }
-                            for (int i = 0; i < sheep; i++)
-                            {
-                                temp.giveResource(GlobalVar.SHEEP);
-                            }
-                            for (int i = 0; i < wheat; i++)
-                            {
-                                temp.giveResource(GlobalVar.WHEAT);
-                            }
-                            for (int i = 0; i < wood; i++)
-                            {
-                                temp.giveResource(GlobalVar.WOOD);
-                            }
+                                int i;
+                                for (i = 0; i < resourceTotal; i++)
+                                {
+                                    temp.subtractResource(GlobalVar.WHEAT);
+                                }
+                                for (i = 0; i < brick; i++)
+                                {
+                                    temp.giveResource(GlobalVar.BRICK);
+                                }
+                                for (i = 0; i < ore; i++)
+                                {
+                                    temp.giveResource(GlobalVar.ORE);
+                                }
+                                for (i = 0; i < sheep; i++)
+                                {
+                                    temp.giveResource(GlobalVar.SHEEP);
+                                }
+                                for (i = 0; i < wheat; i++)
+                                {
+                                    temp.giveResource(GlobalVar.WHEAT);
+                                }
+                                for (i = 0; i < wood; i++)
+                                {
+                                    temp.giveResource(GlobalVar.WOOD);
+                                }
                     
-                            PlayerEvent n = new PlayerEvent("PLAYER_TRADED", GameState.getCurPlayer());
-                            EventManager.callEvent(n);
-                            tradeFrame.dispose();
+                                PlayerEvent n = new PlayerEvent("PLAYER_TRADED", GameState.getCurPlayer());
+                                EventManager.callEvent(n);
+                                tradeFrame.dispose();
                             }
                         }
                     }
@@ -404,34 +408,35 @@ public class BankTradeWindow implements ActionListener
                             }
                             else
                             {
-                            for (int i = 0; i < resourceTotal; i++)
-                            {
-                                temp.subtractResource(GlobalVar.WOOD);
-                            }
-                            for (int i = 0; i < brick; i++)
-                            {
-                                temp.giveResource(GlobalVar.BRICK);
-                            }
-                            for (int i = 0; i < ore; i++)
-                            {
-                                temp.giveResource(GlobalVar.ORE);
-                            }
-                            for (int i = 0; i < sheep; i++)
-                            {
-                                temp.giveResource(GlobalVar.SHEEP);
-                            }
-                            for (int i = 0; i < wheat; i++)
-                            {
-                                temp.giveResource(GlobalVar.WHEAT);
-                            }
-                            for (int i = 0; i < wood; i++)
-                            {
-                                temp.giveResource(GlobalVar.WOOD);
-                            }
+                                int i;
+                                for (i = 0; i < resourceTotal; i++)
+                                {
+                                    temp.subtractResource(GlobalVar.WOOD);
+                                }
+                                for (i = 0; i < brick; i++)
+                                {
+                                    temp.giveResource(GlobalVar.BRICK);
+                                }
+                                for (i = 0; i < ore; i++)
+                                {
+                                    temp.giveResource(GlobalVar.ORE);
+                                }
+                                for (i = 0; i < sheep; i++)
+                                {
+                                    temp.giveResource(GlobalVar.SHEEP);
+                                }
+                                for (i = 0; i < wheat; i++)
+                                {
+                                    temp.giveResource(GlobalVar.WHEAT);
+                                }
+                                for (i = 0; i < wood; i++)
+                                {
+                                    temp.giveResource(GlobalVar.WOOD);
+                                }
                     
-                            PlayerEvent n = new PlayerEvent("PLAYER_TRADED", GameState.getCurPlayer());
-                            EventManager.callEvent(n);
-                            tradeFrame.dispose();
+                                PlayerEvent n = new PlayerEvent("PLAYER_TRADED", GameState.getCurPlayer());
+                                EventManager.callEvent(n);
+                                tradeFrame.dispose();
                             }
                         }
                     }
