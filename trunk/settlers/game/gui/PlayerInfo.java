@@ -88,7 +88,11 @@ public class PlayerInfo extends javax.swing.JFrame implements ActionListener
 	 ImageIcon monopoly;
 	 ImageIcon palace;
 	 ImageIcon road;     
-	 ImageIcon plenty;    
+	 ImageIcon plenty;
+
+     ImageIcon  largestArmy = new ImageIcon(getClass().getResource("/settlers/game/images/sheep2.jpg"));;
+     
+     ImageIcon  longestRoad = new ImageIcon(getClass().getResource("/settlers/game/images/sheep2.jpg"));;
      
      //Counters
      int playerCounter = 0;
@@ -216,7 +220,8 @@ public class PlayerInfo extends javax.swing.JFrame implements ActionListener
             //Create a grid and add the text to the JTextArea
             playerPanels[playerCounter].setLayout(new GridLayout(2,1));
             playerPanels[playerCounter].setText("Resource Cards:    x" + currPlayer.getNumberOfResCards() + "\n");
-            playerPanels[playerCounter].append ("Development Cards: x" + currPlayer.getNumberOfDevCards());
+            playerPanels[playerCounter].append ("Development Cards: x" + currPlayer.getNumberOfDevCards() + "\n");
+            playerPanels[playerCounter].append ("Victory Points:    x" + currPlayer.getVictoryPointTotal());
 
             //Add the panel (JTextArea) to the playersPanels
             playersPanel.add(playerPanels[playerCounter]);
@@ -331,7 +336,9 @@ public class PlayerInfo extends javax.swing.JFrame implements ActionListener
         {
 
             playerPanels[repaintPlayerCounter].setText("Resource Cards:    x" + GameState.players.get(repaintPlayerCounter).getNumberOfResCards() + "\n");
-            playerPanels[repaintPlayerCounter].append ("Development Cards: x" + GameState.players.get(repaintPlayerCounter).getNumberOfDevCards());
+            playerPanels[repaintPlayerCounter].append ("Development Cards: x" + GameState.players.get(repaintPlayerCounter).getNumberOfDevCards() + "\n");
+            playerPanels[repaintPlayerCounter].append ("Victory Points:    x" + GameState.players.get(repaintPlayerCounter).getVictoryPointTotal());
+            
             //increment to the next player
             repaintPlayerCounter++;
         }
@@ -409,7 +416,17 @@ public class PlayerInfo extends javax.swing.JFrame implements ActionListener
                     knight    = new ImageIcon(getClass().getResource("/settlers/game/images/Knight.jpg"));
                     lblKnight = new JButton(knight);
                     lblKnight.setPreferredSize(new java.awt.Dimension(90, 140));
-                    lblKnight.setToolTipText("This Will explain what the Card does");
+                    String lblKnightToolTip = "<html>When a player plays a Knight card, he/she must move the robber.<br>" +
+                                              "The hex where the robber rests does not produce resources until<br>" + 
+                                              "the robber moves off that hex. See Robber for more details. Also,<br>" + 
+                                              "player who played the Knight card can steal one random resource<br>" +
+                                              "card from any player with a settlement or city touching that hex.<br>" +
+                                              "Unlike rolling a 7 no one has to discard cards after a Knight.<br><br>" +
+                                              "Once a player finishes resolving the robber, he adds the Knight to his<br>" + 
+                                              "army by placing it face-up in front of him/her. The card no longer has<br>" +
+                                              "any effect, but the number of face-up Knight cards a player has is<br>" +
+                                              "used to determine who gets the Largest Army bonus.</html>";
+                    lblKnight.setToolTipText(lblKnightToolTip);
                     lblKnight.addActionListener(this);
                     playerDevelopmentPanels[currPlayer.getID() - 1].add(lblKnight);
                     playerCards[currPlayer.getID() - 1][0].add(lblKnight);
@@ -421,18 +438,22 @@ public class PlayerInfo extends javax.swing.JFrame implements ActionListener
                     road    = new ImageIcon(getClass().getResource("/settlers/game/images/Road Building.jpg"));
                     lblRoad = new JButton(road);
                     lblRoad.setPreferredSize(new java.awt.Dimension(90, 140));
-                    lblRoad.setToolTipText("This Will explain what the Card does");
+                    lblRoad.setToolTipText("<html>The Road Building card allows the Player to immediately place two<br>" + 
+                                            "road segments onto the board, as if he/she had just built them.<br>" +  
+                                            "These roads are free of charge.</html>");
                     lblRoad.addActionListener(this);
                     playerDevelopmentPanels[currPlayer.getID() - 1].add(lblRoad);
                     playerCards[currPlayer.getID() - 1][1].add(lblRoad);
                     break;
-                }
+                } 
                 case(3):
                 {
                     monopoly    = new ImageIcon(getClass().getResource("/settlers/game/images/Monopoly.jpg"));
                     lblMonopoly = new JButton(monopoly);
                     lblMonopoly.setPreferredSize(new java.awt.Dimension(90, 140));
-                    lblMonopoly.setToolTipText("This Will explain what the Card does");
+                    lblMonopoly.setToolTipText("<html>The Monopoly card allows the player to choose one type of resource.<br>" +
+                                                "All other players must give the player who played the card all of<br>" + 
+                                                "their resource cards of that type.</html>");
                     lblMonopoly.addActionListener(this);
                     playerDevelopmentPanels[currPlayer.getID() - 1].add(lblMonopoly);
                     playerCards[currPlayer.getID() - 1][2].add(lblMonopoly);
@@ -443,7 +464,10 @@ public class PlayerInfo extends javax.swing.JFrame implements ActionListener
                     plenty    = new ImageIcon(getClass().getResource("/settlers/game/images/Year of Plenty.jpg"));
                     lblYear = new JButton(plenty);
                     lblYear.setPreferredSize(new java.awt.Dimension(90, 140));
-                    lblYear.setToolTipText("This Will explain what the Card does");                   
+                    lblYear.setToolTipText("<html>The Year of Plenty card allows the player to immediately take any two <br>" +
+                                            "resource cards from the bank and add them to his hand. These can be <br>" + 
+                                            "two different resources or two of the same resource. They may <br>" + 
+                                            "immediately be used to build. </html>");                   
                     lblYear.addActionListener(this);
                     playerDevelopmentPanels[currPlayer.getID() - 1].add(lblYear);
                     playerCards[currPlayer.getID() - 1][3].add(lblYear);
@@ -454,7 +478,15 @@ public class PlayerInfo extends javax.swing.JFrame implements ActionListener
                     palace    = new ImageIcon(getClass().getResource("/settlers/game/images/Palace.jpg"));
                     lblPalace = new JButton(palace);
                     lblPalace.setPreferredSize(new java.awt.Dimension(90, 140));
-                    lblPalace.setToolTipText("This Will explain what the Card does");
+                    String lblPalaceToolTip = "<html>VP cards provide an extra Victory Point towards winning. They are <br>" + 
+                                              "played differently from other developement cards. VP cards are<br>" + 
+                                              "kept hidden from the other players until their owner has 10<br>" + 
+                                              "Victory Points, including the cards. The owner then plays all his<br>" +  
+                                              "VP cards at once to achieve victory. A player can play as many<br>" + 
+                                              "VP cards as he wants (even if he has already played another<br>" + 
+                                              "Developement card), and can even play them on the turn that<br>" +
+                                              "they are drawn.</html?";
+                    lblPalace.setToolTipText(lblPalaceToolTip);
                     lblPalace.addActionListener(this);
                     playerDevelopmentPanels[currPlayer.getID() - 1].add(lblPalace);
                     playerCards[currPlayer.getID() - 1][4].add(lblPalace);
@@ -528,89 +560,33 @@ public class PlayerInfo extends javax.swing.JFrame implements ActionListener
                 dev.turnOver(1);
                 playerDevelopmentPanels[currPlayer.getID() - 1].remove(playerCards[currPlayer.getID() - 1][0].removeFirst());
                 playerInfo.repaint();
-                //updateUI(); 
              }
             if (e.getSource().toString().contains("Road"))
             {
                 dev.turnOver(2);
                 playerDevelopmentPanels[currPlayer.getID() - 1].remove(playerCards[currPlayer.getID() - 1][1].removeFirst());
                 playerInfo.repaint();
-                //updateUI(); 
             }
             if (e.getSource().toString().contains("Monopoly"))
             { 
                 dev.turnOver(3);
                 playerDevelopmentPanels[currPlayer.getID() - 1].remove(playerCards[currPlayer.getID() - 1][2].removeFirst());
                 playerInfo.repaint();
-                //updateUI();
             }
             if (e.getSource().toString().contains("Year"))
             {
                 dev.turnOver(4);
                 playerDevelopmentPanels[currPlayer.getID() - 1].remove(playerCards[currPlayer.getID() - 1][3].removeFirst());
                 playerInfo.repaint();
-                //updateUI();
             }
             if (e.getSource().toString().contains("Palace"))
             {
                 dev.turnOver(5);
                 playerDevelopmentPanels[currPlayer.getID() - 1].remove(playerCards[currPlayer.getID() - 1][4].removeFirst());
                 playerInfo.repaint();
-                //updateUI();
             }
     }
     
-    /**
-            *Implementation of the eventCalled interface
-            *
-            * The nuisances of this method...
-            *(1) Only during player turn (init or regular) will we replace the development panels tab.  This is done because each of the players in the game have their own development card panel.  Again
-            * this is most likely a terrible way of doing this but nevertheless it still works.
-            *(2) All Resource card counts and individual player resource counts are updated during any of the events caught
-            *(3) We only update the development card panel when a player purchases a development card
-            *
-            *@param e Event fired by the system
-            */
-        
-    public boolean eventCalled(Event e)
-    {
-        //Get the event
-        String event = e.getEvent();
-        //Get the current player
-        Player currPlayer = GameState.getCurPlayer();
- 
-        if (event.equals("PLAYER_INITTURN_START") || event.equals("PLAYER_TURN_START"))
-        {
-
-            cardTabs.removeTabAt(2);
-            cardTabs.addTab("Development Cards", playerDevelopmentPanels[currPlayer.getID() - 1]);
-            
-            playerPanelRepaint();
-            playerInfo.repaint();
-            //updateUI();
-            
-        }
-        if (event.equals("PLAYER_BUILT_SETTLEMENT") || event.equals("PLAYER_BUILT_ROAD") || event.equals("PLAYER_ROLLED_SUCCESSFULLY") || event.equals("PLAYER_TRADED") || event.equals("THIEF_DISCARD_RESOURCES") || event.equals("THIEF_STEAL_RESOURCE"))
-        {
-        
-            playerPanelRepaint();
-            playerInfo.repaint();
-            //updateUI(); 
-        }
-        
-        if (event.equals("PLAYER_BUILT_DEV_CARD"))
-        {
-        
-            playerPanelRepaint();
-            displayDevCards();
-            playerInfo.repaint();
-            //updateUI();
-        
-        }
-        //Unsure why all implementations of the eventCalled interface need to return true now.
-        return true;
-    }
-
     /**
             *No idea what this does.  I feel it must set the parent of the JFrame to the SettlersGUI
             */

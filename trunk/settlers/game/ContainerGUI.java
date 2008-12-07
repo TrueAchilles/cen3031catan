@@ -51,7 +51,7 @@ public class ContainerGUI
     public void resetContainer()
     {
         mainBoard = null;
-        gameBoard = null;
+        gameBoard = null; 
         bottomPanel = null;
     }
 

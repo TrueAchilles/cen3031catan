@@ -141,6 +141,12 @@ public class Player
         return resource[GlobalVar.WHEAT];
     }
     
+    public int getResource(int rType)
+    {
+        return resource[rType];
+    }
+
+    
     public int getNumberOfResCards()
     {
         return resource[GlobalVar.WHEAT] + resource[GlobalVar.SHEEP] + resource[GlobalVar.BRICK] + resource[GlobalVar.ORE] + resource[GlobalVar.WOOD];
