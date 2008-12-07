@@ -55,6 +55,7 @@ public class RobberTakeCardWindow implements ActionListener
 
         accept.setSize(50,100);
         accept.addActionListener(this);
+        accept.setActionCommand("CLICK");
 
         JPanel acceptPanel = new JPanel();
         acceptPanel.add(accept);
@@ -122,7 +123,6 @@ public class RobberTakeCardWindow implements ActionListener
                 }
             }
 
-
             String resource = diceRoll(selectedPlayer, curPlayer);
 
             // add code for popup here describing what resource was gained/lost
@@ -141,6 +141,9 @@ public class RobberTakeCardWindow implements ActionListener
 
             String title = new String("Settlers of Catan");
             createDialogBox(title, message, JOptionPane.INFORMATION_MESSAGE);
+
+            Event event = new Event("THIEF_STEAL_RESOURCE");
+            EventManager.callEvent(event);
 
             if (!resource.equals("none"))
             {
@@ -163,7 +166,8 @@ public class RobberTakeCardWindow implements ActionListener
 
         Dice resourceDice = new Dice();
 
-        do {
+        while (breakLoop == false)
+        {
             rType = resourceDice.roll(1);
 
             switch (rType)
@@ -176,28 +180,28 @@ public class RobberTakeCardWindow implements ActionListener
                     resource = "Wood";
                     break;
                 case GlobalVar.BRICK:
-                    if (player.getWood() == 0)
+                    if (player.getBrick() == 0)
                     {
                         continue;
                     }
                     resource = "Brick";
                     break;
                 case GlobalVar.WHEAT:
-                    if (player.getWood() == 0)
+                    if (player.getWheat() == 0)
                     {
                         continue;
                     }
                     resource = "Wheat";
                     break;
                 case GlobalVar.SHEEP:
-                    if (player.getWood() == 0)
+                    if (player.getSheep() == 0)
                     {
                         continue;
                     }
                     resource = "Sheep";
                     break;
                 case GlobalVar.ORE:
-                    if (player.getWood() == 0)
+                    if (player.getOre() == 0)
                     {
                         continue;
                     }
@@ -208,13 +212,9 @@ public class RobberTakeCardWindow implements ActionListener
             breakLoop = true;
 
         }
-        while (breakLoop == false);
 
         player.subtractResource(rType);
         curPlayer.giveResource(rType);
-
-        Event event = new Event("THIEF_STEAL_RESOURCE");
-        EventManager.callEvent(event);
 
         return resource;
 
@@ -226,12 +226,12 @@ public class RobberTakeCardWindow implements ActionListener
         dialog.showMessageDialog(frame, message, title, messageType);
     }
 
-    private void closeWindow()
+    public void closeWindow()
     {
-        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        frame.setVisible(false);
         ContainerGUI.buttonPanel.roll_next.setEnabled(true);
         ContainerGUI.buttonPanel.roll_next.grabFocus();
+        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        frame.setVisible(false);
     }
 
 

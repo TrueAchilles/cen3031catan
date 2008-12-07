@@ -42,11 +42,6 @@ public class RobberRemoveCardsWindow implements ActionListener
             }
         }
 
-        if (playerQueue.isEmpty())
-        {
-            closeWindow();
-        }
-
         numberOfCardsToLose = new int[numberOfPlayersInQueue];
         comboBoxPanels = new JPanel[numberOfPlayersInQueue];
         contentPanels = new JPanel[numberOfPlayersInQueue];
@@ -164,7 +159,16 @@ public class RobberRemoveCardsWindow implements ActionListener
 
         frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         frame.getContentPane().add(framePanel);
-        frame.setVisible(true);
+ 
+        if (!playerQueue.isEmpty())
+        {
+            frame.setVisible(true);
+        }
+        else
+        {
+            closeWindow();
+        }
+
         frame.requestFocus();
         frame.setResizable(false);
         frame.pack();
@@ -362,7 +366,7 @@ public class RobberRemoveCardsWindow implements ActionListener
     {
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         frame.setVisible(false);
-        GameState.setActionState(GlobalVar.ACTION_MOVE_ROBBER); 
+        GameState.setActionState(GlobalVar.ACTION_MOVE_ROBBER);
     }
 
     public void createDialogBox(String title, String message, int messageType)
