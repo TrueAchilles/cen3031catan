@@ -18,6 +18,7 @@ import java.util.LinkedList;
 import settlers.game.*;
 import settlers.game.gui.*;
 import settlers.game.elements.*;
+import settlers.game.events.*;
 
 /**
   *The PlayerInfo Class is responsible for mainting up-to-date information about the current state of the game to the player in an east to read and understand way.  It implements both the EventListener used to
@@ -570,7 +571,7 @@ public class PlayerInfo extends javax.swing.JFrame implements ActionListener
             *
             *@param e Event fired by the system
             */
-    /*        
+        
     public boolean eventCalled(Event e)
     {
         //Get the event
@@ -609,7 +610,7 @@ public class PlayerInfo extends javax.swing.JFrame implements ActionListener
         //Unsure why all implementations of the eventCalled interface need to return true now.
         return true;
     }
-    */
+
     /**
             *No idea what this does.  I feel it must set the parent of the JFrame to the SettlersGUI
             */

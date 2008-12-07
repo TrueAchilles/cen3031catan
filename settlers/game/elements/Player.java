@@ -182,7 +182,6 @@ public class Player
                 resource[rType] -= amountAlteration;
                 break;
         }
-        resource[rType]++;
     }
 
     public void printResources()
