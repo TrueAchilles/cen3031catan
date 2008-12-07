@@ -1,0 +1,8 @@
+body
+{
+    background-image: url(images/tiles.gif);
+    width: 550px; 
+    height:600px;
+    background-repeat: no-repeat;
+    background-position: 250px -250px;
+}
