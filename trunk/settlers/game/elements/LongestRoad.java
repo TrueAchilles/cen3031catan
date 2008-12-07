@@ -3,27 +3,16 @@ package settlers.game.elements;
 import java.util.Vector;
 import java.util.Iterator;
 import java.util.Stack;
+import java.util.LinkedList;
 import java.lang.Math;
 import settlers.game.elements.*;
-
-// IGNORE THIS CODE FOR NOW. 
-// Do not make modifications to it.
-// It will be entirely rewritten in a much short, graph based way.
-// This was only a quick fix to get the longest roads working in the most basic manner.
-// It current does not work.
-// the actual solution will look different then this.
-// Do not program the actual solution unless specifically told to do so.
-// etc etc etc.
+import settlers.game.ContainerGUI;
 
 public class LongestRoad
 {
 
     int roadCount;
     int longestRoad;
-    Settlement startSettlement1;
-    Road startRoad1;
-    Settlement startSettlement2;
-    Road startRoad2;
 
     Player owner;
     Stack roadStack;
@@ -45,135 +34,99 @@ public class LongestRoad
     public int addRoad(Road r)
     {
         roadCount++;
-        Settlement s1 = r.getS1();
-        Settlement s2 = r.getS2();
         if (roadCount == 1)
         {
-            startRoad1 = r;
             return 1;
         }
         if (roadCount == 2)
         {
-            startRoad2 = r;
             return 1;
         }
         
-
-        /*
-        if ( s1 == startSettlement1) {
-            startSettlement1 = s2;
-            startRoad1 = r;
-        } else if ( s2 == startSettlement1) {
-            startSettlement1 = s1;
-            startRoad1 = r;
-        } else if (s1 == startSettlement2) {
-            startSettlement2 = s2;
-            startRoad1 = r;
-        } else if (s2 == startSettlement2) {
-            startSettlement2 = s1;
-            startRoad1 = r;
-        }
-            */
-     /*   int depth = 0;
-        int longestDepth = 0;
-        roadStack = new Stack();
-        roadStack.push(startRoad1);
-        
-    
-
-        
-        while ( !roadStack.empty() )
+        Vector endNodeVector = new Vector();
+        Settlement[][] v = ContainerGUI.gameBoard.vertex;
+        int i,j, count;
+        for (i = 0; i < v.length; i++)
         {
-            depth++;
-            longestDepth = Math.max(longestDepth, depth);
-            Settlement s = (Settlement)settlementStack.peek();
-            r = (Road)roadStack.peek();
-            System.out.println(s.toString() + " " + r.toString() );
-            Road checkR = this.checkAndGetRoad(s, r, "Top");
-            if ( checkR != null && roadStack.search(checkR) == 0)
+            for (j = 0; j < v[i].length; j++)
             {
-                settlementStack.push(s.getTopNode());
-                roadStack.push(checkR);
-                continue;
+                count = 0;
+                if ( v[i][j].getTopRoad() != null && v[i][j].getTopRoad().getOwner() == r.getOwner()  )
+                    count++;
+                if ( v[i][j].getSideRoad() != null && v[i][j].getSideRoad().getOwner() == r.getOwner())
+                    count++;
+                if ( v[i][j].getBottomRoad() != null && v[i][j].getBottomRoad().getOwner() == r.getOwner()  )
+                    count++;
+                if (count == 1)
+                {
+                    endNodeVector.add(v[i][j]);
+                }
+                
             }
-            checkR = this.checkAndGetRoad(s, r, "Side");
-            if ( checkR != null && roadStack.search(checkR) == 0)
-            {
-                settlementStack.push(s.getSideNode());
-                roadStack.push(checkR);
-                continue;
-            }
-            checkR = this.checkAndGetRoad(s, r, "Bottom");
-            if ( checkR != null && roadStack.search(checkR) == 0)
-            {
-                settlementStack.push(s.getBottomNode());
-                roadStack.push(checkR);
-                continue;
-            }
-            spentStack.push(r);
-            settlementStack.pop();
-            roadStack.pop();
-            depth--;
-            if (s == startSettlement1) {
-                spentStack = new Stack();
-                depth = 0;
-            }
-            
-        } 
-    
-        longestRoad = longestDepth;
-        return longestDepth;*/
-        return 0;
+        }
+        if (endNodeVector.isEmpty())
+            return longestRoad+1;
+        
+        int maxAr[] = new int[endNodeVector.size()];
+        
+        for (i = 0; i < endNodeVector.size(); i++)
+        {
+            Settlement s = (Settlement)endNodeVector.get(i);
+            if ( s.getTopRoad() != null && s.getTopRoad().getOwner() == r.getOwner() )
+                maxAr[i] = rrs( s.getTopRoad(), s, new LinkedList(), 0);
+            if ( s.getSideRoad() != null && s.getSideRoad().getOwner() == r.getOwner() )
+                maxAr[i] = rrs(s.getSideRoad(), s, new LinkedList(), 0);
+            if ( s.getBottomRoad() != null && s.getBottomRoad().getOwner() == r.getOwner() )
+                maxAr[i] = rrs(s.getBottomRoad(), s, new LinkedList(), 0);
+        }
+        
+        return longestRoad = maxInAr(maxAr);
     }
     
     
-    private void rrs(Road r)
+    private int rrs(Road r, Settlement prevSett, LinkedList searchedList, int foundLength)
     {
-        Road nextR[] = { r.getS1().getTopRoad(), r.getS1().getBottomRoad(), r.getS1().getSideRoad(),
-                   r.getS2().getTopRoad(), r.getS2().getBottomRoad(), r.getS2().getSideRoad() };
+        
+        Road nextR[];
+        Settlement nextSett;
         int i;
-        for (i = 0; i < nextR.length/2; i++)
+        int maxAr[] = { -1, -1, -1, foundLength };
+        if (prevSett == r.getS1() )
         {
-            if (true)
-            {}
-        }    
-        for (i = nextR.length/2; i < nextR.length; i++)
-        {
+            Road nextRr[] = { r.getS2().getTopRoad(), r.getS2().getBottomRoad(), r.getS2().getSideRoad() };
+            nextR = nextRr;
+            nextSett = r.getS2();
         }
-    }
-    
-    private Road checkAndGetRoad(Settlement cs, Road cr, String a)
-    {
-        Road r;
-        Settlement s;
-        if (a == "Top") {
-            r = cs.getTopRoad();
-            s = cs.getTopNode();
-        } else if (a == "Bottom") {
-            r = cs.getBottomRoad();
-            s = cs.getBottomNode();
-        } else {
-            r = cs.getSideRoad();
-            s = cs.getSideNode();
+        else
+        {
+            Road nextRr[] = { r.getS1().getTopRoad(), r.getS1().getBottomRoad(), r.getS1().getSideRoad() };
+            nextR = nextRr;
+            nextSett = r.getS1();
         }
         
-        if (cr == r) {
-            System.out.println("Road is going backwards");
-            return null;            
-        }
-            
-        if ( s.getOwner() != null && s.getOwner() != owner)
+        for (i = 0; i < nextR.length; i++)
         {
-            System.out.println("Blocked by another player");
-            return null;
+            if (nextR[i] == null)
+                continue;
+            if (nextR[i].getOwner() != r.getOwner())
+                continue;
+            if (searchedList.indexOf(r) != -1)
+                continue;
+            LinkedList clonedList = (LinkedList)searchedList.clone();
+            clonedList.add(r);
+            maxAr[i] = rrs(nextR[i], nextSett, clonedList, foundLength+1);
         }
-        if (r.getOwner() == owner)
-        {
-            System.out.println("Now we're cookin");
-            return r;
-        }
-        System.out.println("Simply failed");
-        return null;
+        return maxInAr(maxAr);
+    }
+
+    private int maxInAr(int[] ar)
+    {
+        int i = 0;
+        int max = -1;
+        for ( i = 0; i < ar.length; i++ )
+            if (ar[i] > max)
+                max = ar[i];
+        return max;
     }
 }
     
