@@ -270,7 +270,7 @@ public class PlayerInfo extends javax.swing.JFrame implements ActionListener
             lblOre = new JLabel("Ore: x" + currPlayer.getOre(), ore, JLabel.LEFT);
             lblWheat = new JLabel("Wheat: x" + currPlayer.getWheat(), wheat, JLabel.LEFT);
             lblWood = new JLabel("Wood: x" + currPlayer.getWood(), wood, JLabel.LEFT);
-            lblWool = new JLabel("Wool: x" + currPlayer.getSheep(), wool, JLabel.LEFT);
+            lblWool = new JLabel("Sheep: x" + currPlayer.getSheep(), wool, JLabel.LEFT);
             //Add the labels to the planel 
             resourcesPanel.add(lblBrick);
             resourcesPanel.add(lblOre);
@@ -354,7 +354,7 @@ public class PlayerInfo extends javax.swing.JFrame implements ActionListener
             lblOre.setText("Ore: x" + currPlayer.getOre());
             lblWheat.setText("Wheat: x" + currPlayer.getWheat());
             lblWood.setText("Wood: x" + currPlayer.getWood());
-            lblWool.setText("Wool: x" + currPlayer.getSheep());
+            lblWool.setText("Sheep: x" + currPlayer.getSheep());
             //reset the counter
             repaintPlayerCounter = 0;
             //repaint the screen

@@ -35,6 +35,7 @@ public class GamePlay implements EventListener
     private boolean secondRoad ;
     private PlayerInfo playerInfo;
     private MonopolyPanel monopolyPanel;
+    private YearOfPlentyPanel yearPanel;
     public int iteration;
     private ButtonPanel b;
 
@@ -89,7 +90,6 @@ public class GamePlay implements EventListener
                 playerInfo.setPlayerInfoInitialized(true);
                 playerInfoInitialized = true;
                 playerInfo.setLocationRelativeTo(ContainerGUI.settlersGUI);
-                //YearOfPlentyPanel yearPanel = new YearOfPlentyPanel();
             
             }
             
@@ -762,7 +762,6 @@ public class GamePlay implements EventListener
             {
                 if (player.getID() != GameState.getCurPlayer().getID())
                 {
-                    System.out.println("Amount being removed: " + player.getResource(monopolyPanel.getResourceType()));
                     player.alterResource(monopolyPanel.getResourceType(),player.getResource(monopolyPanel.getResourceType()), 1);
                 }
             }
@@ -773,6 +772,20 @@ public class GamePlay implements EventListener
             DevelopmentCard monopolyToAdd = new DevelopmentCard(3);
             GameState.getCurPlayer().getDevCards().addCard(monopolyToAdd);
             monopolyPanel.closeWindow();
+        }
+        else if (event.equals("PLAYER_PLAYER_YEAR"))
+        {
+            yearPanel = new YearOfPlentyPanel();
+        }
+        else if (event.equals("PLAYER_ACCEPT_YEAR"))
+        {
+            yearPanel.closeWindow();
+        }
+        else if (event.equals("PLAYER_CANCEL_YEAR"))
+        {
+            DevelopmentCard yearToAdd = new DevelopmentCard(4);
+            GameState.getCurPlayer().getDevCards().addCard(yearToAdd);
+            yearPanel.closeWindow();
         }
         else if (event.equals("DEBUG_GIVE_MONOPOLY"))
         {
@@ -796,20 +809,16 @@ public class GamePlay implements EventListener
         if (event.equals("PLAYER_INITTURN_START") || event.equals("PLAYER_TURN_START"))
         {
 
-            //playerInfo.cardTabs.removeTabAt(2);
-            //playerInfo.cardTabs.addTab("Development Cards", playerInfo.playerDevelopmentPanels[GameState.getCurPlayer().getID() - 1]);
             playerInfo.changeDevelopmentCardPanel(GameState.getCurPlayer().getID(), GameState.getGamePhase());
             playerInfo.playerPanelRepaint();
             playerInfo.repaint();
-            //updateUI();
             
         }
-        if (event.equals("PLAYER_BUILT_SETTLEMENT") || event.equals("PLAYER_BUILT_ROAD") || event.equals("PLAYER_ROLLED_SUCCESSFULLY") || event.equals("PLAYER_TRADED") || event.equals("THIEF_DISCARD_RESOURCES") || event.equals("THIEF_STEAL_RESOURCE") || event.equals("PLAYER_ACCEPT_MONOPOLY"))
+        if (event.equals("PLAYER_BUILT_SETTLEMENT") || event.equals("PLAYER_BUILT_ROAD") || event.equals("PLAYER_ROLLED_SUCCESSFULLY") || event.equals("PLAYER_TRADED") || event.equals("THIEF_DISCARD_RESOURCES") || event.equals("THIEF_STEAL_RESOURCE") || event.equals("PLAYER_ACCEPT_MONOPOLY") || event.equals("PLAYER_KNIGHT_SUCCESS"))
         {
         
             playerInfo.playerPanelRepaint();
             playerInfo.repaint();
-            //updateUI(); 
         }
         
         if (event.equals("PLAYER_BUILD_DEV_CARD") || event.equals("PLAYER_PLAY_VPCARD") || event.equals("PLAYER_CANCEL_MONOPOLY") || event.equals("DEBUG_GIVE_MONOPOLY") || event.equals("DEBUG_GIVE_ROAD") || event.equals("DEBUG_GIVE_YEAR"))
@@ -818,7 +827,6 @@ public class GamePlay implements EventListener
             playerInfo.playerPanelRepaint();
             playerInfo.displayDevCards();
             playerInfo.repaint();
-            //updateUI();
         
         }
 
@@ -847,6 +855,8 @@ public class GamePlay implements EventListener
         EventManager.registerEvent("GAME_END", this);
         EventManager.registerEvent("PLAYER_ROLL_PHASE_BEGIN", this);
         EventManager.registerEvent("PLAYER_TRADE_PHASE_BEGIN", this);
+        EventManager.registerEvent("PLAYER_BUILT_SETTLEMENT", this);
+        EventManager.registerEvent("PLAYER_BUILT_ROAD", this);
         EventManager.registerEvent("PLAYER_BUILD_PHASE_BEGIN", this);
         EventManager.registerEvent("BUILD_REQUEST", this);
         EventManager.registerEvent("PLAYER_REQUEST_BUILD_SUCCESS", this);
@@ -863,6 +873,14 @@ public class GamePlay implements EventListener
         EventManager.registerEvent("PLAYER_PLAY_MONOPOLY", this);
         EventManager.registerEvent("PLAYER_ACCEPT_MONOPOLY", this);
         EventManager.registerEvent("PLAYER_CANCEL_MONOPOLY", this);
+        
+        //Year of Plenty Cards
+        EventManager.registerEvent("PLAYER_PLAYER_YEAR", this);
+        EventManager.registerEvent("PLAYER_ACCEPT_YEAR", this);
+        EventManager.registerEvent("PLAYER_CANCEL_YEAR", this);
+        
+        //For Trading events
+        EventManager.registerEvent("PLAYER_TRADED", this);
         
         //Road Building Card Events
         EventManager.registerEvent("PLAYER_PLAY_ROADBUILDING", this);
