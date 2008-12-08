@@ -168,7 +168,6 @@ public class HelpWindow extends JFrame implements ActionListener, HyperlinkListe
             prevButton.setEnabled(true);
         }
 
-// 47 C
         if (next.empty())
         {
             nextButton.setEnabled(false);
@@ -186,7 +185,7 @@ public class HelpWindow extends JFrame implements ActionListener, HyperlinkListe
 
         prevButton.setEnabled(false);
         nextButton.setEnabled(false);
-        homeButton.setEnabled(true);
+        homeButton.setEnabled(false);
 
         prevButton.addActionListener(this);
         nextButton.addActionListener(this);
