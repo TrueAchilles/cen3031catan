@@ -18,7 +18,6 @@ public class Profile
 {
 
     private static ArrayList<PlayerProfile> playerProfiles = new ArrayList<PlayerProfile>();
-    private static ProfileLoader loader = new ProfileLoader();
     private static BufferedWriter writer;
     private static BufferedReader reader;
 
@@ -340,7 +339,7 @@ public class Profile
 
             loadPlayer.add(listPanel);
 
-            JPanel profileDesc = new JPanel();
+/*            JPanel profileDesc = new JPanel();
             profileDesc.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(0,0,0)), "Profile Description", TitledBorder.LEFT, TitledBorder.DEFAULT_POSITION));
             profileDesc.setLayout(new BoxLayout(profileDesc, BoxLayout.Y_AXIS));
 
@@ -372,7 +371,7 @@ public class Profile
             playerImage.add(playerProfileImage);
             profileDesc.add(playerImage);
 
-            loadPlayer.add(profileDesc);
+            loadPlayer.add(profileDesc);*/
 
             tabbedPane.addTab("Load Player", null, loadPlayer);
         }
