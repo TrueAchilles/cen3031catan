@@ -18,6 +18,7 @@ public class Profile
 {
 
     private static ArrayList<PlayerProfile> playerProfiles = new ArrayList<PlayerProfile>();
+    private static ProfileLoader loader = new ProfileLoader();
     private static BufferedWriter writer;
     private static BufferedReader reader;
 
@@ -31,13 +32,27 @@ public class Profile
 
     public static void loadDefaultProfiles()
     {
-        loadProfile(ClassLoader.getSystemResource("settlers/game/default_profiles/nicka.scp").getPath());
-        loadProfile(ClassLoader.getSystemResource("settlers/game/default_profiles/dobbins.scp").getPath());
-        loadProfile(ClassLoader.getSystemResource("settlers/game/default_profiles/edward_brotz.scp").getPath());
-        loadProfile(ClassLoader.getSystemResource("settlers/game/default_profiles/patrick_meyer.scp").getPath());
-        loadProfile(ClassLoader.getSystemResource("settlers/game/default_profiles/ryan.scp").getPath());
-        loadProfile(ClassLoader.getSystemResource("settlers/game/default_profiles/esen.scp").getPath());
-    }
+
+/*        ArrayList<URL> profileRelURLs = new ArrayList<URL>();
+
+        profileRelURLs.add(loader.getURL("settlers/game/default_profiles/nicka.scp"));
+        profileRelURLs.add(loader.getURL("/settlers/game/default_profiles/dobbins.scp"));
+        profileRelURLs.add(loader.getURL("/settlers/game/default_profiles/edward_brotz.scp"));
+        profileRelURLs.add(loader.getURL("/settlers/game/default_profiles/patrick_meyer.scp"));
+        profileRelURLs.add(loader.getURL("/settlers/game/default_profiles/ryan.scp"));
+        profileRelURLs.add(loader.getURL("/settlers/game/default_profiles/esen.scp"));
+
+        for (URL profile : profileRelURLs)
+        {
+            loadProfile(profile.getPath());
+        }
+
+        loadProfile(.getPath());
+        loadProfile(.getPath());
+        loadProfile(.getPath());
+        loadProfile(.getPath());
+        loadProfile(.getPath());
+*/    }
 
     public static void loadProfile(String pathName)
     {
@@ -59,7 +74,7 @@ public class Profile
         }
         catch(FileNotFoundException e)
         {
-            String message = new String("The profile requested was not found. Please choose a valid file.");
+            String message = new String("The profile requested was not found. Please choose a valid file." + pathName);
             JOptionPane.showMessageDialog(ContainerGUI.mainBoard, message, "Profile Could Not Be Loaded - Settlers of Catan", JOptionPane.ERROR_MESSAGE);
         }
         catch(IOException e)
