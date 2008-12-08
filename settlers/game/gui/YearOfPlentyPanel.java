@@ -27,6 +27,9 @@ public class YearOfPlentyPanel extends JFrame implements ActionListener
 
     private JButton acceptSelection;
     private JButton cancelYear;
+    
+    private int numberOfResourcesSelected = 0;
+
 
     private String[] maxChoices = { "0", "1", "2"};
 
@@ -57,10 +60,6 @@ public class YearOfPlentyPanel extends JFrame implements ActionListener
         {
             pickerPanel.add(resourceComboBoxes[i]);
         }          
- 
-
-                //removeAll(3);  
-                //removeAll(5);  
                
         picksAndImages.add(imagePanel, BorderLayout.NORTH);
         picksAndImages.add(pickerPanel, BorderLayout.SOUTH);
@@ -155,6 +154,16 @@ public class YearOfPlentyPanel extends JFrame implements ActionListener
                 setComboBoxes(5, 2);
             }
         }
+        else if (e.getActionCommand().equals("accept"))
+        {
+            Event evt = new Event("PLAYER_ACCEPT_YEAR");
+            EventManager.callEvent(evt);
+        }
+        else if (e.getActionCommand().equals("cancel"))
+        {
+            Event evt = new Event("PLAYER_CANCEL_YEAR");
+            EventManager.callEvent(evt);
+        }
     }
    
     private void initSetComboBoxes()
@@ -171,6 +180,7 @@ public class YearOfPlentyPanel extends JFrame implements ActionListener
    
     private void setComboBoxes(int selectedBox, int selectedValue)
     {
+        System.out.println("Number of Resources selected = " + numberOfResourcesSelected);
         for (int i = 1; i < resourceComboBoxes.length; i++)
         {
             if (i != selectedBox)
@@ -209,11 +219,8 @@ public class YearOfPlentyPanel extends JFrame implements ActionListener
             }
         }
     }
+     
    
-    //private void removeAll(int index)
-    //{
-    //    resourceComboBoxes[index].removeAllItems();
-    //}
    
     private void setLabelImages()
     {
@@ -231,27 +238,37 @@ public class YearOfPlentyPanel extends JFrame implements ActionListener
             else if (i == GlobalVar.BRICK)
             {
                 images[i].setIcon(new ImageIcon(getClass().getResource("/settlers/game/images/bricks3.jpg")));
-                toolTip = "Brick";
+                toolTip = ("<html>Brick<br>" +
+                          "You have: " + GameState.getCurPlayer().getBrick());
             }
             else if (i == GlobalVar.WHEAT)
             {
                 images[i].setIcon(new ImageIcon(getClass().getResource("/settlers/game/images/wheat3.jpg")));
-                toolTip = "Wheat";
+                toolTip = ("<html>Wheat<br>" +
+                          "You have: " + GameState.getCurPlayer().getWheat());
             }
             else if (i == GlobalVar.SHEEP)
             {
                 images[i].setIcon(new ImageIcon(getClass().getResource("/settlers/game/images/sheep3.jpg")));
-                toolTip = "Sheep";
+                toolTip = ("<html>Sheep<br>" +
+                          "You have: " + GameState.getCurPlayer().getSheep());
             }
             else if (i == GlobalVar.ORE)
             {
                 images[i].setIcon(new ImageIcon(getClass().getResource("/settlers/game/images/ore3.jpg")));
-                toolTip = "Ore";
+                toolTip = ("<html>Ore<br>" +
+                          "You have: " + GameState.getCurPlayer().getOre());
             }
 
             images[i].setToolTipText(toolTip);
 
         }
+    }
+
+    public void closeWindow()
+    {
+        yearOfPlentyFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        yearOfPlentyFrame.setVisible(false);
     }    
 }
 
