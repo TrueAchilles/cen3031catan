@@ -32,26 +32,21 @@ public class Profile
     public static void loadDefaultProfiles()
     {
 
-/*        ArrayList<URL> profileRelURLs = new ArrayList<URL>();
+        ArrayList<URL> profileRelURLs = new ArrayList<URL>();
 
-        profileRelURLs.add(loader.getURL("settlers/game/default_profiles/nicka.scp"));
-        profileRelURLs.add(loader.getURL("/settlers/game/default_profiles/dobbins.scp"));
-        profileRelURLs.add(loader.getURL("/settlers/game/default_profiles/edward_brotz.scp"));
-        profileRelURLs.add(loader.getURL("/settlers/game/default_profiles/patrick_meyer.scp"));
-        profileRelURLs.add(loader.getURL("/settlers/game/default_profiles/ryan.scp"));
-        profileRelURLs.add(loader.getURL("/settlers/game/default_profiles/esen.scp"));
+        profileRelURLs.add(ClassLoader.getSystemResource("settlers/game/default_profiles/nicka.scp"));
+        profileRelURLs.add(ClassLoader.getSystemResource("settlers/game/default_profiles/dobbins.scp"));
+        profileRelURLs.add(ClassLoader.getSystemResource("settlers/game/default_profiles/edward_brotz.scp"));
+        profileRelURLs.add(ClassLoader.getSystemResource("settlers/game/default_profiles/patrick_meyer.scp"));
+        profileRelURLs.add(ClassLoader.getSystemResource("settlers/game/default_profiles/ryan.scp"));
+        profileRelURLs.add(ClassLoader.getSystemResource("settlers/game/default_profiles/esen.scp"));
 
         for (URL profile : profileRelURLs)
         {
             loadProfile(profile.getPath());
         }
 
-        loadProfile(.getPath());
-        loadProfile(.getPath());
-        loadProfile(.getPath());
-        loadProfile(.getPath());
-        loadProfile(.getPath());
-*/    }
+    }
 
     public static void loadProfile(String pathName)
     {
