@@ -185,7 +185,7 @@ public class HelpWindow extends JFrame implements ActionListener, HyperlinkListe
 
         prevButton.setEnabled(false);
         nextButton.setEnabled(false);
-        homeButton.setEnabled(false);
+        homeButton.setEnabled(true);
 
         prevButton.addActionListener(this);
         nextButton.addActionListener(this);
