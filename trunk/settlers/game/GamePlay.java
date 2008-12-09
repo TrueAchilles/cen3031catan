@@ -628,6 +628,8 @@ public class GamePlay implements EventListener
             b.roll_roll.setEnabled(false);
             GameState.diceHasBeenRolledDuringTurn = true;
             int value = ContainerGUI.rollBox.roll();
+            
+            GameState.containerGui.settlersGUI.write("Player " + pe.player.getID() + " rolled a " + value +".\n");
 
             return true;
             
@@ -748,7 +750,7 @@ public class GamePlay implements EventListener
         }
         else if (event.equals("PLAYER_BUILD_2ROAD"))
         {
-
+            GameState.containerGui.settlersGUI.write("Player " + GameState.getCurPlayer().getID() + " played a Road Building Card.\n");
             GameState.setActionState(GlobalVar.ACTION_RBDEV_CARD);
 
         }
@@ -760,6 +762,7 @@ public class GamePlay implements EventListener
         else if (event.equals("PLAYER_PLAY_MONOPOLY"))
         {
             monopolyPanel = new MonopolyPanel();
+            GameState.containerGui.settlersGUI.write("Player " + GameState.getCurPlayer().getID() + " played a Monopoly Card.\n");
         }
         else if (event.equals("PLAYER_ACCEPT_MONOPOLY"))
         {
@@ -781,6 +784,7 @@ public class GamePlay implements EventListener
         }
         else if (event.equals("PLAYER_PLAYER_YEAR"))
         {
+            GameState.containerGui.settlersGUI.write("Player " + GameState.getCurPlayer().getID() + " played a Year of Plenty Card.\n");
             yearPanel = new YearOfPlentyPanel();
         }
         else if (event.equals("PLAYER_ACCEPT_YEAR"))
