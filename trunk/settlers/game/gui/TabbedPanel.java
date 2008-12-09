@@ -63,6 +63,7 @@ public class TabbedPanel extends JPanel implements ActionListener, EventListener
                     tabbedPanel.addTab("GameText", null, gameTextSP, null);
                     gameTextSP.setPreferredSize(new java.awt.Dimension(378, 140));
                     tabbedPanel.setEnabledAt(0, false);
+                    gameText.setLineWrap(true);
                 }
                 {
                     chatBox = new JTextArea();
