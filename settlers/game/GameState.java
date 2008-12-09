@@ -20,6 +20,8 @@ public class GameState
     private static int gamePhase = 0;
     public static boolean diceHasBeenRolledDuringTurn;
     public static int rollHax = 0;
+    public static ContainerGUI containerGui;
+    
     
     private static GamePlay gamePlay;
     
@@ -30,7 +32,7 @@ public class GameState
     {
         //sets up the logic of the game - no need to keep as a variable (yet), but it needs to be an object so it can receive events
         gamePlay = new GamePlay();
-        new ContainerGUI();
+        containerGui = new ContainerGUI();
         // code for handling init of game goes here (making game board, setting up players, etc)
         players = new LinkedList<Player>();
     }

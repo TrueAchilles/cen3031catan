@@ -110,13 +110,17 @@ public class GamePlay implements EventListener
             PlayerEvent pe = (PlayerEvent) e;
             if(pe.player.getName() != "AIVeryEasy")
             {
-        		System.out.println("	Player " + pe.player.getID() + " placed settlement");
+                
+                GameState.containerGui.settlersGUI.write("Player " + pe.player.getID() + " placed settlement\n");
+                
+                System.out.println("	Player " + pe.player.getID() + " placed settlement");
         		System.out.println("	Player " + pe.player.getID() + " attempting to place road");
         		GameState.setActionState(GlobalVar.ACTION_ADD_ROAD);
         		MainBoard.getStatusBar().setText(GameState.getCurPlayer().getName() + ": INITIAL ROAD BUILD PHASE");
             }
         	else
         	{
+                GameState.containerGui.settlersGUI.write("Player " + pe.player.getID() + " placed settlement\n");
         		System.out.println("Comp Player init turn: " + pe.player.getID());
                 System.out.println("	Comp Player " + pe.player.getID() + " attempting to place road");
                 GameState.setActionState(GlobalVar.ACTION_ADD_ROAD);
@@ -136,6 +140,7 @@ public class GamePlay implements EventListener
             PlayerEvent pe = (PlayerEvent) e;
             if(pe.player.getName() != "AIVeryEasy")
             {
+                GameState.containerGui.settlersGUI.write("Player " + pe.player.getID() + " placed road\n");
         		System.out.println("	Player " + pe.player.getID() + " placed road");
             	System.out.println("	Player " + pe.player.getID() + " initial turn ends");
             	PlayerEvent n = new PlayerEvent("PLAYER_INITTURN_END", pe.player);
@@ -143,6 +148,7 @@ public class GamePlay implements EventListener
             }
         	else
         	{
+                GameState.containerGui.settlersGUI.write("Player " + pe.player.getID() + " placed road\n");
         		System.out.println("	Comp Player " + pe.player.getID() + " placed road");
             	System.out.println("	Comp Player " + pe.player.getID() + " initial turn ends");
             	PlayerEvent n = new PlayerEvent("PLAYER_INITTURN_END", pe.player);

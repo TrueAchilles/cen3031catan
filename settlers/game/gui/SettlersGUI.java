@@ -379,8 +379,11 @@ public class SettlersGUI extends javax.swing.JFrame
         }
     }
 
-    public void write(String txt){
+    public void write(String txt)
+    {
+        //ContainerGUI.bottomPanel.getTabbedPanel().getGameText().setDisabledTextColor(GameState.getCurPlayer().getColor());
         ContainerGUI.bottomPanel.getTabbedPanel().getGameText().append(txt);
+        
     }
 
     
