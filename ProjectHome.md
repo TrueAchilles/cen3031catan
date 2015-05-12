@@ -1,0 +1,1 @@
+This is an open-source implementation of Settlers of Catan, a popular board game. The game is being developed for CEN3031 Intro to Software Engineering.

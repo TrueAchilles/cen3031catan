@@ -1,0 +1,1 @@
+_Al_: Fully translated and uploaded. I'm not familiar with SVNs, so if someone who _is_ wants to shift the files around, be my guest.
